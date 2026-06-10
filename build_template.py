@@ -109,10 +109,21 @@ img{max-width:100%;height:auto}
 .rot-section-title::before{content:'';display:inline-block;width:3px;height:16px;background:#c9a84c}
 .rot-section-link{font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#7a7060;border:1px solid #252418;padding:4px 10px;transition:color .2s,border-color .2s}
 .rot-section-link:hover{color:#c9a84c;border-color:#8a6f2e}
-/* rot-posts-grid само по себе — просто контейнер, grid живёт на hfeed */
-.rot-posts-grid{display:block}
-/* b:section и b:widget не рендерят HTML, но .blog-posts.hfeed — рендерится */
-.rot-posts-grid .blog-posts.hfeed{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0}
+/* ── Сетка карточек постов ──────────────────────────────────────── */
+/* Между .rot-posts-grid и <article> есть куча обёрток Blogger:
+   .widget.Blog > .blog-posts.hfeed > .date-outer > .date-posts > .post-outer > article
+   Делаем все промежуточные слои прозрачными через display:contents,
+   тогда article.rot-post-card становятся прямыми grid-items */
+.rot-posts-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:16px!important}
+.rot-posts-grid .widget.Blog,
+.rot-posts-grid .blog-posts.hfeed,
+.rot-posts-grid .date-outer,
+.rot-posts-grid .date-posts,
+.rot-posts-grid .post-outer{display:contents!important}
+/* Скрываем заголовки дат — они не нужны в карточечной сетке */
+.rot-posts-grid .date-header{display:none!important}
+/* Пагинация вытаскивается отдельно поверх сетки */
+.rot-posts-grid .blog-pager{grid-column:1/-1}
 .rot-post-card{background:#1a1a0e;border:1px solid #252418;overflow:hidden;transition:border-color .2s;display:flex;flex-direction:column}
 .rot-post-card:hover{border-color:#8a6f2e}
 .rot-card-thumb{position:relative;height:160px;overflow:hidden;flex-shrink:0;background:#232318}
