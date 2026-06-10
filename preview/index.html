@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дороги Времён — Путешествия, Музеи, История</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+/* =====================================================
+   ДОРОГИ ВРЕМЁН — Design System
+   ===================================================== */
+
+:root {
+  --rot-bg-deep:    #0f0e09;
+  --rot-bg-card:    #1a1a0e;
+  --rot-bg-panel:   #1e1d14;
+  --rot-bg-raised:  #232318;
+  --rot-border:     #3a3520;
+  --rot-border-dim: #252418;
+  --rot-gold:       #c9a84c;
+  --rot-gold-dim:   #8a6f2e;
+  --rot-gold-bright:#e2c06a;
+  --rot-text:       #c8c0a8;
+  --rot-text-dim:   #7a7060;
+  --rot-text-bright:#e8e0cc;
+  --rot-red:        #8b2020;
+  --rot-red-bright: #b03030;
+  --rot-tag-exp-bg: #0f2318;
+  --rot-tag-exp-fg: #5a9e70;
+  --rot-tag-mus-bg: #0f1a2e;
+  --rot-tag-mus-fg: #5a80ae;
+  --rot-tag-art-bg: #2a0f0f;
+  --rot-tag-art-fg: #ae6a5a;
+  --rot-tag-his-bg: #1a1428;
+  --rot-tag-his-fg: #8a7ab8;
+  --rot-width:      1100px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--rot-bg-deep);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  color: var(--rot-text);
+  font-family: 'PT Sans', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+a { color: var(--rot-gold); text-decoration: none; }
+a:hover { color: var(--rot-gold-bright); }
+
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.container {
+  max-width: var(--rot-width);
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+#site-header {
+  background: var(--rot-bg-panel);
+  border-bottom: 2px solid var(--rot-gold-dim);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  gap: 30px;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logo-emblem {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--rot-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--rot-gold);
+  font-family: 'PT Mono', monospace;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--rot-gold-bright);
+  letter-spacing: 1px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.logo-sub {
+  font-size: 9px;
+  color: var(--rot-text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'PT Mono', monospace;
+}
+
+/* NAV */
+.site-nav {
+  flex: 1;
+}
+
+.site-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2px;
+}
+
+.site-nav a {
+  display: block;
+  padding: 8px 14px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--rot-text);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.site-nav a:hover,
+.site-nav li.active a {
+  color: var(--rot-gold);
+  border-bottom-color: var(--rot-gold);
+}
+
+/* HEADER ICONS */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.header-icons button {
+  background: none;
+  border: 1px solid var(--rot-border);
+  color: var(--rot-text-dim);
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.header-icons button:hover {
+  color: var(--rot-gold);
+  border-color: var(--rot-gold-dim);
+}
+
+/* =====================================================
+   HERO SLIDER
+   ===================================================== */
+
+#hero {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  background: #000;
+}
+
+.hero-slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hero-slide.active { opacity: 1; }
+
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: brightness(0.45);
+}
+
+/* gradient overlay */
+.hero-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(10,9,5,0.92) 0%,
+    rgba(10,9,5,0.6)  45%,
+    rgba(10,9,5,0.1)  100%
+  );
+}
+
+/* HERO CONTENT */
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hero-content .container {
+  pointer-events: all;
+}
+
+.hero-eyebrow {
+  font-family: 'PT Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--rot-gold-dim);
+  margin-bottom: 8px;
+}
+
+.hero-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 1.0;
+  color: var(--rot-text-bright);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+  max-width: 540px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+}
+
+.hero-desc {
+  font-size: 14px;
+  color: var(--rot-text);
+  max-width: 420px;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--rot-gold);
+  border-color: var(--rot-gold);
+  color: #0f0e09;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: var(--rot-gold-bright);
+  border-color: var(--rot-gold-bright);
+  color: #0f0e09;
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--rot-text-dim);
+  color: var(--rot-text);
+}
+
+.btn-outline:hover {
+  border-color: var(--rot-gold-dim);
+  color: var(--rot-gold);
+}
+
+/* GEO LABEL */
+.hero-geo {
+  position: absolute;
+  bottom: 18px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'PT Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--rot-text-dim);
+  background: rgba(10,9,5,0.7);
+  padding: 5px 10px;
+  border: 1px solid var(--rot-border-dim);
+}
+
+.hero-geo::before {
+  content: '📍';
+  font-size: 11px;
+}
+
+/* SLIDER CONTROLS */
+.hero-pager {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.hero-pager span {
+  width: 28px;
+  height: 3px;
+  background: rgba(201,168,76,0.3);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.hero-pager span.active {
+  background: var(--rot-gold);
+}
+
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(10,9,5,0.6);
+  border: 1px solid var(--rot-border);
+  color: var(--rot-text-dim);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.hero-arrow:hover {
+  background: rgba(201,168,76,0.15);
+  border-color: var(--rot-gold-dim);
+  color: var(--rot-gold);
+}
+
+.hero-arrow.prev { left: 20px; }
+.hero-arrow.next { right: 20px; }
+
+/* =====================================================
+   MAIN LAYOUT
+   ===================================================== */
+
+#main-layout {
+  max-width: var(--rot-width);
+  margin: 24px auto 0;
+  padding: 0 15px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* SECTION HEADERS */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rot-border);
+}
+
+.section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--rot-text-bright);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background: var(--rot-gold);
+  flex-shrink: 0;
+}
+
+.section-link {
+  font-family: 'PT Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--rot-text-dim);
+  border: 1px solid var(--rot-border-dim);
+  padding: 4px 10px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.section-link:hover {
+  color: var(--rot-gold);
+  border-color: var(--rot-gold-dim);
+}
+
+/* =====================================================
+   POST CARDS GRID
+   ===================================================== */
+
+#latest-posts { margin-bottom: 28px; }
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.post-card {
+  background: var(--rot-bg-card);
+  border: 1px solid var(--rot-border-dim);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.post-card:hover { border-color: var(--rot-gold-dim); }
+
+.post-card-thumb {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+}
+
+.post-card-thumb img {
+  transition: transform 0.4s ease;
+}
+
+.post-card:hover .post-card-thumb img {
+  transform: scale(1.05);
+}
+
+.post-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-family: 'PT Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  z-index: 2;
+}
+
+.tag-exp  { background: var(--rot-tag-exp-bg); color: var(--rot-tag-exp-fg); border: 1px solid var(--rot-tag-exp-fg); }
+.tag-mus  { background: var(--rot-tag-mus-bg); color: var(--rot-tag-mus-fg); border: 1px solid var(--rot-tag-mus-fg); }
+.tag-art  { background: var(--rot-tag-art-bg); color: var(--rot-tag-art-fg); border: 1px solid var(--rot-tag-art-fg); }
+.tag-his  { background: var(--rot-tag-his-bg); color: var(--rot-tag-his-fg); border: 1px solid var(--rot-tag-his-fg); }
+
+.post-card-body {
+  padding: 14px;
+}
+
+.post-card-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--rot-text-bright);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.post-card-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.post-card-title a:hover { color: var(--rot-gold); }
+
+.post-card-excerpt {
+  font-size: 12px;
+  color: var(--rot-text-dim);
+  line-height: 1.55;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'PT Mono', monospace;
+  font-size: 10px;
+  color: var(--rot-text-dim);
+  border-top: 1px solid var(--rot-border-dim);
+  padding-top: 10px;
+}
+
+.post-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =====================================================
+   FEATURED MUSEUM (wide block)
+   ===================================================== */
+
+#featured-museum {
+  margin-bottom: 28px;
+  background: var(--rot-bg-card);
+  border: 1px solid var(--rot-border-dim);
+  overflow: hidden;
+}
+
+.museum-inner {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+}
+
+.museum-photo {
+  height: 220px;
+}
+
+.museum-body {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.museum-label {
+  font-family: 'PT Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--rot-gold-dim);
+  margin-bottom: 6px;
+}
+
+.museum-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--rot-text-bright);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.museum-desc {
+  font-size: 13px;
+  color: var(--rot-text);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.museum-stats {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.museum-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.museum-stat-icon {
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.museum-stat-val {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  color: var(--rot-gold);
+}
+
+.museum-stat-label {
+  font-size: 9px;
+  color: var(--rot-text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'PT Mono', monospace;
+}
+
+/* =====================================================
+   CHOOSE YOUR PATH
+   ===================================================== */
+
+#choose-path { margin-bottom: 28px; }
+
+.path-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.path-card {
+  background: var(--rot-bg-card);
+  border: 1px solid var(--rot-border-dim);
+  padding: 22px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  text-decoration: none;
+  display: block;
+}
+
+.path-card:hover {
+  border-color: var(--rot-gold-dim);
+  background: var(--rot-bg-raised);
+}
+
+.path-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.path-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--rot-text-bright);
+  margin-bottom: 5px;
+}
+
+.path-desc {
+  font-size: 11px;
+  color: var(--rot-text-dim);
+  line-height: 1.4;
+}
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sidebar-widget {
+  background: var(--rot-bg-card);
+  border: 1px solid var(--rot-border-dim);
+  overflow: hidden;
+}
+
+.widget-header {
+  background: var(--rot-bg-raised);
+  border-bottom: 1px solid var(--rot-border);
+  padding: 10px 14px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--rot-gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.widget-header::before {
+  content: '';
+  width: 2px;
+  height: 13px;
+  background: var(--rot-gold);
+  flex-shrink: 0;
+}
+
+.widget-body { padding: 14px; }
+
+/* MAP */
+.map-placeholder {
+  height: 160px;
+  background: #0a1008;
+  border: 1px solid var(--rot-border-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rot-text-dim);
+  font-family: 'PT Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 20px;
+  line-height: 1.8;
+}
+
+/* ON THE ROAD */
+.on-road-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rot-border-dim);
+}
+
+.on-road-item:last-child { border-bottom: none; }
+
+.on-road-flag { font-size: 20px; flex-shrink: 0; }
+
+.on-road-info {}
+
+.on-road-country {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  color: var(--rot-text-bright);
+}
+
+.on-road-date {
+  font-family: 'PT Mono', monospace;
+  font-size: 10px;
+  color: var(--rot-text-dim);
+  margin-top: 2px;
+}
+
+.on-road-link {
+  font-size: 10px;
+  color: var(--rot-gold-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'PT Mono', monospace;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+/* QUOTE */
+.quote-text {
+  font-style: italic;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--rot-text);
+  border-left: 2px solid var(--rot-gold-dim);
+  padding-left: 12px;
+  margin-bottom: 10px;
+}
+
+.quote-author {
+  font-family: 'PT Mono', monospace;
+  font-size: 10px;
+  color: var(--rot-gold-dim);
+  letter-spacing: 1px;
+  text-align: right;
+}
+
+/* TAGS CLOUD */
+.tags-list {
+  list-style: none;
+}
+
+.tags-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rot-border-dim);
+  font-size: 12px;
+}
+
+.tags-list li:last-child { border-bottom: none; }
+
+.tags-list a {
+  color: var(--rot-text);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.tags-list a:hover { color: var(--rot-gold); }
+
+.tag-count {
+  font-family: 'PT Mono', monospace;
+  font-size: 10px;
+  color: var(--rot-text-dim);
+  background: var(--rot-bg-raised);
+  padding: 1px 7px;
+  border-radius: 2px;
+}
+
+/* SUBSCRIBE */
+.subscribe-text {
+  font-size: 12px;
+  color: var(--rot-text-dim);
+  margin-bottom: 12px;
+  line-height: 1.55;
+}
+
+.subscribe-form {
+  display: flex;
+  gap: 6px;
+}
+
+.subscribe-input {
+  flex: 1;
+  background: var(--rot-bg-raised);
+  border: 1px solid var(--rot-border);
+  color: var(--rot-text);
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: 'PT Sans', sans-serif;
+  outline: none;
+}
+
+.subscribe-input:focus { border-color: var(--rot-gold-dim); }
+
+.subscribe-btn {
+  background: var(--rot-gold);
+  border: none;
+  color: #0f0e09;
+  padding: 8px 14px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.subscribe-btn:hover { background: var(--rot-gold-bright); }
+
+.subscribe-socials {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.social-btn {
+  flex: 1;
+  background: var(--rot-bg-raised);
+  border: 1px solid var(--rot-border);
+  color: var(--rot-text-dim);
+  padding: 7px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.social-btn:hover {
+  border-color: var(--rot-gold-dim);
+  color: var(--rot-gold);
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+#site-footer {
+  margin-top: 48px;
+  background: var(--rot-bg-panel);
+  border-top: 2px solid var(--rot-border);
+}
+
+.footer-top {
+  max-width: var(--rot-width);
+  margin: 0 auto;
+  padding: 36px 15px 28px;
+  display: grid;
+  grid-template-columns: 240px 1fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footer-brand .logo-title { font-size: 17px; margin-bottom: 4px; }
+
+.footer-desc {
+  font-size: 12px;
+  color: var(--rot-text-dim);
+  line-height: 1.65;
+  margin-top: 12px;
+}
+
+.footer-col-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--rot-gold-dim);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rot-border-dim);
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.footer-links a {
+  font-size: 12px;
+  color: var(--rot-text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--rot-gold); }
+
+.footer-bottom {
+  border-top: 1px solid var(--rot-border-dim);
+  padding: 14px 15px;
+  max-width: var(--rot-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'PT Mono', monospace;
+  font-size: 10px;
+  color: var(--rot-text-dim);
+  letter-spacing: 0.5px;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 10px;
+}
+
+.footer-socials a {
+  color: var(--rot-text-dim);
+  font-size: 15px;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.footer-socials a:hover { color: var(--rot-gold); }
+
+/* =====================================================
+   UTILITY
+   ===================================================== */
+
+.clearfix::after { content: ''; display: table; clear: both; }
+
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+<header id="site-header">
+  <div class="container">
+    <div class="header-inner">
+
+      <a class="site-logo" href="#">
+        <div class="logo-emblem">⊕</div>
+        <div class="logo-text">
+          <span class="logo-title">Дороги Времён</span>
+          <span class="logo-sub">Путешествия · Музеи · История</span>
+        </div>
+      </a>
+
+      <nav class="site-nav">
+        <ul>
+          <li class="active"><a href="#">Главная</a></li>
+          <li><a href="#">Экспедиции</a></li>
+          <li><a href="#">Музеи</a></li>
+          <li><a href="#">Артефакты</a></li>
+          <li><a href="#">История</a></li>
+          <li><a href="#">О проекте</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-icons">
+        <button title="Поиск">🔍</button>
+        <button title="Меню">☰</button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- =====================================================
+     HERO SLIDER
+     ===================================================== -->
+<section id="hero">
+
+  <div class="hero-slides">
+
+    <!-- Slide 1 — Танк -->
+    <div class="hero-slide active" data-geo="Deutsches Panzermuseum, Мюнстер, Германия">
+      <img src="../images/IMG_20260601_104857761_HDR.jpg" alt="Panzer I Ausführung A">
+    </div>
+
+    <!-- Slide 2 — Ракета V-2 -->
+    <div class="hero-slide" data-geo="Музей-завод Пенемюнде, Германия">
+      <img src="../images/IMG_20260515_125042651 (1).jpg" alt="Ракета V-2, завод Пенемюнде">
+    </div>
+
+    <!-- Slide 3 — Орудийная башня -->
+    <div class="hero-slide" data-geo="Морской музей, Вильгельмсхафен, Германия">
+      <img src="../images/IMG_20260604_113633685.jpg" alt="Корабельное орудие">
+    </div>
+
+  </div>
+
+  <!-- Текстовый блок — меняется со слайдами -->
+  <div class="hero-content">
+    <div class="container">
+      <p class="hero-eyebrow">Добро пожаловать на</p>
+      <h1 class="hero-title" id="hero-title">Дороги Времён</h1>
+      <p class="hero-desc" id="hero-desc">
+        Путешествия по местам, где история оживает. Музеи, техника, артефакты и события, оставившие след в судьбах народов.
+      </p>
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#">Последние публикации ›</a>
+        <a class="btn btn-outline" href="#">О проекте</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Геолокация -->
+  <div class="hero-geo" id="hero-geo">Deutsches Panzermuseum, Мюнстер, Германия</div>
+
+  <!-- Стрелки -->
+  <div class="hero-arrow prev" id="hero-prev">‹</div>
+  <div class="hero-arrow next" id="hero-next">›</div>
+
+  <!-- Пагинация -->
+  <div class="hero-pager" id="hero-pager">
+    <span class="active"></span>
+    <span></span>
+    <span></span>
+  </div>
+
+</section>
+
+<!-- =====================================================
+     MAIN LAYOUT: CONTENT + SIDEBAR
+     ===================================================== -->
+<div id="main-layout">
+
+  <!-- LEFT: MAIN CONTENT -->
+  <main id="main-content">
+
+    <!-- LATEST POSTS -->
+    <section id="latest-posts">
+      <div class="section-header">
+        <h2 class="section-title">Последние публикации</h2>
+        <a class="section-link" href="#">Все публикации →</a>
+      </div>
+
+      <div class="posts-grid">
+
+        <!-- Card 1 -->
+        <article class="post-card">
+          <div class="post-card-thumb">
+            <span class="post-tag tag-art">Артефакт</span>
+            <img src="../images/IMG_20260601_104857761_HDR.jpg" alt="Panzer I Ausführung A">
+          </div>
+          <div class="post-card-body">
+            <h3 class="post-card-title">
+              <a href="#">Panzer I Ausführung A</a>
+            </h3>
+            <p class="post-card-excerpt">
+              Первый немецкий серийный танк. Машина, с которой Вермахт начинал переоснащение бронетанковых войск в 1930-х — вооружение, броня и боевое применение.
+            </p>
+            <div class="post-card-meta">
+              <span class="post-meta-item">📅 16 мая 2026</span>
+              <span class="post-meta-item">💬 13</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="post-card">
+          <div class="post-card-thumb">
+            <span class="post-tag tag-mus">Музей</span>
+            <img src="../images/IMG_20260516_092810267 (1).jpg" alt="Маяк-мельница">
+          </div>
+          <div class="post-card-body">
+            <h3 class="post-card-title">
+              <a href="#">Подводная лодка U-10</a>
+            </h3>
+            <p class="post-card-excerpt">
+              Технический музей в Штеттине, легендарный экспонат Балтийского флота. Подводная лодка времён Первой мировой войны, сохранившаяся до наших дней.
+            </p>
+            <div class="post-card-meta">
+              <span class="post-meta-item">📅 15 мая 2026</span>
+              <span class="post-meta-item">💬 8</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="post-card">
+          <div class="post-card-thumb">
+            <span class="post-tag tag-exp">Экспедиция</span>
+            <img src="../images/IMG_20260605_122904733_HDR.jpg" alt="Замок Мариенбург">
+          </div>
+          <div class="post-card-body">
+            <h3 class="post-card-title">
+              <a href="#">Квёдлинбург</a>
+            </h3>
+            <p class="post-card-excerpt">
+              Путешествие в город-крепость, легендарный замок Мариенбург. Более 1000 лет средневековой истории — от Саксонских королей до Генриха I и редкие артефакты XI века.
+            </p>
+            <div class="post-card-meta">
+              <span class="post-meta-item">📅 12 мая 2026</span>
+              <span class="post-meta-item">💬 4</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- FEATURED MUSEUM -->
+    <section id="featured-museum">
+      <div class="section-header" style="margin: 0; padding: 10px 14px; border-bottom: 1px solid var(--rot-border);">
+        <h2 class="section-title" style="font-size:13px;">Рекомендуемые музеи</h2>
+        <a class="section-link" href="#">Все музеи →</a>
+      </div>
+      <div class="museum-inner">
+        <div class="museum-photo">
+          <img src="../images/IMG_20260605_141834409_HDR.jpg" alt="Deutsches Panzermuseum Munster">
+        </div>
+        <div class="museum-body">
+          <div>
+            <p class="museum-label">📍 Мюнстер, Германия</p>
+            <h3 class="museum-title">Deutsches Panzermuseum Munster</h3>
+            <p class="museum-desc">
+              Одно из крупнейших танковых музеев мира. Более 300 единиц техники XX века под одной крышей — от ранних машин Первой мировой до современных боевых танков НАТО.
+            </p>
+          </div>
+          <div>
+            <div class="museum-stats">
+              <div class="museum-stat">
+                <span class="museum-stat-icon">🚂</span>
+                <span class="museum-stat-val">бесплатно</span>
+                <span class="museum-stat-label">Вход</span>
+              </div>
+              <div class="museum-stat">
+                <span class="museum-stat-icon">🕒</span>
+                <span class="museum-stat-val">10:00–18:00</span>
+                <span class="museum-stat-label">Часы работы</span>
+              </div>
+              <div class="museum-stat">
+                <span class="museum-stat-icon">📅</span>
+                <span class="museum-stat-val">1971 год</span>
+                <span class="museum-stat-label">Основан</span>
+              </div>
+            </div>
+            <a class="btn btn-outline" href="#" style="font-size:12px; padding: 8px 18px;">Подробнее о музее ›</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHOOSE YOUR PATH -->
+    <section id="choose-path" style="margin-top: 28px;">
+      <div class="section-header">
+        <h2 class="section-title">Выберите свой путь</h2>
+      </div>
+      <div class="path-grid">
+        <a class="path-card" href="#">
+          <span class="path-icon">⚔️</span>
+          <div class="path-title">Экспедиции</div>
+          <p class="path-desc">Полевые заметки и репортажи</p>
+        </a>
+        <a class="path-card" href="#">
+          <span class="path-icon">🏛️</span>
+          <div class="path-title">Музеи</div>
+          <p class="path-desc">Коллекции, выставки и экспозиции</p>
+        </a>
+        <a class="path-card" href="#">
+          <span class="path-icon">🪖</span>
+          <div class="path-title">Артефакты</div>
+          <p class="path-desc">Техника, оружие и предметы эпохи</p>
+        </a>
+        <a class="path-card" href="#">
+          <span class="path-icon">📜</span>
+          <div class="path-title">История</div>
+          <p class="path-desc">События, личности и судьбы</p>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RIGHT: SIDEBAR -->
+  <aside id="sidebar">
+
+    <!-- MAP -->
+    <div class="sidebar-widget">
+      <div class="widget-header">Карта экспедиций</div>
+      <div class="widget-body" style="padding: 10px;">
+        <div class="map-placeholder">
+          🗺️<br>Карта маршрутов<br><br>
+          <small>Google My Maps iframe<br>или статичный скриншот</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON THE ROAD -->
+    <div class="sidebar-widget">
+      <div class="widget-header">Сейчас в пути</div>
+      <div class="widget-body">
+        <div class="on-road-item">
+          <span class="on-road-flag">🇩🇪</span>
+          <div class="on-road-info">
+            <div class="on-road-country">Германия 2026</div>
+            <div class="on-road-date">Июнь 2026 — маршрут активен</div>
+            <a class="on-road-link" href="#">смотреть маршрут →</a>
+          </div>
+        </div>
+        <div class="on-road-item">
+          <span class="on-road-flag">🇵🇱</span>
+          <div class="on-road-info">
+            <div class="on-road-country">Польша 2026</div>
+            <div class="on-road-date">Май 2026 — завершён</div>
+            <a class="on-road-link" href="#">смотреть маршрут →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="sidebar-widget">
+      <div class="widget-header">Цитата эпохи</div>
+      <div class="widget-body">
+        <p class="quote-text">
+          «История не знает сослагательного наклонения — она знает только то, что произошло, и тех, кто это пережил.»
+        </p>
+        <p class="quote-author">— В.О. Ключевский</p>
+      </div>
+    </div>
+
+    <!-- TAGS -->
+    <div class="sidebar-widget">
+      <div class="widget-header">Темы</div>
+      <div class="widget-body" style="padding: 8px 14px;">
+        <ul class="tags-list">
+          <li><a href="#">Танки</a><span class="tag-count">27</span></li>
+          <li><a href="#">Корабли</a><span class="tag-count">14</span></li>
+          <li><a href="#">Авиация</a><span class="tag-count">11</span></li>
+          <li><a href="#">Замки</a><span class="tag-count">9</span></li>
+          <li><a href="#">Архитектура</a><span class="tag-count">23</span></li>
+          <li><a href="#">Сражения</a><span class="tag-count">7</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUBSCRIBE -->
+    <div class="sidebar-widget">
+      <div class="widget-header">Подписаться</div>
+      <div class="widget-body">
+        <p class="subscribe-text">
+          Новые маршруты, экспедиции и артефакты — прямо на почту.
+        </p>
+        <div class="subscribe-form">
+          <input class="subscribe-input" type="email" placeholder="your@email.com">
+          <button class="subscribe-btn">›</button>
+        </div>
+        <div class="subscribe-socials">
+          <a class="social-btn" href="#" title="VK">VK</a>
+          <a class="social-btn" href="#" title="Telegram">TG</a>
+          <a class="social-btn" href="#" title="YouTube">YT</a>
+          <a class="social-btn" href="#" title="RSS">RSS</a>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+</div><!-- /#main-layout -->
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+<footer id="site-footer">
+  <div class="footer-top">
+
+    <div class="footer-brand">
+      <div class="site-logo" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+        <div class="logo-emblem">⊕</div>
+        <div class="logo-text">
+          <span class="logo-title">Дороги Времён</span>
+          <span class="logo-sub">Путешествия · Музеи · История</span>
+        </div>
+      </div>
+      <p class="footer-desc">
+        Авторский проект о военной истории, музеях, технике и путешествиях по памятным местам Европы.
+      </p>
+    </div>
+
+    <div>
+      <p class="footer-col-title">Навигация</p>
+      <ul class="footer-links">
+        <li><a href="#">Главная</a></li>
+        <li><a href="#">Экспедиции</a></li>
+        <li><a href="#">Музеи</a></li>
+        <li><a href="#">Артефакты</a></li>
+        <li><a href="#">История</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="footer-col-title">Информация</p>
+      <ul class="footer-links">
+        <li><a href="#">О проекте</a></li>
+        <li><a href="#">Контакты</a></li>
+        <li><a href="#">Карта сайта</a></li>
+        <li><a href="#">RSS-лента</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="footer-col-title">Следите за нами</p>
+      <ul class="footer-links">
+        <li><a href="#">VK — Дороги Времён</a></li>
+        <li><a href="#">Telegram-канал</a></li>
+        <li><a href="#">YouTube</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div style="border-top: 1px solid var(--rot-border-dim); padding: 0 15px;">
+    <div class="footer-bottom">
+      <span>© 2026 Дороги Времён. Все права защищены.</span>
+      <div class="footer-socials">
+        <a href="#" title="VK">𝐕</a>
+        <a href="#" title="Telegram">✈</a>
+        <a href="#" title="YouTube">▶</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- =====================================================
+     SLIDER JS
+     ===================================================== -->
+<script>
+(function() {
+  var slides = document.querySelectorAll('.hero-slide');
+  var pagerDots = document.querySelectorAll('#hero-pager span');
+  var geoEl = document.getElementById('hero-geo');
+  var current = 0;
+  var total = slides.length;
+  var timer;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    pagerDots[current].classList.remove('active');
+    current = (n + total) % total;
+    slides[current].classList.add('active');
+    pagerDots[current].classList.add('active');
+    geoEl.textContent = slides[current].dataset.geo || '';
+  }
+
+  function startAuto() {
+    timer = setInterval(function() { goTo(current + 1); }, 5000);
+  }
+
+  function resetAuto() {
+    clearInterval(timer);
+    startAuto();
+  }
+
+  document.getElementById('hero-next').addEventListener('click', function() {
+    goTo(current + 1); resetAuto();
+  });
+  document.getElementById('hero-prev').addEventListener('click', function() {
+    goTo(current - 1); resetAuto();
+  });
+
+  pagerDots.forEach(function(dot, i) {
+    dot.addEventListener('click', function() { goTo(i); resetAuto(); });
+  });
+
+  startAuto();
+})();
+</script>
+
+</body>
+</html>
