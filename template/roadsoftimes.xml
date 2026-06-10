@@ -1046,8 +1046,6 @@ function createSummaryAndThumb(id){
 </div>
 <div style='clear:both;'/>
  
-<div id='content-wrapper'>
-	
 <!-- ═══ ДОРОГИ ВРЕМЁН: HERO SLIDER ══════════════════════════════ -->
 <b:if cond='data:blog.pageType != &quot;static_page&quot;'>
 <b:if cond='data:blog.pageType != &quot;item&quot;'>
@@ -1082,6 +1080,9 @@ function createSummaryAndThumb(id){
 </b:if>
 </b:if>
 <!-- ═══ END HERO ═════════════════════════════════════════════════ -->
+<div id='content-wrapper'>
+	
+<!-- слайдер GameTown убран, герой вставляется перед content-wrapper -->
 
       <div id='crosscol-wrapper' style='text-align:center'>
         <b:section class='crosscol' id='crosscol' showaddelement='yes'/>

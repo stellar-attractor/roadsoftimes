@@ -259,6 +259,11 @@ old_slider_match = re.search(
 )
 
 NEW_HERO = """\
+<!-- слайдер GameTown убран, герой вставляется перед content-wrapper -->"""
+
+# После замены слайдера — перемещаем героя ДО content-wrapper
+# (чтобы он не был grid-item внутри #content-wrapper)
+HERO_BLOCK = """\
 <!-- ═══ ДОРОГИ ВРЕМЁН: HERO SLIDER ══════════════════════════════ -->
 <b:if cond='data:blog.pageType != &quot;static_page&quot;'>
 <b:if cond='data:blog.pageType != &quot;item&quot;'>
@@ -296,6 +301,12 @@ NEW_HERO = """\
 
 if old_slider_match:
     src = src[:old_slider_match.start()] + NEW_HERO + src[old_slider_match.end():]
+
+# Вставляем HERO_BLOCK перед <div id='content-wrapper'> (вне grid)
+src = src.replace(
+    "\n<div id='content-wrapper'>",
+    "\n" + HERO_BLOCK + "\n<div id='content-wrapper'>"
+)
 
 # ════════════════════════════════════════════════════════════════════
 # 6. Добавляем SECTION HEADER перед Blog1 (внутри main-wrapper)
