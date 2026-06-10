@@ -123,8 +123,11 @@ img{max-width:100%;height:auto}
 .rot-posts-grid .date-posts,
 .rot-posts-grid .post-outer{display:contents!important}
 /* Скрываем лишние grid-items от Blogger:
-   .widget.Blog рендерит <h2 class='title'> автоматически;
-   с display:contents он попадает в сетку и сдвигает все карточки */
+   - .inline-ad: Blogger вставляет между постами как placeholder AdSense,
+     с display:contents вылетает в сетку и сдвигает карточки
+   - h2.title / .widget-title: авто-заголовок виджета
+   - .date-header: заголовки дат не нужны в карточечной сетке */
+.rot-posts-grid .inline-ad,
 .rot-posts-grid .date-header,
 .rot-posts-grid h2.title,
 .rot-posts-grid .widget-title{display:none!important}
