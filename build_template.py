@@ -227,9 +227,23 @@ var summary_noimg=200,summary_img=200;
 function removeHtmlTag(s,n){var a=s.split("<");for(var i=0;i<a.length;i++){a[i]=a[i].substring(a[i].indexOf(">")+1);}s=a.join("");return s.substring(0,n-3)+"...";}
 function createSummaryAndThumb(id){
   var d=document.getElementById(id);
-  var img=d.getElementsByTagName("img");
-  var t=img.length>=1?'<img src="'+img[0].src+'" style="display:none"/>':'';
-  d.innerHTML=t+"<span>"+removeHtmlTag(d.innerHTML,img.length>=1?summary_img:summary_noimg)+"</span>";
+  var imgs=d.getElementsByTagName("img");
+  // Сохраняем src до изменения innerHTML
+  var imgSrc=imgs.length>=1?imgs[0].src:null;
+  // Обрезаем тело поста до краткого анонса
+  d.innerHTML="<span>"+removeHtmlTag(d.innerHTML,imgSrc?summary_img:summary_noimg)+"</span>";
+  // Если thumbnailUrl не задан — вставляем первое изображение из тела поста в .rot-card-thumb
+  if(imgSrc){
+    var card=d.closest?d.closest(".rot-post-card"):null;
+    if(card){
+      var thumb=card.querySelector(".rot-card-thumb");
+      if(thumb&&!thumb.querySelector("img")){
+        var el=document.createElement("img");
+        el.src=imgSrc;el.alt="";
+        thumb.appendChild(el);
+      }
+    }
+  }
 }
 //]]>
 </script>
