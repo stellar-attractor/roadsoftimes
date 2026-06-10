@@ -161,6 +161,15 @@ a img{border:0}
 #rot-sidebar .BlogArchive .widget-content li:last-child{border-bottom:none}
 /* Убираем дефолтные Blogger-стрелки-изображения из Archive */
 #rot-sidebar .BlogArchive img{display:none}
+/* Кастомный Archive внутри rot-widget */
+.rot-archive-year{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #3a3520;font-family:'Oswald',sans-serif;font-size:13px;color:#c9a84c}
+.rot-archive-month{display:flex;justify-content:space-between;align-items:center;padding:4px 0 4px 12px;border-bottom:1px solid #252418;font-size:12px;color:#c8c0a8}
+.rot-archive-year a,.rot-archive-month a{color:inherit;text-decoration:none;transition:color .2s}
+.rot-archive-year a:hover,.rot-archive-month a:hover{color:#c9a84c}
+/* СКРЫВАЕМ секцию-ловушку для дефолтных виджетов */
+.rot-hidden-section{display:none!important}
+/* Скрываем Attribution виджет который Blogger часто добавляет */
+.widget.Attribution{display:none!important}
 .rot-widget{background:#1a1a0e;border:1px solid #252418;overflow:hidden}
 .rot-widget-header{background:#232318;border-bottom:1px solid #3a3520;padding:10px 14px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#c9a84c;display:flex;align-items:center;gap:8px}
 .rot-widget-header::before{content:'';width:2px;height:13px;background:#c9a84c;flex-shrink:0}
@@ -285,6 +294,17 @@ function createSummaryAndThumb(pID) {
     </div>
   </div>
 </div>
+
+<!-- =====================================================
+     BLOGGER DEFAULT WIDGETS TRAP
+     Скрытая секция — сюда попадают дефолтные виджеты (Header, Attribution),
+     которые Blogger добавляет автоматически. display:none в CSS.
+     ===================================================== -->
+<b:section class='rot-hidden-section' id='header' showaddelement='no' style='display:none'>
+  <b:widget id='Header1' locked='false' title='&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;' type='Header'>
+    <b:includable id='main'/>
+  </b:widget>
+</b:section>
 
 <!-- =====================================================
      HERO SLIDER
@@ -649,6 +669,50 @@ function createSummaryAndThumb(pID) {
                   </li>
                 </b:loop>
               </ul>
+            </div>
+          </div>
+        </b:includable>
+      </b:widget>
+
+      <!-- BLOG ARCHIVE — явно в сайдбаре -->
+      <b:widget id='BlogArchive1' title='&#1040;&#1088;&#1093;&#1080;&#1074;' type='BlogArchive'>
+        <b:includable id='main'>
+          <div class='rot-widget'>
+            <div class='rot-widget-header'>&#1040;&#1088;&#1093;&#1080;&#1074;</div>
+            <div class='rot-widget-body' style='padding:8px 14px'>
+              <div id='ArchiveList'>
+                <div expr:id='data:widget.instanceId + &quot;_ArchiveList&quot;'>
+                  <b:loop values='data:archiveData' var='i'>
+                    <b:if cond='data:i.isYearly'>
+                      <div class='rot-archive-year'>
+                        <a expr:href='data:i.url'><data:i.date/></a>
+                        <span class='rot-tag-count'><data:i.post-count/></span>
+                      </div>
+                    </b:if>
+                    <b:if cond='data:i.isMonthly'>
+                      <div class='rot-archive-month'>
+                        <a expr:href='data:i.url'><data:i.date/></a>
+                        <span class='rot-tag-count'><data:i.post-count/></span>
+                      </div>
+                    </b:if>
+                  </b:loop>
+                </div>
+              </div>
+            </div>
+          </div>
+        </b:includable>
+      </b:widget>
+
+      <!-- SEARCH -->
+      <b:widget id='Search1' title='&#1055;&#1086;&#1080;&#1089;&#1082;' type='BlogSearch'>
+        <b:includable id='main'>
+          <div class='rot-widget'>
+            <div class='rot-widget-header'>&#1055;&#1086;&#1080;&#1089;&#1082;</div>
+            <div class='rot-widget-body'>
+              <form expr:action='data:blog.searchUrl' method='get' style='display:flex;gap:6px'>
+                <input class='rot-sub-input' name='q' placeholder='&#1055;&#1086;&#1080;&#1089;&#1082; &#1087;&#1086; &#1089;&#1072;&#1081;&#1090;&#1091;...' type='text'/>
+                <button class='rot-sub-btn' type='submit'>&#8594;</button>
+              </form>
             </div>
           </div>
         </b:includable>
