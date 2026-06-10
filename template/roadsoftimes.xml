@@ -124,6 +124,9 @@ img{max-width:100%;height:auto}
 .blog-pager a:hover{color:#c9a84c;border-color:#8a6f2e}
 .blog-posts.hfeed{padding:0}
 
+/* ── Контейнер под grid (Featured Museum + Choose Path) ─────────── */
+.rot-below-grid{max-width:1100px;margin:24px auto 0;padding:0 15px}
+
 /* ── FEATURED MUSEUM ────────────────────────────────────────────── */
 .rot-featured-museum{margin-bottom:28px;background:#1a1a0e;border:1px solid #252418;overflow:hidden;clear:both}
 .rot-block-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#232318;border-bottom:1px solid #3a3520}
@@ -1971,7 +1974,8 @@ function createSummaryAndThumb(id){
 </b:includable>
           </b:widget>
         </b:section>
-      </div>
+</div><!-- /.rot-posts-grid -->
+      </div><!-- /#main-wrapper -->
 
 <div id='rsidebar-wrapper'>
 
@@ -2268,8 +2272,12 @@ function createSummaryAndThumb(id){
       <!-- spacer for skins that want sidebar and main to be the same height-->
       <div class='clear'>&#160;</div>
 
+    </div> <!-- end content-wrapper -->
 
-<!-- ═══ FEATURED MUSEUM ══════════════════════════════════════════ -->
+
+<!-- ═══ FEATURED MUSEUM + CHOOSE PATH (вне grid) ════════════════ -->
+<div class='rot-below-grid'>
+
 <div class='rot-featured-museum'>
   <div class='rot-block-header'>
     <span class='rot-section-title' style='font-size:13px'>&#1056;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1091;&#1077;&#1084;&#1099;&#1081; &#1084;&#1091;&#1079;&#1077;&#1081;</span>
@@ -2295,7 +2303,6 @@ function createSummaryAndThumb(id){
   </div>
 </div>
 
-<!-- ═══ CHOOSE PATH ════════════════════════════════════════════════ -->
 <div class='rot-choose-path'>
   <div class='rot-section-header'>
     <h2 class='rot-section-title'>&#1042;&#1099;&#1073;&#1077;&#1088;&#1080;&#1090;&#1077; &#1089;&#1074;&#1086;&#1081; &#1087;&#1091;&#1090;&#1100;</h2>
@@ -2323,10 +2330,9 @@ function createSummaryAndThumb(id){
     </a>
   </div>
 </div>
+
+</div><!-- /.rot-below-grid -->
 <!-- ═══ END EXTRA BLOCKS ══════════════════════════════════════════ -->
-
-    </div> <!-- end content-wrapper -->
-
 <div style='clear:both;'/>
 <div id='footer-widgets-container'>
 <div class='clearfix' id='footer-widgets'>
@@ -2484,7 +2490,6 @@ function createSummaryAndThumb(id){
   </div>
 </div>
 <div id='footer'><div id='copyrights'>&#160;</div></div><!-- #footer -->
-</div>
 </div>
 <div style='clear:both;'/>
 

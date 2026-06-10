@@ -128,6 +128,9 @@ img{max-width:100%;height:auto}
 .blog-pager a:hover{color:#c9a84c;border-color:#8a6f2e}
 .blog-posts.hfeed{padding:0}
 
+/* ── Контейнер под grid (Featured Museum + Choose Path) ─────────── */
+.rot-below-grid{max-width:1100px;margin:24px auto 0;padding:0 15px}
+
 /* ── FEATURED MUSEUM ────────────────────────────────────────────── */
 .rot-featured-museum{margin-bottom:28px;background:#1a1a0e;border:1px solid #252418;overflow:hidden;clear:both}
 .rot-block-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#232318;border-bottom:1px solid #3a3520}
@@ -296,6 +299,7 @@ if old_slider_match:
 
 # ════════════════════════════════════════════════════════════════════
 # 6. Добавляем SECTION HEADER перед Blog1 (внутри main-wrapper)
+#    и корректно закрываем rot-posts-grid ДО </div> main-wrapper
 # ════════════════════════════════════════════════════════════════════
 OLD_MAIN_SECTION = "<b:section class='main' id='main' showaddelement='no'>"
 NEW_MAIN_SECTION = """\
@@ -307,19 +311,23 @@ NEW_MAIN_SECTION = """\
 <b:section class='main' id='main' showaddelement='no'>"""
 src = src.replace(OLD_MAIN_SECTION, NEW_MAIN_SECTION)
 
-# Закрываем .rot-posts-grid сразу после </b:section> внутри main-wrapper
-old_main_close = "</b:section>\n\n        <p/></div>"
-new_main_close = "</b:section>\n</div><!-- /.rot-posts-grid -->\n\n        <p/></div>"
-src = src.replace(old_main_close, new_main_close, 1)
+# Закрываем .rot-posts-grid перед </div> который закрывает #main-wrapper.
+# В GameTown этот </div> стоит сразу после </b:section> перед <div id='rsidebar-wrapper'>.
+src = src.replace(
+    "        </b:section>\n      </div>\n\n<div id='rsidebar-wrapper'>",
+    "        </b:section>\n</div><!-- /.rot-posts-grid -->\n      </div><!-- /#main-wrapper -->\n\n<div id='rsidebar-wrapper'>"
+)
 
 # ════════════════════════════════════════════════════════════════════
-# 7. Featured Museum + Choose Path (вставляем после main-wrapper,
-#    перед закрытием content-wrapper)
+# 7. Featured Museum + Choose Path — вставляем ПОСЛЕ content-wrapper
+#    (не внутри grid), перед footer-widgets-container.
+#    Оборачиваем в rot-below-grid с max-width 1100px.
 # ════════════════════════════════════════════════════════════════════
-OLD_AFTER_MAIN = "    </div> <!-- end content-wrapper -->"
 EXTRA_BLOCKS = """\
 
-<!-- ═══ FEATURED MUSEUM ══════════════════════════════════════════ -->
+<!-- ═══ FEATURED MUSEUM + CHOOSE PATH (вне grid) ════════════════ -->
+<div class='rot-below-grid'>
+
 <div class='rot-featured-museum'>
   <div class='rot-block-header'>
     <span class='rot-section-title' style='font-size:13px'>&#1056;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1091;&#1077;&#1084;&#1099;&#1081; &#1084;&#1091;&#1079;&#1077;&#1081;</span>
@@ -345,7 +353,6 @@ EXTRA_BLOCKS = """\
   </div>
 </div>
 
-<!-- ═══ CHOOSE PATH ════════════════════════════════════════════════ -->
 <div class='rot-choose-path'>
   <div class='rot-section-header'>
     <h2 class='rot-section-title'>&#1042;&#1099;&#1073;&#1077;&#1088;&#1080;&#1090;&#1077; &#1089;&#1074;&#1086;&#1081; &#1087;&#1091;&#1090;&#1100;</h2>
@@ -373,10 +380,16 @@ EXTRA_BLOCKS = """\
     </a>
   </div>
 </div>
-<!-- ═══ END EXTRA BLOCKS ══════════════════════════════════════════ -->
 
-    </div> <!-- end content-wrapper -->"""
-src = src.replace(OLD_AFTER_MAIN, EXTRA_BLOCKS, 1)
+</div><!-- /.rot-below-grid -->
+<!-- ═══ END EXTRA BLOCKS ══════════════════════════════════════════ -->
+"""
+
+# Вставляем после content-wrapper, перед footer-widgets-container
+src = src.replace(
+    "<div style='clear:both;'/>\n<div id='footer-widgets-container'>",
+    EXTRA_BLOCKS + "<div style='clear:both;'/>\n<div id='footer-widgets-container'>"
+)
 
 # ════════════════════════════════════════════════════════════════════
 # 8. Шаблон карточки поста (Blog1 -> post includable)
@@ -429,7 +442,7 @@ if old_post_inc:
 # 9. Заменяем контент внутри #footer-container
 # ════════════════════════════════════════════════════════════════════
 OLD_FOOTER_CONTENT = re.search(
-    r"<div id='footer-container'>.*?</div><!-- #footer -->",
+    r"<div id='footer-container'>.*?</div><!-- #footer -->\n</div>",
     src, re.DOTALL
 )
 NEW_FOOTER_CONTENT = """\
