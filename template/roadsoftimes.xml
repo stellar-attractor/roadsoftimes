@@ -111,10 +111,12 @@ img{max-width:100%;height:auto}
 .rot-section-link:hover{color:#c9a84c;border-color:#8a6f2e}
 /* ── Сетка карточек постов ──────────────────────────────────────── */
 /* Между .rot-posts-grid и <article> есть куча обёрток Blogger:
+   <b:section id='main'> → <div id='main' class='section'>
    .widget.Blog > .blog-posts.hfeed > .date-outer > .date-posts > .post-outer > article
-   Делаем все промежуточные слои прозрачными через display:contents,
+   Делаем ВСЕ промежуточные слои прозрачными через display:contents,
    тогда article.rot-post-card становятся прямыми grid-items */
 .rot-posts-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:16px!important}
+.rot-posts-grid #main,
 .rot-posts-grid .widget.Blog,
 .rot-posts-grid .blog-posts.hfeed,
 .rot-posts-grid .date-outer,
