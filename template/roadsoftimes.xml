@@ -136,8 +136,8 @@ img{max-width:100%;height:auto}
 .rot-card-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;color:#e8e0cc;line-height:1.25;margin-bottom:8px}
 .rot-card-title a{color:inherit;transition:color .2s}
 .rot-card-title a:hover{color:#c9a84c}
-.rot-card-excerpt{font-size:12px;color:#7a7060;line-height:1.55;margin-bottom:12px;flex:1}
-.rot-card-excerpt img{display:none}
+.rot-card-excerpt{font-size:12px;color:#7a7060;line-height:1.55;margin-bottom:12px;overflow:hidden;max-height:72px}
+.rot-card-excerpt img,.rot-card-excerpt table,.rot-card-excerpt iframe,.rot-card-excerpt figure{display:none!important}
 .rot-card-meta{display:flex;align-items:center;gap:12px;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;border-top:1px solid #252418;padding-top:10px;flex-wrap:wrap}
 .rot-card-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#8a6f2e;margin-right:4px}
 .rot-card-labels a:hover{color:#c9a84c;border-color:#8a6f2e}
