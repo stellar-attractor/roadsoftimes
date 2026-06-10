@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Скрины отладки (тяжёлые, не нужны в репо)
+screens/
+
+# Исходные фото (хранятся в Blogger CDN, не в репо)
+images/
+
+# Мокап (2.4MB, уже не нужен для разработки)
+mockup.png
+
+# Исходник GameTown (бинарные ресурсы)
+GameTown Blogger Template/images/
+GameTown Blogger Template/js/
+GameTown Blogger Template/*.url
+GameTown Blogger Template/wowslider.txt
+
+# Claude
+.claude/
+
+# Производные / кэш
+__pycache__/
+*.pyc
+*.pyo
+site/
+assets/
+preview/
