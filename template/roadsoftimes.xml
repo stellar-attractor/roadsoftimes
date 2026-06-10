@@ -90,9 +90,12 @@ img{max-width:100%;height:auto}
 .rot-arrow-prev{left:20px}
 .rot-arrow-next{right:20px}
 
-/* ── MAIN LAYOUT (content-wrapper = our grid wrapper) ────────────── */
-#content-wrapper{max-width:1100px!important;margin:24px auto 0!important;padding:0 15px!important;display:grid!important;grid-template-columns:1fr 300px!important;gap:24px!important;align-items:start!important;background:none!important}
+/* ── MAIN LAYOUT ─────────────────────────────────────────────────── */
+/* content-wrapper = outer shell, без grid (не хотим hero как grid-item) */
+#content-wrapper{max-width:none!important;margin:0!important;padding:0!important;display:block!important;background:none!important}
 #crosscol-wrapper{display:none}
+/* Внутренняя сетка — специальный wrapper, который мы вставляем в HTML */
+.rot-grid{max-width:1100px;margin:24px auto 0;padding:0 15px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
 #main-wrapper{width:auto!important;float:none!important;min-width:0}
 #rsidebar-wrapper{width:auto!important;float:none!important;min-width:0}
 
@@ -1049,6 +1052,8 @@ function createSummaryAndThumb(id){
 </div>
 <div style='clear:both;'/>
  
+<div id='content-wrapper'>
+	
 <!-- ═══ ДОРОГИ ВРЕМЁН: HERO SLIDER ══════════════════════════════ -->
 <b:if cond='data:blog.pageType != &quot;static_page&quot;'>
 <b:if cond='data:blog.pageType != &quot;item&quot;'>
@@ -1083,14 +1088,12 @@ function createSummaryAndThumb(id){
 </b:if>
 </b:if>
 <!-- ═══ END HERO ═════════════════════════════════════════════════ -->
-<div id='content-wrapper'>
-	
-<!-- слайдер GameTown убран, герой вставляется перед content-wrapper -->
 
       <div id='crosscol-wrapper' style='text-align:center'>
         <b:section class='crosscol' id='crosscol' showaddelement='yes'/>
       </div>
 
+<div class='rot-grid'>
 <div id='main-wrapper'>
 
         <div class='rot-section-header'>
@@ -2271,7 +2274,8 @@ function createSummaryAndThumb(id){
           </b:widget>
         </b:section>
 
-<p/></div>
+<p/></div><!-- /#rsidebar-wrapper -->
+</div><!-- /.rot-grid -->
 
       <!-- spacer for skins that want sidebar and main to be the same height-->
       <div class='clear'>&#160;</div>

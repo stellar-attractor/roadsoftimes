@@ -94,9 +94,12 @@ img{max-width:100%;height:auto}
 .rot-arrow-prev{left:20px}
 .rot-arrow-next{right:20px}
 
-/* ── MAIN LAYOUT (content-wrapper = our grid wrapper) ────────────── */
-#content-wrapper{max-width:1100px!important;margin:24px auto 0!important;padding:0 15px!important;display:grid!important;grid-template-columns:1fr 300px!important;gap:24px!important;align-items:start!important;background:none!important}
+/* ── MAIN LAYOUT ─────────────────────────────────────────────────── */
+/* content-wrapper = outer shell, без grid (не хотим hero как grid-item) */
+#content-wrapper{max-width:none!important;margin:0!important;padding:0!important;display:block!important;background:none!important}
 #crosscol-wrapper{display:none}
+/* Внутренняя сетка — специальный wrapper, который мы вставляем в HTML */
+.rot-grid{max-width:1100px;margin:24px auto 0;padding:0 15px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
 #main-wrapper{width:auto!important;float:none!important;min-width:0}
 #rsidebar-wrapper{width:auto!important;float:none!important;min-width:0}
 
@@ -262,11 +265,6 @@ old_slider_match = re.search(
 )
 
 NEW_HERO = """\
-<!-- слайдер GameTown убран, герой вставляется перед content-wrapper -->"""
-
-# После замены слайдера — перемещаем героя ДО content-wrapper
-# (чтобы он не был grid-item внутри #content-wrapper)
-HERO_BLOCK = """\
 <!-- ═══ ДОРОГИ ВРЕМЁН: HERO SLIDER ══════════════════════════════ -->
 <b:if cond='data:blog.pageType != &quot;static_page&quot;'>
 <b:if cond='data:blog.pageType != &quot;item&quot;'>
@@ -305,16 +303,19 @@ HERO_BLOCK = """\
 if old_slider_match:
     src = src[:old_slider_match.start()] + NEW_HERO + src[old_slider_match.end():]
 
-# Вставляем HERO_BLOCK перед <div id='content-wrapper'> (вне grid)
+# ════════════════════════════════════════════════════════════════════
+# 6. Оборачиваем main-wrapper + rsidebar-wrapper в .rot-grid
+#    и добавляем section header + rot-posts-grid внутри main-wrapper
+# ════════════════════════════════════════════════════════════════════
+
+# 6a. Вставляем открытие rot-grid перед #main-wrapper
 src = src.replace(
-    "\n<div id='content-wrapper'>",
-    "\n" + HERO_BLOCK + "\n<div id='content-wrapper'>"
+    "\n<div id='main-wrapper'>",
+    "\n<div class='rot-grid'>\n<div id='main-wrapper'>",
+    1
 )
 
-# ════════════════════════════════════════════════════════════════════
-# 6. Добавляем SECTION HEADER перед Blog1 (внутри main-wrapper)
-#    и корректно закрываем rot-posts-grid ДО </div> main-wrapper
-# ════════════════════════════════════════════════════════════════════
+# 6b. Section header + rot-posts-grid grid внутри main-wrapper перед b:section main
 OLD_MAIN_SECTION = "<b:section class='main' id='main' showaddelement='no'>"
 NEW_MAIN_SECTION = """\
 <div class='rot-section-header'>
@@ -325,11 +326,16 @@ NEW_MAIN_SECTION = """\
 <b:section class='main' id='main' showaddelement='no'>"""
 src = src.replace(OLD_MAIN_SECTION, NEW_MAIN_SECTION)
 
-# Закрываем .rot-posts-grid перед </div> который закрывает #main-wrapper.
-# В GameTown этот </div> стоит сразу после </b:section> перед <div id='rsidebar-wrapper'>.
+# 6c. Закрываем rot-posts-grid и main-wrapper, потом rsidebar, потом rot-grid
 src = src.replace(
     "        </b:section>\n      </div>\n\n<div id='rsidebar-wrapper'>",
     "        </b:section>\n</div><!-- /.rot-posts-grid -->\n      </div><!-- /#main-wrapper -->\n\n<div id='rsidebar-wrapper'>"
+)
+
+# 6d. Закрываем rot-grid после rsidebar (</b:section>\n<p/></div> — конец rsidebar)
+src = src.replace(
+    "        </b:section>\n\n<p/></div>\n\n      <!-- spacer",
+    "        </b:section>\n\n<p/></div><!-- /#rsidebar-wrapper -->\n</div><!-- /.rot-grid -->\n\n      <!-- spacer"
 )
 
 # ════════════════════════════════════════════════════════════════════
