@@ -219,36 +219,48 @@ skin_re = re.compile(r'<b:skin><!\[CDATA\[.*?\]\]></b:skin>', re.DOTALL)
 src = skin_re.sub('<b:skin><![CDATA[\n' + NEW_CSS + '\n]]></b:skin>', src)
 
 # ════════════════════════════════════════════════════════════════════
-# 3. Summary JS helper  (добавляем перед </head>)
+# 3. Summary JS helper — ЗАМЕНЯЕМ GameTown-версию функции прямо в теле
+#    (вставка в <head> бесполезна: GameTown переопределяет функцию позже)
 # ════════════════════════════════════════════════════════════════════
-SUMMARY_JS = """<script type='text/javascript'>
-//<![CDATA[
-var summary_noimg=200,summary_img=200;
-function removeHtmlTag(s,n){var a=s.split("<");for(var i=0;i<a.length;i++){a[i]=a[i].substring(a[i].indexOf(">")+1);}s=a.join("");return s.substring(0,n-3)+"...";}
+GAMETOWN_SUMMARY_OLD = """\
+function createSummaryAndThumb(pID){
+\tvar div = document.getElementById(pID);
+\tvar imgtag = "";
+\tvar img = div.getElementsByTagName("img");
+\tvar summ = summary_noimg;
+\tif(img.length>=1) {\t
+\t\timgtag = '<img src="'+img[0].src+'" class="pbtthumbimg"/>';
+\t\tsumm = summary_img;
+\t}
+\t
+\tvar summary = imgtag + '<div>' + removeHtmlTag(div.innerHTML,summ) + '</div>';
+\tdiv.innerHTML = summary;
+}"""
+
+GAMETOWN_SUMMARY_NEW = """\
 function createSummaryAndThumb(id){
   var d=document.getElementById(id);
   var imgs=d.getElementsByTagName("img");
-  // Сохраняем src до изменения innerHTML
   var imgSrc=imgs.length>=1?imgs[0].src:null;
-  // Обрезаем тело поста до краткого анонса
   d.innerHTML="<span>"+removeHtmlTag(d.innerHTML,imgSrc?summary_img:summary_noimg)+"</span>";
-  // Если thumbnailUrl не задан — вставляем первое изображение из тела поста в .rot-card-thumb
   if(imgSrc){
     var card=d.closest?d.closest(".rot-post-card"):null;
     if(card){
       var thumb=card.querySelector(".rot-card-thumb");
       if(thumb&&!thumb.querySelector("img")){
-        var el=document.createElement("img");
-        el.src=imgSrc;el.alt="";
+        var el=document.createElement("img");el.src=imgSrc;el.alt="";
         thumb.appendChild(el);
       }
     }
   }
-}
-//]]>
-</script>
-"""
-src = src.replace('</head>', SUMMARY_JS + '</head>')
+}"""
+
+assert GAMETOWN_SUMMARY_OLD in src, "GameTown createSummaryAndThumb not found — check source"
+src = src.replace(GAMETOWN_SUMMARY_OLD, GAMETOWN_SUMMARY_NEW)
+
+# Заодно уменьшаем длину анонсов до 200 символов (GameTown ставит 550/450)
+src = src.replace('summary_noimg = 550;\nsummary_img = 450;',
+                  'summary_noimg = 200;\nsummary_img = 200;')
 
 # ════════════════════════════════════════════════════════════════════
 # 4. Вставляем наш HEADER после <body> и перед <div id='body-wrapper'>

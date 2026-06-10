@@ -637,8 +637,8 @@ function rp(json){document.write('<ul>');for(var i=0;i<numposts;i++){document.wr
 </script>
 
 <script type='text/javascript'>
-summary_noimg = 550;
-summary_img = 450;
+summary_noimg = 200;
+summary_img = 200;
 img_thumb_height = 150;
 img_thumb_width = 200; 
 </script>
@@ -662,18 +662,21 @@ function removeHtmlTag(strx,chop){
 	return strx+'...'; 
 }
 
-function createSummaryAndThumb(pID){
-	var div = document.getElementById(pID);
-	var imgtag = "";
-	var img = div.getElementsByTagName("img");
-	var summ = summary_noimg;
-	if(img.length>=1) {	
-		imgtag = '<img src="'+img[0].src+'" class="pbtthumbimg"/>';
-		summ = summary_img;
-	}
-	
-	var summary = imgtag + '<div>' + removeHtmlTag(div.innerHTML,summ) + '</div>';
-	div.innerHTML = summary;
+function createSummaryAndThumb(id){
+  var d=document.getElementById(id);
+  var imgs=d.getElementsByTagName("img");
+  var imgSrc=imgs.length>=1?imgs[0].src:null;
+  d.innerHTML="<span>"+removeHtmlTag(d.innerHTML,imgSrc?summary_img:summary_noimg)+"</span>";
+  if(imgSrc){
+    var card=d.closest?d.closest(".rot-post-card"):null;
+    if(card){
+      var thumb=card.querySelector(".rot-card-thumb");
+      if(thumb&&!thumb.querySelector("img")){
+        var el=document.createElement("img");el.src=imgSrc;el.alt="";
+        thumb.appendChild(el);
+      }
+    }
+  }
 }
 
 //]]>
@@ -858,32 +861,6 @@ embed, img, object, video {max-width: 100%;}
 {lang: &#39;en-US&#39;}
 </script>
 
-<script type='text/javascript'>
-//<![CDATA[
-var summary_noimg=200,summary_img=200;
-function removeHtmlTag(s,n){var a=s.split("<");for(var i=0;i<a.length;i++){a[i]=a[i].substring(a[i].indexOf(">")+1);}s=a.join("");return s.substring(0,n-3)+"...";}
-function createSummaryAndThumb(id){
-  var d=document.getElementById(id);
-  var imgs=d.getElementsByTagName("img");
-  // Сохраняем src до изменения innerHTML
-  var imgSrc=imgs.length>=1?imgs[0].src:null;
-  // Обрезаем тело поста до краткого анонса
-  d.innerHTML="<span>"+removeHtmlTag(d.innerHTML,imgSrc?summary_img:summary_noimg)+"</span>";
-  // Если thumbnailUrl не задан — вставляем первое изображение из тела поста в .rot-card-thumb
-  if(imgSrc){
-    var card=d.closest?d.closest(".rot-post-card"):null;
-    if(card){
-      var thumb=card.querySelector(".rot-card-thumb");
-      if(thumb&&!thumb.querySelector("img")){
-        var el=document.createElement("img");
-        el.src=imgSrc;el.alt="";
-        thumb.appendChild(el);
-      }
-    }
-  }
-}
-//]]>
-</script>
 </head>
 
 <body>
