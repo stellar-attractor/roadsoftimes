@@ -91,13 +91,17 @@ img{max-width:100%;height:auto}
 .rot-arrow-next{right:20px}
 
 /* ── MAIN LAYOUT ─────────────────────────────────────────────────── */
-/* content-wrapper = outer shell, без grid (не хотим hero как grid-item) */
-#content-wrapper{max-width:none!important;margin:0!important;padding:0!important;display:block!important;background:none!important}
-#crosscol-wrapper{display:none}
-/* Внутренняя сетка — специальный wrapper, который мы вставляем в HTML */
-.rot-grid{max-width:1100px;margin:24px auto 0;padding:0 15px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
-#main-wrapper{width:auto!important;float:none!important;min-width:0}
-#rsidebar-wrapper{width:auto!important;float:none!important;min-width:0}
+/* content-wrapper — grid-контейнер. Дочерние элементы:
+   1) .rot-hero  → grid-column:1/-1 → полная ширина, строка 1
+   2) #crosscol-wrapper → display:none, не grid-item
+   3) #main-wrapper → колонка 1fr, строка 2
+   4) #rsidebar-wrapper → колонка 300px, строка 2 */
+#content-wrapper{max-width:1100px!important;margin:24px auto 0!important;padding:0 15px!important;display:grid!important;grid-template-columns:1fr 300px!important;gap:0 24px!important;align-items:start!important;background:none!important}
+/* Герой: растягиваем на обе колонки и убираем боковые отступы */
+.rot-hero{grid-column:1/-1!important;margin:0 -15px!important;width:calc(100% + 30px)!important}
+#crosscol-wrapper{display:none!important}
+#main-wrapper{width:auto!important;float:none!important;min-width:0;padding-top:24px}
+#rsidebar-wrapper{width:auto!important;float:none!important;min-width:0;padding-top:24px}
 
 /* ── POST CARDS ─────────────────────────────────────────────────── */
 .rot-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #3a3520}
@@ -1104,7 +1108,6 @@ function createSummaryAndThumb(id){
         <b:section class='crosscol' id='crosscol' showaddelement='yes'/>
       </div>
 
-<div class='rot-grid'>
 <div id='main-wrapper'>
 
         <div class='rot-section-header'>
@@ -2285,8 +2288,7 @@ function createSummaryAndThumb(id){
           </b:widget>
         </b:section>
 
-<p/></div><!-- /#rsidebar-wrapper -->
-</div><!-- /.rot-grid -->
+<p/></div>
 
       <!-- spacer for skins that want sidebar and main to be the same height-->
       <div class='clear'>&#160;</div>

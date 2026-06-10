@@ -95,13 +95,17 @@ img{max-width:100%;height:auto}
 .rot-arrow-next{right:20px}
 
 /* ── MAIN LAYOUT ─────────────────────────────────────────────────── */
-/* content-wrapper = outer shell, без grid (не хотим hero как grid-item) */
-#content-wrapper{max-width:none!important;margin:0!important;padding:0!important;display:block!important;background:none!important}
-#crosscol-wrapper{display:none}
-/* Внутренняя сетка — специальный wrapper, который мы вставляем в HTML */
-.rot-grid{max-width:1100px;margin:24px auto 0;padding:0 15px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
-#main-wrapper{width:auto!important;float:none!important;min-width:0}
-#rsidebar-wrapper{width:auto!important;float:none!important;min-width:0}
+/* content-wrapper — grid-контейнер. Дочерние элементы:
+   1) .rot-hero  → grid-column:1/-1 → полная ширина, строка 1
+   2) #crosscol-wrapper → display:none, не grid-item
+   3) #main-wrapper → колонка 1fr, строка 2
+   4) #rsidebar-wrapper → колонка 300px, строка 2 */
+#content-wrapper{max-width:1100px!important;margin:24px auto 0!important;padding:0 15px!important;display:grid!important;grid-template-columns:1fr 300px!important;gap:0 24px!important;align-items:start!important;background:none!important}
+/* Герой: растягиваем на обе колонки и убираем боковые отступы */
+.rot-hero{grid-column:1/-1!important;margin:0 -15px!important;width:calc(100% + 30px)!important}
+#crosscol-wrapper{display:none!important}
+#main-wrapper{width:auto!important;float:none!important;min-width:0;padding-top:24px}
+#rsidebar-wrapper{width:auto!important;float:none!important;min-width:0;padding-top:24px}
 
 /* ── POST CARDS ─────────────────────────────────────────────────── */
 .rot-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #3a3520}
@@ -315,18 +319,10 @@ if old_slider_match:
     src = src[:old_slider_match.start()] + NEW_HERO + src[old_slider_match.end():]
 
 # ════════════════════════════════════════════════════════════════════
-# 6. Оборачиваем main-wrapper + rsidebar-wrapper в .rot-grid
-#    и добавляем section header + rot-posts-grid внутри main-wrapper
+# 6. Section header + rot-posts-grid внутри main-wrapper
+#    Никаких новых HTML-обёрток — только CSS делает grid
 # ════════════════════════════════════════════════════════════════════
 
-# 6a. Вставляем открытие rot-grid перед #main-wrapper
-src = src.replace(
-    "\n<div id='main-wrapper'>",
-    "\n<div class='rot-grid'>\n<div id='main-wrapper'>",
-    1
-)
-
-# 6b. Section header + rot-posts-grid grid внутри main-wrapper перед b:section main
 OLD_MAIN_SECTION = "<b:section class='main' id='main' showaddelement='no'>"
 NEW_MAIN_SECTION = """\
 <div class='rot-section-header'>
@@ -337,16 +333,11 @@ NEW_MAIN_SECTION = """\
 <b:section class='main' id='main' showaddelement='no'>"""
 src = src.replace(OLD_MAIN_SECTION, NEW_MAIN_SECTION)
 
-# 6c. Закрываем rot-posts-grid и main-wrapper, потом rsidebar, потом rot-grid
+# Закрываем rot-posts-grid — оригинальный </div> GameTown закрывает main-wrapper,
+# поэтому нам нужен дополнительный </div> перед ним
 src = src.replace(
     "        </b:section>\n      </div>\n\n<div id='rsidebar-wrapper'>",
     "        </b:section>\n</div><!-- /.rot-posts-grid -->\n      </div><!-- /#main-wrapper -->\n\n<div id='rsidebar-wrapper'>"
-)
-
-# 6d. Закрываем rot-grid после rsidebar (</b:section>\n<p/></div> — конец rsidebar)
-src = src.replace(
-    "        </b:section>\n\n<p/></div>\n\n      <!-- spacer",
-    "        </b:section>\n\n<p/></div><!-- /#rsidebar-wrapper -->\n</div><!-- /.rot-grid -->\n\n      <!-- spacer"
 )
 
 # ════════════════════════════════════════════════════════════════════
