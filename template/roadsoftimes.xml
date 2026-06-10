@@ -122,8 +122,12 @@ img{max-width:100%;height:auto}
 .rot-posts-grid .date-outer,
 .rot-posts-grid .date-posts,
 .rot-posts-grid .post-outer{display:contents!important}
-/* Скрываем заголовки дат — они не нужны в карточечной сетке */
-.rot-posts-grid .date-header{display:none!important}
+/* Скрываем лишние grid-items от Blogger:
+   .widget.Blog рендерит <h2 class='title'> автоматически;
+   с display:contents он попадает в сетку и сдвигает все карточки */
+.rot-posts-grid .date-header,
+.rot-posts-grid h2.title,
+.rot-posts-grid .widget-title{display:none!important}
 /* Пагинация вытаскивается отдельно поверх сетки */
 .rot-posts-grid .blog-pager{grid-column:1/-1}
 .rot-post-card{background:#1a1a0e;border:1px solid #252418;overflow:hidden;transition:border-color .2s;display:flex;flex-direction:column}
