@@ -19,6 +19,8 @@
    ДОРОГИ ВРЕМЁН — Blogger Theme
    ===================================================== */
 
+/* Скрытая секция-ловушка для дефолтных Blogger виджетов */
+.rot-hidden-section{display:none!important}
 /* Layout hide in Blogger editor */
 body#layout .rot-hero{display:none}
 body#layout .rot-slider{display:none}
@@ -300,9 +302,9 @@ function createSummaryAndThumb(pID) {
      Скрытая секция — сюда попадают дефолтные виджеты (Header, Attribution),
      которые Blogger добавляет автоматически. display:none в CSS.
      ===================================================== -->
-<b:section class='rot-hidden-section' id='header' showaddelement='no' style='display:none'>
+<b:section class='rot-hidden-section' id='header' showaddelement='no' >
   <b:widget id='Header1' locked='false' title='&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;' type='Header'>
-    <b:includable id='main'/>
+    <b:includable id='main'></b:includable>
   </b:widget>
 </b:section>
 
@@ -497,8 +499,8 @@ function createSummaryAndThumb(pID) {
               </b:if>
             </div>
           </b:includable>
-          <b:includable id='feedLinks'/>
-          <b:includable id='feedLinksBody' var='links'/>
+          <b:includable id='feedLinks'></b:includable>
+          <b:includable id='feedLinksBody' var='links'></b:includable>
           <b:includable id='iframe_comments' var='post'>
             <b:if cond='data:post.allowComments'>
               <script expr:src='data:post.commentSrc' type='text/javascript'/>
@@ -521,8 +523,8 @@ function createSummaryAndThumb(pID) {
               <div class='post-body'><data:post.body/></div>
             </div>
           </b:includable>
-          <b:includable id='shareButtons'/>
-          <b:includable id='status-message'/>
+          <b:includable id='shareButtons'></b:includable>
+          <b:includable id='status-message'></b:includable>
           <b:includable id='threaded_comments' var='post'>
             <b:include data='post' name='comments'/>
           </b:includable>
