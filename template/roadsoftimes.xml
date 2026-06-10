@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+
+<b:include data='blog' name='all-head-content'/>
+
+<meta content='Дороги Времён — путешествия, музеи, история' name='description'/>
+<link href='https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&amp;family=PT+Sans:ital,wght@0,400;0,700;1,400&amp;family=PT+Mono&amp;display=swap' rel='stylesheet'/>
+
+<b:if cond='data:blog.pageType == &quot;index&quot;'>
+  <title><data:blog.pageTitle/></title>
+<b:else/>
+  <title><data:blog.pageName/> — <data:blog.title/></title>
+</b:if>
+
+<b:skin><![CDATA[
+/* =====================================================
+   ДОРОГИ ВРЕМЁН — Blogger Theme
+   ===================================================== */
+
+/* Layout hide in Blogger editor */
+body#layout .rot-hero{display:none}
+body#layout .rot-slider{display:none}
+body#layout .rot-featured-museum{display:none}
+body#layout .rot-choose-path{display:none}
+body#layout #rot-header-nav{display:none}
+body#layout .rot-footer-top{display:none}
+
+/* === RESET & BASE === */
+*{box-sizing:border-box;margin:0;padding:0}
+body{background-color:#0f0e09;color:#c8c0a8;font-family:'PT Sans',Arial,sans-serif;font-size:14px;line-height:1.6}
+a{color:#c9a84c;text-decoration:none}
+a:hover{color:#e2c06a}
+a img{border:0}
+img{display:block;width:100%;height:100%;object-fit:cover}
+.clearfix::after{content:'';display:table;clear:both}
+
+/* === CONTAINER === */
+.rot-container{max-width:1100px;margin:0 auto;padding:0 15px}
+
+/* === HEADER === */
+#rot-header{background:#1e1d14;border-bottom:2px solid #8a6f2e;position:sticky;top:0;z-index:1000}
+.rot-header-inner{display:flex;align-items:center;height:60px;gap:30px;max-width:1100px;margin:0 auto;padding:0 15px}
+.rot-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.rot-logo-emblem{width:36px;height:36px;border:2px solid #c9a84c;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#c9a84c;font-family:'PT Mono',monospace;flex-shrink:0}
+.rot-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#e2c06a;letter-spacing:1px;line-height:1.1;text-transform:uppercase;display:block}
+.rot-logo-sub{font-size:9px;color:#7a7060;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block}
+#rot-header-nav{flex:1}
+#rot-header-nav ul{display:flex;list-style:none;gap:2px}
+#rot-header-nav a{display:block;padding:8px 14px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+#rot-header-nav a:hover,.rot-nav-active a{color:#c9a84c;border-bottom-color:#c9a84c}
+.rot-header-icons{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.rot-icon-btn{background:none;border:1px solid #3a3520;color:#7a7060;width:32px;height:32px;border-radius:3px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:color .2s,border-color .2s}
+.rot-icon-btn:hover{color:#c9a84c;border-color:#8a6f2e}
+
+/* === HERO SLIDER === */
+.rot-hero{position:relative;width:100%;height:480px;overflow:hidden;background:#000}
+.rot-slides{position:relative;width:100%;height:100%}
+.rot-slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease}
+.rot-slide.active{opacity:1}
+.rot-slide img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.42)}
+.rot-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(10,9,5,.93) 0%,rgba(10,9,5,.58) 45%,rgba(10,9,5,.08) 100%)}
+.rot-hero-content{position:absolute;top:50%;left:0;transform:translateY(-50%);width:100%;z-index:10}
+.rot-hero-eyebrow{font-family:'PT Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8a6f2e;margin-bottom:8px}
+.rot-hero-title{font-family:'Oswald',sans-serif;font-size:54px;font-weight:700;line-height:1.0;color:#e8e0cc;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;max-width:540px;text-shadow:0 2px 20px rgba(0,0,0,.8)}
+.rot-hero-desc{font-size:14px;color:#c8c0a8;max-width:420px;line-height:1.65;margin-bottom:28px}
+.rot-hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+.rot-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid;cursor:pointer;transition:all .2s;text-decoration:none}
+.rot-btn-primary{background:#c9a84c;border-color:#c9a84c;color:#0f0e09;font-weight:600}
+.rot-btn-primary:hover{background:#e2c06a;border-color:#e2c06a;color:#0f0e09}
+.rot-btn-outline{background:transparent;border-color:#7a7060;color:#c8c0a8}
+.rot-btn-outline:hover{border-color:#8a6f2e;color:#c9a84c}
+.rot-hero-geo{position:absolute;bottom:18px;right:20px;z-index:10;display:flex;align-items:center;gap:6px;font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1px;color:#7a7060;background:rgba(10,9,5,.7);padding:5px 10px;border:1px solid #252418}
+.rot-pager{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:8px}
+.rot-pager span{width:28px;height:3px;background:rgba(201,168,76,.3);cursor:pointer;transition:background .2s}
+.rot-pager span.active{background:#c9a84c}
+.rot-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(10,9,5,.6);border:1px solid #3a3520;color:#7a7060;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:all .2s;user-select:none}
+.rot-arrow:hover{background:rgba(201,168,76,.15);border-color:#8a6f2e;color:#c9a84c}
+.rot-arrow-prev{left:20px}
+.rot-arrow-next{right:20px}
+
+/* === MAIN LAYOUT === */
+#rot-main-layout{max-width:1100px;margin:24px auto 0;padding:0 15px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+
+/* === SECTION HEADERS === */
+.rot-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #3a3520}
+.rot-section-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#e8e0cc;display:flex;align-items:center;gap:8px}
+.rot-section-title::before{content:'';display:inline-block;width:3px;height:16px;background:#c9a84c;flex-shrink:0}
+.rot-section-link{font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#7a7060;border:1px solid #252418;padding:4px 10px;transition:color .2s,border-color .2s}
+.rot-section-link:hover{color:#c9a84c;border-color:#8a6f2e}
+
+/* === POST CARDS === */
+#rot-latest-posts{margin-bottom:28px}
+.rot-posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rot-post-card{background:#1a1a0e;border:1px solid #252418;overflow:hidden;transition:border-color .2s}
+.rot-post-card:hover{border-color:#8a6f2e}
+.rot-card-thumb{position:relative;height:160px;overflow:hidden}
+.rot-card-thumb img{transition:transform .4s ease}
+.rot-post-card:hover .rot-card-thumb img{transform:scale(1.05)}
+.rot-tag{position:absolute;top:10px;left:10px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;z-index:2}
+.rot-tag-art{background:#2a0f0f;color:#ae6a5a;border:1px solid #ae6a5a}
+.rot-tag-mus{background:#0f1a2e;color:#5a80ae;border:1px solid #5a80ae}
+.rot-tag-exp{background:#0f2318;color:#5a9e70;border:1px solid #5a9e70}
+.rot-tag-his{background:#1a1428;color:#8a7ab8;border:1px solid #8a7ab8}
+.rot-card-body{padding:14px}
+.rot-card-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;color:#e8e0cc;line-height:1.25;margin-bottom:8px}
+.rot-card-title a{color:inherit;transition:color .2s}
+.rot-card-title a:hover{color:#c9a84c}
+.rot-card-excerpt{font-size:12px;color:#7a7060;line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rot-card-meta{display:flex;align-items:center;gap:12px;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;border-top:1px solid #252418;padding-top:10px}
+
+/* === FEATURED MUSEUM === */
+.rot-featured-museum{margin-bottom:28px;background:#1a1a0e;border:1px solid #252418;overflow:hidden}
+.rot-museum-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#232318;border-bottom:1px solid #3a3520}
+.rot-museum-inner{display:grid;grid-template-columns:340px 1fr}
+.rot-museum-photo{height:220px}
+.rot-museum-body{padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between}
+.rot-museum-label{font-family:'PT Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8a6f2e;margin-bottom:6px}
+.rot-museum-title{font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;color:#e8e0cc;margin-bottom:10px;line-height:1.2}
+.rot-museum-desc{font-size:13px;color:#c8c0a8;line-height:1.65;margin-bottom:16px}
+.rot-museum-stats{display:flex;gap:24px;margin-bottom:18px}
+.rot-stat{display:flex;flex-direction:column;align-items:center;gap:3px}
+.rot-stat-icon{font-size:18px;opacity:.7}
+.rot-stat-val{font-family:'Oswald',sans-serif;font-size:13px;color:#c9a84c}
+.rot-stat-label{font-size:9px;color:#7a7060;letter-spacing:1px;text-transform:uppercase;font-family:'PT Mono',monospace}
+
+/* === CHOOSE PATH === */
+.rot-choose-path{margin-bottom:28px}
+.rot-path-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rot-path-card{background:#1a1a0e;border:1px solid #252418;padding:22px 16px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;text-decoration:none;display:block}
+.rot-path-card:hover{border-color:#8a6f2e;background:#232318}
+.rot-path-icon{font-size:28px;margin-bottom:10px;display:block}
+.rot-path-title{font-family:'Oswald',sans-serif;font-size:14px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:#e8e0cc;margin-bottom:5px}
+.rot-path-desc{font-size:11px;color:#7a7060;line-height:1.4}
+
+/* === BLOG PAGER === */
+.blog-pager{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid #3a3520;margin-top:10px}
+.blog-pager a{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#7a7060;border:1px solid #252418;padding:6px 14px;transition:color .2s,border-color .2s}
+.blog-pager a:hover{color:#c9a84c;border-color:#8a6f2e}
+
+/* === SIDEBAR === */
+#rot-sidebar{display:flex;flex-direction:column;gap:18px}
+.rot-widget{background:#1a1a0e;border:1px solid #252418;overflow:hidden}
+.rot-widget-header{background:#232318;border-bottom:1px solid #3a3520;padding:10px 14px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#c9a84c;display:flex;align-items:center;gap:8px}
+.rot-widget-header::before{content:'';width:2px;height:13px;background:#c9a84c;flex-shrink:0}
+.rot-widget-body{padding:14px}
+.rot-map-placeholder{height:160px;background:#0a1008;border:1px solid #252418;display:flex;align-items:center;justify-content:center;color:#7a7060;font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1px;text-align:center;padding:20px;line-height:1.8}
+.rot-road-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #252418}
+.rot-road-item:last-child{border-bottom:none}
+.rot-road-flag{font-size:20px;flex-shrink:0}
+.rot-road-country{font-family:'Oswald',sans-serif;font-size:13px;color:#e8e0cc}
+.rot-road-date{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;margin-top:2px}
+.rot-road-link{font-size:10px;color:#8a6f2e;text-transform:uppercase;letter-spacing:1px;font-family:'PT Mono',monospace;margin-top:4px;display:inline-block}
+.rot-quote-text{font-style:italic;font-size:13px;line-height:1.7;color:#c8c0a8;border-left:2px solid #8a6f2e;padding-left:12px;margin-bottom:10px}
+.rot-quote-author{font-family:'PT Mono',monospace;font-size:10px;color:#8a6f2e;letter-spacing:1px;text-align:right}
+.rot-tags-list{list-style:none}
+.rot-tags-list li{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #252418;font-size:12px}
+.rot-tags-list li:last-child{border-bottom:none}
+.rot-tags-list a{color:#c8c0a8;transition:color .2s}
+.rot-tags-list a:hover{color:#c9a84c}
+.rot-tag-count{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#232318;padding:1px 7px;border-radius:2px}
+.rot-subscribe-text{font-size:12px;color:#7a7060;margin-bottom:12px;line-height:1.55}
+.rot-sub-form{display:flex;gap:6px}
+.rot-sub-input{flex:1;background:#232318;border:1px solid #3a3520;color:#c8c0a8;padding:8px 10px;font-size:12px;font-family:'PT Sans',sans-serif;outline:none}
+.rot-sub-input:focus{border-color:#8a6f2e}
+.rot-sub-btn{background:#c9a84c;border:none;color:#0f0e09;padding:8px 14px;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;cursor:pointer;transition:background .2s}
+.rot-sub-btn:hover{background:#e2c06a}
+.rot-socials{display:flex;gap:8px;margin-top:12px}
+.rot-social-btn{flex:1;background:#232318;border:1px solid #3a3520;color:#7a7060;padding:7px;text-align:center;font-size:12px;cursor:pointer;text-decoration:none;transition:border-color .2s,color .2s;font-family:'Oswald',sans-serif;letter-spacing:1px}
+.rot-social-btn:hover{border-color:#8a6f2e;color:#c9a84c}
+
+/* === FOOTER === */
+#rot-footer{margin-top:48px;background:#1e1d14;border-top:2px solid #3a3520}
+.rot-footer-top{max-width:1100px;margin:0 auto;padding:36px 15px 28px;display:grid;grid-template-columns:240px 1fr 1fr 1fr;gap:32px}
+.rot-footer-desc{font-size:12px;color:#7a7060;line-height:1.65;margin-top:12px}
+.rot-footer-col-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#8a6f2e;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #252418}
+.rot-footer-links{list-style:none;display:flex;flex-direction:column;gap:7px}
+.rot-footer-links a{font-size:12px;color:#7a7060;transition:color .2s}
+.rot-footer-links a:hover{color:#c9a84c}
+.rot-footer-bottom{border-top:1px solid #252418;padding:14px 15px;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;letter-spacing:.5px}
+.rot-footer-socials{display:flex;gap:10px}
+.rot-footer-socials a{color:#7a7060;font-size:13px;transition:color .2s}
+.rot-footer-socials a:hover{color:#c9a84c}
+
+]]></b:skin>
+
+<!-- jQuery -->
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js' type='text/javascript'/>
+
+<!-- Summary + thumbnail helper (from GameTown) -->
+<script type='text/javascript'>
+//<![CDATA[
+var thumbnail_mode = "float";
+var summary_noimg = 200;
+var summary_img = 200;
+var img_thumb_height = 160;
+var img_thumb_width = 280;
+
+function removeHtmlTag(strx, chop) {
+  var s = strx.split("<");
+  for (var i = 0; i < s.length; i++) {
+    s[i] = s[i].substring(s[i].indexOf(">") + 1, s[i].length);
+  }
+  s = s.join("");
+  s = s.substring(0, chop - 3);
+  return s + "...";
+}
+
+function createSummaryAndThumb(pID) {
+  var div = document.getElementById(pID);
+  var imgtag = "";
+  var img = div.getElementsByTagName("img");
+  var summ = summary_noimg;
+  if (img.length >= 1) {
+    imgtag = '<img src="' + img[0].src + '" class="rot-thumb-img"/>';
+    summ = summary_img;
+  }
+  var summary = imgtag + "<div>" + removeHtmlTag(div.innerHTML, summ) + "</div>";
+  div.innerHTML = summary;
+}
+//]]>
+</script>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+<div id='rot-header'>
+  <div class='rot-header-inner'>
+
+    <a class='rot-logo' expr:href='data:blog.homepageUrl'>
+      <div class='rot-logo-emblem'>&#8853;</div>
+      <div>
+        <span class='rot-logo-title'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</span>
+        <span class='rot-logo-sub'>&#1055;&#1091;&#1090;&#1077;&#1096;&#1077;&#1089;&#1090;&#1074;&#1080;&#1103; &middot; &#1052;&#1091;&#1079;&#1077;&#1080; &middot; &#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</span>
+      </div>
+    </a>
+
+    <nav id='rot-header-nav'>
+      <ul>
+        <li class='rot-nav-active'><a expr:href='data:blog.homepageUrl'>&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%B5%D0%B4%D0%B8%D1%86%D0%B8%D0%B8&quot;'>&#1069;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1080;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%90%D1%80%D1%82%D0%B5%D1%84%D0%B0%D0%BA%D1%82%D1%8B&quot;'>&#1040;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F&quot;'>&#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</a></li>
+        <li><a href='/p/about.html'>&#1054; &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;&#1077;</a></li>
+      </ul>
+    </nav>
+
+    <div class='rot-header-icons'>
+      <button class='rot-icon-btn' onclick='document.getElementById(&quot;rot-search-box&quot;).style.display=(document.getElementById(&quot;rot-search-box&quot;).style.display==&quot;block&quot;?&quot;none&quot;:&quot;block&quot;)' title='&#1055;&#1086;&#1080;&#1089;&#1082;'>&#128269;</button>
+    </div>
+
+  </div>
+  <!-- Search box (hidden by default) -->
+  <div id='rot-search-box' style='display:none;background:#232318;border-top:1px solid #3a3520;padding:8px 15px;'>
+    <div style='max-width:1100px;margin:0 auto'>
+      <form expr:action='data:blog.searchUrl' method='get'>
+        <input name='q' placeholder='&#1055;&#1086;&#1080;&#1089;&#1082; &#1087;&#1086; &#1089;&#1072;&#1081;&#1090;&#1091;...' style='width:100%;background:#1a1a0e;border:1px solid #3a3520;color:#c8c0a8;padding:8px 12px;font-family:PT Sans,sans-serif;font-size:13px;outline:none' type='text'/>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     HERO SLIDER
+     Заменяй img src, data-geo, заголовок и текст вручную
+     ===================================================== -->
+<b:if cond='data:blog.pageType != &quot;static_page&quot;'>
+<b:if cond='data:blog.pageType != &quot;item&quot;'>
+
+<div class='rot-hero'>
+  <div class='rot-slides'>
+
+    <!-- ~~~ СЛАЙД 1 — меняй src, data-geo, заголовок, текст ~~~ -->
+    <div class='rot-slide active' data-geo='Deutsches Panzermuseum, &#1052;&#1102;&#1085;&#1089;&#1090;&#1077;&#1088;, &#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;'>
+      <img alt='Panzer I' src='SLIDE-1-IMAGE-URL-HERE'/>
+    </div>
+
+    <!-- ~~~ СЛАЙД 2 ~~~ -->
+    <div class='rot-slide' data-geo='&#1052;&#1091;&#1079;&#1077;&#1081;-&#1079;&#1072;&#1074;&#1086;&#1076; &#1055;&#1077;&#1085;&#1077;&#1084;&#1102;&#1085;&#1076;&#1077;, &#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;'>
+      <img alt='&#1056;&#1072;&#1082;&#1077;&#1090;&#1072; V-2' src='SLIDE-2-IMAGE-URL-HERE'/>
+    </div>
+
+    <!-- ~~~ СЛАЙД 3 ~~~ -->
+    <div class='rot-slide' data-geo='&#1052;&#1086;&#1088;&#1089;&#1082;&#1086;&#1081; &#1084;&#1091;&#1079;&#1077;&#1081;, &#1042;&#1080;&#1083;&#1100;&#1075;&#1077;&#1083;&#1100;&#1084;&#1089;&#1093;&#1072;&#1092;&#1077;&#1085;, &#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;'>
+      <img alt='&#1054;&#1088;&#1091;&#1076;&#1080;&#1077;' src='SLIDE-3-IMAGE-URL-HERE'/>
+    </div>
+
+  </div>
+
+  <!-- Hero text (статичный — одинаков для всех слайдов) -->
+  <div class='rot-hero-content'>
+    <div class='rot-container'>
+      <p class='rot-hero-eyebrow'>&#1044;&#1086;&#1073;&#1088;&#1086; &#1087;&#1086;&#1078;&#1072;&#1083;&#1086;&#1074;&#1072;&#1090;&#1100; &#1085;&#1072;</p>
+      <h1 class='rot-hero-title'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</h1>
+      <p class='rot-hero-desc'>&#1055;&#1091;&#1090;&#1077;&#1096;&#1077;&#1089;&#1090;&#1074;&#1080;&#1103; &#1087;&#1086; &#1084;&#1077;&#1089;&#1090;&#1072;&#1084;, &#1075;&#1076;&#1077; &#1080;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103; &#1086;&#1078;&#1080;&#1074;&#1072;&#1077;&#1090;. &#1052;&#1091;&#1079;&#1077;&#1080;, &#1090;&#1077;&#1093;&#1085;&#1080;&#1082;&#1072;, &#1072;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099; &#1080; &#1089;&#1086;&#1073;&#1099;&#1090;&#1080;&#1103;, &#1086;&#1089;&#1090;&#1072;&#1074;&#1080;&#1074;&#1096;&#1080;&#1077; &#1089;&#1083;&#1077;&#1076; &#1074; &#1089;&#1091;&#1076;&#1100;&#1073;&#1072;&#1093; &#1085;&#1072;&#1088;&#1086;&#1076;&#1086;&#1074;.</p>
+      <div class='rot-hero-buttons'>
+        <a class='rot-btn rot-btn-primary' expr:href='data:blog.homepageUrl'>&#1055;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1077; &#1087;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080; &#8250;</a>
+        <a class='rot-btn rot-btn-outline' href='/p/about.html'>&#1054; &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;&#1077;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class='rot-hero-geo' id='rot-hero-geo'>Deutsches Panzermuseum, &#1052;&#1102;&#1085;&#1089;&#1090;&#1077;&#1088;</div>
+  <div class='rot-arrow rot-arrow-prev' id='rot-prev'>&#8249;</div>
+  <div class='rot-arrow rot-arrow-next' id='rot-next'>&#8250;</div>
+  <div class='rot-pager' id='rot-pager'>
+    <span class='active'/>
+    <span/>
+    <span/>
+  </div>
+</div>
+
+</b:if>
+</b:if>
+
+<!-- =====================================================
+     MAIN LAYOUT
+     ===================================================== -->
+<div id='rot-main-layout'>
+
+  <!-- LEFT: CONTENT -->
+  <main id='rot-main-content'>
+
+    <!-- LATEST POSTS — rendered by Blog widget below -->
+    <section id='rot-latest-posts'>
+      <div class='rot-section-header'>
+        <h2 class='rot-section-title'>&#1055;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1077; &#1087;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080;</h2>
+        <a class='rot-section-link' expr:href='data:blog.homepageUrl'>&#1042;&#1089;&#1077; &#1087;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080; &#8594;</a>
+      </div>
+
+      <b:section class='main' id='main' showaddelement='no'>
+        <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+
+          <!-- ~~~ POST TEMPLATE ~~~ -->
+          <b:includable id='post' var='post'>
+            <article class='rot-post-card'>
+              <div class='rot-card-thumb'>
+                <!-- Label badge — first label used as category tag -->
+                <b:if cond='data:post.labels'>
+                  <b:loop values='data:post.labels' var='label'>
+                    <b:if cond='data:label.isFirst == &quot;true&quot;'>
+                      <span class='rot-tag rot-tag-art'><data:label.name/></span>
+                    </b:if>
+                  </b:loop>
+                </b:if>
+                <b:if cond='data:post.thumbnailUrl'>
+                  <img expr:alt='data:post.title' expr:src='data:post.thumbnailUrl'/>
+                <b:else/>
+                  <div style='height:160px;background:#232318;display:flex;align-items:center;justify-content:center;color:#3a3520;font-size:40px'>&#9654;</div>
+                </b:if>
+              </div>
+              <div class='rot-card-body'>
+                <h3 class='rot-card-title'>
+                  <a expr:href='data:post.url'><data:post.title/></a>
+                </h3>
+                <div class='rot-card-excerpt'>
+                  <div expr:id='&quot;summary&quot; + data:post.id'><data:post.body/></div>
+                  <script type='text/javascript'>createSummaryAndThumb(&quot;summary<data:post.id/>&quot;);</script>
+                </div>
+                <div class='rot-card-meta'>
+                  <span>&#128197; <data:post.timestamp/></span>
+                  <b:if cond='data:post.allowComments'>
+                    <span>&#128172; <data:post.numComments/></span>
+                  </b:if>
+                </div>
+              </div>
+            </article>
+          </b:includable>
+
+          <!-- ~~~ MAIN LOOP ~~~ -->
+          <b:includable id='main' var='top'>
+            <b:if cond='data:mobile == &quot;false&quot;'>
+              <div class='rot-posts-grid'>
+                <b:loop values='data:posts' var='post'>
+                  <b:include data='post' name='post'/>
+                </b:loop>
+              </div>
+              <b:if cond='data:blog.pageType != &quot;item&quot;'>
+                <b:include name='nextprev'/>
+              </b:if>
+              <b:if cond='data:blog.pageType == &quot;item&quot;'>
+                <b:include data='posts' name='comments'/>
+              </b:if>
+            <b:else/>
+              <b:include name='mobile-main'/>
+            </b:if>
+          </b:includable>
+
+          <!-- ~~~ NEXTPREV ~~~ -->
+          <b:includable id='nextprev'>
+            <div class='blog-pager' id='blog-pager'>
+              <b:if cond='data:newerPageUrl'>
+                <a class='blog-pager-newer-link' expr:href='data:newerPageUrl'>&#8592; &#1053;&#1086;&#1074;&#1099;&#1077;</a>
+              </b:if>
+              <a expr:href='data:blog.homepageUrl'>&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;</a>
+              <b:if cond='data:olderPageUrl'>
+                <a class='blog-pager-older-link' expr:href='data:olderPageUrl'>&#1057;&#1090;&#1072;&#1088;&#1099;&#1077; &#8594;</a>
+              </b:if>
+            </div>
+          </b:includable>
+
+          <!-- Comments, mobile and other required includables from Blogger -->
+          <b:includable id='backlinkDeleteIcon' var='backlink'>
+            <span expr:class='&quot;item-control &quot; + data:backlink.adminClass'>
+              <a expr:href='data:backlink.deleteUrl'><img src='//www.blogger.com/img/icon_delete13.gif'/></a>
+            </span>
+          </b:includable>
+          <b:includable id='backlinks' var='post'>
+            <b:if cond='data:post.numBacklinks != 0'>
+              <div class='backlinks'>
+                <b:loop values='data:post.backlinks' var='backlink'>
+                  <div><a expr:href='data:backlink.url' rel='nofollow'><data:backlink.title/></a></div>
+                </b:loop>
+              </div>
+            </b:if>
+          </b:includable>
+          <b:includable id='comment-form' var='post'>
+            <div class='comment-form'>
+              <a name='comment-form'/>
+              <h4 id='comment-post-message'><data:postCommentMsg/></h4>
+              <a expr:href='data:post.commentFormIframeSrc' id='comment-editor-src'/>
+              <iframe allowtransparency='true' class='blogger-iframe-colorize blogger-comment-from-post' frameborder='0' height='410' id='comment-editor' name='comment-editor' src='' width='100%'/>
+              <data:post.friendConnectJs/>
+              <data:post.cmtfpIframe/>
+              <script type='text/javascript'>BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;, &#39;<data:post.communityId/>&#39;);</script>
+            </div>
+          </b:includable>
+          <b:includable id='commentDeleteIcon' var='comment'>
+            <span expr:class='&quot;item-control &quot; + data:comment.adminClass'>
+              <a class='comment-delete' expr:href='data:comment.deleteUrl'><img src='//www.blogger.com/img/icon_delete13.gif'/></a>
+            </span>
+          </b:includable>
+          <b:includable id='comment_count_picker' var='post'>
+            <b:if cond='data:post.commentSource == 1'>
+              <span class='cmt_count_iframe_holder' expr:data-count='data:post.numComments' expr:data-onclick='data:post.addCommentOnclick' expr:data-url='data:post.canonicalUrl'/>
+            <b:else/>
+              <a class='comment-link' expr:href='data:post.addCommentUrl' expr:onclick='data:post.addCommentOnclick'><data:post.commentLabelFull/>:</a>
+            </b:if>
+          </b:includable>
+          <b:includable id='comments' var='post'>
+            <div class='comments' id='comments'>
+              <a name='comments'/>
+              <b:if cond='data:post.allowComments'>
+                <b:if cond='data:post.embedCommentForm'>
+                  <b:if cond='data:post.allowNewComments'>
+                    <b:include data='post' name='comment-form'/>
+                  </b:if>
+                <b:else/>
+                  <a expr:href='data:post.addCommentUrl'><data:postCommentMsg/></a>
+                </b:if>
+              </b:if>
+            </div>
+          </b:includable>
+          <b:includable id='feedLinks'/>
+          <b:includable id='feedLinksBody' var='links'/>
+          <b:includable id='iframe_comments' var='post'>
+            <b:if cond='data:post.allowComments'>
+              <script expr:src='data:post.commentSrc' type='text/javascript'/>
+              <div class='cmt_iframe_holder'/>
+            </b:if>
+          </b:includable>
+          <b:includable id='mobile-index-post' var='post'>
+            <div class='mobile-post-outer'>
+              <a expr:href='data:post.url'><h3 class='mobile-index-title'><data:post.title/></h3></a>
+            </div>
+          </b:includable>
+          <b:includable id='mobile-main'>
+            <b:loop values='data:posts' var='post'>
+              <b:include data='post' name='mobile-index-post'/>
+            </b:loop>
+          </b:includable>
+          <b:includable id='mobile-post' var='post'>
+            <div class='post hentry'>
+              <h3 class='post-title'><data:post.title/></h3>
+              <div class='post-body'><data:post.body/></div>
+            </div>
+          </b:includable>
+          <b:includable id='shareButtons'/>
+          <b:includable id='status-message'/>
+          <b:includable id='threaded_comments' var='post'>
+            <b:include data='post' name='comments'/>
+          </b:includable>
+
+        </b:widget>
+      </b:section>
+    </section>
+
+    <!-- FEATURED MUSEUM — заполняй вручную -->
+    <b:if cond='data:blog.pageType != &quot;item&quot;'>
+    <b:if cond='data:blog.pageType != &quot;static_page&quot;'>
+    <div class='rot-featured-museum'>
+      <div class='rot-museum-header'>
+        <span class='rot-section-title' style='font-size:13px'>&#1056;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1091;&#1077;&#1084;&#1099;&#1077; &#1084;&#1091;&#1079;&#1077;&#1080;</span>
+        <a class='rot-section-link' href='#'>&#1042;&#1089;&#1077; &#1084;&#1091;&#1079;&#1077;&#1080; &#8594;</a>
+      </div>
+      <div class='rot-museum-inner'>
+        <div class='rot-museum-photo'>
+          <img alt='&#1052;&#1091;&#1079;&#1077;&#1081;' src='MUSEUM-IMAGE-URL-HERE'/>
+        </div>
+        <div class='rot-museum-body'>
+          <div>
+            <p class='rot-museum-label'>&#128205; &#1052;&#1102;&#1085;&#1089;&#1090;&#1077;&#1088;, &#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;</p>
+            <h3 class='rot-museum-title'>Deutsches Panzermuseum Munster</h3>
+            <p class='rot-museum-desc'>&#1054;&#1076;&#1085;&#1086; &#1080;&#1079; &#1082;&#1088;&#1091;&#1087;&#1085;&#1077;&#1081;&#1096;&#1080;&#1093; &#1090;&#1072;&#1085;&#1082;&#1086;&#1074;&#1099;&#1093; &#1084;&#1091;&#1079;&#1077;&#1077;&#1074; &#1084;&#1080;&#1088;&#1072;. &#1041;&#1086;&#1083;&#1077;&#1077; 300 &#1077;&#1076;&#1080;&#1085;&#1080;&#1094; &#1090;&#1077;&#1093;&#1085;&#1080;&#1082;&#1080; XX &#1074;&#1077;&#1082;&#1072; &#1087;&#1086;&#1076; &#1086;&#1076;&#1085;&#1086;&#1081; &#1082;&#1088;&#1099;&#1096;&#1077;&#1081; &mdash; &#1086;&#1090; &#1088;&#1072;&#1085;&#1085;&#1080;&#1093; &#1084;&#1072;&#1096;&#1080;&#1085; &#1087;&#1077;&#1088;&#1074;&#1099;&#1093; &#1074;&#1086;&#1081;&#1085; &#1076;&#1086; &#1089;&#1086;&#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1085;&#1099;&#1093; &#1073;&#1086;&#1077;&#1074;&#1099;&#1093; &#1090;&#1072;&#1085;&#1082;&#1086;&#1074; &#1053;&#1040;&#1058;&#1054;.</p>
+          </div>
+          <div>
+            <div class='rot-museum-stats'>
+              <div class='rot-stat'><span class='rot-stat-icon'>&#128710;</span><span class='rot-stat-val'>&#1073;&#1077;&#1089;&#1087;&#1083;&#1072;&#1090;&#1085;&#1086;</span><span class='rot-stat-label'>&#1042;&#1093;&#1086;&#1076;</span></div>
+              <div class='rot-stat'><span class='rot-stat-icon'>&#128336;</span><span class='rot-stat-val'>10:00&ndash;18:00</span><span class='rot-stat-label'>&#1063;&#1072;&#1089;&#1099;</span></div>
+              <div class='rot-stat'><span class='rot-stat-icon'>&#128197;</span><span class='rot-stat-val'>1971 &#1075;&#1086;&#1076;</span><span class='rot-stat-label'>&#1054;&#1089;&#1085;&#1086;&#1074;&#1072;&#1085;</span></div>
+            </div>
+            <a class='rot-btn rot-btn-outline' href='#' style='font-size:12px;padding:8px 18px'>&#1055;&#1086;&#1076;&#1088;&#1086;&#1073;&#1085;&#1077;&#1077; &#1086; &#1084;&#1091;&#1079;&#1077;&#1077; &#8250;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </b:if>
+    </b:if>
+
+    <!-- CHOOSE YOUR PATH -->
+    <b:if cond='data:blog.pageType != &quot;item&quot;'>
+    <b:if cond='data:blog.pageType != &quot;static_page&quot;'>
+    <div class='rot-choose-path'>
+      <div class='rot-section-header'>
+        <h2 class='rot-section-title'>&#1042;&#1099;&#1073;&#1077;&#1088;&#1080;&#1090;&#1077; &#1089;&#1074;&#1086;&#1081; &#1087;&#1091;&#1090;&#1100;</h2>
+      </div>
+      <div class='rot-path-grid'>
+        <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%B5%D0%B4%D0%B8%D1%86%D0%B8%D0%B8&quot;'>
+          <span class='rot-path-icon'>&#9876;&#65039;</span>
+          <div class='rot-path-title'>&#1069;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1080;</div>
+          <p class='rot-path-desc'>&#1055;&#1086;&#1083;&#1077;&#1074;&#1099;&#1077; &#1079;&#1072;&#1084;&#1077;&#1090;&#1082;&#1080; &#1080; &#1088;&#1077;&#1087;&#1086;&#1088;&#1090;&#1072;&#1078;&#1080;</p>
+        </a>
+        <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>
+          <span class='rot-path-icon'>&#127963;&#65039;</span>
+          <div class='rot-path-title'>&#1052;&#1091;&#1079;&#1077;&#1080;</div>
+          <p class='rot-path-desc'>&#1050;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1080;, &#1074;&#1099;&#1089;&#1090;&#1072;&#1074;&#1082;&#1080; &#1080; &#1101;&#1082;&#1089;&#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1080;</p>
+        </a>
+        <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%90%D1%80%D1%82%D0%B5%D1%84%D0%B0%D0%BA%D1%82%D1%8B&quot;'>
+          <span class='rot-path-icon'>&#129680;</span>
+          <div class='rot-path-title'>&#1040;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</div>
+          <p class='rot-path-desc'>&#1058;&#1077;&#1093;&#1085;&#1080;&#1082;&#1072;, &#1086;&#1088;&#1091;&#1078;&#1080;&#1077; &#1080; &#1087;&#1088;&#1077;&#1076;&#1084;&#1077;&#1090;&#1099; &#1101;&#1087;&#1086;&#1093;&#1080;</p>
+        </a>
+        <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F&quot;'>
+          <span class='rot-path-icon'>&#128220;</span>
+          <div class='rot-path-title'>&#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</div>
+          <p class='rot-path-desc'>&#1057;&#1086;&#1073;&#1099;&#1090;&#1080;&#1103;, &#1083;&#1080;&#1095;&#1085;&#1086;&#1089;&#1090;&#1080; &#1080; &#1089;&#1091;&#1076;&#1100;&#1073;&#1099;</p>
+        </a>
+      </div>
+    </div>
+    </b:if>
+    </b:if>
+
+  </main>
+
+  <!-- RIGHT: SIDEBAR -->
+  <aside id='rot-sidebar'>
+
+    <b:section class='sidebar' id='sidebar' showaddelement='yes'>
+
+      <!-- MAP WIDGET — заменяй на Google My Maps iframe -->
+      <b:widget id='HTML1' title='&#1050;&#1072;&#1088;&#1090;&#1072; &#1101;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1081;' type='HTML'>
+        <b:includable id='main'>
+          <div class='rot-widget'>
+            <div class='rot-widget-header'>&#1050;&#1072;&#1088;&#1090;&#1072; &#1101;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1081;</div>
+            <div class='rot-widget-body' style='padding:10px'>
+              <div class='rot-map-placeholder'>&#128506;&#65039;<br/>&#1050;&#1072;&#1088;&#1090;&#1072; &#1084;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090;&#1086;&#1074;<br/><br/><small>Google My Maps iframe<br/>&#1080;&#1083;&#1080; &#1089;&#1090;&#1072;&#1090;&#1080;&#1095;&#1085;&#1099;&#1081; &#1089;&#1082;&#1088;&#1080;&#1085;&#1096;&#1086;&#1090;</small></div>
+            </div>
+          </div>
+        </b:includable>
+      </b:widget>
+
+      <!-- ON THE ROAD -->
+      <b:widget id='HTML2' title='&#1057;&#1077;&#1081;&#1095;&#1072;&#1089; &#1074; &#1087;&#1091;&#1090;&#1080;' type='HTML'>
+        <b:includable id='main'>
+          <div class='rot-widget'>
+            <div class='rot-widget-header'>&#1057;&#1077;&#1081;&#1095;&#1072;&#1089; &#1074; &#1087;&#1091;&#1090;&#1080;</div>
+            <div class='rot-widget-body'>
+              <div class='rot-road-item'>
+                <span class='rot-road-flag'>&#127465;&#127466;</span>
+                <div>
+                  <div class='rot-road-country'>&#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103; 2026</div>
+                  <div class='rot-road-date'>&#1048;&#1102;&#1085;&#1100; 2026 &mdash; &#1084;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090; &#1072;&#1082;&#1090;&#1080;&#1074;&#1077;&#1085;</div>
+                  <a class='rot-road-link' href='#'>&#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100; &#1084;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090; &#8594;</a>
+                </div>
+              </div>
+              <div class='rot-road-item'>
+                <span class='rot-road-flag'>&#127477;&#127473;</span>
+                <div>
+                  <div class='rot-road-country'>&#1055;&#1086;&#1083;&#1100;&#1096;&#1072; 2026</div>
+                  <div class='rot-road-date'>&#1052;&#1072;&#1081; 2026 &mdash; &#1079;&#1072;&#1074;&#1077;&#1088;&#1096;&#1105;&#1085;</div>
+                  <a class='rot-road-link' href='#'>&#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100; &#1084;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090; &#8594;</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </b:includable>
+      </b:widget>
+
+      <!-- QUOTE -->
+      <b:widget id='HTML3' title='&#1062;&#1080;&#1090;&#1072;&#1090;&#1072; &#1101;&#1087;&#1086;&#1093;&#1080;' type='HTML'>
+        <b:includable id='main'>
+          <div class='rot-widget'>
+            <div class='rot-widget-header'>&#1062;&#1080;&#1090;&#1072;&#1090;&#1072; &#1101;&#1087;&#1086;&#1093;&#1080;</div>
+            <div class='rot-widget-body'>
+              <p class='rot-quote-text'>&#171;&#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103; &#1085;&#1077; &#1079;&#1085;&#1072;&#1077;&#1090; &#1089;&#1086;&#1089;&#1083;&#1072;&#1075;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086; &#1085;&#1072;&#1082;&#1083;&#1086;&#1085;&#1077;&#1085;&#1080;&#1103; &mdash; &#1086;&#1085;&#1072; &#1079;&#1085;&#1072;&#1077;&#1090; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1090;&#1086;, &#1095;&#1090;&#1086; &#1087;&#1088;&#1086;&#1080;&#1079;&#1086;&#1096;&#1083;&#1086;, &#1080; &#1090;&#1077;&#1093;, &#1082;&#1090;&#1086; &#1101;&#1090;&#1086; &#1087;&#1077;&#1088;&#1077;&#1078;&#1080;&#1083;.&#187;</p>
+              <p class='rot-quote-author'>&mdash; &#1042;.&#1054;. &#1050;&#1083;&#1102;&#1095;&#1077;&#1074;&#1089;&#1082;&#1080;&#1081;</p>
+            </div>
+          </div>
+        </b:includable>
+      </b:widget>
+
+      <!-- LABELS / TAGS -->
+      <b:widget id='Label1' title='&#1058;&#1077;&#1084;&#1099;' type='Label'>
+        <b:includable id='main'>
+          <div class='rot-widget'>
+            <div class='rot-widget-header'>&#1058;&#1077;&#1084;&#1099;</div>
+            <div class='rot-widget-body' style='padding:8px 14px'>
+              <ul class='rot-tags-list'>
+                <b:loop values='data:labels' var='label'>
+                  <li>
+                    <a expr:href='data:label.url'><data:label.name/></a>
+                    <span class='rot-tag-count'><data:label.count/></span>
+                  </li>
+                </b:loop>
+              </ul>
+            </div>
+          </div>
+        </b:includable>
+      </b:widget>
+
+      <!-- SUBSCRIBE -->
+      <b:widget id='HTML4' title='&#1055;&#1086;&#1076;&#1087;&#1080;&#1089;&#1072;&#1090;&#1100;&#1089;&#1103;' type='HTML'>
+        <b:includable id='main'>
+          <div class='rot-widget'>
+            <div class='rot-widget-header'>&#1055;&#1086;&#1076;&#1087;&#1080;&#1089;&#1072;&#1090;&#1100;&#1089;&#1103;</div>
+            <div class='rot-widget-body'>
+              <p class='rot-subscribe-text'>&#1053;&#1086;&#1074;&#1099;&#1077; &#1084;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090;&#1099;, &#1101;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1080; &#1080; &#1072;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099; &mdash; &#1087;&#1088;&#1103;&#1084;&#1086; &#1085;&#1072; &#1087;&#1086;&#1095;&#1090;&#1091;.</p>
+              <div class='rot-socials'>
+                <a class='rot-social-btn' href='#'>VK</a>
+                <a class='rot-social-btn' href='#'>TG</a>
+                <a class='rot-social-btn' href='#'>YT</a>
+                <a class='rot-social-btn' href='#'>RSS</a>
+              </div>
+            </div>
+          </div>
+        </b:includable>
+      </b:widget>
+
+    </b:section>
+  </aside>
+
+</div><!-- /#rot-main-layout -->
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+<div id='rot-footer'>
+  <div class='rot-footer-top'>
+    <div>
+      <div class='rot-logo'>
+        <div class='rot-logo-emblem'>&#8853;</div>
+        <div>
+          <span class='rot-logo-title'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</span>
+          <span class='rot-logo-sub'>&#1055;&#1091;&#1090;&#1077;&#1096;&#1077;&#1089;&#1090;&#1074;&#1080;&#1103; &middot; &#1052;&#1091;&#1079;&#1077;&#1080; &middot; &#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</span>
+        </div>
+      </div>
+      <p class='rot-footer-desc'>&#1040;&#1074;&#1090;&#1086;&#1088;&#1089;&#1082;&#1080;&#1081; &#1087;&#1088;&#1086;&#1077;&#1082;&#1090; &#1086; &#1074;&#1086;&#1077;&#1085;&#1085;&#1086;&#1081; &#1080;&#1089;&#1090;&#1086;&#1088;&#1080;&#1080;, &#1084;&#1091;&#1079;&#1077;&#1103;&#1093;, &#1090;&#1077;&#1093;&#1085;&#1080;&#1082;&#1077; &#1080; &#1087;&#1091;&#1090;&#1077;&#1096;&#1077;&#1089;&#1090;&#1074;&#1080;&#1103;&#1093; &#1087;&#1086; &#1087;&#1072;&#1084;&#1103;&#1090;&#1085;&#1099;&#1084; &#1084;&#1077;&#1089;&#1090;&#1072;&#1084; &#1045;&#1074;&#1088;&#1086;&#1087;&#1099;.</p>
+    </div>
+    <div>
+      <p class='rot-footer-col-title'>&#1053;&#1072;&#1074;&#1080;&#1075;&#1072;&#1094;&#1080;&#1103;</p>
+      <ul class='rot-footer-links'>
+        <li><a expr:href='data:blog.homepageUrl'>&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%B5%D0%B4%D0%B8%D1%86%D0%B8%D0%B8&quot;'>&#1069;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1080;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%90%D1%80%D1%82%D0%B5%D1%84%D0%B0%D0%BA%D1%82%D1%8B&quot;'>&#1040;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F&quot;'>&#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class='rot-footer-col-title'>&#1048;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1103;</p>
+      <ul class='rot-footer-links'>
+        <li><a href='/p/about.html'>&#1054; &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;&#1077;</a></li>
+        <li><a href='/p/contacts.html'>&#1050;&#1086;&#1085;&#1090;&#1072;&#1082;&#1090;&#1099;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;feeds/posts/default&quot;'>RSS-&#1083;&#1077;&#1085;&#1090;&#1072;</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class='rot-footer-col-title'>&#1057;&#1083;&#1077;&#1076;&#1080;&#1090;&#1077; &#1079;&#1072; &#1085;&#1072;&#1084;&#1080;</p>
+      <ul class='rot-footer-links'>
+        <li><a href='#'>VK &mdash; &#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</a></li>
+        <li><a href='#'>Telegram-&#1082;&#1072;&#1085;&#1072;&#1083;</a></li>
+        <li><a href='#'>YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <div class='rot-footer-bottom'>
+      <span>&#169; 2026 &#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;. &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;.</span>
+      <div class='rot-footer-socials'>
+        <a href='#'>VK</a>
+        <a href='#'>TG</a>
+        <a href='#'>YT</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     SLIDER JS
+     ===================================================== -->
+<script type='text/javascript'>
+//<![CDATA[
+(function(){
+  var slides = document.querySelectorAll('.rot-slide');
+  var dots   = document.querySelectorAll('#rot-pager span');
+  var geo    = document.getElementById('rot-hero-geo');
+  if(!slides.length) return;
+  var cur = 0, total = slides.length, timer;
+  function goTo(n){
+    slides[cur].classList.remove('active');
+    if(dots[cur]) dots[cur].classList.remove('active');
+    cur = (n + total) % total;
+    slides[cur].classList.add('active');
+    if(dots[cur]) dots[cur].classList.add('active');
+    if(geo) geo.textContent = slides[cur].getAttribute('data-geo') || '';
+  }
+  function startAuto(){ timer = setInterval(function(){ goTo(cur+1); }, 5000); }
+  function resetAuto(){ clearInterval(timer); startAuto(); }
+  var prev = document.getElementById('rot-prev');
+  var next = document.getElementById('rot-next');
+  if(prev) prev.addEventListener('click', function(){ goTo(cur-1); resetAuto(); });
+  if(next) next.addEventListener('click', function(){ goTo(cur+1); resetAuto(); });
+  dots.forEach(function(d,i){ d.addEventListener('click', function(){ goTo(i); resetAuto(); }); });
+  startAuto();
+})();
+//]]>
+</script>
+
+</body>
+</html>
