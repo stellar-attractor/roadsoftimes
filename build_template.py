@@ -9,6 +9,18 @@ import re, subprocess
 SRC  = "GameTown Blogger Template/GameTown Blogger Template.xml"
 DEST = "template/roadsoftimes.xml"
 
+# ════════════════════════════════════════════════════════════════════
+# ФОТО — Blogger CDN URLs (обновлять здесь при замене картинок)
+# ════════════════════════════════════════════════════════════════════
+IMG_PANZER    = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbsy8z3wff5_j9tPETK3zwahsqLASMPsKRbryw2-8OoaPkETCWeb4j5M3-5BX9yCBjAeMtiwUnflD4AFTVgzrsceThG-2AZXt6YMd1hq7PzAPmf6NIlLsgieCrMW0HOMVMnIjxGfAbUR00v2hkKL34aKDS6ffdgIvXZPLiHTlID3xC1TCcdrtFy-6OhBQ/s2304/IMG_20260601_104857761_HDR.jpg"
+IMG_PEENEMUENDE = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwR9h5lwJJTESgPqxEIafbK_sg8rm5TV20-MtcGM_M-3daAmdC1IN9T9mfvWePo8BXWb4kVWrrN61Bs4AqFqXSoQ84u4TsXh-xaJe4oGzNvkish7V0Lu4vLyp9-Y5vkwZhKwBGN5PocQlPs9XpxmeAR5kil6Z9cQRoXWsiQSGx4_W_Eepyuu6RifYphBw/s2304/IMG_20260515_125042651%20(1).jpg"
+IMG_MARINE     = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhspFLh3AHnHE4HlQQuwTeziyodYv-0LEZ8t3_JuR4SdrmU2wewzA2XsrO9VcZ7Y1k4sbjbXVyI8fIYbacVLftPIVfa_xYKeS9ayJ1nUNWKrm4JWzOhHSvMRa6_w2R2ChAbF3gI45ZA8sKyrUUd-gZ1GCwGstZvMoAEmOWL0r9NouuGw8SkYIe6niehzDs/s2304/IMG_20260604_113633685.jpg"
+# Слайд 1 = Панцер; он же используется в блоке "Рекомендуемый музей"
+IMG_SLIDE1    = IMG_PANZER
+IMG_SLIDE2    = IMG_PEENEMUENDE
+IMG_SLIDE3    = IMG_MARINE
+IMG_FEATURED_MUSEUM = IMG_PANZER
+
 with open(SRC, encoding="utf-8") as f:
     src = f.read()
 
@@ -322,13 +334,13 @@ NEW_HERO = """\
 <div class='rot-hero'>
   <div class='rot-slides'>
     <div class='rot-slide active' data-geo='Deutsches Panzermuseum, &#1052;&#1102;&#1085;&#1089;&#1090;&#1077;&#1088;'>
-      <img alt='Panzer 38(t)' src='SLIDE-1-IMAGE-URL-HERE'/>
+      <img alt='Panzer 38(t)' src='{IMG_SLIDE1}'/>
     </div>
     <div class='rot-slide' data-geo='&#1052;&#1091;&#1079;&#1077;&#1081;-&#1079;&#1072;&#1074;&#1086;&#1076; &#1055;&#1077;&#1085;&#1077;&#1084;&#1102;&#1085;&#1076;&#1077;, &#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;'>
-      <img alt='&#1056;&#1072;&#1082;&#1077;&#1090;&#1072; V-2' src='SLIDE-2-IMAGE-URL-HERE'/>
+      <img alt='&#1056;&#1072;&#1082;&#1077;&#1090;&#1072; V-2' src='{IMG_SLIDE2}'/>
     </div>
     <div class='rot-slide' data-geo='&#1052;&#1086;&#1088;&#1089;&#1082;&#1086;&#1081; &#1084;&#1091;&#1079;&#1077;&#1081;, &#1042;&#1080;&#1083;&#1100;&#1075;&#1077;&#1083;&#1100;&#1084;&#1089;&#1093;&#1072;&#1092;&#1077;&#1085;'>
-      <img alt='&#1054;&#1088;&#1091;&#1076;&#1080;&#1081;&#1085;&#1072;&#1103; &#1073;&#1072;&#1096;&#1085;&#1103;' src='SLIDE-3-IMAGE-URL-HERE'/>
+      <img alt='&#1054;&#1088;&#1091;&#1076;&#1080;&#1081;&#1085;&#1072;&#1103; &#1073;&#1072;&#1096;&#1085;&#1103;' src='{IMG_SLIDE3}'/>
     </div>
   </div>
   <div class='rot-hero-content'>
@@ -352,7 +364,9 @@ NEW_HERO = """\
 <!-- ═══ END HERO ═════════════════════════════════════════════════ -->"""
 
 if old_slider_match:
-    src = src[:old_slider_match.start()] + NEW_HERO + src[old_slider_match.end():]
+    src = src[:old_slider_match.start()] + NEW_HERO.format(
+        IMG_SLIDE1=IMG_SLIDE1, IMG_SLIDE2=IMG_SLIDE2, IMG_SLIDE3=IMG_SLIDE3
+    ) + src[old_slider_match.end():]
 
 # ════════════════════════════════════════════════════════════════════
 # 6. Section header + rot-posts-grid внутри main-wrapper
@@ -392,7 +406,7 @@ EXTRA_BLOCKS = """\
     <a class='rot-section-link' href='#'>&#1042;&#1089;&#1077; &#1084;&#1091;&#1079;&#1077;&#1080; &#8594;</a>
   </div>
   <div class='rot-museum-inner'>
-    <div class='rot-museum-photo'><img alt='Museum' src='MUSEUM-IMAGE-URL-HERE'/></div>
+    <div class='rot-museum-photo'><img alt='Museum' src='{IMG_FEATURED_MUSEUM}'/></div>
     <div class='rot-museum-body'>
       <div>
         <p class='rot-museum-label'>&#128205; &#1052;&#1102;&#1085;&#1089;&#1090;&#1077;&#1088;, &#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;</p>
@@ -446,7 +460,8 @@ EXTRA_BLOCKS = """\
 # Вставляем после content-wrapper, перед footer-widgets-container
 src = src.replace(
     "<div style='clear:both;'/>\n<div id='footer-widgets-container'>",
-    EXTRA_BLOCKS + "<div style='clear:both;'/>\n<div id='footer-widgets-container'>"
+    EXTRA_BLOCKS.format(IMG_FEATURED_MUSEUM=IMG_FEATURED_MUSEUM)
+    + "<div style='clear:both;'/>\n<div id='footer-widgets-container'>"
 )
 
 # ════════════════════════════════════════════════════════════════════
