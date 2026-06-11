@@ -174,6 +174,12 @@ img{max-width:100%;height:auto}
 .rot-stat-val{font-family:'Oswald',sans-serif;font-size:12px;color:#c9a84c}
 .rot-stat-label{font-size:9px;color:#7a7060;letter-spacing:1px;text-transform:uppercase;font-family:'PT Mono',monospace}
 
+/* ── MUSEUM WIDGET — внутри main-wrapper ────────────────────────── */
+/* Обнуляем обёртку Blogger-виджета, чтобы не ломать дизайн блока */
+#featured-museum{margin-top:28px}
+#featured-museum>.widget{background:none!important;border:none!important;margin:0!important;overflow:visible!important}
+#featured-museum>.widget>.widget-content{padding:0!important}
+
 /* ── CHOOSE PATH ────────────────────────────────────────────────── */
 .rot-choose-path{margin-bottom:28px;clear:both}
 .rot-path-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -2096,6 +2102,16 @@ embed, img, object, video {max-width: 100%;}
           </b:widget>
         </b:section>
 </div><!-- /.rot-posts-grid -->
+<b:section class='museum-section' id='featured-museum' showaddelement='no'>
+  <b:widget id='HTML_MUSEUM' locked='false' title='Рекомендуемый музей' type='HTML'>
+    <b:includable id='main'>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+  <b:include name='quickedit'/>
+</b:includable>
+  </b:widget>
+</b:section>
       </div><!-- /#main-wrapper -->
 
 <div id='rsidebar-wrapper'>
@@ -2405,33 +2421,8 @@ embed, img, object, video {max-width: 100%;}
     </div> <!-- end content-wrapper -->
 
 
-<!-- ═══ FEATURED MUSEUM + CHOOSE PATH (вне grid) ════════════════ -->
+<!-- ═══ CHOOSE PATH (вне grid, полная ширина) ═══════════════════ -->
 <div class='rot-below-grid'>
-
-<div class='rot-featured-museum'>
-  <div class='rot-block-header'>
-    <span class='rot-section-title' style='font-size:13px'>&#1056;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1091;&#1077;&#1084;&#1099;&#1081; &#1084;&#1091;&#1079;&#1077;&#1081;</span>
-    <a class='rot-section-link' href='#'>&#1042;&#1089;&#1077; &#1084;&#1091;&#1079;&#1077;&#1080; &#8594;</a>
-  </div>
-  <div class='rot-museum-inner'>
-    <div class='rot-museum-photo'><img alt='Museum' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbsy8z3wff5_j9tPETK3zwahsqLASMPsKRbryw2-8OoaPkETCWeb4j5M3-5BX9yCBjAeMtiwUnflD4AFTVgzrsceThG-2AZXt6YMd1hq7PzAPmf6NIlLsgieCrMW0HOMVMnIjxGfAbUR00v2hkKL34aKDS6ffdgIvXZPLiHTlID3xC1TCcdrtFy-6OhBQ/s2304/IMG_20260601_104857761_HDR.jpg'/></div>
-    <div class='rot-museum-body'>
-      <div>
-        <p class='rot-museum-label'>&#128205; Мюнстер, Германия</p>
-        <h3 class='rot-museum-title'>Deutsches Panzermuseum Munster</h3>
-        <p class='rot-museum-desc'>Одно из крупнейших танковых музеев мира. Более 300 единиц техники.</p>
-      </div>
-      <div>
-        <div class='rot-museum-stats'>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128710;</span><span class='rot-stat-val'>бесплатно</span><span class='rot-stat-label'>&#1074;&#1093;&#1086;&#1076;</span></div>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128336;</span><span class='rot-stat-val'>10:00–18:00</span><span class='rot-stat-label'>&#1095;&#1072;&#1089;&#1099;</span></div>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128197;</span><span class='rot-stat-val'>1971</span><span class='rot-stat-label'>&#1086;&#1089;&#1085;&#1086;&#1074;&#1072;&#1085;</span></div>
-        </div>
-        <a class='rot-btn rot-btn-outline' href='#' style='font-size:12px;padding:8px 18px'>&#1055;&#1086;&#1076;&#1088;&#1086;&#1073;&#1085;&#1077;&#1077; &#8250;</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class='rot-choose-path'>
   <div class='rot-section-header'>

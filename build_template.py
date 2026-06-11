@@ -19,19 +19,6 @@ IMG_MARINE     = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhsp
 IMG_SLIDE1    = IMG_PANZER
 IMG_SLIDE2    = IMG_PEENEMUENDE
 IMG_SLIDE3    = IMG_MARINE
-IMG_FEATURED_MUSEUM = IMG_PANZER
-
-# ── Рекомендуемый музей — контентные поля ──────────────────────────
-# Меняется редко; CSS-структура остаётся в шаблоне.
-MUSEUM_LOCATION = "Мюнстер, Германия"
-MUSEUM_TITLE    = "Deutsches Panzermuseum Munster"
-MUSEUM_DESC     = ("Одно из крупнейших танковых музеев мира. "
-                   "Более 300 единиц техники.")
-MUSEUM_LINK     = "#"          # ← вставь URL поста/страницы с обзором
-MUSEUM_ENTRY    = "бесплатно"
-MUSEUM_HOURS    = "10:00–18:00"
-MUSEUM_YEAR     = "1971"
-# Фото — используем константу выше; при смене музея замени IMG_FEATURED_MUSEUM
 
 with open(SRC, encoding="utf-8") as f:
     src = f.read()
@@ -201,6 +188,12 @@ img{max-width:100%;height:auto}
 .rot-stat-icon{font-size:17px;opacity:.7}
 .rot-stat-val{font-family:'Oswald',sans-serif;font-size:12px;color:#c9a84c}
 .rot-stat-label{font-size:9px;color:#7a7060;letter-spacing:1px;text-transform:uppercase;font-family:'PT Mono',monospace}
+
+/* ── MUSEUM WIDGET — внутри main-wrapper ────────────────────────── */
+/* Обнуляем обёртку Blogger-виджета, чтобы не ломать дизайн блока */
+#featured-museum{margin-top:28px}
+#featured-museum>.widget{background:none!important;border:none!important;margin:0!important;overflow:visible!important}
+#featured-museum>.widget>.widget-content{padding:0!important}
 
 /* ── CHOOSE PATH ────────────────────────────────────────────────── */
 .rot-choose-path{margin-bottom:28px;clear:both}
@@ -543,11 +536,24 @@ NEW_SIDEBAR_SECTION = (
 assert OLD_SIDEBAR_SECTION in src, "rsidebartop section not found — GameTown template changed?"
 src = src.replace(OLD_SIDEBAR_SECTION, NEW_SIDEBAR_SECTION)
 
-# Закрываем rot-posts-grid — оригинальный </div> GameTown закрывает main-wrapper,
-# поэтому нам нужен дополнительный </div> перед ним
+# Закрываем rot-posts-grid, вставляем секцию музея, закрываем main-wrapper
+MUSEUM_SECTION = (
+    "<b:section class='museum-section' id='featured-museum' showaddelement='no'>\n"
+    "  <b:widget id='HTML_MUSEUM' locked='false' title='Рекомендуемый музей' type='HTML'>\n"
+    "    <b:includable id='main'>\n"
+    "  <div class='widget-content'>\n"
+    "    <data:content/>\n"
+    "  </div>\n"
+    "  <b:include name='quickedit'/>\n"
+    "</b:includable>\n"
+    "  </b:widget>\n"
+    "</b:section>"
+)
 src = src.replace(
     "        </b:section>\n      </div>\n\n<div id='rsidebar-wrapper'>",
-    "        </b:section>\n</div><!-- /.rot-posts-grid -->\n      </div><!-- /#main-wrapper -->\n\n<div id='rsidebar-wrapper'>"
+    "        </b:section>\n</div><!-- /.rot-posts-grid -->\n"
+    + MUSEUM_SECTION + "\n"
+    + "      </div><!-- /#main-wrapper -->\n\n<div id='rsidebar-wrapper'>"
 )
 
 # ════════════════════════════════════════════════════════════════════
@@ -557,33 +563,8 @@ src = src.replace(
 # ════════════════════════════════════════════════════════════════════
 EXTRA_BLOCKS = """\
 
-<!-- ═══ FEATURED MUSEUM + CHOOSE PATH (вне grid) ════════════════ -->
+<!-- ═══ CHOOSE PATH (вне grid, полная ширина) ═══════════════════ -->
 <div class='rot-below-grid'>
-
-<div class='rot-featured-museum'>
-  <div class='rot-block-header'>
-    <span class='rot-section-title' style='font-size:13px'>&#1056;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1091;&#1077;&#1084;&#1099;&#1081; &#1084;&#1091;&#1079;&#1077;&#1081;</span>
-    <a class='rot-section-link' href='#'>&#1042;&#1089;&#1077; &#1084;&#1091;&#1079;&#1077;&#1080; &#8594;</a>
-  </div>
-  <div class='rot-museum-inner'>
-    <div class='rot-museum-photo'><img alt='Museum' src='{IMG_FEATURED_MUSEUM}'/></div>
-    <div class='rot-museum-body'>
-      <div>
-        <p class='rot-museum-label'>&#128205; {MUSEUM_LOCATION}</p>
-        <h3 class='rot-museum-title'>{MUSEUM_TITLE}</h3>
-        <p class='rot-museum-desc'>{MUSEUM_DESC}</p>
-      </div>
-      <div>
-        <div class='rot-museum-stats'>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128710;</span><span class='rot-stat-val'>{MUSEUM_ENTRY}</span><span class='rot-stat-label'>&#1074;&#1093;&#1086;&#1076;</span></div>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128336;</span><span class='rot-stat-val'>{MUSEUM_HOURS}</span><span class='rot-stat-label'>&#1095;&#1072;&#1089;&#1099;</span></div>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128197;</span><span class='rot-stat-val'>{MUSEUM_YEAR}</span><span class='rot-stat-label'>&#1086;&#1089;&#1085;&#1086;&#1074;&#1072;&#1085;</span></div>
-        </div>
-        <a class='rot-btn rot-btn-outline' href='{MUSEUM_LINK}' style='font-size:12px;padding:8px 18px'>&#1055;&#1086;&#1076;&#1088;&#1086;&#1073;&#1085;&#1077;&#1077; &#8250;</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class='rot-choose-path'>
   <div class='rot-section-header'>
@@ -620,16 +601,7 @@ EXTRA_BLOCKS = """\
 # Вставляем после content-wrapper, перед footer-widgets-container
 src = src.replace(
     "<div style='clear:both;'/>\n<div id='footer-widgets-container'>",
-    EXTRA_BLOCKS.format(
-        IMG_FEATURED_MUSEUM=IMG_FEATURED_MUSEUM,
-        MUSEUM_LOCATION=MUSEUM_LOCATION,
-        MUSEUM_TITLE=MUSEUM_TITLE,
-        MUSEUM_DESC=MUSEUM_DESC,
-        MUSEUM_LINK=MUSEUM_LINK,
-        MUSEUM_ENTRY=MUSEUM_ENTRY,
-        MUSEUM_HOURS=MUSEUM_HOURS,
-        MUSEUM_YEAR=MUSEUM_YEAR,
-    )
+    EXTRA_BLOCKS
     + "<div style='clear:both;'/>\n<div id='footer-widgets-container'>"
 )
 
