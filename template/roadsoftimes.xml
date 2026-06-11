@@ -135,8 +135,12 @@ img{max-width:100%;height:auto}
 .rot-posts-grid .widget-title{display:none!important}
 /* Пагинация вытаскивается отдельно поверх сетки */
 .rot-posts-grid .blog-pager{grid-column:1/-1}
-.rot-post-card{background:#1a1a0e;border:1px solid #252418;overflow:hidden;transition:border-color .2s;display:flex;flex-direction:column}
+.rot-post-card{background:#1a1a0e;border:1px solid #252418;overflow:hidden;transition:border-color .2s;display:flex;flex-direction:column;position:relative}
 .rot-post-card:hover{border-color:#8a6f2e}
+/* Вся карточка кликабельна через ::after на ссылке заголовка */
+.rot-card-link::after{content:'';position:absolute;inset:0;z-index:1}
+/* Метки и другие ссылки остаются кликабельными поверх */
+.rot-card-labels a,.rot-tag{position:relative;z-index:2}
 .rot-card-thumb{position:relative;height:160px;overflow:hidden;flex-shrink:0;background:#232318}
 .rot-card-thumb img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
 .rot-post-card:hover .rot-card-thumb img{transform:scale(1.05)}
@@ -1821,7 +1825,9 @@ embed, img, object, video {max-width: 100%;}
     </b:if>
   </div>
   <div class='rot-card-body'>
-    <h3 class='rot-card-title'><a expr:href='data:post.url'><data:post.title/></a></h3>
+    <!-- Растягиваем ссылку заголовка на всю карточку через ::after,
+         оставляя внутренние ссылки (метки) кликабельными поверх -->
+    <h3 class='rot-card-title'><a class='rot-card-link' expr:href='data:post.url'><data:post.title/></a></h3>
     <div class='rot-card-excerpt'>
       <div expr:id='&quot;summary&quot; + data:post.id'><data:post.body/></div>
       <script type='text/javascript'>createSummaryAndThumb(&quot;summary<data:post.id/>&quot;);</script>
