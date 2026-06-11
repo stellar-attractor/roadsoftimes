@@ -38,9 +38,7 @@ src = src.replace(
     "<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'/>",
     "<link href='https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700"
     "&amp;family=PT+Sans:ital,wght@0,400;0,700;1,400&amp;family=PT+Mono&amp;display=swap'"
-    " rel='stylesheet' type='text/css'/>\n"
-    f"<link href='{FAVICON_URL}' rel='icon' type='image/png' sizes='64x64'/>\n"
-    f"<link href='{FAVICON_URL}' rel='shortcut icon' type='image/png'/>"
+    " rel='stylesheet' type='text/css'/>"
 )
 
 # ════════════════════════════════════════════════════════════════════
