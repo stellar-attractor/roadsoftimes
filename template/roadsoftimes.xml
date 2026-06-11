@@ -1042,7 +1042,7 @@ embed, img, object, video {max-width: 100%;}
 <div class='rot-header'>
   <div class='rot-header-inner'>
     <a class='rot-logo' expr:href='data:blog.homepageUrl'>
-      <div class='rot-logo-emblem'><img src='https://raw.githubusercontent.com/stellar-attractor/roadsoftimes/main/assets/logo-200.png' alt='&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;'/></div>
+      <div class='rot-logo-emblem'><img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjsQcep8gmOfKRF1NmcGFx0SPlX7hyUdSaAmzCArAvDFvGBImpQEpFi22bU1Tcc8w-SJB5C72eVajNJcCEhu1ERTon2sVV7xbBgpPU0A5JGs30uT_TdCyfAYV_crV0qWJqkVHWjH1_c6uFF4Ji-wH5RBAlM7yrBLVfJJ-EOS54MNeRCkfMPxL88QSqH_Lc/s200/logo-200.png' alt='&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;'/></div>
       <div>
         <span class='rot-logo-title'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</span>
         <span class='rot-logo-sub'>&#1055;&#1091;&#1090;&#1077;&#1096;&#1077;&#1089;&#1090;&#1074;&#1080;&#1103; &#183; &#1052;&#1091;&#1079;&#1077;&#1080; &#183; &#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</span>

@@ -17,6 +17,7 @@ IMG_PEENEMUENDE = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiw
 IMG_MARINE     = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhspFLh3AHnHE4HlQQuwTeziyodYv-0LEZ8t3_JuR4SdrmU2wewzA2XsrO9VcZ7Y1k4sbjbXVyI8fIYbacVLftPIVfa_xYKeS9ayJ1nUNWKrm4JWzOhHSvMRa6_w2R2ChAbF3gI45ZA8sKyrUUd-gZ1GCwGstZvMoAEmOWL0r9NouuGw8SkYIe6niehzDs/s2304/IMG_20260604_113633685.jpg"
 # Слайд 1 = Панцер; он же используется в блоке "Рекомендуемый музей"
 IMG_MARINE2   = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjEl3grJ3JUlUFHB2TcpSimiHBVhvjIIccNILr4M3z9Ra3BfPZgwWWOuuU_wuNNeUQ_znWt6vSJY-WqxPUEf8GRviQ6aGHgV_WP21rrv-fvehIGF93uY0D7ARkdugotefIcizwX4rcP4AQnoK9_odL_WD-iH_kdmCHRMbOgPyGXttJ8XS5C67bn0Sh3uvI/s2304/IMG_20260604_110416067.jpg"
+IMG_LOGO      = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjsQcep8gmOfKRF1NmcGFx0SPlX7hyUdSaAmzCArAvDFvGBImpQEpFi22bU1Tcc8w-SJB5C72eVajNJcCEhu1ERTon2sVV7xbBgpPU0A5JGs30uT_TdCyfAYV_crV0qWJqkVHWjH1_c6uFF4Ji-wH5RBAlM7yrBLVfJJ-EOS54MNeRCkfMPxL88QSqH_Lc/s200/logo-200.png"
 
 IMG_SLIDE1    = IMG_PANZER
 IMG_SLIDE2    = IMG_PEENEMUENDE
@@ -457,7 +458,7 @@ OUR_HEADER = """
 <div class='rot-header'>
   <div class='rot-header-inner'>
     <a class='rot-logo' expr:href='data:blog.homepageUrl'>
-      <div class='rot-logo-emblem'><img src='https://raw.githubusercontent.com/stellar-attractor/roadsoftimes/main/assets/logo-200.png' alt='&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;'/></div>
+      <div class='rot-logo-emblem'><img src='{IMG_LOGO}' alt='&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;'/></div>
       <div>
         <span class='rot-logo-title'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</span>
         <span class='rot-logo-sub'>&#1055;&#1091;&#1090;&#1077;&#1096;&#1077;&#1089;&#1090;&#1074;&#1080;&#1103; &#183; &#1052;&#1091;&#1079;&#1077;&#1080; &#183; &#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</span>
@@ -479,7 +480,7 @@ OUR_HEADER = """
 </div>
 <!-- ═══ END HEADER ═══════════════════════════════════════════════ -->
 """
-src = src.replace('<body>\n\n<div id=\'body-wrapper\'>', '<body>\n' + OUR_HEADER + '\n<div id=\'body-wrapper\'>')
+src = src.replace('<body>\n\n<div id=\'body-wrapper\'>', '<body>\n' + OUR_HEADER.format(IMG_LOGO=IMG_LOGO) + '\n<div id=\'body-wrapper\'>')
 
 # ════════════════════════════════════════════════════════════════════
 # 5. Заменяем СЛАЙДЕР GameTown на наш HERO
