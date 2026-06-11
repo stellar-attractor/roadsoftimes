@@ -362,51 +362,47 @@ body.item-view .rot-posts-grid *{display:revert}
 .label-size-5{font-size:13px!important;color:#c9a84c!important;border-color:#8a6f2e!important;background:#1a1a0e!important}
 .label-count{display:none}
 /* ── Архив — иерархия с тогглами ───────────────────────────────── */
-#rsidebar-wrapper .BlogArchive .widget-content{padding:4px 0}
-/* Жёсткий сброс контейнеров архива */
-#rsidebar-wrapper .BlogArchive .widget-content ul,
-#rsidebar-wrapper .BlogArchive .widget-content li,
-#rsidebar-wrapper .BlogArchive .widget-content div{
-  float:none!important;clear:none!important;
-  box-sizing:border-box!important;
-  max-width:100%!important;min-width:0!important}
-/* Тоггл и текст года/месяца — инлайн на одной строке */
-#rsidebar-wrapper .BlogArchive li.archivedate > a.toggle,
-#rsidebar-wrapper .BlogArchive li.archivedate > a.post-count-link,
-#rsidebar-wrapper .BlogArchive li.archivedate > span.post-count{
-  display:inline!important;float:none!important;vertical-align:middle}
-#rsidebar-wrapper .BlogArchive #ArchiveList,
-#rsidebar-wrapper .BlogArchive #ArchiveList > div{
-  width:100%!important;margin:0!important;padding:0!important;overflow:visible!important}
+#rsidebar-wrapper .BlogArchive .widget-content{padding:0}
+/* Сброс ВСЕХ отступов и float внутри архива */
+#rsidebar-wrapper .BlogArchive .widget-content *{
+  float:none!important;
+  margin-left:0!important;
+  padding-left:0!important;
+  box-sizing:border-box!important}
 #rsidebar-wrapper .BlogArchive ul,
 #rsidebar-wrapper .BlogArchive li,
 #rsidebar-wrapper .BlogArchive .archivedate,
-#rsidebar-wrapper .BlogArchive .items{
+#rsidebar-wrapper .BlogArchive .items,
+#rsidebar-wrapper .BlogArchive #ArchiveList,
+#rsidebar-wrapper .BlogArchive #ArchiveList > div{
   display:block!important;width:100%!important;
   margin:0!important;padding:0!important;
   border:none!important;list-style:none!important}
 /* Скрываем счётчики */
 #rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
-/* Toggle-стрелки */
-#rsidebar-wrapper .BlogArchive a.toggle{display:inline!important;float:none!important;font-size:10px;color:#8a6f2e;text-decoration:none;margin-right:4px}
+/* Тоггл-стрелка */
+#rsidebar-wrapper .BlogArchive a.toggle{display:inline!important;font-size:10px;color:#8a6f2e;text-decoration:none;padding-right:4px!important}
 #rsidebar-wrapper .BlogArchive a.toggle .zippy{font-style:normal;display:inline!important}
-/* Год (li.archivedate верхнего уровня) */
+/* Год — строка заголовка */
 #rsidebar-wrapper .BlogArchive ul > li.archivedate > a.post-count-link{
-  display:block!important;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1.5px;
-  text-transform:uppercase;color:#c9a84c;text-decoration:none;padding:7px 14px;
-  background:#232318;border-bottom:1px solid #3a3520}
-/* Месяц (li.archivedate внутри ul.items) */
+  display:inline!important;font-family:'Oswald',sans-serif;font-size:12px;
+  letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;text-decoration:none}
+#rsidebar-wrapper .BlogArchive ul > li.archivedate{
+  padding:7px 14px!important;background:#232318;border-bottom:1px solid #3a3520}
+/* Месяц — строка */
 #rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link{
-  display:block!important;font-size:11px;color:#c8c0a8;text-decoration:none;
-  padding:5px 14px 5px 20px;border-bottom:1px solid #252418;
-  letter-spacing:.5px;text-transform:none;background:none;transition:color .2s}
+  display:inline!important;font-size:11px;color:#c8c0a8;text-decoration:none;
+  letter-spacing:.5px;text-transform:none;transition:color .2s}
+#rsidebar-wrapper .BlogArchive ul.items > li.archivedate{
+  padding:5px 14px 5px 16px!important;border-bottom:1px solid #252418}
 #rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link:hover{color:#c9a84c}
-/* Посты (li без класса archivedate, внутри .items > .items) */
+/* Посты */
+#rsidebar-wrapper .BlogArchive .items .items li{
+  padding:4px 14px 4px 28px!important;border-bottom:1px solid #1a1a0e}
 #rsidebar-wrapper .BlogArchive .items .items li a{
-  display:block!important;font-size:11px;color:#7a7060;text-decoration:none;
-  padding:4px 14px 4px 30px;border-bottom:1px solid #1a1a0e;transition:color .2s}
+  display:inline!important;font-size:11px;color:#7a7060;text-decoration:none;transition:color .2s}
 #rsidebar-wrapper .BlogArchive .items .items li a:hover{color:#c9a84c}
-#rsidebar-wrapper .BlogArchive .items .items li:last-child a{border-bottom:none}
+#rsidebar-wrapper .BlogArchive .items .items li:last-child{border-bottom:none}
 
 /* ── FOOTER ──────────────────────────────────────────────────────── */
 #footer-widgets-container{display:none}
