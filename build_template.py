@@ -826,7 +826,32 @@ SLIDER_JS = """
 //]]>
 </script>
 """
-src = src.replace('</body>', SLIDER_JS + '</body>')
+COMMENT_FIX_JS = """
+<script type='text/javascript'>
+//<![CDATA[
+(function(){
+  function fixCommentForm(){
+    var iframe = document.getElementById('comment-editor');
+    if(iframe){
+      iframe.removeAttribute('width');
+      iframe.style.width = '100%';
+      iframe.style.minWidth = '0';
+    }
+    var container = document.getElementById('comment-editor-container');
+    if(container){
+      container.style.width = '100%';
+      container.style.maxWidth = 'none';
+    }
+  }
+  // Пробуем сразу и через небольшую задержку (Blogger вставляет iframe динамически)
+  fixCommentForm();
+  setTimeout(fixCommentForm, 500);
+  setTimeout(fixCommentForm, 1500);
+})();
+//]]>
+</script>
+"""
+src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + '</body>')
 
 # ════════════════════════════════════════════════════════════════════
 # SAVE + VALIDATE
