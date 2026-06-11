@@ -38,14 +38,15 @@ window.addEventListener('load', function() {
     document.getElementById('rot-btn-archive').classList.add('rot-tab-active');
   }
 
-  // Свой toggle — CSS !important блокирует style.display, используем класс
+  // Toggle архива: Blogger использует ul.hierarchy и ul.posts, не ul.items
   document.querySelectorAll('#sidebartab3 a.toggle').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
-      var li = btn.parentNode;
-      var items = li.querySelector('ul.items');
-      if (!items) return;
-      var collapsed = items.classList.toggle('rot-collapsed');
+      var li = btn.parentNode; // li.archivedate
+      // Ищем первый ul-потомок li (hierarchy или posts)
+      var ul = li.querySelector('ul');
+      if (!ul) return;
+      var collapsed = ul.classList.toggle('rot-collapsed');
       var zippy = btn.querySelector('.zippy');
       if (zippy) zippy.textContent = collapsed ? '► ' : '▼ ';
     });

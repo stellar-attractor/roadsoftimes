@@ -356,7 +356,9 @@ body.item-view .rot-posts-grid *{display:revert}
   margin:0!important;padding:0!important;
   border:none!important;list-style:none!important}
 /* Класс для сворачивания — перебивает display:block!important выше */
-#rsidebar-wrapper .BlogArchive ul.rot-collapsed{display:none!important}
+#rsidebar-wrapper .BlogArchive ul.rot-collapsed,
+#rsidebar-wrapper .BlogArchive ul.hierarchy.rot-collapsed,
+#rsidebar-wrapper .BlogArchive ul.posts.rot-collapsed{display:none!important}
 /* Скрываем счётчики */
 #rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
 /* Тоггл-стрелка */
