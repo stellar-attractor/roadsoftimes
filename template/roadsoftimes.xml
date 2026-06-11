@@ -62,15 +62,17 @@ img{max-width:100%;height:auto}
 .rot-nav ul{display:flex;list-style:none;gap:2px;margin:0;padding:0}
 .rot-nav a{display:block;padding:8px 13px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
 .rot-nav a:hover,.rot-nav-active a{color:#c9a84c;border-bottom-color:#c9a84c}
+/* ── FLOATING WIDGETS HOLDER (скрыт, JS переставляет содержимое) ── */
+#floating-widgets{display:none}
 /* ── HEADER TOOLBAR ─────────────────────────────────────────────── */
-#toolbar1{flex-shrink:0}
-#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
+#rot-toolbar-target{display:flex;align-items:center;flex-shrink:0}
+#toolbar1,#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important;display:contents}
 .rot-toolbar{display:flex;align-items:center;gap:4px}
 .rot-toolbar a{display:flex;align-items:center;justify-content:center;width:28px;height:28px;opacity:.45;transition:opacity .2s,filter .2s;filter:grayscale(40%)}
 .rot-toolbar a:hover{opacity:1;filter:none}
 .rot-toolbar a img{width:24px;height:24px;display:block}
 /* ── HERO NEWSFEED ──────────────────────────────────────────────── */
-#newsfeed1{position:absolute;top:16px;left:75px;width:290px;z-index:20}
+#newsfeed1{position:absolute;top:16px;left:75px;width:290px;z-index:20;display:block!important}
 #newsfeed1 .section,#newsfeed1 .widget,#newsfeed1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
 .rot-newsfeed{background:rgba(10,9,5,.85);border:1px solid #252418;border-left:3px solid #c9a84c;overflow:hidden;height:110px}
 .rot-newsfeed-label{font-family:'PT Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#8a6f2e;padding:5px 10px 4px;border-bottom:1px solid #252418}
@@ -1159,19 +1161,7 @@ embed, img, object, video {max-width: 100%;}
         <li id='rot-nav-ekspona'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</a></li>
       </ul>
     </nav>
-    <b:section class='header-toolbar' id='toolbar1' showaddelement='no'>
-      <b:widget id='HTML11' locked='false' title='Тулбар' type='HTML'>
-    <b:includable id='main'>
-  <b:if cond='data:title != &quot;&quot;'>
-    <h2 class='title'><data:title/></h2>
-  </b:if>
-  <div class='widget-content'>
-    <data:content/>
-  </div>
-  <b:include name='quickedit'/>
-</b:includable>
-      </b:widget>
-    </b:section>
+    <div class='rot-header-icons' id='rot-toolbar-target'></div>
   </div>
 </div>
 <!-- ═══ END HEADER ═══════════════════════════════════════════════ -->
@@ -1351,19 +1341,6 @@ embed, img, object, video {max-width: 100%;}
 <b:if cond='data:blog.pageType != &quot;static_page&quot;'>
 <b:if cond='data:blog.pageType != &quot;item&quot;'>
 <div class='rot-hero'>
-  <b:section class='hero-newsfeed' id='newsfeed1' showaddelement='no'>
-    <b:widget id='HTML12' locked='false' title='Newsfeed' type='HTML'>
-    <b:includable id='main'>
-  <b:if cond='data:title != &quot;&quot;'>
-    <h2 class='title'><data:title/></h2>
-  </b:if>
-  <div class='widget-content'>
-    <data:content/>
-  </div>
-  <b:include name='quickedit'/>
-</b:includable>
-    </b:widget>
-  </b:section>
   <div class='rot-slides'>
     <div class='rot-slide active' data-geo='Deutsches Panzermuseum, &#1052;&#1102;&#1085;&#1089;&#1090;&#1077;&#1088;'>
       <img alt='Panzer 38(t)' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbsy8z3wff5_j9tPETK3zwahsqLASMPsKRbryw2-8OoaPkETCWeb4j5M3-5BX9yCBjAeMtiwUnflD4AFTVgzrsceThG-2AZXt6YMd1hq7PzAPmf6NIlLsgieCrMW0HOMVMnIjxGfAbUR00v2hkKL34aKDS6ffdgIvXZPLiHTlID3xC1TCcdrtFy-6OhBQ/s2304/IMG_20260601_104857761_HDR.jpg'/>
@@ -2324,6 +2301,36 @@ embed, img, object, video {max-width: 100%;}
 </b:section>
 </div><!-- /#museum-wrapper -->
 
+<!-- Toolbar и Newsfeed: Layout видит здесь, JS переставляет их на место -->
+<div id='floating-widgets'>
+<b:section class='header-toolbar' id='toolbar1' showaddelement='no'>
+  <b:widget id='HTML11' locked='false' title='Тулбар' type='HTML'>
+    <b:includable id='main'>
+  <b:if cond='data:title != &quot;&quot;'>
+    <h2 class='title'><data:title/></h2>
+  </b:if>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+  <b:include name='quickedit'/>
+</b:includable>
+  </b:widget>
+</b:section>
+<b:section class='hero-newsfeed' id='newsfeed1' showaddelement='no'>
+  <b:widget id='HTML12' locked='false' title='Newsfeed' type='HTML'>
+    <b:includable id='main'>
+  <b:if cond='data:title != &quot;&quot;'>
+    <h2 class='title'><data:title/></h2>
+  </b:if>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+  <b:include name='quickedit'/>
+</b:includable>
+  </b:widget>
+</b:section>
+</div><!-- /#floating-widgets -->
+
 <div id='rsidebar-wrapper'>
 
 <div class='widget-container'>
@@ -2917,6 +2924,26 @@ function rotSetView(v){
   if(!matched){
     var home = document.getElementById('rot-nav-home');
     if(home) home.classList.add('rot-nav-active');
+  }
+})();
+</script>
+
+<script>
+(function(){
+  // Переставляем toolbar в хедер, newsfeed в hero
+  function placeWidgets(){
+    var toolbar = document.getElementById('toolbar1');
+    var target  = document.getElementById('rot-toolbar-target');
+    if(toolbar){ if(target) target.appendChild(toolbar); }
+
+    var newsfeed = document.getElementById('newsfeed1');
+    var hero     = document.querySelector('.rot-hero');
+    if(newsfeed){ if(hero) hero.insertBefore(newsfeed, hero.firstChild); }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', placeWidgets);
+  } else {
+    placeWidgets();
   }
 })();
 </script>

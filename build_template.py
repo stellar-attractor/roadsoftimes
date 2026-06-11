@@ -84,15 +84,17 @@ img{max-width:100%;height:auto}
 .rot-nav ul{display:flex;list-style:none;gap:2px;margin:0;padding:0}
 .rot-nav a{display:block;padding:8px 13px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
 .rot-nav a:hover,.rot-nav-active a{color:#c9a84c;border-bottom-color:#c9a84c}
+/* ── FLOATING WIDGETS HOLDER (скрыт, JS переставляет содержимое) ── */
+#floating-widgets{display:none}
 /* ── HEADER TOOLBAR ─────────────────────────────────────────────── */
-#toolbar1{flex-shrink:0}
-#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
+#rot-toolbar-target{display:flex;align-items:center;flex-shrink:0}
+#toolbar1,#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important;display:contents}
 .rot-toolbar{display:flex;align-items:center;gap:4px}
 .rot-toolbar a{display:flex;align-items:center;justify-content:center;width:28px;height:28px;opacity:.45;transition:opacity .2s,filter .2s;filter:grayscale(40%)}
 .rot-toolbar a:hover{opacity:1;filter:none}
 .rot-toolbar a img{width:24px;height:24px;display:block}
 /* ── HERO NEWSFEED ──────────────────────────────────────────────── */
-#newsfeed1{position:absolute;top:16px;left:75px;width:290px;z-index:20}
+#newsfeed1{position:absolute;top:16px;left:75px;width:290px;z-index:20;display:block!important}
 #newsfeed1 .section,#newsfeed1 .widget,#newsfeed1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
 .rot-newsfeed{background:rgba(10,9,5,.85);border:1px solid #252418;border-left:3px solid #c9a84c;overflow:hidden;height:110px}
 .rot-newsfeed-label{font-family:'PT Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#8a6f2e;padding:5px 10px 4px;border-bottom:1px solid #252418}
@@ -579,9 +581,7 @@ OUR_HEADER = """
         <li id='rot-nav-ekspona'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</a></li>
       </ul>
     </nav>
-    <div class='rot-header-icons'>
-      <button class='rot-icon-btn' onclick='javascript:void(0)'>&#128269;</button>
-    </div>
+    <div class='rot-header-icons' id='rot-toolbar-target'></div>
   </div>
 </div>
 <!-- ═══ END HEADER ═══════════════════════════════════════════════ -->
@@ -715,34 +715,6 @@ NEW_SIDEBAR_SECTION = (
 assert OLD_SIDEBAR_SECTION in src, "rsidebartop section not found — GameTown template changed?"
 src = src.replace(OLD_SIDEBAR_SECTION, NEW_SIDEBAR_SECTION)
 
-# ════════════════════════════════════════════════════════════════════
-# Toolbar: заменяем кнопку-лупу на b:section с виджетом HTML11
-# ════════════════════════════════════════════════════════════════════
-src = src.replace(
-    "    <div class='rot-header-icons'>\n"
-    "      <button class='rot-icon-btn' onclick='javascript:void(0)'>&#128269;</button>\n"
-    "    </div>",
-    "    <b:section class='header-toolbar' id='toolbar1' showaddelement='no'>\n"
-    "      <b:widget id='HTML11' locked='false' title='Тулбар' type='HTML'>\n"
-    + WIDGET_INCLUDABLE + "\n"
-    "      </b:widget>\n"
-    "    </b:section>"
-)
-
-# ════════════════════════════════════════════════════════════════════
-# Newsfeed: вставляем b:section внутрь hero div (над слайдом)
-# ════════════════════════════════════════════════════════════════════
-src = src.replace(
-    "<div class='rot-hero'>\n  <div class='rot-slides'>",
-    "<div class='rot-hero'>\n"
-    "  <b:section class='hero-newsfeed' id='newsfeed1' showaddelement='no'>\n"
-    "    <b:widget id='HTML12' locked='false' title='Newsfeed' type='HTML'>\n"
-    + WIDGET_INCLUDABLE + "\n"
-    "    </b:widget>\n"
-    "  </b:section>\n"
-    "  <div class='rot-slides'>"
-)
-
 # Закрываем rot-posts-grid, вставляем секцию музея, закрываем main-wrapper
 MUSEUM_SECTION = (
     "<b:section class='museum-section' id='museum1' showaddelement='no'>\n"
@@ -756,11 +728,32 @@ MUSEUM_SECTION = (
     "  </b:widget>\n"
     "</b:section>"
 )
+TOOLBAR_SECTION = (
+    "<b:section class='header-toolbar' id='toolbar1' showaddelement='no'>\n"
+    "  <b:widget id='HTML11' locked='false' title='Тулбар' type='HTML'>\n"
+    + WIDGET_INCLUDABLE + "\n"
+    "  </b:widget>\n"
+    "</b:section>"
+)
+
+NEWSFEED_SECTION = (
+    "<b:section class='hero-newsfeed' id='newsfeed1' showaddelement='no'>\n"
+    "  <b:widget id='HTML12' locked='false' title='Newsfeed' type='HTML'>\n"
+    + WIDGET_INCLUDABLE + "\n"
+    "  </b:widget>\n"
+    "</b:section>"
+)
+
 src = src.replace(
     "        </b:section>\n      </div>\n\n<div id='rsidebar-wrapper'>",
     "        </b:section>\n</div><!-- /.rot-posts-grid -->\n"
     + "      </div><!-- /#main-wrapper -->\n\n"
     + "<div id='museum-wrapper'>\n" + MUSEUM_SECTION + "\n</div><!-- /#museum-wrapper -->\n\n"
+    + "<!-- Toolbar и Newsfeed: Layout видит здесь, JS переставляет их на место -->\n"
+    + "<div id='floating-widgets'>\n"
+    + TOOLBAR_SECTION + "\n"
+    + NEWSFEED_SECTION + "\n"
+    + "</div><!-- /#floating-widgets -->\n\n"
     + "<div id='rsidebar-wrapper'>"
 )
 
@@ -1149,7 +1142,28 @@ NAV_ACTIVE_JS = """
 })();
 </script>
 """
-src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + VIEW_SWITCHER_JS + LABEL_BANNER_JS + NAV_ACTIVE_JS + '</body>')
+WIDGET_PLACEMENT_JS = """
+<script>
+(function(){
+  // Переставляем toolbar в хедер, newsfeed в hero
+  function placeWidgets(){
+    var toolbar = document.getElementById('toolbar1');
+    var target  = document.getElementById('rot-toolbar-target');
+    if(toolbar){ if(target) target.appendChild(toolbar); }
+
+    var newsfeed = document.getElementById('newsfeed1');
+    var hero     = document.querySelector('.rot-hero');
+    if(newsfeed){ if(hero) hero.insertBefore(newsfeed, hero.firstChild); }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', placeWidgets);
+  } else {
+    placeWidgets();
+  }
+})();
+</script>
+"""
+src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + VIEW_SWITCHER_JS + LABEL_BANNER_JS + NAV_ACTIVE_JS + WIDGET_PLACEMENT_JS + '</body>')
 
 # ════════════════════════════════════════════════════════════════════
 # Убираем все AdSense-заглушки — они рендерятся как пустые <div>
