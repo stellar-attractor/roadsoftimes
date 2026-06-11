@@ -1162,21 +1162,29 @@ WIDGET_PLACEMENT_JS = """
     var hero     = document.querySelector('.rot-hero');
     if(newsfeed){ if(hero){
       hero.insertBefore(newsfeed, hero.firstChild);
-      // Выравниваем левый край newsfeed по левому краю кнопки «Читать»
-      var btn = hero.querySelector('.rot-hero-buttons a');
-      if(btn){
-        var heroRect = hero.getBoundingClientRect();
-        var btnRect  = btn.getBoundingClientRect();
-        var scrollEl = newsfeed.querySelector('.rot-newsfeed-scroll');
-        if(scrollEl){ scrollEl.style.marginLeft = (btnRect.left - heroRect.left) + 'px'; }
-      }
     }}
   }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', placeWidgets);
-  } else {
-    placeWidgets();
+  function alignNewsfeed(){
+    var hero     = document.querySelector('.rot-hero');
+    var newsfeed = document.getElementById('newsfeed1');
+    if(!hero){ return; } if(!newsfeed){ return; }
+    var btn = hero.querySelector('.rot-hero-buttons a');
+    if(!btn){ return; }
+    var heroRect = hero.getBoundingClientRect();
+    var btnRect  = btn.getBoundingClientRect();
+    var scrollEl = newsfeed.querySelector('.rot-newsfeed-scroll');
+    if(scrollEl){ scrollEl.style.marginLeft = (btnRect.left - heroRect.left) + 'px'; }
   }
+  function initWidgets(){
+    placeWidgets();
+    requestAnimationFrame(function(){ requestAnimationFrame(alignNewsfeed); });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initWidgets);
+  } else {
+    initWidgets();
+  }
+  window.addEventListener('resize', alignNewsfeed);
 })();
 </script>
 """
