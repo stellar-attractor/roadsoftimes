@@ -84,8 +84,8 @@ img{max-width:100%;height:auto}
 .rot-nav ul{display:flex;list-style:none;gap:2px;margin:0;padding:0}
 .rot-nav a{display:block;padding:8px 13px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
 .rot-nav a:hover,.rot-nav-active a{color:#c9a84c;border-bottom-color:#c9a84c}
-/* ── FLOATING WIDGETS HOLDER (скрыт, JS переставляет содержимое) ── */
-#floating-widgets{display:none}
+/* ── FLOATING WIDGETS HOLDER (за экраном, JS переставляет содержимое) ── */
+#floating-widgets{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden}
 /* ── HEADER TOOLBAR ─────────────────────────────────────────────── */
 #rot-toolbar-target{display:flex;align-items:center;flex-shrink:0}
 #toolbar1,#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important;display:contents}
