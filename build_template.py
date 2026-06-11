@@ -96,10 +96,10 @@ img{max-width:100%;height:auto}
 .rot-slide img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.95)}
 .rot-slide::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to right,rgba(10,9,5,.92) 0%,rgba(10,9,5,.62) 38%,rgba(10,9,5,.18) 62%,rgba(10,9,5,0) 100%)}
 .rot-hero-content{position:absolute;top:50%;left:0;transform:translateY(-50%);width:100%;z-index:10}
-.rot-hero-inner{max-width:1100px;margin:0 auto;padding:0 15px}
-.rot-hero-eyebrow{font-family:'PT Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8a6f2e;margin-bottom:8px}
-.rot-hero-title{font-family:'Oswald',sans-serif;font-size:52px;font-weight:700;line-height:1.0;color:#e8e0cc;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;max-width:540px;text-shadow:0 2px 20px rgba(0,0,0,.8)}
-.rot-hero-desc{font-size:14px;color:#c8c0a8;max-width:420px;line-height:1.65;margin-bottom:28px}
+.rot-hero-inner{max-width:1100px;margin:0 auto;padding:0 15px 0 75px}
+.rot-hero-eyebrow{font-family:'PT Mono',monospace;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#8a6f2e;margin-bottom:8px}
+.rot-hero-title{font-family:'Oswald',sans-serif;font-size:64px;font-weight:700;line-height:1.0;color:#e8e0cc;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;max-width:580px;text-shadow:0 2px 20px rgba(0,0,0,.8)}
+.rot-hero-desc{font-size:18px;color:#c8c0a8;max-width:460px;line-height:1.65;margin-bottom:28px}
 .rot-hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
 .rot-btn{display:inline-block;padding:10px 22px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid;cursor:pointer;transition:all .2s;text-decoration:none}
 .rot-btn-primary{background:#c9a84c;border-color:#c9a84c;color:#0f0e09;font-weight:600}
