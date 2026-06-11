@@ -1,0 +1,40 @@
+<!-- ═══════════════════════════════════════════════════════════════
+  ВИДЖЕТ: Newsfeed (HTML12)
+  Blogger → Макет → «Newsfeed» → карандашик
+
+  Показывает заголовки последних постов блога, медленно плывущие
+  снизу вверх. При наведении — пауза.
+
+  Фид: /feeds/posts/default?alt=json — берётся с текущего блога.
+  Кол-во постов: max-results=10 (можно изменить).
+═══════════════════════════════════════════════════════════════ -->
+
+<div class="rot-newsfeed">
+  <div class="rot-newsfeed-label">Последние публикации</div>
+  <div class="rot-newsfeed-scroll" id="rot-nf-scroll">
+    <!-- заполняется JS -->
+  </div>
+</div>
+
+<script>
+(function(){
+  fetch('/feeds/posts/default?alt=json&max-results=10')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var entries = data.feed.entry || [];
+      var html = '';
+      entries.forEach(function(e){
+        var title = e.title.$t;
+        var link = '';
+        (e.link || []).forEach(function(l){ if(l.rel === 'alternate') link = l.href; });
+        html += '<a href="' + link + '">' + title + '</a>';
+      });
+      var scroll = document.getElementById('rot-nf-scroll');
+      if(scroll && html){
+        // Дублируем для бесшовного цикла
+        scroll.innerHTML = html + html;
+      }
+    })
+    .catch(function(){});
+})();
+</script>

@@ -84,9 +84,23 @@ img{max-width:100%;height:auto}
 .rot-nav ul{display:flex;list-style:none;gap:2px;margin:0;padding:0}
 .rot-nav a{display:block;padding:8px 13px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
 .rot-nav a:hover,.rot-nav-active a{color:#c9a84c;border-bottom-color:#c9a84c}
-.rot-header-icons{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.rot-icon-btn{background:none;border:1px solid #3a3520;color:#7a7060;width:32px;height:32px;border-radius:3px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:color .2s,border-color .2s}
-.rot-icon-btn:hover{color:#c9a84c;border-color:#8a6f2e}
+/* ── HEADER TOOLBAR ─────────────────────────────────────────────── */
+#toolbar1{flex-shrink:0}
+#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
+.rot-toolbar{display:flex;align-items:center;gap:4px}
+.rot-toolbar a{display:flex;align-items:center;justify-content:center;width:28px;height:28px;opacity:.45;transition:opacity .2s,filter .2s;filter:grayscale(40%)}
+.rot-toolbar a:hover{opacity:1;filter:none}
+.rot-toolbar a img{width:24px;height:24px;display:block}
+/* ── HERO NEWSFEED ──────────────────────────────────────────────── */
+#newsfeed1{position:absolute;top:16px;left:75px;width:290px;z-index:20}
+#newsfeed1 .section,#newsfeed1 .widget,#newsfeed1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
+.rot-newsfeed{background:rgba(10,9,5,.85);border:1px solid #252418;border-left:3px solid #c9a84c;overflow:hidden;height:110px}
+.rot-newsfeed-label{font-family:'PT Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#8a6f2e;padding:5px 10px 4px;border-bottom:1px solid #252418}
+.rot-newsfeed-scroll{animation:rotNFScroll 24s linear infinite}
+.rot-newsfeed-scroll:hover{animation-play-state:paused}
+@keyframes rotNFScroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+.rot-newsfeed-scroll a{display:block;padding:6px 10px;font-family:'PT Mono',monospace;font-size:10px;color:#c8c0a8;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rot-newsfeed-scroll a:hover{color:#c9a84c}
 
 /* ── HERO SLIDER ─────────────────────────────────────────────────── */
 .rot-hero{position:relative;width:100%;height:480px;overflow:hidden;background:#000}
@@ -700,6 +714,34 @@ NEW_SIDEBAR_SECTION = (
 
 assert OLD_SIDEBAR_SECTION in src, "rsidebartop section not found — GameTown template changed?"
 src = src.replace(OLD_SIDEBAR_SECTION, NEW_SIDEBAR_SECTION)
+
+# ════════════════════════════════════════════════════════════════════
+# Toolbar: заменяем кнопку-лупу на b:section с виджетом HTML11
+# ════════════════════════════════════════════════════════════════════
+src = src.replace(
+    "    <div class='rot-header-icons'>\n"
+    "      <button class='rot-icon-btn' onclick='javascript:void(0)'>&#128269;</button>\n"
+    "    </div>",
+    "    <b:section class='header-toolbar' id='toolbar1' showaddelement='no'>\n"
+    "      <b:widget id='HTML11' locked='false' title='Тулбар' type='HTML'>\n"
+    + WIDGET_INCLUDABLE + "\n"
+    "      </b:widget>\n"
+    "    </b:section>"
+)
+
+# ════════════════════════════════════════════════════════════════════
+# Newsfeed: вставляем b:section внутрь hero div (над слайдом)
+# ════════════════════════════════════════════════════════════════════
+src = src.replace(
+    "<div class='rot-hero'>\n  <div class='rot-slides'>",
+    "<div class='rot-hero'>\n"
+    "  <b:section class='hero-newsfeed' id='newsfeed1' showaddelement='no'>\n"
+    "    <b:widget id='HTML12' locked='false' title='Newsfeed' type='HTML'>\n"
+    + WIDGET_INCLUDABLE + "\n"
+    "    </b:widget>\n"
+    "  </b:section>\n"
+    "  <div class='rot-slides'>"
+)
 
 # Закрываем rot-posts-grid, вставляем секцию музея, закрываем main-wrapper
 MUSEUM_SECTION = (
