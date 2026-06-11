@@ -171,7 +171,8 @@ img{max-width:100%;height:auto}
 .rot-card-labels a:hover{color:#c9a84c;border-color:#8a6f2e}
 
 /* ── СТРАНИЦА ПОСТА ──────────────────────────────────────────────── */
-.rot-single-post{padding:28px 0 0;min-width:0}
+/* Пост занимает всю ширину грида (3 колонки → одна на всю ширину) */
+.rot-single-post{padding:28px 0 0;min-width:0;grid-column:1/-1!important}
 .rot-single-labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .rot-single-header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #252418}
 .rot-single-title{font-family:'Oswald',sans-serif;font-size:32px;font-weight:600;color:#e8e0cc;line-height:1.15;margin-bottom:12px}
