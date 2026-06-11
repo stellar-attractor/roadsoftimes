@@ -21,17 +21,17 @@ IMG_SLIDE2    = IMG_PEENEMUENDE
 IMG_SLIDE3    = IMG_MARINE
 IMG_FEATURED_MUSEUM = IMG_PANZER
 
-# ── Сайдбар: «В пути» ──────────────────────────────────────────────
-ONROAD_DEST    = "Пенемюнде"            # Текущий пункт назначения
-ONROAD_COUNTRY = "Германия"             # Страна / регион
-ONROAD_ROUTE   = "Берлин → Росток → Пенемюнде → Киль"  # Маршрут
-ONROAD_DATES   = "Май — июнь 2026"      # Период поездки
-ONROAD_ACTIVE  = True                   # True = зелёная точка «В пути», False = «Пауза»
-
-# ── Сайдбар: цитата ────────────────────────────────────────────────
-QUOTE_TEXT   = ("История — это не прошлое. Это настоящее, "
-                "которое продолжает происходить.")
-QUOTE_AUTHOR = "Карл Ясперс"
+# ── Рекомендуемый музей — контентные поля ──────────────────────────
+# Меняется редко; CSS-структура остаётся в шаблоне.
+MUSEUM_LOCATION = "Мюнстер, Германия"
+MUSEUM_TITLE    = "Deutsches Panzermuseum Munster"
+MUSEUM_DESC     = ("Одно из крупнейших танковых музеев мира. "
+                   "Более 300 единиц техники.")
+MUSEUM_LINK     = "#"          # ← вставь URL поста/страницы с обзором
+MUSEUM_ENTRY    = "бесплатно"
+MUSEUM_HOURS    = "10:00–18:00"
+MUSEUM_YEAR     = "1971"
+# Фото — используем константу выше; при смене музея замени IMG_FEATURED_MUSEUM
 
 with open(SRC, encoding="utf-8") as f:
     src = f.read()
@@ -520,17 +520,17 @@ EXTRA_BLOCKS = """\
     <div class='rot-museum-photo'><img alt='Museum' src='{IMG_FEATURED_MUSEUM}'/></div>
     <div class='rot-museum-body'>
       <div>
-        <p class='rot-museum-label'>&#128205; &#1052;&#1102;&#1085;&#1089;&#1090;&#1077;&#1088;, &#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;</p>
-        <h3 class='rot-museum-title'>Deutsches Panzermuseum Munster</h3>
-        <p class='rot-museum-desc'>&#1054;&#1076;&#1085;&#1086; &#1080;&#1079; &#1082;&#1088;&#1091;&#1087;&#1085;&#1077;&#1081;&#1096;&#1080;&#1093; &#1090;&#1072;&#1085;&#1082;&#1086;&#1074;&#1099;&#1093; &#1084;&#1091;&#1079;&#1077;&#1077;&#1074; &#1084;&#1080;&#1088;&#1072;. &#1041;&#1086;&#1083;&#1077;&#1077; 300 &#1077;&#1076;&#1080;&#1085;&#1080;&#1094; &#1090;&#1077;&#1093;&#1085;&#1080;&#1082;&#1080;.</p>
+        <p class='rot-museum-label'>&#128205; {MUSEUM_LOCATION}</p>
+        <h3 class='rot-museum-title'>{MUSEUM_TITLE}</h3>
+        <p class='rot-museum-desc'>{MUSEUM_DESC}</p>
       </div>
       <div>
         <div class='rot-museum-stats'>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128710;</span><span class='rot-stat-val'>&#1073;&#1077;&#1089;&#1087;&#1083;&#1072;&#1090;&#1085;&#1086;</span><span class='rot-stat-label'>&#1074;&#1093;&#1086;&#1076;</span></div>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128336;</span><span class='rot-stat-val'>10:00&#8211;18:00</span><span class='rot-stat-label'>&#1095;&#1072;&#1089;&#1099;</span></div>
-          <div class='rot-stat'><span class='rot-stat-icon'>&#128197;</span><span class='rot-stat-val'>1971</span><span class='rot-stat-label'>&#1086;&#1089;&#1085;&#1086;&#1074;&#1072;&#1085;</span></div>
+          <div class='rot-stat'><span class='rot-stat-icon'>&#128710;</span><span class='rot-stat-val'>{MUSEUM_ENTRY}</span><span class='rot-stat-label'>&#1074;&#1093;&#1086;&#1076;</span></div>
+          <div class='rot-stat'><span class='rot-stat-icon'>&#128336;</span><span class='rot-stat-val'>{MUSEUM_HOURS}</span><span class='rot-stat-label'>&#1095;&#1072;&#1089;&#1099;</span></div>
+          <div class='rot-stat'><span class='rot-stat-icon'>&#128197;</span><span class='rot-stat-val'>{MUSEUM_YEAR}</span><span class='rot-stat-label'>&#1086;&#1089;&#1085;&#1086;&#1074;&#1072;&#1085;</span></div>
         </div>
-        <a class='rot-btn rot-btn-outline' href='#' style='font-size:12px;padding:8px 18px'>&#1055;&#1086;&#1076;&#1088;&#1086;&#1073;&#1085;&#1077;&#1077; &#8250;</a>
+        <a class='rot-btn rot-btn-outline' href='{MUSEUM_LINK}' style='font-size:12px;padding:8px 18px'>&#1055;&#1086;&#1076;&#1088;&#1086;&#1073;&#1085;&#1077;&#1077; &#8250;</a>
       </div>
     </div>
   </div>
@@ -571,60 +571,17 @@ EXTRA_BLOCKS = """\
 # Вставляем после content-wrapper, перед footer-widgets-container
 src = src.replace(
     "<div style='clear:both;'/>\n<div id='footer-widgets-container'>",
-    EXTRA_BLOCKS.format(IMG_FEATURED_MUSEUM=IMG_FEATURED_MUSEUM)
+    EXTRA_BLOCKS.format(
+        IMG_FEATURED_MUSEUM=IMG_FEATURED_MUSEUM,
+        MUSEUM_LOCATION=MUSEUM_LOCATION,
+        MUSEUM_TITLE=MUSEUM_TITLE,
+        MUSEUM_DESC=MUSEUM_DESC,
+        MUSEUM_LINK=MUSEUM_LINK,
+        MUSEUM_ENTRY=MUSEUM_ENTRY,
+        MUSEUM_HOURS=MUSEUM_HOURS,
+        MUSEUM_YEAR=MUSEUM_YEAR,
+    )
     + "<div style='clear:both;'/>\n<div id='footer-widgets-container'>"
-)
-
-# ════════════════════════════════════════════════════════════════════
-# 7b. Сайдбар — статичные виджеты «В пути» и «Цитата»
-#     Вставляем сразу после <div id='rsidebar-wrapper'>
-# ════════════════════════════════════════════════════════════════════
-_status_label = "В ПУТИ" if ONROAD_ACTIVE else "ПАУЗА"
-_status_color = "#5a8a5a" if ONROAD_ACTIVE else "#8a6f2e"
-
-SIDEBAR_STATIC = """\
-
-<!-- ═══ SIDEBAR STATIC WIDGETS ══════════════════════════════════ -->
-<div class='rot-sw'>
-  <h2 class='rot-sw-head'><span class='rot-sw-head-icon'>&#128506;</span>&#1052;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090;</h2>
-  <div class='rot-sw-body'>
-    <div class='rot-onroad-status'>
-      <span class='rot-onroad-dot' style='background:{STATUS_COLOR};box-shadow:0 0 6px {STATUS_COLOR}'></span>
-      {STATUS_LABEL}
-    </div>
-    <div class='rot-onroad-dest'>{DEST}</div>
-    <div class='rot-onroad-country'>{COUNTRY}</div>
-    <div class='rot-onroad-route'>{ROUTE}</div>
-    <div class='rot-onroad-dates'>{DATES}</div>
-  </div>
-</div>
-
-<div class='rot-sw'>
-  <h2 class='rot-sw-head'><span class='rot-sw-head-icon'>&#10077;</span>&#1054;&#1090; &#1072;&#1074;&#1090;&#1086;&#1088;&#1072;</h2>
-  <div class='rot-sw-body'>
-    <div class='rot-quote-body'>
-      <span class='rot-quote-mark'>&#10077;</span>
-      <p class='rot-quote-text'>{QUOTE_TEXT}</p>
-      <span class='rot-quote-author'>— {QUOTE_AUTHOR}</span>
-    </div>
-  </div>
-</div>
-<!-- ═══ END SIDEBAR STATIC ═══════════════════════════════════════ -->
-""".format(
-    STATUS_COLOR=_status_color,
-    STATUS_LABEL=_status_label,
-    DEST=ONROAD_DEST,
-    COUNTRY=ONROAD_COUNTRY,
-    ROUTE=ONROAD_ROUTE,
-    DATES=ONROAD_DATES,
-    QUOTE_TEXT=QUOTE_TEXT,
-    QUOTE_AUTHOR=QUOTE_AUTHOR,
-)
-
-src = src.replace(
-    "<div id='rsidebar-wrapper'>",
-    "<div id='rsidebar-wrapper'>" + SIDEBAR_STATIC,
-    1  # только первое вхождение
 )
 
 # ════════════════════════════════════════════════════════════════════
