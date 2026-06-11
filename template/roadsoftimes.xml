@@ -344,9 +344,11 @@ body.item-view .rot-posts-grid *{display:revert}
 #rsidebar-wrapper .BlogArchive li,
 #rsidebar-wrapper .BlogArchive .archivedate,
 #rsidebar-wrapper .BlogArchive .items{float:none!important;display:block!important;width:100%!important;box-sizing:border-box;padding:0;margin:0;border:none;list-style:none}
-/* Скрываем toggle-стрелки и счётчики */
-#rsidebar-wrapper .BlogArchive a.toggle,
+/* Скрываем счётчики */
 #rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
+/* Toggle-стрелки */
+#rsidebar-wrapper .BlogArchive a.toggle{display:inline-block!important;float:none!important;width:20px;font-size:10px;color:#8a6f2e;text-decoration:none;vertical-align:middle}
+#rsidebar-wrapper .BlogArchive a.toggle .zippy{font-style:normal}
 /* Год (li.archivedate верхнего уровня) */
 #rsidebar-wrapper .BlogArchive ul > li.archivedate > a.post-count-link{
   display:block!important;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1.5px;
