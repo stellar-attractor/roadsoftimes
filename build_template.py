@@ -1110,6 +1110,28 @@ NAV_ACTIVE_JS = """
 src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + VIEW_SWITCHER_JS + LABEL_BANNER_JS + NAV_ACTIVE_JS + '</body>')
 
 # ════════════════════════════════════════════════════════════════════
+# Убираем все AdSense-заглушки — они рендерятся как пустые <div>
+# и вылетают в grid как первый пустой элемент на label-страницах
+# ════════════════════════════════════════════════════════════════════
+# Убираем все AdSense-блоки точными заменами
+src = src.replace("      <data:defaultAdStart/>\n", "")
+src = src.replace(
+    "        <b:if cond='data:post.includeAd'>\n"
+    "          <b:if cond='data:post.isFirstPost'>\n"
+    "            <data:defaultAdEnd/>\n"
+    "          <b:else/>\n"
+    "            <data:adEnd/>\n"
+    "          </b:if>\n"
+    "          <div class='inline-ad'>\n"
+    "            <data:adCode/>\n"
+    "          </div>\n"
+    "          <data:adStart/>\n"
+    "        </b:if>\n",
+    ""
+)
+src = src.replace("      <data:adEnd/>\n", "")
+
+# ════════════════════════════════════════════════════════════════════
 # SAVE + VALIDATE
 # ════════════════════════════════════════════════════════════════════
 with open(DEST, 'w', encoding='utf-8') as f:

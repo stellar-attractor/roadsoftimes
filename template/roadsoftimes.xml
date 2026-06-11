@@ -1402,7 +1402,6 @@ embed, img, object, video {max-width: 100%;}
     </div>
 </b:if>
 
-      <data:defaultAdStart/>
       <b:loop values='data:posts' var='post'>
         <b:if cond='data:post.isDateStart'>
           <b:if cond='data:post.isFirstPost == &quot;false&quot;'>
@@ -1435,22 +1434,10 @@ embed, img, object, video {max-width: 100%;}
           </b:if>
         </b:if>
         </div>
-        <b:if cond='data:post.includeAd'>
-          <b:if cond='data:post.isFirstPost'>
-            <data:defaultAdEnd/>
-          <b:else/>
-            <data:adEnd/>
-          </b:if>
-          <div class='inline-ad'>
-            <data:adCode/>
-          </div>
-          <data:adStart/>
-        </b:if>
       </b:loop>
       <b:if cond='data:numPosts != 0'>
         &lt;/div&gt;&lt;/div&gt;
       </b:if>
-      <data:adEnd/>
     </div>
 
 <b:if cond='data:blog.pageType != &quot;item&quot;'>
