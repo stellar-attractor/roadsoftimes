@@ -71,19 +71,21 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 /* ── HEADER TOOLBAR ─────────────────────────────────────────────── */
 #rot-toolbar-target{display:flex;align-items:center;flex-shrink:0}
 #toolbar1,#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important;display:contents}
+#toolbar1 h2.title{display:none!important}
 .rot-toolbar{display:flex;align-items:center;gap:4px}
 .rot-toolbar a{display:flex;align-items:center;justify-content:center;width:28px;height:28px;opacity:.45;transition:opacity .2s,filter .2s;filter:grayscale(40%)}
 .rot-toolbar a:hover{opacity:1;filter:none}
 .rot-toolbar a img{width:24px;height:24px;display:block}
 /* ── HERO NEWSFEED ──────────────────────────────────────────────── */
-#newsfeed1{position:absolute;top:16px;left:75px;width:290px;z-index:20;display:block!important}
+#newsfeed1{position:absolute;bottom:0;left:75px;width:290px;z-index:20;display:block!important}
 #newsfeed1 .section,#newsfeed1 .widget,#newsfeed1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
-.rot-newsfeed{background:rgba(10,9,5,.85);border:1px solid #252418;border-left:3px solid #c9a84c;overflow:hidden;height:110px}
-.rot-newsfeed-label{font-family:'PT Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#8a6f2e;padding:5px 10px 4px;border-bottom:1px solid #252418}
+#newsfeed1 h2.title{display:none!important}
+.rot-newsfeed{background:transparent;border:none;overflow:hidden;height:120px}
+.rot-newsfeed-label{display:none}
 .rot-newsfeed-scroll{animation:rotNFScroll 24s linear infinite}
 .rot-newsfeed-scroll:hover{animation-play-state:paused}
 @keyframes rotNFScroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
-.rot-newsfeed-scroll a{display:block;padding:6px 10px;font-family:'PT Mono',monospace;font-size:10px;color:#c8c0a8;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rot-newsfeed-scroll a{display:block;padding:5px 10px;font-family:'PT Mono',monospace;font-size:12px;color:#c8c0a8;text-decoration:none;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 3px rgba(0,0,0,.8)}
 .rot-newsfeed-scroll a:hover{color:#c9a84c}
 
 /* ── HERO SLIDER ─────────────────────────────────────────────────── */
