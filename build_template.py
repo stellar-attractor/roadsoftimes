@@ -186,6 +186,38 @@ img{max-width:100%;height:auto}
 .rot-single-body a:hover{border-color:#c9a84c}
 .rot-single-body blockquote{border-left:3px solid #8a6f2e;margin:20px 0;padding:8px 0 8px 18px;color:#a09880;font-style:italic}
 .rot-single-footer{margin-top:36px;padding-top:20px;border-top:1px solid #252418}
+
+/* ── КОММЕНТАРИИ ─────────────────────────────────────────────────── */
+#comments{margin-top:36px;padding-top:24px;border-top:2px solid #3a3520}
+#comments h4,#comments h3{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#c9a84c;margin-bottom:20px}
+/* Список комментариев */
+.comments .comment-thread{list-style:none;padding:0;margin:0}
+.comments .comment{border-bottom:1px solid #252418;padding:14px 0}
+.comments .comment:last-child{border-bottom:none}
+.comments .comment-block{display:flex;gap:12px}
+.comments .avatar-image-container img{width:36px;height:36px;border-radius:2px;border:1px solid #3a3520;object-fit:cover}
+.comments .comment-author{font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8a6f2e;margin-bottom:6px}
+.comments .comment-author a{color:#8a6f2e}
+.comments .comment-content p{font-size:13px;color:#c8c0a8;line-height:1.7;margin:0 0 6px}
+.comments .comment-footer{font-family:'PT Mono',monospace;font-size:9px;color:#7a7060;display:flex;gap:12px;align-items:center}
+.comments .comment-footer a{color:#7a7060;transition:color .2s}
+.comments .comment-footer a:hover{color:#c9a84c}
+.comments .comment-replies{padding-left:24px;border-left:2px solid #252418;margin-top:10px}
+/* «Нет комментариев» */
+.comments .no-comments{font-size:13px;color:#7a7060;font-family:'PT Mono',monospace;letter-spacing:1px}
+/* Форма «оставить комментарий» */
+#comment-form,#comments .comment-form{margin-top:24px;padding:20px;background:#1a1a0e;border:1px solid #252418}
+#comments .comment-form-posting-as{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;margin-bottom:12px}
+#comments h4.comment-form-mod-note{font-size:11px;color:#7a7060;text-transform:none;letter-spacing:0;margin-bottom:8px}
+/* Кнопка «Написать комментарий» / «Post a Comment» */
+#comments .comment-form-buttons{margin-top:12px;display:flex;gap:10px}
+#comments .comment-form-buttons input,
+#comments .comment-form-buttons button{background:#232318;border:1px solid #3a3520;color:#c8c0a8;font-family:'PT Sans',sans-serif;font-size:12px;padding:7px 16px;cursor:pointer;transition:border-color .2s,color .2s}
+#comments .comment-form-buttons input:hover,
+#comments .comment-form-buttons button:hover{border-color:#8a6f2e;color:#e8e0cc}
+/* Заголовок «Post a Comment» */
+#comments #comment-post-message,
+#comments .post-a-comment{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#c9a84c;margin:20px 0 12px}
 /* На странице поста грид не нужен — отключаем */
 body.item-view .rot-posts-grid{display:block!important}
 body.item-view .rot-posts-grid *{display:revert}
