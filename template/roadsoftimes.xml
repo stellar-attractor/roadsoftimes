@@ -355,6 +355,8 @@ body.item-view .rot-posts-grid *{display:revert}
   display:block!important;width:100%!important;
   margin:0!important;padding:0!important;
   border:none!important;list-style:none!important}
+/* Класс для сворачивания — перебивает display:block!important выше */
+#rsidebar-wrapper .BlogArchive ul.rot-collapsed{display:none!important}
 /* Скрываем счётчики */
 #rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
 /* Тоггл-стрелка */

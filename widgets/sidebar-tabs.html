@@ -1,8 +1,6 @@
 <!-- ═══════════════════════════════════════════════════════════════
   ВИДЖЕТ: Метки / Архив (HTML10)
   Blogger → Макет → «МеткиАрхив» → карандашик
-  Скрывает неактивный таб через window.onload — после того как
-  Blogger инициализировал тогглы архива на видимых элементах.
 ═══════════════════════════════════════════════════════════════ -->
 
 <div class="rot-tabs-widget">
@@ -40,17 +38,16 @@ window.addEventListener('load', function() {
     document.getElementById('rot-btn-archive').classList.add('rot-tab-active');
   }
 
-  // Свой toggle для архива — Blogger не навешивает onclick
+  // Свой toggle — CSS !important блокирует style.display, используем класс
   document.querySelectorAll('#sidebartab3 a.toggle').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
-      var li = btn.parentNode; // li.archivedate
-      var items = li.querySelector(':scope > ul.items');
+      var li = btn.parentNode;
+      var items = li.querySelector('ul.items');
       if (!items) return;
-      var isOpen = items.style.display !== 'none';
-      items.style.display = isOpen ? 'none' : 'block';
+      var collapsed = items.classList.toggle('rot-collapsed');
       var zippy = btn.querySelector('.zippy');
-      if (zippy) zippy.textContent = isOpen ? '► ' : '▼ ';
+      if (zippy) zippy.textContent = collapsed ? '► ' : '▼ ';
     });
   });
 });
