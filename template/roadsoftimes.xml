@@ -164,7 +164,9 @@ img{max-width:100%;height:auto}
 .rot-below-grid{max-width:1100px;margin:24px auto 0;padding:0 15px}
 
 /* ── FEATURED MUSEUM ────────────────────────────────────────────── */
-.rot-featured-museum{margin-bottom:28px;background:#1a1a0e;border:1px solid #252418;overflow:hidden;clear:both}
+.rot-featured-museum{margin-bottom:28px;background:#1a1a0e;border:1px solid #252418;overflow:hidden;clear:both;position:relative;transition:border-color .2s}
+.rot-featured-museum:hover{border-color:#8a6f2e}
+.rot-museum-link::after{content:'';position:absolute;inset:0;z-index:1}
 .rot-block-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#232318;border-bottom:1px solid #3a3520}
 .rot-museum-inner{display:grid;grid-template-columns:320px 1fr}
 .rot-museum-photo{height:220px;overflow:hidden}
