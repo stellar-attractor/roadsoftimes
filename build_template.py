@@ -471,10 +471,10 @@ OUR_HEADER = """
     <nav class='rot-nav'>
       <ul>
         <li class='rot-nav-active'><a expr:href='data:blog.homepageUrl'>&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;</a></li>
-        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%B5%D0%B4%D0%B8%D1%86%D0%B8%D0%B8&quot;'>&#1069;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1080;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%94%D0%BE%D1%80%D0%BE%D0%B3%D0%B8&quot;'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
         <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
-        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%90%D1%80%D1%82%D0%B5%D1%84%D0%B0%D0%BA%D1%82%D1%8B&quot;'>&#1040;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</a></li>
-        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F&quot;'>&#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</a></li>
+        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</a></li>
       </ul>
     </nav>
     <div class='rot-header-icons'>
@@ -639,25 +639,25 @@ EXTRA_BLOCKS = """\
     <h2 class='rot-section-title'>&#1042;&#1099;&#1073;&#1077;&#1088;&#1080;&#1090;&#1077; &#1089;&#1074;&#1086;&#1081; &#1087;&#1091;&#1090;&#1100;</h2>
   </div>
   <div class='rot-path-grid'>
-    <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%B5%D0%B4%D0%B8%D1%86%D0%B8%D0%B8&quot;'>
+    <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%94%D0%BE%D1%80%D0%BE%D0%B3%D0%B8&quot;'>
       <span class='rot-path-icon'>&#9876;&#65039;</span>
-      <div class='rot-path-title'>&#1069;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1080;</div>
-      <p class='rot-path-desc'>&#1055;&#1086;&#1083;&#1077;&#1074;&#1099;&#1077; &#1088;&#1077;&#1087;&#1086;&#1088;&#1090;&#1072;&#1078;&#1080;</p>
+      <div class='rot-path-title'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080;</div>
+      <p class='rot-path-desc'>&#1052;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090;&#1099; &#1080; &#1087;&#1086;&#1077;&#1079;&#1076;&#1082;&#1080;</p>
+    </a>
+    <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>
+      <span class='rot-path-icon'>&#128220;</span>
+      <div class='rot-path-title'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</div>
+      <p class='rot-path-desc'>&#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103; &#1080; &#1089;&#1086;&#1073;&#1099;&#1090;&#1080;&#1103;</p>
     </a>
     <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>
       <span class='rot-path-icon'>&#127963;&#65039;</span>
       <div class='rot-path-title'>&#1052;&#1091;&#1079;&#1077;&#1080;</div>
-      <p class='rot-path-desc'>&#1050;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1080;</p>
+      <p class='rot-path-desc'>&#1050;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1080; &#1080; &#1074;&#1099;&#1089;&#1090;&#1072;&#1074;&#1082;&#1080;</p>
     </a>
-    <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%90%D1%80%D1%82%D0%B5%D1%84%D0%B0%D0%BA%D1%82%D1%8B&quot;'>
+    <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>
       <span class='rot-path-icon'>&#129680;</span>
-      <div class='rot-path-title'>&#1040;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</div>
-      <p class='rot-path-desc'>&#1058;&#1077;&#1093;&#1085;&#1080;&#1082;&#1072;</p>
-    </a>
-    <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F&quot;'>
-      <span class='rot-path-icon'>&#128220;</span>
-      <div class='rot-path-title'>&#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</div>
-      <p class='rot-path-desc'>&#1057;&#1086;&#1073;&#1099;&#1090;&#1080;&#1103;</p>
+      <div class='rot-path-title'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</div>
+      <p class='rot-path-desc'>&#1058;&#1077;&#1093;&#1085;&#1080;&#1082;&#1072; &#1080; &#1072;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</p>
     </a>
   </div>
 </div>
@@ -769,9 +769,10 @@ NEW_FOOTER_CONTENT = """\
     <p class='rot-footer-col-title'>&#1053;&#1072;&#1074;&#1080;&#1075;&#1072;&#1094;&#1080;&#1103;</p>
     <ul class='rot-footer-links'>
       <li><a expr:href='data:blog.homepageUrl'>&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;</a></li>
-      <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%B5%D0%B4%D0%B8%D1%86%D0%B8%D0%B8&quot;'>&#1069;&#1082;&#1089;&#1087;&#1077;&#1076;&#1080;&#1094;&#1080;&#1080;</a></li>
+      <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%94%D0%BE%D1%80%D0%BE%D0%B3%D0%B8&quot;'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080;</a></li>
+      <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
       <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
-      <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%90%D1%80%D1%82%D0%B5%D1%84%D0%B0%D0%BA%D1%82%D1%8B&quot;'>&#1040;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</a></li>
+      <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</a></li>
     </ul>
   </div>
   <div>
