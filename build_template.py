@@ -16,6 +16,8 @@ IMG_PANZER    = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbsy
 IMG_PEENEMUENDE = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwR9h5lwJJTESgPqxEIafbK_sg8rm5TV20-MtcGM_M-3daAmdC1IN9T9mfvWePo8BXWb4kVWrrN61Bs4AqFqXSoQ84u4TsXh-xaJe4oGzNvkish7V0Lu4vLyp9-Y5vkwZhKwBGN5PocQlPs9XpxmeAR5kil6Z9cQRoXWsiQSGx4_W_Eepyuu6RifYphBw/s2304/IMG_20260515_125042651%20(1).jpg"
 IMG_MARINE     = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhspFLh3AHnHE4HlQQuwTeziyodYv-0LEZ8t3_JuR4SdrmU2wewzA2XsrO9VcZ7Y1k4sbjbXVyI8fIYbacVLftPIVfa_xYKeS9ayJ1nUNWKrm4JWzOhHSvMRa6_w2R2ChAbF3gI45ZA8sKyrUUd-gZ1GCwGstZvMoAEmOWL0r9NouuGw8SkYIe6niehzDs/s2304/IMG_20260604_113633685.jpg"
 # Слайд 1 = Панцер; он же используется в блоке "Рекомендуемый музей"
+IMG_MARINE2   = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjEl3grJ3JUlUFHB2TcpSimiHBVhvjIIccNILr4M3z9Ra3BfPZgwWWOuuU_wuNNeUQ_znWt6vSJY-WqxPUEf8GRviQ6aGHgV_WP21rrv-fvehIGF93uY0D7ARkdugotefIcizwX4rcP4AQnoK9_odL_WD-iH_kdmCHRMbOgPyGXttJ8XS5C67bn0Sh3uvI/s2304/IMG_20260604_110416067.jpg"
+
 IMG_SLIDE1    = IMG_PANZER
 IMG_SLIDE2    = IMG_PEENEMUENDE
 IMG_SLIDE3    = IMG_MARINE
