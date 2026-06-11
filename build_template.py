@@ -29,7 +29,9 @@ with open(SRC, encoding="utf-8") as f:
 # ════════════════════════════════════════════════════════════════════
 # 1. GOOGLE FONTS + FAVICON
 # ════════════════════════════════════════════════════════════════════
-FAVICON_URL = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJyXZIiexfyqn1b4mhy2TpkZDkBjVEtafDDy9Lk2unNqASL39QSLXiBM4u0JXl7JMSAnVhBnPGWnd0PDMMM3McYwV5NdMIW2MP2EarHiReT7yJMGGPUYYjsOXnW3bimK4S2SjFqZY2-2DyDXcPcy98aK3OuT0OvW5jw4uZttD94jhRTIwCoZoIYnyAcgY/s64/tempImageJJKPaL.bmp"
+# Blogger не хранит ICO — используем PNG (все современные браузеры поддерживают)
+# logo-200.png уже на Blogger CDN, берём размер s64 для иконки
+FAVICON_URL = IMG_LOGO.replace('/s200/', '/s64/')
 
 src = src.replace(
     "<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'/>\n"
@@ -37,8 +39,8 @@ src = src.replace(
     "<link href='https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700"
     "&amp;family=PT+Sans:ital,wght@0,400;0,700;1,400&amp;family=PT+Mono&amp;display=swap'"
     " rel='stylesheet' type='text/css'/>\n"
-    f"<link href='{FAVICON_URL}' rel='icon' type='image/x-icon'/>\n"
-    f"<link href='{FAVICON_URL}' rel='shortcut icon' type='image/x-icon'/>"
+    f"<link href='{FAVICON_URL}' rel='icon' type='image/png' sizes='64x64'/>\n"
+    f"<link href='{FAVICON_URL}' rel='shortcut icon' type='image/png'/>"
 )
 
 # ════════════════════════════════════════════════════════════════════
