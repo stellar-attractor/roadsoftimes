@@ -673,13 +673,6 @@ if old_post_inc:
     <div class='rot-single-body'>
       <data:post.body/>
     </div>
-    <footer class='rot-single-footer'>
-      <b:if cond='data:post.allowComments'>
-        <div id='comments'>
-          <b:include data='post' name='comments'/>
-        </div>
-      </b:if>
-    </footer>
   </article>
 
 <b:else/>
