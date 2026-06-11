@@ -359,19 +359,22 @@ body.item-view .rot-posts-grid *{display:revert}
 .label-count{display:none}
 /* ── Архив — иерархия с тогглами ───────────────────────────────── */
 #rsidebar-wrapper .BlogArchive .widget-content{padding:6px 0}
+/* Сброс float/inline из GameTown — всё строго блочное */
+#rsidebar-wrapper .BlogArchive,
+#rsidebar-wrapper .BlogArchive *{float:none!important;display:block!important;box-sizing:border-box}
 #rsidebar-wrapper .BlogArchive ul{list-style:none;padding:0;margin:0}
-#rsidebar-wrapper .BlogArchive li{border:none;padding:0;display:block;font-size:12px;color:#c8c0a8}
+#rsidebar-wrapper .BlogArchive li{border:none;padding:0;font-size:12px;color:#c8c0a8}
 /* Год — заголовок-тоггл */
-#rsidebar-wrapper .BlogArchive .archivedate > .toggle{display:flex;align-items:center;gap:6px;padding:7px 14px;cursor:pointer;background:#232318;border-bottom:1px solid #252418;user-select:none}
-#rsidebar-wrapper .BlogArchive .archivedate > .toggle .zippy{font-family:'PT Mono',monospace;font-size:10px;color:#8a6f2e;width:12px;transition:transform .2s}
-#rsidebar-wrapper .BlogArchive .archivedate > .toggle a{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#c9a84c;flex:1;text-decoration:none}
-#rsidebar-wrapper .BlogArchive .archivedate > .toggle .post-count-link{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#1a1a0e;padding:1px 6px}
-/* Месяц — строка внутри года */
-#rsidebar-wrapper .BlogArchive .archivedate .items li{padding:5px 14px 5px 28px;border-bottom:1px solid #1e1d14;display:flex;justify-content:space-between;align-items:center}
+#rsidebar-wrapper .BlogArchive .archivedate > .toggle{display:flex!important;align-items:center;gap:6px;padding:7px 14px;cursor:pointer;background:#232318;border-bottom:1px solid #252418;user-select:none}
+#rsidebar-wrapper .BlogArchive .archivedate > .toggle .zippy{font-family:'PT Mono',monospace;font-size:10px;color:#8a6f2e;width:12px}
+#rsidebar-wrapper .BlogArchive .archivedate > .toggle a{display:inline!important;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#c9a84c;flex:1;text-decoration:none}
+#rsidebar-wrapper .BlogArchive .archivedate > .toggle .post-count-link{display:inline-block!important;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#1a1a0e;padding:1px 6px}
+/* Месяц/пост — строка внутри года */
+#rsidebar-wrapper .BlogArchive .archivedate .items li{display:flex!important;justify-content:space-between;align-items:center;padding:5px 14px 5px 28px;border-bottom:1px solid #1e1d14}
 #rsidebar-wrapper .BlogArchive .archivedate .items li:last-child{border-bottom:none}
-#rsidebar-wrapper .BlogArchive .archivedate .items a{color:#c8c0a8;font-size:12px;transition:color .2s}
+#rsidebar-wrapper .BlogArchive .archivedate .items a{display:inline!important;color:#c8c0a8;font-size:12px;transition:color .2s}
 #rsidebar-wrapper .BlogArchive .archivedate .items a:hover{color:#c9a84c}
-#rsidebar-wrapper .BlogArchive .archivedate .items .post-count-link{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#232318;padding:1px 6px}
+#rsidebar-wrapper .BlogArchive .archivedate .items .post-count-link{display:inline-block!important;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#232318;padding:1px 6px}
 
 /* ── FOOTER ──────────────────────────────────────────────────────── */
 #footer-widgets-container{display:none}
