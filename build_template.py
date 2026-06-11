@@ -298,8 +298,7 @@ body.item-view .rot-posts-grid *{display:revert}
 /* tabviewsection и widget-container — убираем отступы GameTown */
 #rsidebar-wrapper .tabviewsection,
 #rsidebar-wrapper .widget-container{padding:0!important;margin:0!important;background:none!important;border:none!important}
-/* sidebartab2/3 — JS управляет display */
-#sidebartab2,#sidebartab3{display:none}
+/* sidebartab2/3 скрываются через JS после инициализации Blogger */
 /* ── SIDEBAR ─────────────────────────────────────────────────────── */
 #rsidebar-wrapper .section{display:flex;flex-direction:column}
 #rsidebar-wrapper .widget{background:#1a1a0e;border:1px solid #252418;overflow:hidden;margin-bottom:16px;min-width:0;max-width:100%}

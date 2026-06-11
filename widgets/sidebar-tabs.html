@@ -1,14 +1,14 @@
 <!-- ═══════════════════════════════════════════════════════════════
   ВИДЖЕТ: Метки / Архив (HTML10)
   Blogger → Макет → «МеткиАрхив» → карандашик
-  НЕ перемещает DOM-узлы — только показывает/скрывает sidebartab2/3.
-  Blogger-тогглы архива работают т.к. элементы остаются на месте.
+  Скрывает неактивный таб через window.onload — после того как
+  Blogger инициализировал тогглы архива на видимых элементах.
 ═══════════════════════════════════════════════════════════════ -->
 
 <div class="rot-tabs-widget">
   <div class="rot-tabs-nav">
-    <button class="rot-tab-active" onclick="rotTab(this,'sidebartab2')">Метки</button>
-    <button onclick="rotTab(this,'sidebartab3')">Архив</button>
+    <button class="rot-tab-active" id="rot-btn-labels" onclick="rotTab(this,'sidebartab2')">Метки</button>
+    <button id="rot-btn-archive" onclick="rotTab(this,'sidebartab3')">Архив</button>
   </div>
 </div>
 
@@ -25,30 +25,22 @@ function rotTab(btn, showId) {
   try { localStorage.setItem('rot-sidebar-tab', showId); } catch(e) {}
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Скрываем GameTown таб-обёртку, оставляя sidebartab2/3 на месте
-  var wrap = document.querySelector('#rsidebar-wrapper .widget-container .tabviewsection');
-  if (wrap) wrap.parentNode.style.cssText = 'padding:0;margin:0;border:none;background:none';
-
-  // Восстанавливаем сохранённый таб
+// Ждём полной загрузки страницы — Blogger успевает навесить тогглы
+window.addEventListener('load', function() {
   var saved;
   try { saved = localStorage.getItem('rot-sidebar-tab'); } catch(e) {}
-  var initial = saved || 'sidebartab2';
+  var active = saved || 'sidebartab2';
 
+  // Прячем неактивный таб
   ['sidebartab2','sidebartab3'].forEach(function(id) {
     var el = document.getElementById(id);
-    if (el) {
-      el.style.display = (id === initial) ? 'block' : 'none';
-      // Убираем GameTown-отступы с родителей
-      if (el.parentNode) el.parentNode.style.cssText = 'padding:0;margin:0';
-    }
+    if (el) el.style.display = (id === active) ? 'block' : 'none';
   });
 
-  // Подсвечиваем активную кнопку по сохранённому значению
-  if (saved === 'sidebartab3') {
-    var btns = document.querySelectorAll('.rot-tabs-nav button');
-    if (btns[0]) btns[0].classList.remove('rot-tab-active');
-    if (btns[1]) btns[1].classList.add('rot-tab-active');
+  // Подсвечиваем нужную кнопку
+  if (active === 'sidebartab3') {
+    document.getElementById('rot-btn-labels').classList.remove('rot-tab-active');
+    document.getElementById('rot-btn-archive').classList.add('rot-tab-active');
   }
 });
 </script>
