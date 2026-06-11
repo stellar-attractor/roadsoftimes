@@ -70,7 +70,8 @@ img{max-width:100%;height:auto}
 .rot-header{background:#1e1d14;border-bottom:2px solid #8a6f2e;position:sticky;top:0;z-index:1000}
 .rot-header-inner{display:flex;align-items:center;height:60px;gap:24px;max-width:1100px;margin:0 auto;padding:0 15px}
 .rot-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.rot-logo-emblem{width:36px;height:36px;border:2px solid #c9a84c;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#c9a84c;font-family:'PT Mono',monospace;flex-shrink:0}
+.rot-logo-emblem{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;display:block}
+.rot-logo-emblem img{width:100%;height:100%;object-fit:cover;display:block}
 .rot-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#e2c06a;letter-spacing:1px;text-transform:uppercase;display:block}
 .rot-logo-sub{font-size:9px;color:#7a7060;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block}
 .rot-nav{flex:1}
@@ -456,7 +457,7 @@ OUR_HEADER = """
 <div class='rot-header'>
   <div class='rot-header-inner'>
     <a class='rot-logo' expr:href='data:blog.homepageUrl'>
-      <div class='rot-logo-emblem'>&#8853;</div>
+      <div class='rot-logo-emblem'><img src='https://raw.githubusercontent.com/stellar-attractor/roadsoftimes/main/assets/logo-200.png' alt='&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;'/></div>
       <div>
         <span class='rot-logo-title'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</span>
         <span class='rot-logo-sub'>&#1055;&#1091;&#1090;&#1077;&#1096;&#1077;&#1089;&#1090;&#1074;&#1080;&#1103; &#183; &#1052;&#1091;&#1079;&#1077;&#1080; &#183; &#1048;&#1089;&#1090;&#1086;&#1088;&#1080;&#1103;</span>
