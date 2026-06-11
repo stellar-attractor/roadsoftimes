@@ -770,14 +770,29 @@ src = src.replace(
     ""
 )
 
-# Переименовываем табы: Popular→Недавние, Tags→Метки, Blog Archives→Архив
+# Убираем GameTown jQuery-инициализацию табов (она скрывает sidebartab2/3)
 src = src.replace(
-    "<li><a href='#widget-themater_tabs-1432447472-id1'>Popular</a></li>\n"
-    "<li><a href='#widget-themater_tabs-1432447472-id2'>Tags</a></li>\n"
-    "<li><a href='#widget-themater_tabs-1432447472-id3'>Blog Archives</a></li>",
-    "<li><a href='#widget-themater_tabs-1432447472-id1'>&#1053;&#1077;&#1076;&#1072;&#1074;&#1085;&#1080;&#1077;</a></li>\n"
-    "<li><a href='#widget-themater_tabs-1432447472-id2'>&#1052;&#1077;&#1090;&#1082;&#1080;</a></li>\n"
-    "<li><a href='#widget-themater_tabs-1432447472-id3'>&#1040;&#1088;&#1093;&#1080;&#1074;</a></li>"
+    "            jQuery(document).ready(function($){\n"
+    "                $(&quot;.tabs-widget-content-widget-themater_tabs-1432447472-id&quot;).hide();\n"
+    "            \t$(&quot;ul.tabs-widget-widget-themater_tabs-1432447472-id li:first a&quot;).addClass(&quot;tabs-widget-current&quot;).show();\n"
+    "            \t$(&quot;.tabs-widget-content-widget-themater_tabs-1432447472-id:first&quot;).show();",
+    "            jQuery(document).ready(function($){\n"
+    "                /* GameTown tab init disabled — managed by rot-tabs widget */"
+)
+
+# Убираем обёртки tabs-widget-content вокруг sidebartab2 и sidebartab3
+import re
+src = re.sub(
+    r"<div class='tabs-widget-content tabs-widget-content-widget-themater_tabs-1432447472-id' id='widget-themater_tabs-1432447472-id(2|3)'>\n",
+    "",
+    src
+)
+# Закрывающий </div> после каждой секции (sidebartab2 и sidebartab3)
+# Заменяем "</div>\s*\n\s*\n" после </b:section> для id2 и id3
+src = re.sub(
+    r"(</b:section>\s*\n)(</div>[ \t]*\n[ \t]*\n)(?=\s*<b:section[^>]+id='sidebartab[23]'|$|\s*</div>[ \t]*\n[ \t]*\n\s*</div>)",
+    r"\1\n",
+    src
 )
 
 # ════════════════════════════════════════════════════════════════════
