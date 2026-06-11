@@ -1812,7 +1812,7 @@ embed, img, object, video {max-width: 100%;}
       </b:loop>
     </b:if>
     <b:if cond='data:post.thumbnailUrl'>
-      <img alt='' expr:src='data:post.thumbnailUrl'/>
+      <img alt='' expr:src='data:post.thumbnailUrl.replace(&quot;s72-c&quot;,&quot;s800-c&quot;).replace(&quot;s1600&quot;,&quot;s800&quot;)'/>
     </b:if>
   </div>
   <div class='rot-card-body'>
