@@ -332,14 +332,33 @@ body.item-view .rot-posts-grid *{display:revert}
 .rot-quote-text{font-size:13px;color:#c8c0a8;line-height:1.7;font-style:italic;margin:0 0 10px}
 .rot-quote-author{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;letter-spacing:1px}
 
-/* Архив — переопределяем стандартные стили Blogger */
-#rsidebar-wrapper .BlogArchive .widget-content{padding:10px 14px}
+/* ── Облако меток ───────────────────────────────────────────────── */
+#rsidebar-wrapper .Label .widget-content{padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px}
+#rsidebar-wrapper .Label .widget-content a,
+#rsidebar-wrapper .Label .widget-content span{display:inline-block;font-family:'PT Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:#7a7060;background:#232318;border:1px solid #2e2d20;padding:3px 8px;transition:color .2s,border-color .2s,background .2s;text-decoration:none;line-height:1.5}
+#rsidebar-wrapper .Label .widget-content a:hover{color:#c9a84c;border-color:#8a6f2e;background:#1a1a0e}
+/* label-size-* от Blogger: 1(редко)→5(часто) — меняем размер шрифта */
+.label-size-1{font-size:9px!important}
+.label-size-2{font-size:10px!important}
+.label-size-3{font-size:11px!important;color:#c8c0a8!important}
+.label-size-4{font-size:12px!important;color:#c8c0a8!important;border-color:#3a3520!important}
+.label-size-5{font-size:13px!important;color:#c9a84c!important;border-color:#8a6f2e!important;background:#1a1a0e!important}
+.label-count{display:none}
+/* ── Архив — иерархия с тогглами ───────────────────────────────── */
+#rsidebar-wrapper .BlogArchive .widget-content{padding:6px 0}
 #rsidebar-wrapper .BlogArchive ul{list-style:none;padding:0;margin:0}
-#rsidebar-wrapper .BlogArchive li{padding:4px 0;border-bottom:1px solid #252418;font-size:12px;color:#c8c0a8;display:flex;justify-content:space-between}
-#rsidebar-wrapper .BlogArchive li:last-child{border-bottom:none}
-#rsidebar-wrapper .BlogArchive a{color:#c8c0a8;transition:color .2s}
-#rsidebar-wrapper .BlogArchive a:hover{color:#c9a84c}
-#rsidebar-wrapper .BlogArchive .post-count-link{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#232318;padding:1px 6px;border-radius:2px}
+#rsidebar-wrapper .BlogArchive li{border:none;padding:0;display:block;font-size:12px;color:#c8c0a8}
+/* Год — заголовок-тоггл */
+#rsidebar-wrapper .BlogArchive .archivedate > .toggle{display:flex;align-items:center;gap:6px;padding:7px 14px;cursor:pointer;background:#232318;border-bottom:1px solid #252418;user-select:none}
+#rsidebar-wrapper .BlogArchive .archivedate > .toggle .zippy{font-family:'PT Mono',monospace;font-size:10px;color:#8a6f2e;width:12px;transition:transform .2s}
+#rsidebar-wrapper .BlogArchive .archivedate > .toggle a{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#c9a84c;flex:1;text-decoration:none}
+#rsidebar-wrapper .BlogArchive .archivedate > .toggle .post-count-link{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#1a1a0e;padding:1px 6px}
+/* Месяц — строка внутри года */
+#rsidebar-wrapper .BlogArchive .archivedate .items li{padding:5px 14px 5px 28px;border-bottom:1px solid #1e1d14;display:flex;justify-content:space-between;align-items:center}
+#rsidebar-wrapper .BlogArchive .archivedate .items li:last-child{border-bottom:none}
+#rsidebar-wrapper .BlogArchive .archivedate .items a{color:#c8c0a8;font-size:12px;transition:color .2s}
+#rsidebar-wrapper .BlogArchive .archivedate .items a:hover{color:#c9a84c}
+#rsidebar-wrapper .BlogArchive .archivedate .items .post-count-link{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#232318;padding:1px 6px}
 
 /* ── FOOTER ──────────────────────────────────────────────────────── */
 #footer-widgets-container{display:none}
@@ -656,6 +675,62 @@ src = src.replace(
     + "      </div><!-- /#main-wrapper -->\n\n"
     + "<div id='museum-wrapper'>\n" + MUSEUM_SECTION + "\n</div><!-- /#museum-wrapper -->\n\n"
     + "<div id='rsidebar-wrapper'>"
+)
+
+# ════════════════════════════════════════════════════════════════════
+# 6c. Сайдбар — удаляем ненужные виджеты GameTown из sidebarright
+#     (Recent Posts / Unordered List / Download) и переименовываем
+#     табы Popular→убираем, Tags→Метки, Blog Archives→Архив
+# ════════════════════════════════════════════════════════════════════
+
+# Удаляем три виджета из sidebarright (HTML1, HTML5, HTML3)
+src = src.replace(
+    "          <b:widget id='HTML1' locked='false' title='Recent Posts' type='HTML'>\n"
+    "            <b:includable id='main'>\n"
+    "  <!-- only display title if it's non-empty -->\n"
+    "  <b:if cond='data:title != &quot;&quot;'>\n"
+    "    <h2 class='title'><data:title/></h2>\n"
+    "  </b:if>\n"
+    "  <div class='widget-content'>\n"
+    "    <data:content/>\n"
+    "  </div>\n\n"
+    "  <b:include name='quickedit'/>\n"
+    "</b:includable>\n"
+    "          </b:widget>\n"
+    "          <b:widget id='HTML5' locked='false' title='Unordered List' type='HTML'>\n"
+    "            <b:includable id='main'>\n"
+    "  <!-- only display title if it's non-empty -->\n"
+    "  <b:if cond='data:title != &quot;&quot;'>\n"
+    "    <h2 class='title'><data:title/></h2>\n"
+    "  </b:if>\n"
+    "  <div class='widget-content'>\n"
+    "    <data:content/>\n"
+    "  </div>\n\n"
+    "  <b:include name='quickedit'/>\n"
+    "</b:includable>\n"
+    "          </b:widget>\n"
+    "          <b:widget id='HTML3' locked='false' title='Download' type='HTML'>\n"
+    "            <b:includable id='main'>\n"
+    "  <!-- only display title if it's non-empty -->\n"
+    "  <b:if cond='data:title != &quot;&quot;'>\n"
+    "    <h2 class='title'><data:title/></h2>\n"
+    "  </b:if>\n"
+    "  <div class='widget-content'>\n"
+    "    <data:content/>\n"
+    "  </div>\n\n"
+    "</b:includable>\n"
+    "          </b:widget>",
+    ""
+)
+
+# Переименовываем табы: Popular→Недавние, Tags→Метки, Blog Archives→Архив
+src = src.replace(
+    "<li><a href='#widget-themater_tabs-1432447472-id1'>Popular</a></li>\n"
+    "<li><a href='#widget-themater_tabs-1432447472-id2'>Tags</a></li>\n"
+    "<li><a href='#widget-themater_tabs-1432447472-id3'>Blog Archives</a></li>",
+    "<li><a href='#widget-themater_tabs-1432447472-id1'>&#1053;&#1077;&#1076;&#1072;&#1074;&#1085;&#1080;&#1077;</a></li>\n"
+    "<li><a href='#widget-themater_tabs-1432447472-id2'>&#1052;&#1077;&#1090;&#1082;&#1080;</a></li>\n"
+    "<li><a href='#widget-themater_tabs-1432447472-id3'>&#1040;&#1088;&#1093;&#1080;&#1074;</a></li>"
 )
 
 # ════════════════════════════════════════════════════════════════════
