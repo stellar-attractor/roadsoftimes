@@ -27,14 +27,19 @@ with open(SRC, encoding="utf-8") as f:
     src = f.read()
 
 # ════════════════════════════════════════════════════════════════════
-# 1. GOOGLE FONTS
+# 1. GOOGLE FONTS + FAVICON
 # ════════════════════════════════════════════════════════════════════
+FAVICON_URL = "https://raw.githubusercontent.com/stellar-attractor/roadsoftimes/main/assets/favicon.ico"
+# ↑ Заменить на Blogger CDN URL после загрузки favicon.ico в блог
+
 src = src.replace(
     "<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'/>\n"
     "<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'/>",
     "<link href='https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700"
     "&amp;family=PT+Sans:ital,wght@0,400;0,700;1,400&amp;family=PT+Mono&amp;display=swap'"
-    " rel='stylesheet' type='text/css'/>"
+    " rel='stylesheet' type='text/css'/>\n"
+    f"<link href='{FAVICON_URL}' rel='icon' type='image/x-icon'/>\n"
+    f"<link href='{FAVICON_URL}' rel='shortcut icon' type='image/x-icon'/>"
 )
 
 # ════════════════════════════════════════════════════════════════════

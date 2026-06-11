@@ -4,6 +4,8 @@
 <head>
   
 <link href='https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&amp;family=PT+Sans:ital,wght@0,400;0,700;1,400&amp;family=PT+Mono&amp;display=swap' rel='stylesheet' type='text/css'/>
+<link href='https://raw.githubusercontent.com/stellar-attractor/roadsoftimes/main/assets/favicon.ico' rel='icon' type='image/x-icon'/>
+<link href='https://raw.githubusercontent.com/stellar-attractor/roadsoftimes/main/assets/favicon.ico' rel='shortcut icon' type='image/x-icon'/>
 
 <b:include data='blog' name='all-head-content'/>
 
