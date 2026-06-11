@@ -1,0 +1,28 @@
+<!-- ═══════════════════════════════════════════════════════════════
+  ВИДЖЕТ: Маршрут («В пути»)
+  Где вставлять: Blogger → Макет → сайдбар → HTML-виджет (карандашик)
+  CSS-классы определены в теме (build_template.py → NEW_CSS).
+  Редактируй строки с реальными данными — всё остальное не трогай.
+═══════════════════════════════════════════════════════════════ -->
+
+<div class="rot-sw">
+  <h2 class="rot-sw-head">
+    <span class="rot-sw-head-icon">🗺</span>Маршрут
+  </h2>
+  <div class="rot-sw-body">
+
+    <!-- Статус: «В ПУТИ» или «ПАУЗА».
+         В ПУТИ  → оставь как есть (зелёная пульсирующая точка).
+         ПАУЗА   → замени цвет на #8a6f2e и текст на ПАУЗА. -->
+    <div class="rot-onroad-status">
+      <span class="rot-onroad-dot" style="background:#5a8a5a;box-shadow:0 0 6px #5a8a5a"></span>
+      В ПУТИ
+    </div>
+
+    <div class="rot-onroad-dest">Пенемюнде</div>          <!-- город / объект -->
+    <div class="rot-onroad-country">Германия</div>        <!-- страна / регион -->
+    <div class="rot-onroad-route">Берлин → Росток → Пенемюнде → Киль</div>
+    <div class="rot-onroad-dates">Май — июнь 2026</div>   <!-- период -->
+
+  </div>
+</div>
