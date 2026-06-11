@@ -206,8 +206,9 @@ img{max-width:100%;height:auto}
 /* Подписка на комментарии */
 .comment-footer>a[href*="atom"]{font-size:9px;color:#3a3520!important}
 /* Контейнер iframe-формы — инвертируем цвета чтобы вписать в тёмную тему */
-#comment-editor-container{background:#0e0e08;border:1px solid #3a3520;margin-top:8px;overflow:hidden}
-#comment-editor{width:100%!important;border:none!important;display:block;
+#comment-form{width:100%!important;max-width:none!important}
+#comment-editor-container{width:100%!important;max-width:none!important;background:#0e0e08;border:1px solid #3a3520;margin-top:8px;overflow:hidden;box-sizing:border-box}
+#comment-editor{width:100%!important;min-width:0!important;max-width:none!important;border:none!important;display:block;
   filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.95)}
 /* На странице поста грид не нужен — отключаем */
 body.item-view .rot-posts-grid{display:block!important}
