@@ -1812,7 +1812,7 @@ embed, img, object, video {max-width: 100%;}
       </b:loop>
     </b:if>
     <b:if cond='data:post.thumbnailUrl'>
-      <img alt='' expr:src='data:post.thumbnailUrl.replace(&quot;s72-c&quot;,&quot;s800-c&quot;).replace(&quot;s1600&quot;,&quot;s800&quot;)'/>
+      <img alt='' expr:src='data:post.thumbnailUrl'/>
     </b:if>
   </div>
   <div class='rot-card-body'>
@@ -2647,6 +2647,26 @@ embed, img, object, video {max-width: 100%;}
   if(n)n.onclick=function(){goTo(cur+1);stop();start();};
   dots.forEach(function(d,i){d.onclick=function(){goTo(i);stop();start();};});
   start();
+})();
+//]]>
+</script>
+
+<script type='text/javascript'>
+//<![CDATA[
+// Апгрейд миниатюр карточек: s72-c → s800-c
+(function(){
+  function upgradeThumbs(){
+    document.querySelectorAll('.rot-card-thumb img').forEach(function(img){
+      img.src = img.src
+        .replace(/\/s\d+-c\//,  '/s800-c/')
+        .replace(/\/s\d+\//,    '/s800/');
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', upgradeThumbs);
+  } else {
+    upgradeThumbs();
+  }
 })();
 //]]>
 </script>

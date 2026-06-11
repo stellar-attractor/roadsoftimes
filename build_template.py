@@ -629,7 +629,7 @@ if old_post_inc:
       </b:loop>
     </b:if>
     <b:if cond='data:post.thumbnailUrl'>
-      <img alt='' expr:src='data:post.thumbnailUrl.replace(&quot;s72-c&quot;,&quot;s800-c&quot;).replace(&quot;s1600&quot;,&quot;s800&quot;)'/>
+      <img alt='' expr:src='data:post.thumbnailUrl'/>
     </b:if>
   </div>
   <div class='rot-card-body'>
@@ -740,7 +740,28 @@ SLIDER_JS = """
 //]]>
 </script>
 """
-src = src.replace('</body>', SLIDER_JS + '</body>')
+THUMB_UPGRADE_JS = """
+<script type='text/javascript'>
+//<![CDATA[
+// Апгрейд миниатюр карточек: s72-c → s800-c
+(function(){
+  function upgradeThumbs(){
+    document.querySelectorAll('.rot-card-thumb img').forEach(function(img){
+      img.src = img.src
+        .replace(/\/s\d+-c\//,  '/s800-c/')
+        .replace(/\/s\d+\//,    '/s800/');
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', upgradeThumbs);
+  } else {
+    upgradeThumbs();
+  }
+})();
+//]]>
+</script>
+"""
+src = src.replace('</body>', SLIDER_JS + THUMB_UPGRADE_JS + '</body>')
 
 # ════════════════════════════════════════════════════════════════════
 # SAVE + VALIDATE
