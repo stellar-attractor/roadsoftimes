@@ -86,6 +86,8 @@ img{max-width:100%;height:auto}
 .rot-nav a:hover,.rot-nav-active a{color:#c9a84c;border-bottom-color:#c9a84c}
 /* ── FLOATING WIDGETS HOLDER (за экраном, JS переставляет содержимое) ── */
 #floating-widgets{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden}
+/* В Layout-редакторе — показываем нормально, чтобы виджеты были видны */
+body#layout #floating-widgets{position:static;left:auto;top:auto;width:auto;height:auto;overflow:visible}
 /* ── HEADER TOOLBAR ─────────────────────────────────────────────── */
 #rot-toolbar-target{display:flex;align-items:center;flex-shrink:0}
 #toolbar1,#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important;display:contents}
