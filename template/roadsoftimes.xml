@@ -1751,8 +1751,7 @@ embed, img, object, video {max-width: 100%;}
           </div>
         </div>
 
-        <div style='clear: both;'/>
-      </a>
+            </a>
 
       <div class='mobile-index-comment'>
         <b:if cond='data:blog.pageType != &quot;static_page&quot;'>
@@ -2030,7 +2029,6 @@ embed, img, object, video {max-width: 100%;}
       </div>
     </div>
   </div>
-  <div style='clear: both;'/>
   </b:if>
 </b:includable>
             <b:includable id='threaded-comment-form' var='post'>
@@ -2391,8 +2389,7 @@ embed, img, object, video {max-width: 100%;}
               </b:if>
               <div class='item-title'><a expr:href='data:post.href'><data:post.title/></a></div>
             </div>
-            <div style='clear: both;'/>
-          <b:else/>
+                    <b:else/>
             <!-- (4) Show snippets and thumbnails -->
             <div class='item-content'>
               <b:if cond='data:post.thumbnail'>
@@ -2405,8 +2402,7 @@ embed, img, object, video {max-width: 100%;}
               <div class='item-title'><a expr:href='data:post.href'><data:post.title/></a></div>
               <div class='item-snippet'><data:post.snippet/></div>
             </div>
-            <div style='clear: both;'/>
-          </b:if>
+                    </b:if>
         </b:if>
       </li>
       </b:loop>

@@ -1115,6 +1115,9 @@ src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + VIEW_SWITCHER_JS + LAB
 # ════════════════════════════════════════════════════════════════════
 # Убираем все AdSense-блоки точными заменами
 src = src.replace("      <data:defaultAdStart/>\n", "")
+# <div style='clear:both'/> после status-msg-wrap — рендерится на label-страницах
+# как пустой grid-item без класса (не ловится CSS-селектором)
+src = src.replace("  <div style='clear: both;'/>\n", "")
 src = src.replace(
     "        <b:if cond='data:post.includeAd'>\n"
     "          <b:if cond='data:post.isFirstPost'>\n"
