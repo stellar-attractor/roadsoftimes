@@ -1068,27 +1068,17 @@ function rotSetView(v){
 LABEL_BANNER_JS = """
 <script>
 (function(){
-  function injectLabelBanner(){
-    var msg = document.querySelector('.status-msg-wrap');
-    if(!msg) return;
-    var text = msg.innerText || msg.textContent || '';
-    // Вытаскиваем название ярлыка из текста вида "Показаны сообщения с ярлыком Foo."
-    var m = text.match(/[ярлыком\s]+([^\.\n]+)/i);
-    var label = m ? m[1].trim() : text.trim();
-    if(!label) return;
-    var grid = document.querySelector('.rot-posts-grid .blog-posts.hfeed');
-    if(!grid) return;
-    var banner = document.createElement('div');
-    banner.className = 'rot-label-banner';
-    banner.innerHTML = '&#1056;&#1072;&#1079;&#1076;&#1077;&#1083;: <span>' + label + '</span>';
-    banner.style.display = 'block';
-    grid.insertBefore(banner, grid.firstChild);
-  }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', injectLabelBanner);
-  } else {
-    injectLabelBanner();
-  }
+  var m = location.pathname.match(/\\/search\\/label\\/([^?#\\/]+)/);
+  if(!m) return;
+  var label = decodeURIComponent(m[1]);
+  if(!label) return;
+  var grid = document.querySelector('.rot-posts-grid .blog-posts.hfeed');
+  if(!grid) return;
+  var banner = document.createElement('div');
+  banner.className = 'rot-label-banner';
+  banner.innerHTML = '\\u0420\\u0430\\u0437\\u0434\\u0435\\u043b: <span>' + label + '</span>';
+  banner.style.display = 'block';
+  grid.insertBefore(banner, grid.firstChild);
 })();
 </script>
 """
