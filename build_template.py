@@ -107,17 +107,18 @@ img{max-width:100%;height:auto}
 .rot-arrow-next{right:20px}
 
 /* ── MAIN LAYOUT ─────────────────────────────────────────────────── */
-/* content-wrapper — grid-контейнер. Дочерние элементы:
-   1) .rot-hero  → grid-column:1/-1 → полная ширина, строка 1
-   2) #crosscol-wrapper → display:none, не grid-item
-   3) #main-wrapper → колонка 1fr, строка 2
-   4) #rsidebar-wrapper → колонка 300px, строка 2 */
-#content-wrapper{max-width:1100px!important;margin:24px auto 0!important;padding:0 15px!important;display:grid!important;grid-template-columns:1fr 300px!important;gap:0 24px!important;align-items:start!important;background:none!important}
-/* Герой: растягиваем на обе колонки и убираем боковые отступы */
-.rot-hero{grid-column:1/-1!important;margin:0 -15px!important;width:calc(100% + 30px)!important}
+/* content-wrapper — grid-контейнер. Строки и колонки:
+   1) .rot-hero        → col 1/-1, row 1 — полная ширина
+   2) #main-wrapper    → col 1,    row 2 — посты
+   3) #museum-wrapper  → col 1,    row 3 — музей (под постами)
+   4) #rsidebar-wrapper→ col 2,    row 2/span 2 — сайдбар (оба ряда)
+   5) #crosscol-wrapper→ display:none */
+#content-wrapper{max-width:1100px!important;margin:24px auto 0!important;padding:0 15px!important;display:grid!important;grid-template-columns:1fr 300px!important;grid-template-rows:auto auto auto!important;gap:0 24px!important;align-items:start!important;background:none!important}
+.rot-hero{grid-column:1/-1!important;grid-row:1!important;margin:0 -15px!important;width:calc(100% + 30px)!important}
 #crosscol-wrapper{display:none!important}
-#main-wrapper{width:auto!important;float:none!important;min-width:0;padding-top:24px}
-#rsidebar-wrapper{width:auto!important;float:none!important;min-width:0;padding-top:24px}
+#main-wrapper{grid-column:1!important;grid-row:2!important;width:auto!important;float:none!important;min-width:0;padding-top:24px}
+#museum-wrapper{grid-column:1!important;grid-row:3!important;width:auto!important;float:none!important;min-width:0;padding-top:0}
+#rsidebar-wrapper{grid-column:2!important;grid-row:2/span 2!important;width:auto!important;float:none!important;min-width:0;padding-top:24px}
 
 /* ── POST CARDS ─────────────────────────────────────────────────── */
 .rot-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #3a3520}
@@ -191,7 +192,7 @@ img{max-width:100%;height:auto}
 
 /* ── MUSEUM WIDGET — внутри main-wrapper ────────────────────────── */
 /* Обнуляем обёртку Blogger-виджета, чтобы не ломать дизайн блока */
-#museum1{margin-top:28px}
+#museum-wrapper{padding-top:28px}
 #museum1>.widget{background:none!important;border:none!important;margin:0!important;overflow:visible!important}
 #museum1>.widget>.widget-content{padding:0!important}
 
@@ -295,9 +296,11 @@ img{max-width:100%;height:auto}
   .rot-hero-buttons a:last-child{display:none}
 
   /* ── Двухколоночный основной грид → один столбец ── */
-  #content-wrapper{grid-template-columns:1fr!important;gap:0!important}
-  /* Боковая колонка едет под основной контент */
-  #rsidebar-wrapper{order:2;width:100%!important;max-width:100%!important;border-left:none!important;border-top:1px solid #252418;padding-top:24px!important;margin-top:32px}
+  #content-wrapper{grid-template-columns:1fr!important;grid-template-rows:auto!important;gap:0!important}
+  #main-wrapper{grid-column:1!important;grid-row:auto!important}
+  #museum-wrapper{grid-column:1!important;grid-row:auto!important}
+  /* Боковая колонка едет под музей */
+  #rsidebar-wrapper{grid-column:1!important;grid-row:auto!important;order:2;width:100%!important;max-width:100%!important;border-left:none!important;border-top:1px solid #252418;padding-top:24px!important;margin-top:32px}
 
   /* ── Карточки постов: 2 колонки ── */
   .rot-posts-grid{grid-template-columns:repeat(2,1fr)!important}
@@ -552,8 +555,9 @@ MUSEUM_SECTION = (
 src = src.replace(
     "        </b:section>\n      </div>\n\n<div id='rsidebar-wrapper'>",
     "        </b:section>\n</div><!-- /.rot-posts-grid -->\n"
-    + MUSEUM_SECTION + "\n"
-    + "      </div><!-- /#main-wrapper -->\n\n<div id='rsidebar-wrapper'>"
+    + "      </div><!-- /#main-wrapper -->\n\n"
+    + "<div id='museum-wrapper'>\n" + MUSEUM_SECTION + "\n</div><!-- /#museum-wrapper -->\n\n"
+    + "<div id='rsidebar-wrapper'>"
 )
 
 # ════════════════════════════════════════════════════════════════════
