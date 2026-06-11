@@ -337,37 +337,31 @@ body.item-view .rot-posts-grid *{display:revert}
 .label-count{display:none}
 /* ── Архив — иерархия с тогглами ───────────────────────────────── */
 #rsidebar-wrapper .BlogArchive .widget-content{padding:4px 0}
-/* Контейнеры — блочные, без float */
-#rsidebar-wrapper .BlogArchive #ArchiveList,
+/* Все контейнеры — блочные, без float */
 #rsidebar-wrapper .BlogArchive ul,
 #rsidebar-wrapper .BlogArchive li,
 #rsidebar-wrapper .BlogArchive .archivedate,
-#rsidebar-wrapper .BlogArchive .items{float:none!important;display:block!important;width:100%!important;box-sizing:border-box}
-/* Год-строка: toggle + название + счётчик на одной линии */
-#rsidebar-wrapper .BlogArchive li.archivedate{padding:0;border:none;background:none}
-#rsidebar-wrapper .BlogArchive li.archivedate > a.toggle,
-#rsidebar-wrapper .BlogArchive li.archivedate > a:not(.toggle),
-#rsidebar-wrapper .BlogArchive li.archivedate > span{display:inline!important;float:none!important}
-/* Строка год/месяц — стилизуем через ::before не трогая структуру */
-#rsidebar-wrapper .BlogArchive > .widget-content > #ArchiveList > div > ul > li > a:not(.toggle){
-  font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;
-  color:#c9a84c;text-decoration:none;padding:7px 14px;display:block!important;
-  background:#232318;border-bottom:1px solid #252418}
-#rsidebar-wrapper .BlogArchive > .widget-content > #ArchiveList > div > ul > li > a.toggle{display:none!important}
-#rsidebar-wrapper .BlogArchive > .widget-content > #ArchiveList > div > ul > li > span{display:none!important}
-/* Месяц-строка */
-#rsidebar-wrapper .BlogArchive .items > li > a:not(.toggle){
-  font-size:12px;color:#c8c0a8;text-decoration:none;padding:5px 14px 5px 22px;
-  display:block!important;border-bottom:1px solid #1e1d14;transition:color .2s}
-#rsidebar-wrapper .BlogArchive .items > li > a:not(.toggle):hover{color:#c9a84c}
-#rsidebar-wrapper .BlogArchive .items > li > a.toggle{display:none!important}
-#rsidebar-wrapper .BlogArchive .items > li > span{display:none!important}
-/* Посты внутри месяца */
+#rsidebar-wrapper .BlogArchive .items{float:none!important;display:block!important;width:100%!important;box-sizing:border-box;padding:0;margin:0;border:none;list-style:none}
+/* Скрываем toggle-стрелки и счётчики */
+#rsidebar-wrapper .BlogArchive a.toggle,
+#rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
+/* Год (li.archivedate верхнего уровня) */
+#rsidebar-wrapper .BlogArchive .hierarchy > ul > li.archivedate > a.post-count-link{
+  display:block!important;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1.5px;
+  text-transform:uppercase;color:#c9a84c;text-decoration:none;padding:7px 14px;
+  background:#232318;border-bottom:1px solid #3a3520}
+/* Месяц (li.archivedate вложенного .items) */
+#rsidebar-wrapper .BlogArchive .hierarchy > ul > li > ul.items > li.archivedate > a.post-count-link{
+  display:block!important;font-size:11px;color:#c8c0a8;text-decoration:none;
+  padding:5px 14px 5px 20px;border-bottom:1px solid #252418;
+  letter-spacing:.5px;text-transform:none;transition:color .2s}
+#rsidebar-wrapper .BlogArchive .hierarchy > ul > li > ul.items > li.archivedate > a.post-count-link:hover{color:#c9a84c}
+/* Посты (li без класса archivedate, внутри .items > .items) */
 #rsidebar-wrapper .BlogArchive .items .items li a{
-  font-size:11px;color:#7a7060;text-decoration:none;padding:4px 14px 4px 32px;
-  display:block!important;border-bottom:1px solid #1a1a0e;transition:color .2s}
+  display:block!important;font-size:11px;color:#7a7060;text-decoration:none;
+  padding:4px 14px 4px 30px;border-bottom:1px solid #1a1a0e;transition:color .2s}
 #rsidebar-wrapper .BlogArchive .items .items li a:hover{color:#c9a84c}
-#rsidebar-wrapper .BlogArchive .items li:last-child > a{border-bottom:none}
+#rsidebar-wrapper .BlogArchive .items .items li:last-child a{border-bottom:none}
 
 /* ── FOOTER ──────────────────────────────────────────────────────── */
 #footer-widgets-container{display:none}
