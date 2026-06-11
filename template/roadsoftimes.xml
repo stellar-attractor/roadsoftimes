@@ -270,11 +270,13 @@ body.item-view .rot-posts-grid *{display:revert}
 .rot-path-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:#e8e0cc;margin-bottom:5px}
 .rot-path-desc{font-size:11px;color:#7a7060;line-height:1.4}
 
-/* ── Скрываем GameTown tab-блок (JS управляет sidebartab2/3) ─────── */
-#rsidebar-wrapper .tabviewsection,
+/* ── GameTown tab-блок: скрываем nav и tab1, tabviewsection открыт ── */
 #rsidebar-wrapper .tabs-widget,
 #sidebartab1{display:none!important}
-/* sidebartab2/3 изначально скрыты, JS покажет нужный */
+/* tabviewsection и widget-container — убираем отступы GameTown */
+#rsidebar-wrapper .tabviewsection,
+#rsidebar-wrapper .widget-container{padding:0!important;margin:0!important;background:none!important;border:none!important}
+/* sidebartab2/3 — JS управляет display */
 #sidebartab2,#sidebartab3{display:none}
 /* ── SIDEBAR ─────────────────────────────────────────────────────── */
 #rsidebar-wrapper .section{display:flex;flex-direction:column}
