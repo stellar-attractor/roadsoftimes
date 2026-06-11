@@ -158,6 +158,10 @@ img{max-width:100%;height:auto}
 .rot-posts-grid .widget-title{display:none!important}
 /* Пагинация вытаскивается отдельно поверх сетки */
 .rot-posts-grid .blog-pager{grid-column:1/-1}
+/* Blogger label-filter banner — скрываем дефолтный, показываем наш */
+.status-msg-wrap,.status-msg-body,.status-msg-border{display:none!important}
+.rot-label-banner{display:none;grid-column:1/-1;padding:10px 16px;background:#1a1a0e;border:1px solid #3a3520;border-left:3px solid #c9a84c;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#7a7060;margin-bottom:4px}
+.rot-label-banner span{color:#c9a84c}
 .rot-post-card{background:#1a1a0e;border:1px solid #252418;overflow:hidden;transition:border-color .2s;display:flex;flex-direction:column;position:relative}
 .rot-post-card:hover{border-color:#8a6f2e}
 /* Вся карточка кликабельна через ::after на ссылке заголовка */
@@ -871,7 +875,34 @@ COMMENT_FIX_JS = """
 //]]>
 </script>
 """
-src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + '</body>')
+LABEL_BANNER_JS = """
+<script>
+(function(){
+  function injectLabelBanner(){
+    var msg = document.querySelector('.status-msg-wrap');
+    if(!msg) return;
+    var text = msg.innerText || msg.textContent || '';
+    // Вытаскиваем название ярлыка из текста вида "Показаны сообщения с ярлыком Foo."
+    var m = text.match(/[ярлыком\s]+([^\.\n]+)/i);
+    var label = m ? m[1].trim() : text.trim();
+    if(!label) return;
+    var grid = document.querySelector('.rot-posts-grid');
+    if(!grid) return;
+    var banner = document.createElement('div');
+    banner.className = 'rot-label-banner';
+    banner.innerHTML = '&#1056;&#1072;&#1079;&#1076;&#1077;&#1083;: <span>' + label + '</span>';
+    banner.style.display = 'block';
+    grid.insertBefore(banner, grid.firstChild);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', injectLabelBanner);
+  } else {
+    injectLabelBanner();
+  }
+})();
+</script>
+"""
+src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + LABEL_BANNER_JS + '</body>')
 
 # ════════════════════════════════════════════════════════════════════
 # SAVE + VALIDATE
