@@ -363,11 +363,23 @@ body.item-view .rot-posts-grid *{display:revert}
 .label-count{display:none}
 /* ── Архив — иерархия с тогглами ───────────────────────────────── */
 #rsidebar-wrapper .BlogArchive .widget-content{padding:4px 0}
-/* Все контейнеры — блочные, без float */
+/* Жёсткий сброс всего внутри архива */
+#rsidebar-wrapper .BlogArchive .widget-content *{
+  float:none!important;clear:both!important;
+  position:static!important;
+  box-sizing:border-box!important;
+  max-width:100%!important;
+  min-width:0!important}
+#rsidebar-wrapper .BlogArchive #ArchiveList,
+#rsidebar-wrapper .BlogArchive #ArchiveList > div{
+  width:100%!important;margin:0!important;padding:0!important;overflow:visible!important}
 #rsidebar-wrapper .BlogArchive ul,
 #rsidebar-wrapper .BlogArchive li,
 #rsidebar-wrapper .BlogArchive .archivedate,
-#rsidebar-wrapper .BlogArchive .items{float:none!important;display:block!important;width:100%!important;box-sizing:border-box;padding:0;margin:0;border:none;list-style:none}
+#rsidebar-wrapper .BlogArchive .items{
+  display:block!important;width:100%!important;
+  margin:0!important;padding:0!important;
+  border:none!important;list-style:none!important}
 /* Скрываем счётчики */
 #rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
 /* Toggle-стрелки */
