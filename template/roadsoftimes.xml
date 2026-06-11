@@ -341,13 +341,18 @@ body.item-view .rot-posts-grid *{display:revert}
 .label-count{display:none}
 /* ── Архив — иерархия с тогглами ───────────────────────────────── */
 #rsidebar-wrapper .BlogArchive .widget-content{padding:4px 0}
-/* Жёсткий сброс всего внутри архива */
-#rsidebar-wrapper .BlogArchive .widget-content *{
-  float:none!important;clear:both!important;
-  position:static!important;
+/* Жёсткий сброс контейнеров архива */
+#rsidebar-wrapper .BlogArchive .widget-content ul,
+#rsidebar-wrapper .BlogArchive .widget-content li,
+#rsidebar-wrapper .BlogArchive .widget-content div{
+  float:none!important;clear:none!important;
   box-sizing:border-box!important;
-  max-width:100%!important;
-  min-width:0!important}
+  max-width:100%!important;min-width:0!important}
+/* Тоггл и текст года/месяца — инлайн на одной строке */
+#rsidebar-wrapper .BlogArchive li.archivedate > a.toggle,
+#rsidebar-wrapper .BlogArchive li.archivedate > a.post-count-link,
+#rsidebar-wrapper .BlogArchive li.archivedate > span.post-count{
+  display:inline!important;float:none!important;vertical-align:middle}
 #rsidebar-wrapper .BlogArchive #ArchiveList,
 #rsidebar-wrapper .BlogArchive #ArchiveList > div{
   width:100%!important;margin:0!important;padding:0!important;overflow:visible!important}
@@ -361,8 +366,8 @@ body.item-view .rot-posts-grid *{display:revert}
 /* Скрываем счётчики */
 #rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
 /* Toggle-стрелки */
-#rsidebar-wrapper .BlogArchive a.toggle{display:inline-block!important;float:none!important;width:20px;font-size:10px;color:#8a6f2e;text-decoration:none;vertical-align:middle}
-#rsidebar-wrapper .BlogArchive a.toggle .zippy{font-style:normal}
+#rsidebar-wrapper .BlogArchive a.toggle{display:inline!important;float:none!important;font-size:10px;color:#8a6f2e;text-decoration:none;margin-right:4px}
+#rsidebar-wrapper .BlogArchive a.toggle .zippy{font-style:normal;display:inline!important}
 /* Год (li.archivedate верхнего уровня) */
 #rsidebar-wrapper .BlogArchive ul > li.archivedate > a.post-count-link{
   display:block!important;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1.5px;
