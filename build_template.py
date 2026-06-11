@@ -21,6 +21,18 @@ IMG_SLIDE2    = IMG_PEENEMUENDE
 IMG_SLIDE3    = IMG_MARINE
 IMG_FEATURED_MUSEUM = IMG_PANZER
 
+# ── Сайдбар: «В пути» ──────────────────────────────────────────────
+ONROAD_DEST    = "Пенемюнде"            # Текущий пункт назначения
+ONROAD_COUNTRY = "Германия"             # Страна / регион
+ONROAD_ROUTE   = "Берлин → Росток → Пенемюнде → Киль"  # Маршрут
+ONROAD_DATES   = "Май — июнь 2026"      # Период поездки
+ONROAD_ACTIVE  = True                   # True = зелёная точка «В пути», False = «Пауза»
+
+# ── Сайдбар: цитата ────────────────────────────────────────────────
+QUOTE_TEXT   = ("История — это не прошлое. Это настоящее, "
+                "которое продолжает происходить.")
+QUOTE_AUTHOR = "Карл Ясперс"
+
 with open(SRC, encoding="utf-8") as f:
     src = f.read()
 
@@ -217,6 +229,37 @@ img{max-width:100%;height:auto}
 #BlogSearch1 .widget-content{padding:10px 14px}
 #BlogSearch1 input{width:100%;background:#232318;border:1px solid #3a3520;color:#c8c0a8;padding:7px 10px;font-family:'PT Sans',sans-serif;font-size:12px;outline:none}
 #BlogSearch1 input:focus{border-color:#8a6f2e}
+
+/* ── САЙДБАР — статичные виджеты ─────────────────────────────── */
+.rot-sw{background:#1a1a0e;border:1px solid #252418;overflow:hidden;margin-bottom:16px}
+.rot-sw-head{background:#232318;border-bottom:1px solid #3a3520;padding:10px 14px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2.5px;color:#c9a84c;margin:0;display:flex;align-items:center;gap:8px}
+.rot-sw-head-icon{font-size:13px;opacity:.85}
+.rot-sw-body{padding:14px}
+
+/* В пути */
+.rot-onroad-status{display:inline-flex;align-items:center;gap:6px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#5a8a5a;margin-bottom:12px}
+.rot-onroad-dot{width:7px;height:7px;border-radius:50%;background:#5a8a5a;box-shadow:0 0 6px #5a8a5a;animation:rot-pulse 2s ease-in-out infinite}
+@keyframes rot-pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.rot-onroad-dest{font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;color:#e8e0cc;line-height:1.1;margin-bottom:4px}
+.rot-onroad-country{font-family:'PT Mono',monospace;font-size:10px;color:#8a6f2e;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.rot-onroad-route{font-size:12px;color:#c8c0a8;line-height:1.6;border-left:2px solid #3a3520;padding-left:10px;margin-bottom:10px}
+.rot-onroad-dates{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;display:flex;align-items:center;gap:6px}
+.rot-onroad-dates::before{content:'';display:inline-block;width:12px;height:1px;background:#3a3520}
+
+/* Цитата */
+.rot-quote-body{position:relative;padding:4px 0 4px 18px;border-left:3px solid #8a6f2e}
+.rot-quote-mark{font-family:Georgia,serif;font-size:42px;line-height:.6;color:#8a6f2e;opacity:.5;position:absolute;left:-2px;top:6px}
+.rot-quote-text{font-size:13px;color:#c8c0a8;line-height:1.7;font-style:italic;margin:0 0 10px}
+.rot-quote-author{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;letter-spacing:1px}
+
+/* Архив — переопределяем стандартные стили Blogger */
+#rsidebar-wrapper .BlogArchive .widget-content{padding:10px 14px}
+#rsidebar-wrapper .BlogArchive ul{list-style:none;padding:0;margin:0}
+#rsidebar-wrapper .BlogArchive li{padding:4px 0;border-bottom:1px solid #252418;font-size:12px;color:#c8c0a8;display:flex;justify-content:space-between}
+#rsidebar-wrapper .BlogArchive li:last-child{border-bottom:none}
+#rsidebar-wrapper .BlogArchive a{color:#c8c0a8;transition:color .2s}
+#rsidebar-wrapper .BlogArchive a:hover{color:#c9a84c}
+#rsidebar-wrapper .BlogArchive .post-count-link{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#232318;padding:1px 6px;border-radius:2px}
 
 /* ── FOOTER ──────────────────────────────────────────────────────── */
 #footer-widgets-container{display:none}
@@ -530,6 +573,58 @@ src = src.replace(
     "<div style='clear:both;'/>\n<div id='footer-widgets-container'>",
     EXTRA_BLOCKS.format(IMG_FEATURED_MUSEUM=IMG_FEATURED_MUSEUM)
     + "<div style='clear:both;'/>\n<div id='footer-widgets-container'>"
+)
+
+# ════════════════════════════════════════════════════════════════════
+# 7b. Сайдбар — статичные виджеты «В пути» и «Цитата»
+#     Вставляем сразу после <div id='rsidebar-wrapper'>
+# ════════════════════════════════════════════════════════════════════
+_status_label = "В ПУТИ" if ONROAD_ACTIVE else "ПАУЗА"
+_status_color = "#5a8a5a" if ONROAD_ACTIVE else "#8a6f2e"
+
+SIDEBAR_STATIC = """\
+
+<!-- ═══ SIDEBAR STATIC WIDGETS ══════════════════════════════════ -->
+<div class='rot-sw'>
+  <h2 class='rot-sw-head'><span class='rot-sw-head-icon'>&#128506;</span>&#1052;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090;</h2>
+  <div class='rot-sw-body'>
+    <div class='rot-onroad-status'>
+      <span class='rot-onroad-dot' style='background:{STATUS_COLOR};box-shadow:0 0 6px {STATUS_COLOR}'></span>
+      {STATUS_LABEL}
+    </div>
+    <div class='rot-onroad-dest'>{DEST}</div>
+    <div class='rot-onroad-country'>{COUNTRY}</div>
+    <div class='rot-onroad-route'>{ROUTE}</div>
+    <div class='rot-onroad-dates'>{DATES}</div>
+  </div>
+</div>
+
+<div class='rot-sw'>
+  <h2 class='rot-sw-head'><span class='rot-sw-head-icon'>&#10077;</span>&#1054;&#1090; &#1072;&#1074;&#1090;&#1086;&#1088;&#1072;</h2>
+  <div class='rot-sw-body'>
+    <div class='rot-quote-body'>
+      <span class='rot-quote-mark'>&#10077;</span>
+      <p class='rot-quote-text'>{QUOTE_TEXT}</p>
+      <span class='rot-quote-author'>— {QUOTE_AUTHOR}</span>
+    </div>
+  </div>
+</div>
+<!-- ═══ END SIDEBAR STATIC ═══════════════════════════════════════ -->
+""".format(
+    STATUS_COLOR=_status_color,
+    STATUS_LABEL=_status_label,
+    DEST=ONROAD_DEST,
+    COUNTRY=ONROAD_COUNTRY,
+    ROUTE=ONROAD_ROUTE,
+    DATES=ONROAD_DATES,
+    QUOTE_TEXT=QUOTE_TEXT,
+    QUOTE_AUTHOR=QUOTE_AUTHOR,
+)
+
+src = src.replace(
+    "<div id='rsidebar-wrapper'>",
+    "<div id='rsidebar-wrapper'>" + SIDEBAR_STATIC,
+    1  # только первое вхождение
 )
 
 # ════════════════════════════════════════════════════════════════════
