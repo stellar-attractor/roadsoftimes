@@ -494,6 +494,55 @@ NEW_MAIN_SECTION = """\
 <b:section class='main' id='main' showaddelement='no'>"""
 src = src.replace(OLD_MAIN_SECTION, NEW_MAIN_SECTION)
 
+# ════════════════════════════════════════════════════════════════════
+# 6b. Сайдбар — фиксируем id виджетов, чтобы контент выживал после
+#     повторной загрузки темы в Blogger.
+#     Blogger сохраняет данные виджета если его id есть в XML.
+#     HTML2  = «Маршрут»   HTML_QUOTE = «Цитата»
+#     Оба прописаны явно → контент не теряется при апдейте темы.
+# ════════════════════════════════════════════════════════════════════
+WIDGET_INCLUDABLE = """\
+    <b:includable id='main'>
+  <b:if cond='data:title != &quot;&quot;'>
+    <h2 class='title'><data:title/></h2>
+  </b:if>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+  <b:include name='quickedit'/>
+</b:includable>"""
+
+OLD_SIDEBAR_SECTION = """\
+<b:section class='sidebar' id='rsidebartop' showaddelement='yes'>
+  <b:widget id='HTML2' locked='false' title='' type='HTML'>
+    <b:includable id='main'>
+  <!-- only display title if it's non-empty -->
+  <b:if cond='data:title != &quot;&quot;'>
+    <h2 class='title'><data:title/></h2>
+  </b:if>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
+
+  <b:include name='quickedit'/>
+</b:includable>
+  </b:widget>
+</b:section>"""
+
+NEW_SIDEBAR_SECTION = (
+    "<b:section class='sidebar' id='rsidebartop' showaddelement='yes'>\n"
+    "  <b:widget id='HTML2' locked='false' title='Маршрут' type='HTML'>\n"
+    + WIDGET_INCLUDABLE + "\n"
+    "  </b:widget>\n"
+    "  <b:widget id='HTML_QUOTE' locked='false' title='Цитата' type='HTML'>\n"
+    + WIDGET_INCLUDABLE + "\n"
+    "  </b:widget>\n"
+    "</b:section>"
+)
+
+assert OLD_SIDEBAR_SECTION in src, "rsidebartop section not found — GameTown template changed?"
+src = src.replace(OLD_SIDEBAR_SECTION, NEW_SIDEBAR_SECTION)
+
 # Закрываем rot-posts-grid — оригинальный </div> GameTown закрывает main-wrapper,
 # поэтому нам нужен дополнительный </div> перед ним
 src = src.replace(

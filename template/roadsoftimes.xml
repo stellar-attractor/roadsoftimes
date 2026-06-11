@@ -2110,16 +2110,25 @@ embed, img, object, video {max-width: 100%;}
 <div style='clear:both;'/>
 
 <b:section class='sidebar' id='rsidebartop' showaddelement='yes'>
-  <b:widget id='HTML2' locked='false' title='' type='HTML'>
+  <b:widget id='HTML2' locked='false' title='Маршрут' type='HTML'>
     <b:includable id='main'>
-  <!-- only display title if it's non-empty -->
   <b:if cond='data:title != &quot;&quot;'>
     <h2 class='title'><data:title/></h2>
   </b:if>
   <div class='widget-content'>
     <data:content/>
   </div>
-
+  <b:include name='quickedit'/>
+</b:includable>
+  </b:widget>
+  <b:widget id='HTML_QUOTE' locked='false' title='Цитата' type='HTML'>
+    <b:includable id='main'>
+  <b:if cond='data:title != &quot;&quot;'>
+    <h2 class='title'><data:title/></h2>
+  </b:if>
+  <div class='widget-content'>
+    <data:content/>
+  </div>
   <b:include name='quickedit'/>
 </b:includable>
   </b:widget>
