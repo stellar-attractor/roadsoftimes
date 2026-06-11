@@ -374,9 +374,14 @@ function createSummaryAndThumb(id){
     var card=d.closest?d.closest(".rot-post-card"):null;
     if(card){
       var thumb=card.querySelector(".rot-card-thumb");
-      if(thumb&&!thumb.querySelector("img")){
-        var el=document.createElement("img");el.src=imgSrc;el.alt="";
-        thumb.appendChild(el);
+      if(thumb){
+        var existing=thumb.querySelector("img");
+        if(existing){
+          existing.src=imgSrc; /* перезаписываем thumbnailUrl полноразмерным */
+        } else {
+          var el=document.createElement("img");el.src=imgSrc;el.alt="";
+          thumb.appendChild(el);
+        }
       }
     }
   }
@@ -740,28 +745,7 @@ SLIDER_JS = """
 //]]>
 </script>
 """
-THUMB_UPGRADE_JS = """
-<script type='text/javascript'>
-//<![CDATA[
-// Апгрейд миниатюр карточек: s72-c → s800-c
-(function(){
-  function upgradeThumbs(){
-    document.querySelectorAll('.rot-card-thumb img').forEach(function(img){
-      img.src = img.src
-        .replace(/\/s\d+-c\//,  '/s800-c/')
-        .replace(/\/s\d+\//,    '/s800/');
-    });
-  }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', upgradeThumbs);
-  } else {
-    upgradeThumbs();
-  }
-})();
-//]]>
-</script>
-"""
-src = src.replace('</body>', SLIDER_JS + THUMB_UPGRADE_JS + '</body>')
+src = src.replace('</body>', SLIDER_JS + '</body>')
 
 # ════════════════════════════════════════════════════════════════════
 # SAVE + VALIDATE
