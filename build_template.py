@@ -212,7 +212,10 @@ img{max-width:100%;height:auto}
 .rot-single-labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .rot-single-header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #252418}
 .rot-single-title{font-family:'Oswald',sans-serif;font-size:32px;font-weight:600;color:#e8e0cc;line-height:1.15;margin-bottom:12px}
-.rot-single-meta{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;display:flex;gap:16px}
+.rot-single-meta{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.rot-single-meta .rot-meta-labels{display:flex;flex-wrap:wrap;gap:5px;margin-left:4px}
+.rot-single-meta .rot-meta-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#8a6f2e;text-decoration:none}
+.rot-single-meta .rot-meta-labels a:hover{color:#c9a84c;border-color:#8a6f2e}
 .rot-single-body{font-size:15px;color:#c8c0a8;line-height:1.8;max-width:720px}
 .rot-single-body h2,.rot-single-body h3{font-family:'Oswald',sans-serif;color:#e8e0cc;margin:28px 0 10px}
 .rot-single-body h2{font-size:22px}.rot-single-body h3{font-size:18px}
@@ -863,18 +866,18 @@ if old_post_inc:
   <!-- ═══ СТРАНИЦА ПОСТА ═══════════════════════════════════════════ -->
   <article class='rot-single-post'>
     <header class='rot-single-header'>
-      <b:if cond='data:post.labels'>
-        <div class='rot-single-labels'>
-          <b:loop values='data:post.labels' var='label'>
-            <a class='rot-tag' expr:href='data:label.url'><data:label.name/></a>
-          </b:loop>
-        </div>
-      </b:if>
       <h1 class='rot-single-title'><data:post.title/></h1>
       <div class='rot-single-meta'>
         <span>&#128197; <data:post.timestamp/></span>
         <b:if cond='data:post.allowComments'>
           <span>&#128172; <data:post.numComments/></span>
+        </b:if>
+        <b:if cond='data:post.labels'>
+          <span class='rot-meta-labels'>
+            <b:loop values='data:post.labels' var='label'>
+              <a expr:href='data:label.url'><data:label.name/></a>
+            </b:loop>
+          </span>
         </b:if>
       </div>
     </header>
