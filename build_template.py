@@ -1160,7 +1160,7 @@ WIDGET_PLACEMENT_JS = """
 
     var newsfeed = document.getElementById('newsfeed1');
     var hero     = document.querySelector('.rot-hero');
-    if(newsfeed && hero){
+    if(newsfeed){ if(hero){
       hero.insertBefore(newsfeed, hero.firstChild);
       // Выравниваем левый край newsfeed по левому краю кнопки «Читать»
       var btn = hero.querySelector('.rot-hero-buttons a');
@@ -1168,9 +1168,9 @@ WIDGET_PLACEMENT_JS = """
         var heroRect = hero.getBoundingClientRect();
         var btnRect  = btn.getBoundingClientRect();
         var scrollEl = newsfeed.querySelector('.rot-newsfeed-scroll');
-        if(scrollEl) scrollEl.style.marginLeft = (btnRect.left - heroRect.left) + 'px';
+        if(scrollEl){ scrollEl.style.marginLeft = (btnRect.left - heroRect.left) + 'px'; }
       }
-    }
+    }}
   }
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', placeWidgets);
