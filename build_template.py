@@ -1173,7 +1173,7 @@ WIDGET_PLACEMENT_JS = """
     var heroRect = hero.getBoundingClientRect();
     var btnRect  = btn.getBoundingClientRect();
     var scrollEl = newsfeed.querySelector('.rot-newsfeed-scroll');
-    if(scrollEl){ scrollEl.style.marginLeft = (btnRect.left - heroRect.left - 5) + 'px'; }
+    if(scrollEl){ scrollEl.style.marginLeft = (btnRect.left - heroRect.left - 10) + 'px'; }
   }
   function initWidgets(){
     placeWidgets();
