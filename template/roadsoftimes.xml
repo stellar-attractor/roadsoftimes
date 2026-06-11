@@ -270,10 +270,12 @@ body.item-view .rot-posts-grid *{display:revert}
 .rot-path-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:#e8e0cc;margin-bottom:5px}
 .rot-path-desc{font-size:11px;color:#7a7060;line-height:1.4}
 
-/* ── Скрываем GameTown tab-блок ─────────────────────────────────── */
+/* ── Скрываем GameTown tab-блок (JS управляет sidebartab2/3) ─────── */
 #rsidebar-wrapper .tabviewsection,
 #rsidebar-wrapper .tabs-widget,
-#sidebartab1,#sidebartab2,#sidebartab3{display:none!important}
+#sidebartab1{display:none!important}
+/* sidebartab2/3 изначально скрыты, JS покажет нужный */
+#sidebartab2,#sidebartab3{display:none}
 /* ── SIDEBAR ─────────────────────────────────────────────────────── */
 #rsidebar-wrapper .section{display:flex;flex-direction:column}
 #rsidebar-wrapper .widget{background:#1a1a0e;border:1px solid #252418;overflow:hidden;margin-bottom:16px;min-width:0;max-width:100%}
@@ -346,16 +348,16 @@ body.item-view .rot-posts-grid *{display:revert}
 #rsidebar-wrapper .BlogArchive a.toggle,
 #rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
 /* Год (li.archivedate верхнего уровня) */
-#rsidebar-wrapper .BlogArchive .hierarchy > ul > li.archivedate > a.post-count-link{
+#rsidebar-wrapper .BlogArchive ul > li.archivedate > a.post-count-link{
   display:block!important;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1.5px;
   text-transform:uppercase;color:#c9a84c;text-decoration:none;padding:7px 14px;
   background:#232318;border-bottom:1px solid #3a3520}
-/* Месяц (li.archivedate вложенного .items) */
-#rsidebar-wrapper .BlogArchive .hierarchy > ul > li > ul.items > li.archivedate > a.post-count-link{
+/* Месяц (li.archivedate внутри ul.items) */
+#rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link{
   display:block!important;font-size:11px;color:#c8c0a8;text-decoration:none;
   padding:5px 14px 5px 20px;border-bottom:1px solid #252418;
-  letter-spacing:.5px;text-transform:none;transition:color .2s}
-#rsidebar-wrapper .BlogArchive .hierarchy > ul > li > ul.items > li.archivedate > a.post-count-link:hover{color:#c9a84c}
+  letter-spacing:.5px;text-transform:none;background:none;transition:color .2s}
+#rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link:hover{color:#c9a84c}
 /* Посты (li без класса archivedate, внутри .items > .items) */
 #rsidebar-wrapper .BlogArchive .items .items li a{
   display:block!important;font-size:11px;color:#7a7060;text-decoration:none;

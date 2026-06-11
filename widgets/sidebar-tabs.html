@@ -1,34 +1,49 @@
 <!-- ═══════════════════════════════════════════════════════════════
   ВИДЖЕТ: Метки / Архив (HTML10)
-  Где вставлять: Blogger → Макет → блок «МеткиАрхив» → карандашик
-  Это обёртка-таб над стандартными Blogger виджетами Label3 и BlogArchive2.
-  Сами данные метки/архив берутся из виджетов sidebartab2/sidebartab3.
+  Blogger → Макет → «МеткиАрхив» → карандашик
+  Управляет видимостью sidebartab2 (Метки) и sidebartab3 (Архив).
+  Сами виджеты остаются на месте — JS тогглы архива работают.
 ═══════════════════════════════════════════════════════════════ -->
 
-<div class="rot-tabs-widget">
+<div class="rot-tabs-widget" id="rot-tabs-main">
   <div class="rot-tabs-nav">
-    <button class="rot-tab-active" onclick="rotTab(this,'rot-panel-labels')">Метки</button>
-    <button onclick="rotTab(this,'rot-panel-archive')">Архив</button>
+    <button class="rot-tab-active" onclick="rotTab(this,'sidebartab2')">Метки</button>
+    <button onclick="rotTab(this,'sidebartab3')">Архив</button>
   </div>
-  <div id="rot-panel-labels" class="rot-tab-panel rot-tab-active"></div>
-  <div id="rot-panel-archive" class="rot-tab-panel"></div>
 </div>
 
 <script>
-function rotTab(btn, panelId) {
-  var nav = btn.parentNode;
-  nav.querySelectorAll('button').forEach(function(b){ b.classList.remove('rot-tab-active'); });
+function rotTab(btn, showId) {
+  // Переключаем кнопки
+  btn.parentNode.querySelectorAll('button').forEach(function(b) {
+    b.classList.remove('rot-tab-active');
+  });
   btn.classList.add('rot-tab-active');
-  var widget = btn.closest('.rot-tabs-widget');
-  widget.querySelectorAll('.rot-tab-panel').forEach(function(p){ p.classList.remove('rot-tab-active'); });
-  document.getElementById(panelId).classList.add('rot-tab-active');
+  // Показываем нужный таб, скрываем остальные
+  ['sidebartab2','sidebartab3'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = (id === showId) ? 'block' : 'none';
+  });
 }
 
-// Переносим содержимое Blogger-виджетов в наши панели
 document.addEventListener('DOMContentLoaded', function() {
-  var labelsSection = document.querySelector('#sidebartab2 .widget-content, #sidebartab2 .Label .widget-content');
-  var archiveSection = document.querySelector('#sidebartab3 .widget-content, #sidebartab3 .BlogArchive .widget-content');
-  if (labelsSection) document.getElementById('rot-panel-labels').appendChild(labelsSection.cloneNode(true));
-  if (archiveSection) document.getElementById('rot-panel-archive').appendChild(archiveSection.cloneNode(true));
+  // Вырезаем sidebartab2 и sidebartab3 из GameTown-обёртки
+  // и вставляем их прямо в наш виджет
+  var container = document.getElementById('rot-tabs-main');
+  if (!container) return;
+
+  ['sidebartab2','sidebartab3'].forEach(function(id, i) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    // Убираем родительские GameTown-обёртки (widget-container, tabviewsection)
+    el.style.display = (i === 0) ? 'block' : 'none';
+    el.style.padding = '0';
+    container.appendChild(el);
+  });
+
+  // Скрываем теперь пустую GameTown таб-обёртку
+  var tabview = document.querySelector('.tabviewsection');
+  if (tabview) tabview.style.display = 'none';
 });
 </script>
