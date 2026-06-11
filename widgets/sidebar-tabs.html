@@ -38,6 +38,32 @@ window.addEventListener('load', function() {
     document.getElementById('rot-btn-archive').classList.add('rot-tab-active');
   }
 
+  // Исправляем месяцы (родительный → именительный) + добавляем счётчик
+  var months = {
+    'января':'январь',
+    'февраля':'февраль',
+    'марта':'март',
+    'апреля':'апрель',
+    'мая':'май',
+    'июня':'июнь',
+    'июля':'июль',
+    'августа':'август',
+    'сентября':'сентябрь',
+    'октября':'октябрь',
+    'ноября':'ноябрь',
+    'декабря':'декабрь'
+  };
+  document.querySelectorAll('#sidebartab3 ul.hierarchy li.archivedate').forEach(function(li) {
+    var link = li.querySelector('a.post-count-link');
+    var countEl = li.querySelector('span.post-count');
+    if (!link) return;
+    var text = link.textContent.trim().toLowerCase();
+    if (months[text]) {
+      var count = countEl ? countEl.textContent.replace(/[()]/g,'').trim() : '';
+      link.textContent = months[text] + (count ? ' (' + count + ')' : '');
+    }
+  });
+
   // Toggle архива
   document.querySelectorAll('#sidebartab3 a.toggle').forEach(function(btn) {
     // Устанавливаем исходный символ (Blogger может рендерить &#9660; как текст)
