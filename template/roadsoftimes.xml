@@ -366,17 +366,17 @@ body.item-view .rot-posts-grid *{display:revert}
   display:inline!important;font-family:'Oswald',sans-serif;font-size:12px;
   letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;text-decoration:none}
 #rsidebar-wrapper .BlogArchive ul > li.archivedate{
-  padding:7px 14px!important;background:#232318;border-bottom:1px solid #3a3520}
+  padding:7px 18px!important;background:#232318;border-bottom:1px solid #3a3520}
 /* Месяц — строка */
 #rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link{
   display:inline!important;font-size:11px;color:#c8c0a8;text-decoration:none;
   letter-spacing:.5px;text-transform:none;transition:color .2s}
 #rsidebar-wrapper .BlogArchive ul.items > li.archivedate{
-  padding:5px 14px 5px 16px!important;border-bottom:1px solid #252418}
+  padding:5px 14px 5px 20px!important;border-bottom:1px solid #252418}
 #rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link:hover{color:#c9a84c}
 /* Посты */
 #rsidebar-wrapper .BlogArchive .items .items li{
-  padding:4px 14px 4px 28px!important;border-bottom:1px solid #1a1a0e}
+  padding:4px 14px 4px 32px!important;border-bottom:1px solid #1a1a0e}
 #rsidebar-wrapper .BlogArchive .items .items li a{
   display:inline!important;font-size:11px;color:#7a7060;text-decoration:none;transition:color .2s}
 #rsidebar-wrapper .BlogArchive .items .items li a:hover{color:#c9a84c}
