@@ -191,9 +191,9 @@ img{max-width:100%;height:auto}
 
 /* ── MUSEUM WIDGET — внутри main-wrapper ────────────────────────── */
 /* Обнуляем обёртку Blogger-виджета, чтобы не ломать дизайн блока */
-#featured-museum{margin-top:28px}
-#featured-museum>.widget{background:none!important;border:none!important;margin:0!important;overflow:visible!important}
-#featured-museum>.widget>.widget-content{padding:0!important}
+#museum1{margin-top:28px}
+#museum1>.widget{background:none!important;border:none!important;margin:0!important;overflow:visible!important}
+#museum1>.widget>.widget-content{padding:0!important}
 
 /* ── CHOOSE PATH ────────────────────────────────────────────────── */
 .rot-choose-path{margin-bottom:28px;clear:both}
@@ -527,7 +527,7 @@ NEW_SIDEBAR_SECTION = (
     "  <b:widget id='HTML2' locked='false' title='Маршрут' type='HTML'>\n"
     + WIDGET_INCLUDABLE + "\n"
     "  </b:widget>\n"
-    "  <b:widget id='HTML_QUOTE' locked='false' title='Цитата' type='HTML'>\n"
+    "  <b:widget id='HTML8' locked='false' title='Цитата' type='HTML'>\n"
     + WIDGET_INCLUDABLE + "\n"
     "  </b:widget>\n"
     "</b:section>"
@@ -538,8 +538,8 @@ src = src.replace(OLD_SIDEBAR_SECTION, NEW_SIDEBAR_SECTION)
 
 # Закрываем rot-posts-grid, вставляем секцию музея, закрываем main-wrapper
 MUSEUM_SECTION = (
-    "<b:section class='museum-section' id='featured-museum' showaddelement='no'>\n"
-    "  <b:widget id='HTML_MUSEUM' locked='false' title='Рекомендуемый музей' type='HTML'>\n"
+    "<b:section class='museum-section' id='museum1' showaddelement='no'>\n"
+    "  <b:widget id='HTML9' locked='false' title='Рекомендуемый музей' type='HTML'>\n"
     "    <b:includable id='main'>\n"
     "  <div class='widget-content'>\n"
     "    <data:content/>\n"

@@ -176,9 +176,9 @@ img{max-width:100%;height:auto}
 
 /* ── MUSEUM WIDGET — внутри main-wrapper ────────────────────────── */
 /* Обнуляем обёртку Blogger-виджета, чтобы не ломать дизайн блока */
-#featured-museum{margin-top:28px}
-#featured-museum>.widget{background:none!important;border:none!important;margin:0!important;overflow:visible!important}
-#featured-museum>.widget>.widget-content{padding:0!important}
+#museum1{margin-top:28px}
+#museum1>.widget{background:none!important;border:none!important;margin:0!important;overflow:visible!important}
+#museum1>.widget>.widget-content{padding:0!important}
 
 /* ── CHOOSE PATH ────────────────────────────────────────────────── */
 .rot-choose-path{margin-bottom:28px;clear:both}
@@ -2102,8 +2102,8 @@ embed, img, object, video {max-width: 100%;}
           </b:widget>
         </b:section>
 </div><!-- /.rot-posts-grid -->
-<b:section class='museum-section' id='featured-museum' showaddelement='no'>
-  <b:widget id='HTML_MUSEUM' locked='false' title='Рекомендуемый музей' type='HTML'>
+<b:section class='museum-section' id='museum1' showaddelement='no'>
+  <b:widget id='HTML9' locked='false' title='Рекомендуемый музей' type='HTML'>
     <b:includable id='main'>
   <div class='widget-content'>
     <data:content/>
@@ -2137,7 +2137,7 @@ embed, img, object, video {max-width: 100%;}
   <b:include name='quickedit'/>
 </b:includable>
   </b:widget>
-  <b:widget id='HTML_QUOTE' locked='false' title='Цитата' type='HTML'>
+  <b:widget id='HTML8' locked='false' title='Цитата' type='HTML'>
     <b:includable id='main'>
   <b:if cond='data:title != &quot;&quot;'>
     <h2 class='title'><data:title/></h2>
