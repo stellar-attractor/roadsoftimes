@@ -233,6 +233,74 @@ img{max-width:100%;height:auto}
 .rot-footer-bottom{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060}
 #footer{padding:0;background:none;border:none}
 #copyrights,#credits{display:none}
+
+/* ══════════════════════════════════════════════════════════════════
+   АДАПТИВ — три точки перелома:
+   1) ≤1024px  планшет горизонтальный: боковая колонка чуть уже
+   2) ≤768px   планшет / крупный телефон: основные переключения
+   3) ≤480px   телефон: финальные упрощения
+══════════════════════════════════════════════════════════════════ */
+
+@media(max-width:1024px){
+  #content-wrapper{grid-template-columns:1fr 260px!important}
+  .rot-hero-title{font-size:42px}
+  .rot-footer-top{grid-template-columns:200px 1fr 1fr 1fr;gap:20px}
+}
+
+@media(max-width:768px){
+  /* ── Шапка: скрыть навигацию, оставить логотип + кнопки ── */
+  .rot-nav{display:none!important}
+  .rot-header-inner{flex-wrap:wrap;justify-content:space-between}
+
+  /* ── Герой ── */
+  .rot-hero{height:320px!important}
+  .rot-hero-title{font-size:34px;max-width:100%}
+  .rot-hero-desc{display:none}
+  .rot-hero-buttons a:last-child{display:none}
+
+  /* ── Двухколоночный основной грид → один столбец ── */
+  #content-wrapper{grid-template-columns:1fr!important;gap:0!important}
+  /* Боковая колонка едет под основной контент */
+  #rsidebar-wrapper{order:2;width:100%!important;max-width:100%!important;border-left:none!important;border-top:1px solid #252418;padding-top:24px!important;margin-top:32px}
+
+  /* ── Карточки постов: 2 колонки ── */
+  .rot-posts-grid{grid-template-columns:repeat(2,1fr)!important}
+
+  /* ── Блок «Музей»: фото сверху, текст снизу ── */
+  .rot-museum-inner{grid-template-columns:1fr!important}
+  .rot-museum-photo{height:200px}
+
+  /* ── Выбери маршрут: 2×2 ── */
+  .rot-path-grid{grid-template-columns:repeat(2,1fr)!important}
+
+  /* ── Футер: одна колонка ── */
+  .rot-footer-top{grid-template-columns:1fr!important;gap:20px}
+  .rot-footer-bottom{flex-direction:column;gap:8px;text-align:center}
+}
+
+@media(max-width:480px){
+  /* ── Герой ── */
+  .rot-hero{height:260px!important}
+  .rot-hero-title{font-size:28px;letter-spacing:1px}
+  .rot-hero-eyebrow{display:none}
+  .rot-hero-geo{display:none}
+
+  /* ── Одна колонка постов ── */
+  .rot-posts-grid{grid-template-columns:1fr!important}
+
+  /* ── Раздел posts-section: убрать боковые отступы ── */
+  .rot-section-header{padding-left:4px}
+
+  /* ── Карточки: изображение короче ── */
+  .rot-card-thumb{height:160px!important}
+
+  /* ── Выбери маршрут: 1 колонка на совсем маленьком ── */
+  .rot-path-grid{grid-template-columns:1fr!important}
+
+  /* ── Шапка — сжать логотип ── */
+  .rot-logo-title{font-size:15px!important}
+  .rot-logo-sub{display:none}
+}
 """
 
 skin_re = re.compile(r'<b:skin><!\[CDATA\[.*?\]\]></b:skin>', re.DOTALL)
