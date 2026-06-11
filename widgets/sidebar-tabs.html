@@ -38,17 +38,20 @@ window.addEventListener('load', function() {
     document.getElementById('rot-btn-archive').classList.add('rot-tab-active');
   }
 
-  // Toggle архива: Blogger использует ul.hierarchy и ul.posts, не ul.items
+  // Toggle архива
   document.querySelectorAll('#sidebartab3 a.toggle').forEach(function(btn) {
+    // Устанавливаем исходный символ (Blogger может рендерить &#9660; как текст)
+    var zippy = btn.querySelector('span');
+    if (zippy) zippy.innerHTML = '&#9660;';
+
     btn.addEventListener('click', function(e) {
       e.preventDefault();
-      var li = btn.parentNode; // li.archivedate
-      // Ищем первый ul-потомок li (hierarchy или posts)
+      var li = btn.parentNode;
       var ul = li.querySelector('ul');
       if (!ul) return;
       var collapsed = ul.classList.toggle('rot-collapsed');
-      var zippy = btn.querySelector('.zippy');
-      if (zippy) zippy.textContent = collapsed ? '► ' : '▼ ';
+      var z = btn.querySelector('span');
+      if (z) z.innerHTML = collapsed ? '&#9658;' : '&#9660;';
     });
   });
 });
