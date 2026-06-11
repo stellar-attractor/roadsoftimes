@@ -1,0 +1,34 @@
+<!-- ═══════════════════════════════════════════════════════════════
+  ВИДЖЕТ: Метки / Архив (HTML10)
+  Где вставлять: Blogger → Макет → блок «МеткиАрхив» → карандашик
+  Это обёртка-таб над стандартными Blogger виджетами Label3 и BlogArchive2.
+  Сами данные метки/архив берутся из виджетов sidebartab2/sidebartab3.
+═══════════════════════════════════════════════════════════════ -->
+
+<div class="rot-tabs-widget">
+  <div class="rot-tabs-nav">
+    <button class="rot-tab-active" onclick="rotTab(this,'rot-panel-labels')">Метки</button>
+    <button onclick="rotTab(this,'rot-panel-archive')">Архив</button>
+  </div>
+  <div id="rot-panel-labels" class="rot-tab-panel rot-tab-active"></div>
+  <div id="rot-panel-archive" class="rot-tab-panel"></div>
+</div>
+
+<script>
+function rotTab(btn, panelId) {
+  var nav = btn.parentNode;
+  nav.querySelectorAll('button').forEach(function(b){ b.classList.remove('rot-tab-active'); });
+  btn.classList.add('rot-tab-active');
+  var widget = btn.closest('.rot-tabs-widget');
+  widget.querySelectorAll('.rot-tab-panel').forEach(function(p){ p.classList.remove('rot-tab-active'); });
+  document.getElementById(panelId).classList.add('rot-tab-active');
+}
+
+// Переносим содержимое Blogger-виджетов в наши панели
+document.addEventListener('DOMContentLoaded', function() {
+  var labelsSection = document.querySelector('#sidebartab2 .widget-content, #sidebartab2 .Label .widget-content');
+  var archiveSection = document.querySelector('#sidebartab3 .widget-content, #sidebartab3 .BlogArchive .widget-content');
+  if (labelsSection) document.getElementById('rot-panel-labels').appendChild(labelsSection.cloneNode(true));
+  if (archiveSection) document.getElementById('rot-panel-archive').appendChild(archiveSection.cloneNode(true));
+});
+</script>

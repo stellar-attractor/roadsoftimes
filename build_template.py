@@ -292,6 +292,10 @@ body.item-view .rot-posts-grid *{display:revert}
 .rot-path-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:#e8e0cc;margin-bottom:5px}
 .rot-path-desc{font-size:11px;color:#7a7060;line-height:1.4}
 
+/* ── Скрываем GameTown tab-блок ─────────────────────────────────── */
+#rsidebar-wrapper .tabviewsection,
+#rsidebar-wrapper .tabs-widget,
+#sidebartab1,#sidebartab2,#sidebartab3{display:none!important}
 /* ── SIDEBAR ─────────────────────────────────────────────────────── */
 #rsidebar-wrapper .section{display:flex;flex-direction:column}
 #rsidebar-wrapper .widget{background:#1a1a0e;border:1px solid #252418;overflow:hidden;margin-bottom:16px;min-width:0;max-width:100%}
@@ -333,6 +337,14 @@ body.item-view .rot-posts-grid *{display:revert}
 .rot-quote-text{font-size:13px;color:#c8c0a8;line-height:1.7;font-style:italic;margin:0 0 10px}
 .rot-quote-author{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;letter-spacing:1px}
 
+/* ── Наш таб-виджет Метки/Архив ────────────────────────────────── */
+.rot-tabs-widget{background:#1a1a0e;border:1px solid #252418;overflow:hidden;margin-bottom:16px}
+.rot-tabs-nav{display:flex;border-bottom:1px solid #3a3520}
+.rot-tabs-nav button{flex:1;background:none;border:none;border-bottom:2px solid transparent;padding:10px 8px;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#7a7060;cursor:pointer;transition:color .2s,border-color .2s;margin-bottom:-1px}
+.rot-tabs-nav button:hover{color:#c9a84c}
+.rot-tabs-nav button.rot-tab-active{color:#c9a84c;border-bottom-color:#c9a84c;background:#232318}
+.rot-tab-panel{display:none}
+.rot-tab-panel.rot-tab-active{display:block}
 /* ── Облако меток ───────────────────────────────────────────────── */
 #rsidebar-wrapper .Label .widget-content{padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px}
 #rsidebar-wrapper .Label .widget-content a,
@@ -650,6 +662,9 @@ NEW_SIDEBAR_SECTION = (
     + WIDGET_INCLUDABLE + "\n"
     "  </b:widget>\n"
     "  <b:widget id='HTML8' locked='false' title='Цитата' type='HTML'>\n"
+    + WIDGET_INCLUDABLE + "\n"
+    "  </b:widget>\n"
+    "  <b:widget id='HTML10' locked='false' title='МеткиАрхив' type='HTML'>\n"
     + WIDGET_INCLUDABLE + "\n"
     "  </b:widget>\n"
     "</b:section>"
