@@ -101,7 +101,7 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 /* ── HERO NEWSFEED ──────────────────────────────────────────────── */
 #newsfeed1{position:absolute;bottom:0;left:0;right:0;z-index:20;display:block!important}
 #newsfeed1 .rot-newsfeed{max-width:1100px;margin:0 auto;padding-left:75px;padding-right:15px;box-sizing:border-box;width:auto}
-#newsfeed1 .rot-newsfeed-scroll{width:290px}
+#newsfeed1 .rot-newsfeed-scroll{width:340px}
 #newsfeed1 .section,#newsfeed1 .widget,#newsfeed1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
 #newsfeed1 h2.title{display:none!important}
 .rot-newsfeed{background:transparent;border:none;overflow:hidden;height:120px}
