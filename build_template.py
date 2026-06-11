@@ -169,6 +169,26 @@ img{max-width:100%;height:auto}
 .rot-card-meta{display:flex;align-items:center;gap:12px;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;border-top:1px solid #252418;padding-top:10px;flex-wrap:wrap}
 .rot-card-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#8a6f2e;margin-right:4px}
 .rot-card-labels a:hover{color:#c9a84c;border-color:#8a6f2e}
+
+/* ── СТРАНИЦА ПОСТА ──────────────────────────────────────────────── */
+.rot-single-post{padding:28px 0 0;min-width:0}
+.rot-single-labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.rot-single-header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #252418}
+.rot-single-title{font-family:'Oswald',sans-serif;font-size:32px;font-weight:600;color:#e8e0cc;line-height:1.15;margin-bottom:12px}
+.rot-single-meta{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;display:flex;gap:16px}
+.rot-single-body{font-size:15px;color:#c8c0a8;line-height:1.8;max-width:720px}
+.rot-single-body h2,.rot-single-body h3{font-family:'Oswald',sans-serif;color:#e8e0cc;margin:28px 0 10px}
+.rot-single-body h2{font-size:22px}.rot-single-body h3{font-size:18px}
+.rot-single-body p{margin-bottom:16px}
+.rot-single-body img{max-width:100%;height:auto;display:block;margin:20px 0;border:1px solid #252418}
+.rot-single-body a{color:#c9a84c;border-bottom:1px solid rgba(201,168,76,.3);transition:border-color .2s}
+.rot-single-body a:hover{border-color:#c9a84c}
+.rot-single-body blockquote{border-left:3px solid #8a6f2e;margin:20px 0;padding:8px 0 8px 18px;color:#a09880;font-style:italic}
+.rot-single-footer{margin-top:36px;padding-top:20px;border-top:1px solid #252418}
+/* На странице поста грид не нужен — отключаем */
+body.item-view .rot-posts-grid{display:block!important}
+body.item-view .rot-posts-grid *{display:revert}
+
 /* Blog pager */
 .blog-pager{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid #3a3520;margin-top:10px;background:none}
 .blog-pager a,.blog-pager-newer-link,.blog-pager-older-link{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#7a7060;border:1px solid #252418;padding:6px 14px;transition:color .2s,border-color .2s}
@@ -630,42 +650,77 @@ old_post_inc = re.search(
 if old_post_inc:
     NEW_POST_INC = """\
 <b:includable id='post' var='post'>
-<article class='rot-post-card'>
-  <div class='rot-card-thumb'>
-    <b:if cond='data:post.labels'>
-      <b:loop values='data:post.labels' var='label'>
-        <b:if cond='data:label.isFirst == &quot;true&quot;'>
-          <span class='rot-tag'><data:label.name/></span>
-        </b:if>
-      </b:loop>
-    </b:if>
-    <b:if cond='data:post.thumbnailUrl'>
-      <img alt='' expr:src='data:post.thumbnailUrl'/>
-    </b:if>
-  </div>
-  <div class='rot-card-body'>
-    <!-- Растягиваем ссылку заголовка на всю карточку через ::after,
-         оставляя внутренние ссылки (метки) кликабельными поверх -->
-    <h3 class='rot-card-title'><a class='rot-card-link' expr:href='data:post.url'><data:post.title/></a></h3>
-    <div class='rot-card-excerpt'>
-      <div expr:id='&quot;summary&quot; + data:post.id'><data:post.body/></div>
-      <script type='text/javascript'>createSummaryAndThumb(&quot;summary<data:post.id/>&quot;);</script>
-    </div>
-    <div class='rot-card-meta'>
-      <span>&#128197; <data:post.timestamp/></span>
-      <b:if cond='data:post.allowComments'>
-        <span>&#128172; <data:post.numComments/></span>
-      </b:if>
+<b:if cond='data:blog.pageType == &quot;item&quot;'>
+
+  <!-- ═══ СТРАНИЦА ПОСТА ═══════════════════════════════════════════ -->
+  <article class='rot-single-post'>
+    <header class='rot-single-header'>
       <b:if cond='data:post.labels'>
-        <span class='rot-card-labels'>
+        <div class='rot-single-labels'>
           <b:loop values='data:post.labels' var='label'>
-            <a expr:href='data:label.url'><data:label.name/></a>
+            <a class='rot-tag' expr:href='data:label.url'><data:label.name/></a>
           </b:loop>
-        </span>
+        </div>
+      </b:if>
+      <h1 class='rot-single-title'><data:post.title/></h1>
+      <div class='rot-single-meta'>
+        <span>&#128197; <data:post.timestamp/></span>
+        <b:if cond='data:post.allowComments'>
+          <span>&#128172; <data:post.numComments/></span>
+        </b:if>
+      </div>
+    </header>
+    <div class='rot-single-body'>
+      <data:post.body/>
+    </div>
+    <footer class='rot-single-footer'>
+      <b:if cond='data:post.allowComments'>
+        <div id='comments'>
+          <b:include data='post' name='comments'/>
+        </div>
+      </b:if>
+    </footer>
+  </article>
+
+<b:else/>
+
+  <!-- ═══ КАРТОЧКА (главная / архив / метка) ══════════════════════ -->
+  <article class='rot-post-card'>
+    <div class='rot-card-thumb'>
+      <b:if cond='data:post.labels'>
+        <b:loop values='data:post.labels' var='label'>
+          <b:if cond='data:label.isFirst == &quot;true&quot;'>
+            <span class='rot-tag'><data:label.name/></span>
+          </b:if>
+        </b:loop>
+      </b:if>
+      <b:if cond='data:post.thumbnailUrl'>
+        <img alt='' expr:src='data:post.thumbnailUrl'/>
       </b:if>
     </div>
-  </div>
-</article>
+    <div class='rot-card-body'>
+      <h3 class='rot-card-title'><a class='rot-card-link' expr:href='data:post.url'><data:post.title/></a></h3>
+      <div class='rot-card-excerpt'>
+        <div expr:id='&quot;summary&quot; + data:post.id'><data:post.body/></div>
+        <script type='text/javascript'>createSummaryAndThumb(&quot;summary<data:post.id/>&quot;);</script>
+      </div>
+      <div class='rot-card-meta'>
+        <span>&#128197; <data:post.timestamp/></span>
+        <b:if cond='data:post.allowComments'>
+          <span>&#128172; <data:post.numComments/></span>
+        </b:if>
+        <b:if cond='data:post.labels'>
+          <span class='rot-card-labels'>
+            <b:loop values='data:post.labels' var='label'>
+              <a expr:href='data:label.url'><data:label.name/></a>
+            </b:loop>
+          </span>
+        </b:if>
+      </div>
+    </div>
+  </article>
+
+</b:if>
 </b:includable>"""
     src = src[:old_post_inc.start()] + NEW_POST_INC + src[old_post_inc.end():]
 
