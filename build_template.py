@@ -208,8 +208,8 @@ img{max-width:100%;height:auto}
 /* Контейнер iframe-формы — инвертируем цвета чтобы вписать в тёмную тему */
 #comment-form,#comment-editor-container{width:100%!important;max-width:none!important;box-sizing:border-box!important}
 #comment-editor-container{background:#0e0e08;border:1px solid #3a3520;margin-top:8px;overflow:hidden}
-/* Всё внутри контейнера формы — не шире колонки */
-#comment-editor-container *,#comment-editor-container iframe{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
+/* Все div-потомки контейнера — ломаем фиксированные px-ширины */
+#comment-editor-container div{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
 #comment-editor{border:none!important;display:block!important;
   filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.95)}
 /* На странице поста грид не нужен — отключаем */
