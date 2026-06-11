@@ -25,22 +25,33 @@ function rotTab(btn, showId) {
   try { localStorage.setItem('rot-sidebar-tab', showId); } catch(e) {}
 }
 
-// Ждём полной загрузки страницы — Blogger успевает навесить тогглы
 window.addEventListener('load', function() {
   var saved;
   try { saved = localStorage.getItem('rot-sidebar-tab'); } catch(e) {}
   var active = saved || 'sidebartab2';
 
-  // Прячем неактивный таб
   ['sidebartab2','sidebartab3'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = (id === active) ? 'block' : 'none';
   });
 
-  // Подсвечиваем нужную кнопку
   if (active === 'sidebartab3') {
     document.getElementById('rot-btn-labels').classList.remove('rot-tab-active');
     document.getElementById('rot-btn-archive').classList.add('rot-tab-active');
   }
+
+  // Свой toggle для архива — Blogger не навешивает onclick
+  document.querySelectorAll('#sidebartab3 a.toggle').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var li = btn.parentNode; // li.archivedate
+      var items = li.querySelector(':scope > ul.items');
+      if (!items) return;
+      var isOpen = items.style.display !== 'none';
+      items.style.display = isOpen ? 'none' : 'block';
+      var zippy = btn.querySelector('.zippy');
+      if (zippy) zippy.textContent = isOpen ? '► ' : '▼ ';
+    });
+  });
 });
 </script>
