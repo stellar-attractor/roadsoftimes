@@ -830,23 +830,35 @@ COMMENT_FIX_JS = """
 <script type='text/javascript'>
 //<![CDATA[
 (function(){
-  function fixCommentForm(){
-    var iframe = document.getElementById('comment-editor');
-    if(iframe){
-      iframe.removeAttribute('width');
-      iframe.style.width = '100%';
-      iframe.style.minWidth = '0';
-    }
-    var container = document.getElementById('comment-editor-container');
-    if(container){
-      container.style.width = '100%';
-      container.style.maxWidth = 'none';
-    }
+  function fixIframe(iframe){
+    iframe.removeAttribute('width');
+    iframe.removeAttribute('height');
+    iframe.style.cssText += ';width:100%!important;min-width:0!important;max-width:none!important;display:block!important';
   }
-  // Пробуем сразу и через небольшую задержку (Blogger вставляет iframe динамически)
-  fixCommentForm();
-  setTimeout(fixCommentForm, 500);
-  setTimeout(fixCommentForm, 1500);
+  function fixContainer(){
+    var c = document.getElementById('comment-editor-container');
+    if(c) c.style.cssText += ';width:100%!important;max-width:none!important';
+    var f = document.getElementById('comment-form');
+    if(f) f.style.cssText += ';width:100%!important;max-width:none!important';
+  }
+  // Наблюдаем за DOM — ловим iframe в момент вставки
+  var obs = new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      m.addedNodes.forEach(function(node){
+        if(node.id === 'comment-editor'){ fixIframe(node); fixContainer(); }
+        if(node.querySelector){
+          var iframe = node.querySelector('#comment-editor');
+          if(iframe){ fixIframe(iframe); fixContainer(); }
+        }
+      });
+    });
+    // Проверяем и уже существующий
+    var iframe = document.getElementById('comment-editor');
+    if(iframe){ fixIframe(iframe); fixContainer(); }
+  });
+  obs.observe(document.body, {childList:true, subtree:true});
+  // Fallback
+  fixContainer();
 })();
 //]]>
 </script>
