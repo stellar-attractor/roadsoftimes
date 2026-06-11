@@ -163,7 +163,9 @@ img{max-width:100%;height:auto}
 .rot-posts-grid .inline-ad,
 .rot-posts-grid .date-header,
 .rot-posts-grid h2.title,
-.rot-posts-grid .widget-title{display:none!important}
+.rot-posts-grid .widget-title,
+.rot-posts-grid ins,
+.rot-posts-grid .adsbygoogle{display:none!important}
 /* Пагинация вытаскивается отдельно поверх сетки */
 .rot-posts-grid .blog-pager{grid-column:1/-1}
 /* ── FEED VIEW ──────────────────────────────────────────────────── */
