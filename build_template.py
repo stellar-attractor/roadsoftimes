@@ -567,11 +567,11 @@ OUR_HEADER = """
     </a>
     <nav class='rot-nav'>
       <ul>
-        <li class='rot-nav-active'><a expr:href='data:blog.homepageUrl'>&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;</a></li>
-        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%94%D0%BE%D1%80%D0%BE%D0%B3%D0%B8&quot;'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080;</a></li>
-        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
-        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
-        <li><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</a></li>
+        <li id='rot-nav-home'><a expr:href='data:blog.homepageUrl'>&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;</a></li>
+        <li id='rot-nav-dorogi'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%94%D0%BE%D1%80%D0%BE%D0%B3%D0%B8&quot;'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080;</a></li>
+        <li id='rot-nav-vremena'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
+        <li id='rot-nav-muzei'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
+        <li id='rot-nav-ekspona'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</a></li>
       </ul>
     </nav>
     <div class='rot-header-icons'>
@@ -1101,7 +1101,32 @@ LABEL_BANNER_JS = """
 })();
 </script>
 """
-src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + VIEW_SWITCHER_JS + LABEL_BANNER_JS + '</body>')
+NAV_ACTIVE_JS = """
+<script>
+(function(){
+  var path = location.pathname + location.search;
+  var map = [
+    ['rot-nav-dorogi',  'Дороги'],
+    ['rot-nav-vremena', 'Времена'],
+    ['rot-nav-muzei',   'Музеи'],
+    ['rot-nav-ekspona', 'Экспонаты']
+  ];
+  var matched = false;
+  map.forEach(function(pair){
+    var label = encodeURIComponent(pair[1]);
+    if(path.indexOf(label) !== -1 || path.indexOf(pair[1]) !== -1){
+      var el = document.getElementById(pair[0]);
+      if(el){ el.classList.add('rot-nav-active'); matched = true; }
+    }
+  });
+  if(!matched){
+    var home = document.getElementById('rot-nav-home');
+    if(home) home.classList.add('rot-nav-active');
+  }
+})();
+</script>
+"""
+src = src.replace('</body>', SLIDER_JS + COMMENT_FIX_JS + VIEW_SWITCHER_JS + LABEL_BANNER_JS + NAV_ACTIVE_JS + '</body>')
 
 # ════════════════════════════════════════════════════════════════════
 # SAVE + VALIDATE
