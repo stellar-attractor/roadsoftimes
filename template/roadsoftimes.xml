@@ -106,6 +106,13 @@ img{max-width:100%;height:auto}
 #museum-wrapper{grid-column:1!important;grid-row:3!important;width:auto!important;float:none!important;min-width:0;padding-top:0}
 #rsidebar-wrapper{grid-column:2!important;grid-row:2/span 2!important;width:auto!important;float:none!important;min-width:0;padding-top:24px}
 
+/* ── VIEW SWITCHER ──────────────────────────────────────────────── */
+.rot-view-switcher{display:flex;gap:4px;align-items:center}
+.rot-view-btn{background:none;border:1px solid #252418;padding:5px 10px;cursor:pointer;color:#7a7060;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;transition:color .2s,border-color .2s;line-height:1}
+.rot-view-btn svg{display:block}
+.rot-view-btn:hover{color:#c9a84c;border-color:#8a6f2e}
+.rot-view-btn.active{color:#c9a84c;border-color:#8a6f2e;background:#1a1a0e}
+
 /* ── POST CARDS ─────────────────────────────────────────────────── */
 .rot-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #3a3520}
 .rot-section-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#e8e0cc;display:flex;align-items:center;gap:8px}
@@ -136,6 +143,22 @@ img{max-width:100%;height:auto}
 .rot-posts-grid .widget-title{display:none!important}
 /* Пагинация вытаскивается отдельно поверх сетки */
 .rot-posts-grid .blog-pager{grid-column:1/-1}
+/* ── FEED VIEW ──────────────────────────────────────────────────── */
+.rot-posts-grid.view-feed{display:flex!important;flex-direction:column!important;gap:0!important}
+.rot-posts-grid.view-feed #main,
+.rot-posts-grid.view-feed .widget.Blog,
+.rot-posts-grid.view-feed .blog-posts.hfeed,
+.rot-posts-grid.view-feed .date-outer,
+.rot-posts-grid.view-feed .date-posts,
+.rot-posts-grid.view-feed .post-outer{display:contents!important}
+.rot-posts-grid.view-feed .rot-post-card{flex-direction:row!important;border:none!important;border-bottom:1px solid #252418!important;border-radius:0!important;gap:0;padding:14px 0}
+.rot-posts-grid.view-feed .rot-post-card:hover{border-color:#252418!important;background:none!important}
+.rot-posts-grid.view-feed .rot-card-thumb{width:130px!important;min-width:130px!important;height:86px!important;flex-shrink:0;margin-right:16px;overflow:hidden}
+.rot-posts-grid.view-feed .rot-card-thumb img{width:100%;height:100%;object-fit:cover}
+.rot-posts-grid.view-feed .rot-card-body{padding:0!important;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.rot-posts-grid.view-feed .rot-card-title{font-size:15px!important;margin:0 0 4px!important}
+.rot-posts-grid.view-feed .rot-card-excerpt{font-size:13px!important;-webkit-line-clamp:2!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+.rot-posts-grid.view-feed .blog-pager{margin-top:10px;border-top:1px solid #3a3520}
 /* Blogger label-filter banner — скрываем дефолтный, показываем наш */
 .status-msg-wrap,.status-msg-body,.status-msg-border{display:none!important}
 .rot-label-banner{display:none;grid-column:1/-1;padding:10px 16px;background:#1a1a0e;border:1px solid #3a3520;border-left:3px solid #c9a84c;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#7a7060;margin-bottom:4px}
@@ -1282,7 +1305,14 @@ embed, img, object, video {max-width: 100%;}
 
         <div class='rot-section-header'>
   <h2 class='rot-section-title'>&#1055;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1077; &#1087;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080;</h2>
-  <a class='rot-section-link' expr:href='data:blog.homepageUrl'>&#1042;&#1089;&#1077; &#8594;</a>
+  <div class='rot-view-switcher'>
+    <button class='rot-view-btn active' id='btn-cards' onclick='rotSetView(&quot;cards&quot;)' title='&#1050;&#1072;&#1088;&#1090;&#1086;&#1095;&#1082;&#1080;'>
+      <svg width='16' height='16' viewBox='0 0 16 16' fill='currentColor'><rect x='1' y='1' width='6' height='6'/><rect x='9' y='1' width='6' height='6'/><rect x='1' y='9' width='6' height='6'/><rect x='9' y='9' width='6' height='6'/></svg>
+    </button>
+    <button class='rot-view-btn' id='btn-feed' onclick='rotSetView(&quot;feed&quot;)' title='&#1051;&#1077;&#1085;&#1090;&#1072;'>
+      <svg width='16' height='16' viewBox='0 0 16 16' fill='currentColor'><rect x='5' y='1' width='10' height='2'/><rect x='1' y='1' width='3' height='2'/><rect x='5' y='5' width='10' height='2'/><rect x='1' y='5' width='3' height='2'/><rect x='5' y='9' width='10' height='2'/><rect x='1' y='9' width='3' height='2'/><rect x='5' y='13' width='10' height='2'/><rect x='1' y='13' width='3' height='2'/></svg>
+    </button>
+  </div>
 </div>
 <div class='rot-posts-grid'>
 <b:section class='main' id='main' showaddelement='no'>
@@ -2776,6 +2806,30 @@ embed, img, object, video {max-width: 100%;}
   fixAll();
 })();
 //]]>
+</script>
+
+<script>
+function rotSetView(v){
+  var grid = document.querySelector('.rot-posts-grid');
+  var btnCards = document.getElementById('btn-cards');
+  var btnFeed  = document.getElementById('btn-feed');
+  if(!grid) return;
+  if(v === 'feed'){
+    grid.classList.add('view-feed');
+    if(btnCards) btnCards.classList.remove('active');
+    if(btnFeed)  btnFeed.classList.add('active');
+  } else {
+    grid.classList.remove('view-feed');
+    if(btnCards) btnCards.classList.add('active');
+    if(btnFeed)  btnFeed.classList.remove('active');
+  }
+  try{ localStorage.setItem('rot-view', v); } catch(e){}
+}
+(function(){
+  var saved;
+  try{ saved = localStorage.getItem('rot-view'); } catch(e){}
+  if(saved) rotSetView(saved);
+})();
 </script>
 
 <script>
