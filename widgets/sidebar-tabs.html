@@ -1,11 +1,11 @@
 <!-- ═══════════════════════════════════════════════════════════════
   ВИДЖЕТ: Метки / Архив (HTML10)
   Blogger → Макет → «МеткиАрхив» → карандашик
-  Управляет видимостью sidebartab2 (Метки) и sidebartab3 (Архив).
-  Сами виджеты остаются на месте — JS тогглы архива работают.
+  НЕ перемещает DOM-узлы — только показывает/скрывает sidebartab2/3.
+  Blogger-тогглы архива работают т.к. элементы остаются на месте.
 ═══════════════════════════════════════════════════════════════ -->
 
-<div class="rot-tabs-widget" id="rot-tabs-main">
+<div class="rot-tabs-widget">
   <div class="rot-tabs-nav">
     <button class="rot-tab-active" onclick="rotTab(this,'sidebartab2')">Метки</button>
     <button onclick="rotTab(this,'sidebartab3')">Архив</button>
@@ -14,36 +14,41 @@
 
 <script>
 function rotTab(btn, showId) {
-  // Переключаем кнопки
   btn.parentNode.querySelectorAll('button').forEach(function(b) {
     b.classList.remove('rot-tab-active');
   });
   btn.classList.add('rot-tab-active');
-  // Показываем нужный таб, скрываем остальные
   ['sidebartab2','sidebartab3'].forEach(function(id) {
     var el = document.getElementById(id);
-    if (!el) return;
-    el.style.display = (id === showId) ? 'block' : 'none';
+    if (el) el.style.display = (id === showId) ? 'block' : 'none';
   });
+  try { localStorage.setItem('rot-sidebar-tab', showId); } catch(e) {}
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Вырезаем sidebartab2 и sidebartab3 из GameTown-обёртки
-  // и вставляем их прямо в наш виджет
-  var container = document.getElementById('rot-tabs-main');
-  if (!container) return;
+  // Скрываем GameTown таб-обёртку, оставляя sidebartab2/3 на месте
+  var wrap = document.querySelector('#rsidebar-wrapper .widget-container .tabviewsection');
+  if (wrap) wrap.parentNode.style.cssText = 'padding:0;margin:0;border:none;background:none';
 
-  ['sidebartab2','sidebartab3'].forEach(function(id, i) {
+  // Восстанавливаем сохранённый таб
+  var saved;
+  try { saved = localStorage.getItem('rot-sidebar-tab'); } catch(e) {}
+  var initial = saved || 'sidebartab2';
+
+  ['sidebartab2','sidebartab3'].forEach(function(id) {
     var el = document.getElementById(id);
-    if (!el) return;
-    // Убираем родительские GameTown-обёртки (widget-container, tabviewsection)
-    el.style.display = (i === 0) ? 'block' : 'none';
-    el.style.padding = '0';
-    container.appendChild(el);
+    if (el) {
+      el.style.display = (id === initial) ? 'block' : 'none';
+      // Убираем GameTown-отступы с родителей
+      if (el.parentNode) el.parentNode.style.cssText = 'padding:0;margin:0';
+    }
   });
 
-  // Скрываем теперь пустую GameTown таб-обёртку
-  var tabview = document.querySelector('.tabviewsection');
-  if (tabview) tabview.style.display = 'none';
+  // Подсвечиваем активную кнопку по сохранённому значению
+  if (saved === 'sidebartab3') {
+    var btns = document.querySelectorAll('.rot-tabs-nav button');
+    if (btns[0]) btns[0].classList.remove('rot-tab-active');
+    if (btns[1]) btns[1].classList.add('rot-tab-active');
+  }
 });
 </script>
