@@ -11,6 +11,7 @@ images/
 # Ресурсы (тяжёлые), кроме логотипа
 assets/*
 !assets/logo-200.png
+!assets/favicon.ico
 
 # Мокап (2.4MB, уже не нужен для разработки)
 mockup.png
