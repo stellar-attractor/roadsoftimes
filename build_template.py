@@ -1180,9 +1180,11 @@ NAV_ACTIVE_JS = """
     }
   });
   // Главная — только если это реально главная или архив, не статические страницы /p/
-  if(!matched && path.indexOf('/p/') === -1){
-    var home = document.getElementById('rot-nav-home');
-    if(home) home.classList.add('rot-nav-active');
+  if(!matched){
+    if(path.indexOf('/p/') === -1){
+      var home = document.getElementById('rot-nav-home');
+      if(home) home.classList.add('rot-nav-active');
+    }
   }
 })();
 </script>
