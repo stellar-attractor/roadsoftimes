@@ -268,8 +268,29 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 #comment-editor{border:none!important;display:block!important;
   filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.95)}
 /* На странице поста грид не нужен — отключаем */
-body.item-view .rot-posts-grid{display:block!important}
-body.item-view .rot-posts-grid *{display:revert}
+/* Статические страницы и одиночные посты: скрыть grid-header, показать полный контент */
+body.rot-page-static_page .rot-section-header,
+body.rot-page-item .rot-section-header{display:none!important}
+body.rot-page-static_page .rot-posts-grid .blog-posts.hfeed,
+body.rot-page-item .rot-posts-grid .blog-posts.hfeed{display:block!important;padding:0!important}
+body.rot-page-static_page .rot-posts-grid .date-outer,
+body.rot-page-static_page .rot-posts-grid .date-posts,
+body.rot-page-static_page .rot-posts-grid .post-outer,
+body.rot-page-item .rot-posts-grid .date-outer,
+body.rot-page-item .rot-posts-grid .date-posts,
+body.rot-page-item .rot-posts-grid .post-outer{display:block!important}
+body.rot-page-static_page .rot-post-card,
+body.rot-page-item .rot-post-card{display:block!important;background:none!important;border:none!important;border-radius:0!important;padding:0!important}
+body.rot-page-static_page .rot-card-img,
+body.rot-page-item .rot-card-img{display:none!important}
+body.rot-page-static_page .rot-card-body,
+body.rot-page-item .rot-card-body{padding:0!important}
+body.rot-page-static_page .rot-card-title,
+body.rot-page-item .rot-card-title{font-size:28px!important;margin-bottom:16px!important}
+body.rot-page-static_page .rot-card-excerpt,
+body.rot-page-item .rot-card-excerpt{display:none!important}
+body.rot-page-static_page .rot-single-body,
+body.rot-page-item .rot-single-body{display:block!important}
 
 /* Blog pager */
 .blog-pager{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid #3a3520;margin-top:10px;background:none}
@@ -597,7 +618,8 @@ OUR_HEADER = """
 </div>
 <!-- ═══ END HEADER ═══════════════════════════════════════════════ -->
 """
-src = src.replace('<body>\n\n<div id=\'body-wrapper\'>', '<body>\n' + OUR_HEADER.format(IMG_LOGO=IMG_LOGO) + '\n<div id=\'body-wrapper\'>')
+PAGE_TYPE_JS = "<script>document.body.className+=' rot-page-<data:blog.pageType/>';</script>\n"
+src = src.replace('<body>\n\n<div id=\'body-wrapper\'>', '<body>\n' + PAGE_TYPE_JS + OUR_HEADER.format(IMG_LOGO=IMG_LOGO) + '\n<div id=\'body-wrapper\'>')
 
 # ════════════════════════════════════════════════════════════════════
 # 5. Заменяем СЛАЙДЕР GameTown на наш HERO
