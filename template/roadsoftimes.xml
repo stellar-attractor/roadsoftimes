@@ -461,8 +461,13 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 #footer{padding:0;background:none;border:none}
 #copyrights,#credits{display:none}
 
+/* ── HAMBURGER BUTTON ───────────────────────────────────────────── */
+#rot-menu-toggle{background:none;border:1px solid #3a3520;color:#c8c0a8;font-size:18px;line-height:1;padding:5px 9px;cursor:pointer;transition:color .2s,border-color .2s;font-family:inherit}
+#rot-menu-toggle:hover,#rot-menu-toggle.rot-menu-open{color:#c9a84c;border-color:#8a6f2e}
+
 /* ── DROPDOWN MENU (dropmenu1) ──────────────────────────────────── */
-#dropmenu1{position:relative;z-index:500;background:#141309;border-bottom:1px solid #3a3520}
+#dropmenu1{position:relative;z-index:500;background:#141309;border-bottom:1px solid #3a3520;overflow:hidden;max-height:0;transition:max-height .28s ease}
+#dropmenu1.rot-menu-open{max-height:200px}
 #dropmenu1 .section,#dropmenu1 .widget,#dropmenu1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
 #dropmenu1 h2.title{display:none!important}
 #cssmenu{max-width:1100px;margin:0 auto;padding:0 15px}
@@ -1239,7 +1244,7 @@ embed, img, object, video {max-width: 100%;}
         <li id='rot-nav-vremena'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
         <li id='rot-nav-goroda'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0&quot;'>&#1043;&#1086;&#1088;&#1086;&#1076;&#1072;</a></li>
         <li id='rot-nav-muzei'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
-        <li id='rot-nav-ekspona'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</a></li>
+        <li><button id='rot-menu-toggle' title='&#1052;&#1077;&#1085;&#1102;' onclick='rotToggleMenu()'>&#9776;</button></li>
       </ul>
     </nav>
     <div class='rot-header-icons' id='rot-toolbar-target'></div>
@@ -3006,8 +3011,7 @@ function rotSetView(v){
     ['rot-nav-dorogi',  'Дороги'],
     ['rot-nav-vremena', 'Времена'],
     ['rot-nav-goroda',  'Города'],
-    ['rot-nav-muzei',   'Музеи'],
-    ['rot-nav-ekspona', 'Экспонаты']
+    ['rot-nav-muzei',   'Музеи']
   ];
   var matched = false;
   map.forEach(function(pair){
@@ -3025,6 +3029,16 @@ function rotSetView(v){
     }
   }
 })();
+</script>
+
+<script>
+function rotToggleMenu(){
+  var menu = document.getElementById('dropmenu1');
+  var btn  = document.getElementById('rot-menu-toggle');
+  if(!menu){ return; }
+  var open = menu.classList.toggle('rot-menu-open');
+  if(btn){ btn.classList.toggle('rot-menu-open', open); }
+}
 </script>
 
 <script>
