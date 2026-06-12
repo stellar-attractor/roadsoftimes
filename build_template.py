@@ -648,8 +648,12 @@ def build_dropmenu(items):
         html += f"  <li{cls}><a href='{href}'>{label}</a>\n"
         if subs:
             html += "    <ul class='rot-dm-sub'>\n"
-            for slabel, shref in subs:
-                html += f"      <li><a href='{shref}'>{slabel}</a></li>\n"
+            for sub in subs:
+                slabel, shref = sub[0], sub[1]
+                if slabel == '---':
+                    html += "      <li class='rot-dm-divider'></li>\n"
+                else:
+                    html += f"      <li><a href='{shref}'>{slabel}</a></li>\n"
             html += "    </ul>\n"
         html += "  </li>\n"
     html += "</ul>"
