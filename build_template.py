@@ -268,29 +268,40 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 #comment-editor{border:none!important;display:block!important;
   filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.95)}
 /* На странице поста грид не нужен — отключаем */
-/* Статические страницы и одиночные посты: скрыть grid-header, показать полный контент */
+/* Статические страницы, одиночные посты и 404: скрыть grid-header, показать полный контент */
 body.rot-page-static_page .rot-section-header,
-body.rot-page-item .rot-section-header{display:none!important}
+body.rot-page-item .rot-section-header,
+body.rot-page-error_page .rot-section-header{display:none!important}
 body.rot-page-static_page .rot-posts-grid .blog-posts.hfeed,
-body.rot-page-item .rot-posts-grid .blog-posts.hfeed{display:block!important;padding:0!important}
+body.rot-page-item .rot-posts-grid .blog-posts.hfeed,
+body.rot-page-error_page .rot-posts-grid .blog-posts.hfeed{display:block!important;padding:0!important}
 body.rot-page-static_page .rot-posts-grid .date-outer,
 body.rot-page-static_page .rot-posts-grid .date-posts,
 body.rot-page-static_page .rot-posts-grid .post-outer,
 body.rot-page-item .rot-posts-grid .date-outer,
 body.rot-page-item .rot-posts-grid .date-posts,
-body.rot-page-item .rot-posts-grid .post-outer{display:block!important}
+body.rot-page-item .rot-posts-grid .post-outer,
+body.rot-page-error_page .rot-posts-grid .date-outer,
+body.rot-page-error_page .rot-posts-grid .date-posts,
+body.rot-page-error_page .rot-posts-grid .post-outer{display:block!important}
 body.rot-page-static_page .rot-post-card,
-body.rot-page-item .rot-post-card{display:block!important;background:none!important;border:none!important;border-radius:0!important;padding:0!important}
+body.rot-page-item .rot-post-card,
+body.rot-page-error_page .rot-post-card{display:block!important;background:none!important;border:none!important;border-radius:0!important;padding:0!important}
 body.rot-page-static_page .rot-card-img,
-body.rot-page-item .rot-card-img{display:none!important}
+body.rot-page-item .rot-card-img,
+body.rot-page-error_page .rot-card-img{display:none!important}
 body.rot-page-static_page .rot-card-body,
-body.rot-page-item .rot-card-body{padding:0!important}
+body.rot-page-item .rot-card-body,
+body.rot-page-error_page .rot-card-body{padding:0!important}
 body.rot-page-static_page .rot-card-title,
-body.rot-page-item .rot-card-title{font-size:28px!important;margin-bottom:16px!important}
+body.rot-page-item .rot-card-title,
+body.rot-page-error_page .rot-card-title{font-size:28px!important;margin-bottom:16px!important}
 body.rot-page-static_page .rot-card-excerpt,
-body.rot-page-item .rot-card-excerpt{display:none!important}
+body.rot-page-item .rot-card-excerpt,
+body.rot-page-error_page .rot-card-excerpt{display:none!important}
 body.rot-page-static_page .rot-single-body,
-body.rot-page-item .rot-single-body{display:block!important}
+body.rot-page-item .rot-single-body,
+body.rot-page-error_page .rot-single-body{display:block!important}
 
 /* Blog pager */
 .blog-pager{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid #3a3520;margin-top:10px;background:none}
@@ -920,7 +931,7 @@ old_post_inc = re.search(
 if old_post_inc:
     NEW_POST_INC = """\
 <b:includable id='post' var='post'>
-<b:if cond='data:blog.pageType == &quot;item&quot; or data:blog.pageType == &quot;static_page&quot;'>
+<b:if cond='data:blog.pageType == &quot;item&quot; or data:blog.pageType == &quot;static_page&quot; or data:blog.pageType == &quot;error_page&quot;'>
 
   <!-- ═══ СТРАНИЦА ПОСТА ═══════════════════════════════════════════ -->
   <article class='rot-single-post'>
@@ -1015,7 +1026,7 @@ NEW_FOOTER_CONTENT = """\
   <div>
     <p class='rot-footer-col-title'>&#1048;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1103;</p>
     <ul class='rot-footer-links'>
-      <li><a href='/p/blog-page.html'>&#1054; &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;&#1077;</a></li>
+      <li><a href='https://roadsoftimes.blogspot.com/p/blog-page.html'>&#1054; &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;&#1077;</a></li>
       <li><a href='/p/contacts.html'>&#1050;&#1086;&#1085;&#1090;&#1072;&#1082;&#1090;&#1099;</a></li>
       <li><a expr:href='data:blog.homepageUrl + &quot;feeds/posts/default&quot;'>RSS</a></li>
     </ul>
