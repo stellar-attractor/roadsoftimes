@@ -889,7 +889,7 @@ EXTRA_BLOCKS = """\
   </div>
   <div class='rot-path-grid'>
     <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%94%D0%BE%D1%80%D0%BE%D0%B3%D0%B8&quot;'>
-      <span class='rot-path-icon'>&#9876;&#65039;</span>
+      <span class='rot-path-icon'>&#129517;</span>
       <div class='rot-path-title'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080;</div>
       <p class='rot-path-desc'>&#1052;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090;&#1099; &#1080; &#1087;&#1086;&#1077;&#1079;&#1076;&#1082;&#1080;</p>
     </a>
@@ -904,7 +904,7 @@ EXTRA_BLOCKS = """\
       <p class='rot-path-desc'>&#1050;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1080; &#1080; &#1074;&#1099;&#1089;&#1090;&#1072;&#1074;&#1082;&#1080;</p>
     </a>
     <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>
-      <span class='rot-path-icon'>&#129680;</span>
+      <span class='rot-path-icon'>&#129985;</span>
       <div class='rot-path-title'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</div>
       <p class='rot-path-desc'>&#1058;&#1077;&#1093;&#1085;&#1080;&#1082;&#1072; &#1080; &#1072;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</p>
     </a>
