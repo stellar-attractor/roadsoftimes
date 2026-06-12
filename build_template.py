@@ -1037,7 +1037,7 @@ NEW_FOOTER_CONTENT = """\
     <p class='rot-footer-col-title'>&#1048;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1103;</p>
     <ul class='rot-footer-links'>
       <li><a href='https://roadsoftimes.blogspot.com/p/blog-page.html'>&#1054; &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;&#1077;</a></li>
-      <li><a href='/p/contacts.html'>&#1050;&#1086;&#1085;&#1090;&#1072;&#1082;&#1090;&#1099;</a></li>
+      <li><a href='https://roadsoftimes.blogspot.com/p/blog-page_11.html'>&#1050;&#1086;&#1085;&#1090;&#1072;&#1082;&#1090;&#1099;</a></li>
       <li><a expr:href='data:blog.homepageUrl + &quot;feeds/posts/default&quot;'>RSS</a></li>
     </ul>
   </div>
