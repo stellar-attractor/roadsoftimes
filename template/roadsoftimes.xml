@@ -1987,7 +1987,7 @@ embed, img, object, video {max-width: 100%;}
   <div class='clear'/>
 </b:includable>
             <b:includable id='post' var='post'>
-<b:if cond='data:blog.pageType == &quot;item&quot;'>
+<b:if cond='data:blog.pageType == &quot;item&quot; or data:blog.pageType == &quot;static_page&quot;'>
 
   <!-- ═══ СТРАНИЦА ПОСТА ═══════════════════════════════════════════ -->
   <article class='rot-single-post'>

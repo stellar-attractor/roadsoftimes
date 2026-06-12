@@ -920,7 +920,7 @@ old_post_inc = re.search(
 if old_post_inc:
     NEW_POST_INC = """\
 <b:includable id='post' var='post'>
-<b:if cond='data:blog.pageType == &quot;item&quot;'>
+<b:if cond='data:blog.pageType == &quot;item&quot; or data:blog.pageType == &quot;static_page&quot;'>
 
   <!-- ═══ СТРАНИЦА ПОСТА ═══════════════════════════════════════════ -->
   <article class='rot-single-post'>
