@@ -90,7 +90,6 @@ img{max-width:100%;height:auto}
 body#layout #floating-widgets{position:static;left:auto;top:auto;width:auto;height:auto;overflow:visible}
 body#layout #toolbar1,body#layout #toolbar1 .section,body#layout #toolbar1 .widget,body#layout #toolbar1 .widget-content{display:block!important;margin:0!important;padding:0!important}
 body#layout #newsfeed1{position:static!important;width:auto!important;display:block!important}
-body#layout #dropmenu1{position:static!important;left:auto!important;top:auto!important;width:auto!important;height:auto!important;overflow:visible!important}
 /* ── HEADER TOOLBAR ─────────────────────────────────────────────── */
 #rot-toolbar-target{display:flex;align-items:center;flex-shrink:0}
 #toolbar1,#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important;display:contents}
@@ -487,36 +486,20 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 #rot-menu-toggle{background:none;border:1px solid #3a3520;color:#c8c0a8;font-size:18px;line-height:1;padding:5px 9px;cursor:pointer;transition:color .2s,border-color .2s;font-family:inherit}
 #rot-menu-toggle:hover,#rot-menu-toggle.rot-menu-open{color:#c9a84c;border-color:#8a6f2e}
 
-/* ── DROPDOWN MENU (dropmenu1) ──────────────────────────────────── */
-#dropmenu1{position:relative;z-index:500;background:#141309;border-bottom:1px solid #3a3520;overflow:hidden;max-height:0;transition:max-height .28s ease}
-#dropmenu1.rot-menu-open{max-height:200px}
-#dropmenu1 .section,#dropmenu1 .widget,#dropmenu1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
-#dropmenu1 h2.title{display:none!important}
-#cssmenu{max-width:1100px;margin:0 auto;padding:0 15px}
-#css3menu1{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:stretch}
-#css3menu1 > li{position:relative}
-#css3menu1 > li > a{display:flex;align-items:center;gap:6px;padding:9px 14px;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;white-space:nowrap;border-right:1px solid #252418;transition:color .2s,background .2s;text-decoration:none}
-#css3menu1 > li > a:hover{color:#c9a84c;background:#1a1a0e}
-#css3menu1 > li > a span{display:inline}
-#css3menu1 > li > a img{width:20px;height:20px;vertical-align:middle;object-fit:contain;opacity:.65;flex-shrink:0}
-#css3menu1 > li > a:hover img{opacity:1}
-#css3menu1 > li.topmenu > a::after,
-#css3menu1 > li.toplast > a::after{content:' \\25BE';font-size:10px;opacity:.5}
-#css3menu1 > li > ul{display:none;position:absolute;top:100%;left:0;min-width:210px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;z-index:1000;list-style:none;margin:0;padding:4px 0;box-shadow:0 8px 24px rgba(0,0,0,.7)}
-#css3menu1 > li:hover > ul{display:block}
-#css3menu1 > li > ul > li > a{display:flex;align-items:center;gap:8px;padding:7px 14px;font-family:'PT Sans',sans-serif;font-size:13px;color:#c8c0a8;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none}
-#css3menu1 > li > ul > li > a:hover{color:#c9a84c;background:#252418}
-#css3menu1 > li > ul > li > a img{width:20px;height:20px;object-fit:contain;opacity:.65;flex-shrink:0}
-#css3menu1 > li > ul > li > a:hover img{opacity:1}
-#css3menu1 li > a > span:only-child,#css3menu1 li > span{display:block;font-size:0;height:1px;background:#3a3520;margin:4px 0;overflow:hidden}
-#css3menu1 li > a > span:not(:only-child){font-size:inherit}
-#css3menu1 li span.divider{display:block;font-size:0;height:1px;background:#3a3520;margin:4px 0}
-#css3menu1 li > ul > li{position:relative}
-#css3menu1 li > ul > li > ul{display:none;position:absolute;top:0;left:100%;min-width:210px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #8a6f2e;z-index:1001;list-style:none;margin:0;padding:4px 0;box-shadow:4px 4px 16px rgba(0,0,0,.6)}
-#css3menu1 li > ul > li:hover > ul{display:block}
-#css3menu1 li > ul > li > ul > li > a{display:flex;align-items:center;gap:8px;padding:7px 14px;font-family:'PT Sans',sans-serif;font-size:13px;color:#c8c0a8;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none}
-#css3menu1 li > ul > li > ul > li > a:hover{color:#c9a84c;background:#252418}
-#css3menu1 li > ul > li > ul > li > a img{width:20px;height:20px;object-fit:contain;opacity:.65;flex-shrink:0}
+/* ── VERTICAL DROPDOWN MENU ─────────────────────────────────────── */
+.rot-dropmenu{display:none;position:absolute;top:100%;left:0;z-index:999;min-width:230px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;box-shadow:6px 6px 24px rgba(0,0,0,.8)}
+.rot-dropmenu.rot-menu-open{display:block}
+.rot-dm-list{list-style:none;margin:0;padding:4px 0}
+.rot-dm-list > li{position:relative}
+.rot-dm-list > li > a{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#c8c0a8;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none}
+.rot-dm-list > li > a:hover{color:#c9a84c;background:#252418}
+.rot-dm-has-sub > a::after{content:'\\203A';margin-left:8px;opacity:.5;font-size:16px;line-height:1}
+.rot-dm-divider{height:1px;background:#3a3520;margin:4px 0}
+/* Submenu — flies out to the right */
+.rot-dm-sub{display:none;position:absolute;top:0;left:100%;min-width:210px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #8a6f2e;z-index:1000;list-style:none;padding:4px 0;box-shadow:4px 4px 16px rgba(0,0,0,.7)}
+.rot-dm-has-sub:hover .rot-dm-sub{display:block}
+.rot-dm-sub li a{display:flex;align-items:center;gap:10px;padding:8px 14px;font-family:'PT Sans',sans-serif;font-size:13px;color:#c8c0a8;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none}
+.rot-dm-sub li a:hover{color:#c9a84c;background:#252418}
 
 /* ══════════════════════════════════════════════════════════════════
    АДАПТИВ — три точки перелома:
@@ -654,6 +637,42 @@ src = src.replace('summary_noimg = 550;\nsummary_img = 450;',
 # 4. Вставляем наш HEADER после <body> и перед <div id='body-wrapper'>
 #    Завершённый блок — никаких висящих div
 # ════════════════════════════════════════════════════════════════════
+# ── Пункты меню — редактируй здесь, без знания шаблона ─────────────
+# Каждый пункт: ('Название', '/search/label/...', [('Подпункт', '/url'), ...])
+# Подпункты необязательны. Для разделителя: ('---', '', [])
+MENU_ITEMS = [
+    ('&#127758; &#1057;&#1090;&#1088;&#1072;&#1085;&#1099;', '#', [
+        ('&#127465;&#127466; &#1043;&#1077;&#1088;&#1084;&#1072;&#1085;&#1080;&#1103;', '/search/label/%D0%93%D0%B5%D1%80%D0%BC%D0%B0%D0%BD%D0%B8%D1%8F'),
+        ('&#127477;&#127473; &#1055;&#1086;&#1083;&#1100;&#1096;&#1072;',           '/search/label/%D0%9F%D0%BE%D0%BB%D1%8C%D1%88%D0%B0'),
+    ]),
+    ('&#9203; &#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;', '#', [
+        ('&#10052;&#65039; &#1061;&#1086;&#1083;&#1086;&#1076;&#1085;&#1072;&#1103; &#1074;&#1086;&#1081;&#1085;&#1072;', '/search/label/%D0%A5%D0%BE%D0%BB%D0%BE%D0%B4%D0%BD%D0%B0%D1%8F+%D0%B2%D0%BE%D0%B9%D0%BD%D0%B0'),
+        ('&#127984; &#1057;&#1088;&#1077;&#1076;&#1085;&#1077;&#1074;&#1077;&#1082;&#1086;&#1074;&#1100;&#1077;',  '/search/label/%D0%A1%D1%80%D0%B5%D0%B4%D0%BD%D0%B5%D0%B2%D0%B5%D0%BA%D0%BE%D0%B2%D1%8C%D0%B5'),
+    ]),
+    ('&#9881;&#65039; &#1050;&#1072;&#1090;&#1077;&#1075;&#1086;&#1088;&#1080;&#1080;', '#', [
+        ('&#128737;&#65039; &#1058;&#1072;&#1085;&#1082;&#1080;',   '/search/label/%D0%A2%D0%B0%D0%BD%D0%BA%D0%B8'),
+        ('&#9992;&#65039; &#1040;&#1074;&#1080;&#1072;&#1094;&#1080;&#1103;', '/search/label/%D0%90%D0%B2%D0%B8%D0%B0%D1%86%D0%B8%D1%8F'),
+        ('&#9875; &#1060;&#1083;&#1086;&#1090;',     '/search/label/%D0%A4%D0%BB%D0%BE%D1%82'),
+    ]),
+]
+
+def build_dropmenu(items):
+    html = "<ul class='rot-dm-list'>\n"
+    for label, href, subs in items:
+        if label == '---':
+            html += "  <li class='rot-dm-divider'></li>\n"
+            continue
+        cls = " class='rot-dm-has-sub'" if subs else ""
+        html += f"  <li{cls}><a href='{href}'>{label}</a>\n"
+        if subs:
+            html += "    <ul class='rot-dm-sub'>\n"
+            for slabel, shref in subs:
+                html += f"      <li><a href='{shref}'>{slabel}</a></li>\n"
+            html += "    </ul>\n"
+        html += "  </li>\n"
+    html += "</ul>"
+    return html
+
 OUR_HEADER = """
 <!-- ═══ ДОРОГИ ВРЕМЁН: HEADER ════════════════════════════════════ -->
 <div class='rot-header'>
@@ -667,7 +686,12 @@ OUR_HEADER = """
     </a>
     <nav class='rot-nav'>
       <ul>
-        <li><button id='rot-menu-toggle' title='&#1052;&#1077;&#1085;&#1102;'>&#9776;</button></li>
+        <li style='position:relative'>
+          <button id='rot-menu-toggle' title='&#1052;&#1077;&#1085;&#1102;'>&#9776;</button>
+          <nav class='rot-dropmenu' id='rot-dropmenu'>
+            {DROPMENU_HTML}
+          </nav>
+        </li>
         <li id='rot-nav-home'><a expr:href='data:blog.homepageUrl'>&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;</a></li>
         <li id='rot-nav-dorogi'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%94%D0%BE%D1%80%D0%BE%D0%B3%D0%B8&quot;'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080;</a></li>
         <li id='rot-nav-vremena'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
@@ -681,7 +705,7 @@ OUR_HEADER = """
 <!-- ═══ END HEADER ═══════════════════════════════════════════════ -->
 """
 PAGE_TYPE_JS = "<script>document.body.className+=' rot-page-<data:blog.pageType/>';</script>\n"
-src = src.replace('<body>\n\n<div id=\'body-wrapper\'>', '<body>\n' + PAGE_TYPE_JS + OUR_HEADER.format(IMG_LOGO=IMG_LOGO) + '\n<div id=\'body-wrapper\'>')
+src = src.replace('<body>\n\n<div id=\'body-wrapper\'>', '<body>\n' + PAGE_TYPE_JS + OUR_HEADER.format(IMG_LOGO=IMG_LOGO, DROPMENU_HTML=build_dropmenu(MENU_ITEMS)) + '\n<div id=\'body-wrapper\'>')
 
 # ════════════════════════════════════════════════════════════════════
 # 5. Заменяем СЛАЙДЕР GameTown на наш HERO
@@ -856,7 +880,6 @@ src = src.replace(
     + "<div id='floating-widgets'>\n"
     + TOOLBAR_SECTION + "\n"
     + NEWSFEED_SECTION + "\n"
-    + DROPMENU_SECTION + "\n"
     + "</div><!-- /#floating-widgets -->\n\n"
     + "<div id='rsidebar-wrapper'>"
 )
@@ -1254,13 +1277,19 @@ TOGGLE_MENU_JS = """
 <script>
 (function(){
   function initMenuToggle(){
-    var btn = document.getElementById('rot-menu-toggle');
-    if(!btn){ return; }
-    btn.addEventListener('click', function(){
-      var menu = document.getElementById('dropmenu1');
-      if(!menu){ return; }
+    var btn  = document.getElementById('rot-menu-toggle');
+    var menu = document.getElementById('rot-dropmenu');
+    if(!btn || !menu){ return; }
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
       var open = menu.classList.toggle('rot-menu-open');
       btn.classList.toggle('rot-menu-open', open);
+    });
+    document.addEventListener('click', function(e){
+      if(!menu.contains(e.target)){
+        menu.classList.remove('rot-menu-open');
+        btn.classList.remove('rot-menu-open');
+      }
     });
   }
   if(document.readyState === 'loading'){
@@ -1286,11 +1315,6 @@ WIDGET_PLACEMENT_JS = """
       hero.insertBefore(newsfeed, hero.firstChild);
     }}
 
-    var dropmenu = document.getElementById('dropmenu1');
-    var header   = document.querySelector('.rot-header');
-    if(dropmenu){ if(header){ if(header.parentNode){
-      header.parentNode.insertBefore(dropmenu, header.nextSibling);
-    }}}
   }
   function alignNewsfeed(){
     var hero     = document.querySelector('.rot-hero');
