@@ -707,7 +707,7 @@ if old_slider_match:
 OLD_MAIN_SECTION = "<b:section class='main' id='main' showaddelement='no'>"
 NEW_MAIN_SECTION = """\
 <div class='rot-section-header'>
-  <h2 class='rot-section-title'>&#1055;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1077; &#1087;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080;</h2>
+  <h2 class='rot-section-title'>&#1055;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080;</h2>
   <div class='rot-view-switcher'>
     <button class='rot-view-btn active' id='btn-cards' onclick='rotSetView(&quot;cards&quot;)' title='&#1050;&#1072;&#1088;&#1090;&#1086;&#1095;&#1082;&#1080;'>
       <svg width='16' height='16' viewBox='0 0 16 16' fill='currentColor'><rect x='1' y='1' width='6' height='6'/><rect x='9' y='1' width='6' height='6'/><rect x='1' y='9' width='6' height='6'/><rect x='9' y='9' width='6' height='6'/></svg>
@@ -761,10 +761,10 @@ NEW_SIDEBAR_SECTION = (
     "  <b:widget id='HTML2' locked='false' title='Маршрут' type='HTML'>\n"
     + WIDGET_INCLUDABLE + "\n"
     "  </b:widget>\n"
-    "  <b:widget id='HTML8' locked='false' title='Цитата' type='HTML'>\n"
+    "  <b:widget id='HTML8' locked='false' title='&#1062;&#1080;&#1090;&#1072;&#1090;&#1072;' type='HTML'>\n"
     + WIDGET_INCLUDABLE + "\n"
     "  </b:widget>\n"
-    "  <b:widget id='HTML10' locked='false' title='МеткиАрхив' type='HTML'>\n"
+    "  <b:widget id='HTML10' locked='false' title='' type='HTML'>\n"
     + WIDGET_INCLUDABLE + "\n"
     "  </b:widget>\n"
     "</b:section>"
@@ -776,7 +776,7 @@ src = src.replace(OLD_SIDEBAR_SECTION, NEW_SIDEBAR_SECTION)
 # Закрываем rot-posts-grid, вставляем секцию музея, закрываем main-wrapper
 MUSEUM_SECTION = (
     "<b:section class='museum-section' id='museum1' showaddelement='no'>\n"
-    "  <b:widget id='HTML9' locked='false' title='Рекомендуемый музей' type='HTML'>\n"
+    "  <b:widget id='HTML9' locked='false' title='&#1056;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1091;&#1102; &#1084;&#1091;&#1079;&#1077;&#1081;' type='HTML'>\n"
     "    <b:includable id='main'>\n"
     "  <div class='widget-content'>\n"
     "    <data:content/>\n"
