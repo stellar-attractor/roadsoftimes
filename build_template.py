@@ -82,9 +82,9 @@ img{max-width:100%;height:auto}
 .rot-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#e2c06a;letter-spacing:1px;text-transform:uppercase;display:block}
 .rot-logo-sub{font-size:9px;color:#7a7060;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block}
 .rot-nav{flex:1}
-.rot-nav ul{display:flex;list-style:none;gap:2px;margin:0;padding:0}
-.rot-nav a{display:block;padding:8px 13px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
-.rot-nav a:hover,.rot-nav-active a{color:#c9a84c;border-bottom-color:#c9a84c}
+.rot-nav > ul{display:flex;list-style:none;gap:2px;margin:0;padding:0}
+.rot-nav > ul > li > a{display:block;padding:8px 13px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.rot-nav > ul > li > a:hover,.rot-nav-active > a{color:#c9a84c;border-bottom-color:#c9a84c}
 /* ── FLOATING WIDGETS HOLDER (за экраном, JS переставляет содержимое) ── */
 #floating-widgets{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden}
 /* В Layout-редакторе — показываем нормально, чтобы виджеты были видны */
@@ -488,19 +488,19 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 #rot-menu-toggle:hover,#rot-menu-toggle.rot-menu-open{color:#c9a84c;border-color:#8a6f2e}
 
 /* ── VERTICAL DROPDOWN MENU ─────────────────────────────────────── */
-.rot-dropmenu{display:none;position:absolute;top:100%;left:0;z-index:999;min-width:230px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;box-shadow:6px 6px 24px rgba(0,0,0,.8)}
-.rot-dropmenu.rot-menu-open{display:block}
-.rot-dm-list{list-style:none;margin:0;padding:4px 0}
-.rot-dm-list > li{position:relative}
-.rot-dm-list > li > a{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#c8c0a8;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none}
-.rot-dm-list > li > a:hover{color:#c9a84c;background:#252418}
-.rot-dm-has-sub > a::after{content:'\\203A';margin-left:8px;opacity:.5;font-size:16px;line-height:1}
-.rot-dm-divider{height:1px;background:#3a3520;margin:4px 0}
+.rot-dropmenu{display:none!important;position:absolute!important;top:100%!important;left:0!important;z-index:999!important;min-width:230px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;box-shadow:6px 6px 24px rgba(0,0,0,.8)}
+.rot-dropmenu.rot-menu-open{display:block!important}
+/* Reset any nav inheritance inside the dropdown */
+.rot-dropmenu ul{display:block!important;flex-direction:unset!important;list-style:none!important;margin:0!important;padding:4px 0!important;gap:0!important;background:none!important;border:none!important}
+.rot-dropmenu li{display:block!important;position:relative!important;float:none!important}
+.rot-dropmenu a{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:10px 16px!important;font-family:'Oswald',sans-serif!important;font-size:13px!important;letter-spacing:1px!important;text-transform:uppercase!important;color:#c8c0a8!important;white-space:nowrap!important;border-bottom:none!important;transition:color .2s,background .2s!important;text-decoration:none!important;width:100%!important;box-sizing:border-box!important}
+.rot-dropmenu a:hover{color:#c9a84c!important;background:#252418!important}
+.rot-dm-has-sub > a::after{content:'\\203A';margin-left:auto;padding-left:12px;opacity:.5;font-size:18px;line-height:1}
+.rot-dm-divider{height:1px!important;background:#3a3520!important;margin:4px 0!important;padding:0!important}
 /* Submenu — flies out to the right */
-.rot-dm-sub{display:none;position:absolute;top:0;left:100%;min-width:210px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #8a6f2e;z-index:1000;list-style:none;padding:4px 0;box-shadow:4px 4px 16px rgba(0,0,0,.7)}
-.rot-dm-has-sub:hover .rot-dm-sub{display:block}
-.rot-dm-sub li a{display:flex;align-items:center;gap:10px;padding:8px 14px;font-family:'PT Sans',sans-serif;font-size:13px;color:#c8c0a8;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none}
-.rot-dm-sub li a:hover{color:#c9a84c;background:#252418}
+.rot-dm-sub{display:none!important;position:absolute!important;top:0!important;left:100%!important;min-width:210px!important;background:#1a1a0e!important;border:1px solid #3a3520!important;border-top:2px solid #8a6f2e!important;z-index:1000!important;padding:4px 0!important;box-shadow:4px 4px 16px rgba(0,0,0,.7)!important}
+.rot-dm-has-sub:hover .rot-dm-sub{display:block!important}
+.rot-dm-sub a{font-family:'PT Sans',sans-serif!important;font-size:13px!important;letter-spacing:0!important;text-transform:none!important;gap:10px!important}
 
 /* ══════════════════════════════════════════════════════════════════
    АДАПТИВ — три точки перелома:
