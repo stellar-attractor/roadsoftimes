@@ -226,6 +226,10 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 .rot-single-labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .rot-single-header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #252418}
 .rot-single-title{font-family:'Oswald',sans-serif;font-size:32px;font-weight:600;color:#e8e0cc;line-height:1.15;margin-bottom:12px}
+/* Круглый аватар — добавить класс rot-avatar на <img> в посте */
+.rot-avatar{border-radius:50%!important;object-fit:cover!important;width:260px!important;height:260px!important;float:left!important;margin:0 24px 16px 0!important;shape-outside:circle()}
+.rot-avatar-wrap{display:block!important;float:left!important;margin:0 24px 16px 0!important;border-radius:50%;overflow:hidden;width:260px;height:260px;flex-shrink:0}
+.rot-avatar-wrap img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
 .rot-single-meta{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .rot-single-meta .rot-meta-labels{display:flex;flex-wrap:wrap;gap:5px;margin-left:4px}
 .rot-single-meta .rot-meta-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#8a6f2e;text-decoration:none}
