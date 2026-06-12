@@ -1233,7 +1233,7 @@ LATEST_POST_JS = """
 (function(){
   var btn = document.getElementById('rot-btn-read');
   if(!btn){ return; }
-  fetch('/feeds/posts/default?alt=json&max-results=1')
+  fetch('/feeds/posts/default?alt=json&amp;max-results=1')
     .then(function(r){ return r.json(); })
     .then(function(data){
       var entries = data.feed.entry;
