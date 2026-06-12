@@ -1036,8 +1036,8 @@ NEW_FOOTER_CONTENT = """\
   <div>
     <p class='rot-footer-col-title'>&#1057;&#1083;&#1077;&#1076;&#1080;&#1090;&#1077; &#1079;&#1072; &#1085;&#1072;&#1084;&#1080;</p>
     <ul class='rot-footer-links'>
-      <li><a href='#'>VK</a></li>
-      <li><a href='#'>Telegram</a></li>
+      <li><a href='https://vk.com/roadsoftimes' target='_blank'>VK</a></li>
+      <li><a href='https://t.me/roadsoftimes' target='_blank'>Telegram</a></li>
       <li><a href='#'>YouTube</a></li>
     </ul>
   </div>
@@ -1045,7 +1045,7 @@ NEW_FOOTER_CONTENT = """\
 <div class='rot-footer-bottom-bar'>
   <div class='rot-footer-bottom'>
     <span>&#169; 2026 &#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</span>
-    <div><a href='#' style='color:#7a7060;margin-right:10px'>VK</a><a href='#' style='color:#7a7060;margin-right:10px'>TG</a><a href='#' style='color:#7a7060'>YT</a></div>
+    <div><a href='https://vk.com/roadsoftimes' target='_blank' style='color:#7a7060;margin-right:10px'>VK</a><a href='https://t.me/roadsoftimes' target='_blank' style='color:#7a7060;margin-right:10px'>TG</a><a href='#' style='color:#7a7060'>YT</a></div>
   </div>
 </div>
 <div id='footer'><div id='copyrights'>&#160;</div></div><!-- #footer -->
