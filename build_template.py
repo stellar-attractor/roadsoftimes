@@ -1239,12 +1239,9 @@ LATEST_POST_JS = """
       var entries = data.feed.entry;
       if(!entries || !entries.length){ return; }
       var links = entries[0].link || [];
-      for(var i=0;i<links.length;i++){
-        if(links[i].rel === 'alternate'){
-          btn.href = links[i].href;
-          return;
-        }
-      }
+      links.forEach(function(l){
+        if(l.rel === 'alternate'){ btn.href = l.href; }
+      });
     })
     .catch(function(){});
 })();
