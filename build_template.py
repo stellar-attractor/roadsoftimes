@@ -90,6 +90,7 @@ img{max-width:100%;height:auto}
 body#layout #floating-widgets{position:static;left:auto;top:auto;width:auto;height:auto;overflow:visible}
 body#layout #toolbar1,body#layout #toolbar1 .section,body#layout #toolbar1 .widget,body#layout #toolbar1 .widget-content{display:block!important;margin:0!important;padding:0!important}
 body#layout #newsfeed1{position:static!important;width:auto!important;display:block!important}
+body#layout #dropmenu1{position:static!important;left:auto!important;top:auto!important;width:auto!important;height:auto!important;overflow:visible!important}
 /* ── HEADER TOOLBAR ─────────────────────────────────────────────── */
 #rot-toolbar-target{display:flex;align-items:center;flex-shrink:0}
 #toolbar1,#toolbar1 .section,#toolbar1 .widget,#toolbar1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important;display:contents}
@@ -482,6 +483,36 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 #footer{padding:0;background:none;border:none}
 #copyrights,#credits{display:none}
 
+/* ── DROPDOWN MENU (dropmenu1) ──────────────────────────────────── */
+#dropmenu1{position:relative;z-index:500;background:#141309;border-bottom:1px solid #3a3520}
+#dropmenu1 .section,#dropmenu1 .widget,#dropmenu1 .widget-content{margin:0!important;padding:0!important;background:none!important;border:none!important}
+#dropmenu1 h2.title{display:none!important}
+#cssmenu{max-width:1100px;margin:0 auto;padding:0 15px}
+#css3menu1{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:stretch}
+#css3menu1 > li{position:relative}
+#css3menu1 > li > a{display:flex;align-items:center;gap:6px;padding:9px 14px;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;white-space:nowrap;border-right:1px solid #252418;transition:color .2s,background .2s;text-decoration:none}
+#css3menu1 > li > a:hover{color:#c9a84c;background:#1a1a0e}
+#css3menu1 > li > a span{display:inline}
+#css3menu1 > li > a img{width:20px;height:20px;vertical-align:middle;object-fit:contain;opacity:.65;flex-shrink:0}
+#css3menu1 > li > a:hover img{opacity:1}
+#css3menu1 > li.topmenu > a::after,
+#css3menu1 > li.toplast > a::after{content:' \\25BE';font-size:10px;opacity:.5}
+#css3menu1 > li > ul{display:none;position:absolute;top:100%;left:0;min-width:210px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;z-index:1000;list-style:none;margin:0;padding:4px 0;box-shadow:0 8px 24px rgba(0,0,0,.7)}
+#css3menu1 > li:hover > ul{display:block}
+#css3menu1 > li > ul > li > a{display:flex;align-items:center;gap:8px;padding:7px 14px;font-family:'PT Sans',sans-serif;font-size:13px;color:#c8c0a8;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none}
+#css3menu1 > li > ul > li > a:hover{color:#c9a84c;background:#252418}
+#css3menu1 > li > ul > li > a img{width:20px;height:20px;object-fit:contain;opacity:.65;flex-shrink:0}
+#css3menu1 > li > ul > li > a:hover img{opacity:1}
+#css3menu1 li > a > span:only-child,#css3menu1 li > span{display:block;font-size:0;height:1px;background:#3a3520;margin:4px 0;overflow:hidden}
+#css3menu1 li > a > span:not(:only-child){font-size:inherit}
+#css3menu1 li span.divider{display:block;font-size:0;height:1px;background:#3a3520;margin:4px 0}
+#css3menu1 li > ul > li{position:relative}
+#css3menu1 li > ul > li > ul{display:none;position:absolute;top:0;left:100%;min-width:210px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #8a6f2e;z-index:1001;list-style:none;margin:0;padding:4px 0;box-shadow:4px 4px 16px rgba(0,0,0,.6)}
+#css3menu1 li > ul > li:hover > ul{display:block}
+#css3menu1 li > ul > li > ul > li > a{display:flex;align-items:center;gap:8px;padding:7px 14px;font-family:'PT Sans',sans-serif;font-size:13px;color:#c8c0a8;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none}
+#css3menu1 li > ul > li > ul > li > a:hover{color:#c9a84c;background:#252418}
+#css3menu1 li > ul > li > ul > li > a img{width:20px;height:20px;object-fit:contain;opacity:.65;flex-shrink:0}
+
 /* ══════════════════════════════════════════════════════════════════
    АДАПТИВ — три точки перелома:
    1) ≤1024px  планшет горизонтальный: боковая колонка чуть уже
@@ -554,7 +585,8 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 """
 
 skin_re = re.compile(r'<b:skin><!\[CDATA\[.*?\]\]></b:skin>', re.DOTALL)
-src = skin_re.sub('<b:skin><![CDATA[\n' + NEW_CSS + '\n]]></b:skin>', src)
+_new_skin = '<b:skin><![CDATA[\n' + NEW_CSS + '\n]]></b:skin>'
+src = skin_re.sub(lambda m: _new_skin, src)
 
 # ════════════════════════════════════════════════════════════════════
 # 2b. Favicon — заменяем плейсхолдер на Blogger-переменную
@@ -802,6 +834,14 @@ NEWSFEED_SECTION = (
     "</b:section>"
 )
 
+DROPMENU_SECTION = (
+    "<b:section class='drop-menu' id='dropmenu1' showaddelement='no'>\n"
+    "  <b:widget id='HTML13' locked='false' title='&#1052;&#1077;&#1085;&#1102;' type='HTML'>\n"
+    + WIDGET_INCLUDABLE + "\n"
+    "  </b:widget>\n"
+    "</b:section>"
+)
+
 src = src.replace(
     "        </b:section>\n      </div>\n\n<div id='rsidebar-wrapper'>",
     "        </b:section>\n</div><!-- /.rot-posts-grid -->\n"
@@ -811,6 +851,7 @@ src = src.replace(
     + "<div id='floating-widgets'>\n"
     + TOOLBAR_SECTION + "\n"
     + NEWSFEED_SECTION + "\n"
+    + DROPMENU_SECTION + "\n"
     + "</div><!-- /#floating-widgets -->\n\n"
     + "<div id='rsidebar-wrapper'>"
 )
@@ -1208,7 +1249,7 @@ NAV_ACTIVE_JS = """
 WIDGET_PLACEMENT_JS = """
 <script>
 (function(){
-  // Переставляем toolbar в хедер, newsfeed в hero
+  // Переставляем toolbar в хедер, newsfeed в hero, dropmenu под хедер
   function placeWidgets(){
     var toolbar = document.getElementById('toolbar1');
     var target  = document.getElementById('rot-toolbar-target');
@@ -1219,6 +1260,12 @@ WIDGET_PLACEMENT_JS = """
     if(newsfeed){ if(hero){
       hero.insertBefore(newsfeed, hero.firstChild);
     }}
+
+    var dropmenu = document.getElementById('dropmenu1');
+    var header   = document.querySelector('.rot-header');
+    if(dropmenu){ if(header){ if(header.parentNode){
+      header.parentNode.insertBefore(dropmenu, header.nextSibling);
+    }}}
   }
   function alignNewsfeed(){
     var hero     = document.querySelector('.rot-hero');
