@@ -552,6 +552,14 @@ skin_re = re.compile(r'<b:skin><!\[CDATA\[.*?\]\]></b:skin>', re.DOTALL)
 src = skin_re.sub('<b:skin><![CDATA[\n' + NEW_CSS + '\n]]></b:skin>', src)
 
 # ════════════════════════════════════════════════════════════════════
+# 2b. Favicon — заменяем плейсхолдер на Blogger-переменную
+# ════════════════════════════════════════════════════════════════════
+src = src.replace(
+    "<link href='YOUR-FAVICON-URL' rel='shortcut icon' type='image/vnd.microsoft.icon'/>",
+    "<b:if cond='data:blog.faviconUrl'><link expr:href='data:blog.faviconUrl' rel='shortcut icon' type='image/x-icon'/></b:if>"
+)
+
+# ════════════════════════════════════════════════════════════════════
 # 3. Summary JS helper — ЗАМЕНЯЕМ GameTown-версию функции прямо в теле
 #    (вставка в <head> бесполезна: GameTown переопределяет функцию позже)
 # ════════════════════════════════════════════════════════════════════
