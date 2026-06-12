@@ -467,8 +467,8 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 /* ── VERTICAL DROPDOWN MENU ─────────────────────────────────────── */
 .rot-dropmenu{display:none!important;position:absolute!important;top:100%!important;left:0!important;z-index:999!important;min-width:230px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;box-shadow:6px 6px 24px rgba(0,0,0,.8)}
 .rot-dropmenu.rot-menu-open{display:block!important}
-/* Reset any nav inheritance inside the dropdown */
-.rot-dropmenu ul{display:block!important;flex-direction:unset!important;list-style:none!important;margin:0!important;padding:4px 0!important;gap:0!important;background:none!important;border:none!important}
+/* Reset any nav inheritance inside the dropdown — only top-level list */
+.rot-dm-list{display:block!important;flex-direction:unset!important;list-style:none!important;margin:0!important;padding:4px 0!important;gap:0!important;background:none!important;border:none!important}
 .rot-dropmenu li{display:block!important;position:relative!important;float:none!important}
 .rot-dropmenu a{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:10px 16px!important;font-family:'Oswald',sans-serif!important;font-size:13px!important;letter-spacing:1px!important;text-transform:uppercase!important;color:#c8c0a8!important;white-space:nowrap!important;border-bottom:none!important;transition:color .2s,background .2s!important;text-decoration:none!important;width:100%!important;box-sizing:border-box!important}
 .rot-dropmenu a:hover{color:#c9a84c!important;background:#252418!important}
