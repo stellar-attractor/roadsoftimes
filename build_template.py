@@ -1179,7 +1179,8 @@ NAV_ACTIVE_JS = """
       if(el){ el.classList.add('rot-nav-active'); matched = true; }
     }
   });
-  if(!matched){
+  // Главная — только если это реально главная или архив, не статические страницы /p/
+  if(!matched && path.indexOf('/p/') === -1){
     var home = document.getElementById('rot-nav-home');
     if(home) home.classList.add('rot-nav-active');
   }
