@@ -488,7 +488,7 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 #rot-menu-toggle:hover,#rot-menu-toggle.rot-menu-open{color:#c9a84c;border-color:#8a6f2e}
 
 /* ── VERTICAL DROPDOWN MENU ─────────────────────────────────────── */
-.rot-dropmenu{display:none!important;position:absolute!important;top:100%!important;left:0!important;z-index:999!important;min-width:230px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;box-shadow:6px 6px 24px rgba(0,0,0,.8)}
+.rot-dropmenu{display:none!important;position:absolute!important;top:100%!important;left:0!important;z-index:999!important;min-width:185px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;box-shadow:6px 6px 24px rgba(0,0,0,.8)}
 .rot-dropmenu.rot-menu-open{display:block!important}
 /* Reset any nav inheritance inside the dropdown — only top-level list */
 .rot-dm-list{display:block!important;flex-direction:unset!important;list-style:none!important;margin:0!important;padding:4px 0!important;gap:0!important;background:none!important;border:none!important}
@@ -498,7 +498,7 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 .rot-dm-has-sub > a::after{content:'\\203A';margin-left:auto;padding-left:12px;opacity:.5;font-size:18px;line-height:1}
 .rot-dm-divider{height:1px!important;background:#3a3520!important;margin:4px 0!important;padding:0!important}
 /* Submenu — flies out to the right */
-.rot-dm-sub{display:none!important;position:absolute!important;top:0!important;left:100%!important;min-width:210px!important;background:#1a1a0e!important;border:1px solid #3a3520!important;border-top:2px solid #8a6f2e!important;z-index:1000!important;padding:4px 0!important;box-shadow:4px 4px 16px rgba(0,0,0,.7)!important}
+.rot-dm-sub{display:none!important;position:absolute!important;top:0!important;left:100%!important;min-width:170px!important;background:#1a1a0e!important;border:1px solid #3a3520!important;border-top:2px solid #8a6f2e!important;z-index:1000!important;padding:4px 0!important;box-shadow:4px 4px 16px rgba(0,0,0,.7)!important}
 .rot-dm-has-sub:hover .rot-dm-sub{display:block!important}
 .rot-dm-sub a{font-family:'PT Sans',sans-serif!important;font-size:13px!important;letter-spacing:0!important;text-transform:none!important;gap:10px!important}
 
