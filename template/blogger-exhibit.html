@@ -1,0 +1,23 @@
+<style>
+.rot-exhibit-page { max-width: 960px; margin: 0 auto; padding: 0 0 40px; }
+</style>
+
+<div class="rot-exhibit-page">
+  <div id="rot-exhibit"></div>
+</div>
+
+<script src="https://roadsoftimes.pages.dev/js/infographic-player.js"></script>
+<script>
+(function(){
+  var id = new URLSearchParams(location.search).get("id");
+  if (!id) { document.getElementById("rot-exhibit").textContent = "Экспонат не указан."; return; }
+  RotExhibit.init({
+    container: "#rot-exhibit",
+    db: "https://roadsoftimes.pages.dev/infographics.json",
+    cdnBase: "https://roadsoftimes.pages.dev",
+    stripSitePrefix: true,
+    id: id,
+    single: true
+  });
+}());
+</script>

@@ -1,0 +1,36 @@
+﻿<div style="position:relative; left:0%; top:0px">
+<!-- Begin FreeButtons.org -->
+<style>#web-buttons-idwdvoi a{display:block;color:transparent;} #web-buttons-idwdvoi a:hover{background-position:left bottom;}a#web-buttons-idwdvoia {display:none}</style>
+<table id="web-buttons-idwdvoi" width=0 cellpadding=0 cellspacing=0 border=0><tr>
+<td style="padding-right:0px" title ="">
+<a href="https://www.facebook.com/pages/%D0%96%D0%B8%D0%B2%D0%B0%D1%8F-%D0%92%D1%81%D0%B5%D0%BB%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F/135341403212556?ref=tn_tnmn" target="_blank" title="" style="background-image:url(https://lh3.googleusercontent.com/-Zvg8mOD-gBA/VHrEN6Fip5I/AAAAAAAAEqU/MhT8RhmiuF0/s32-no/facebook-icon%2B32x32.png);width:32px;height:32px;display:block;"><br/></a></td>
+<td style="padding-right:0px" title ="">
+<a href="http://vk.com/id206618489" target="_blank" title="" style="background-image:url(https://lh4.googleusercontent.com/-jULhsbu-WKQ/VHROFsd45TI/AAAAAAAAEpk/UtkW9cSahig/s32-no/vk32x32.png);width:32px;height:32px;display:block;"><br/></a></td>
+<td style="padding-right:0px" title ="">
+<a href="https://www.youtube.com/user/bizbur08" target="_blank" title="" style="background-image:url(https://lh5.googleusercontent.com/-APenp9Loo7Y/VHrE0zXmg6I/AAAAAAAAEqk/vrdzHwhu91s/s32-no/youtube1_32.png);width:32px;height:32px;display:block;"><br/></a></td>
+<td style="padding-right:0px" title ="">
+<a href="http://www.nebulacast.com/" target="_blank" title="" style="background-image:url(https://lh5.googleusercontent.com/-pNOmYgySg8Q/VHrF7fgMvqI/AAAAAAAAErE/hlXNHCLPRj4/s32-no/blogger_32.png);width:32px;height:32px;display:block;"><br/></a></td>
+<td style="padding-right:0px" title ="">
+<a href="http://twitter.com/DrMichaelVideos" target="_blank" title="" style="background-image:url(https://lh3.googleusercontent.com/--QpR8YnoJSk/VHrGraGGC_I/AAAAAAAAErU/HtAHo0ogSoA/s32-no/icon-twitter.png);width:32px;height:32px;display:block;"><br/></a></td>
+<td style="padding-right:0px" title ="">
+<a href="http://www.live-universe.com" target="_blank" title="" style="background-image:url(https://lh3.googleusercontent.com/-3ENHwxH_t7M/VJlZyTLmDxI/AAAAAAAAFAw/qlkSclOQVt4/w27-h26-no/english_32x32.jpg);width:32px;height:32px;display:block;"><br/></a></td>
+</tr></table>
+<!-- End FreeButtons.org -->
+</div>
+<!-- news feed -->
+<div style="position:relative; left:25%; top:-35px">
+<div id="TickerBC5286566" class="bc_ticker" style="width: 600px;overflow: auto;overflow-x: hidden;border-style: none;border-width: 0;border-color: #190003;;">
+<table width="100%">
+<tr>
+<td width="10" style="vertical-align: top;" ><a id="TickerPrevBC5286566" href="javascript: ;" onclick="PrevTickerBC5286566();" class="bc_tickerarrow" style="text-decoration: none; ">&laquo;</a></td>
+<td id="TickerContentBC5286566" class="bc_tickercontent" style="vertical-align: top;">
+<a id="TickerLinkBC5286566" href="javascript: ;" class="bc_tickerlink" style="text-decoration: none;" target="_blank"><b><span id="TickerTitleBC5286566" class="bc_tickertitle" ></span></b></a>
+</td>
+<td width="10" style="vertical-align: top;" ><a id="TickerNextBC5286566" href="javascript: ;" onclick="NextTickerBC5286566();" class="bc_tickerarrow" style="text-decoration: none; ">&raquo;</a></td>
+</tr>
+</table>
+<script id="scr5286566" type="text/javascript"></script>
+<script type="text/javascript"> /* <![CDATA[ */ 
+setTimeout('document.getElementById(\'scr5286566\').src = (document.location.protocol == \'https:\' ? \'https\' : \'http\') + \'://www.poweringnews.com/ticker-js.aspx?feedurl=http%3A//feeds2.feedburner.com/nebulacast&changedelay=8&maxitems=-1&showsummary=0&objectid=5286566\'', 500);
+ /* ]]> */ </script>
+</div></div>

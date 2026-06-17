@@ -13,6 +13,14 @@
     - href у кнопки «Подробнее» и у «Все музеи» — ссылки на посты
 ═══════════════════════════════════════════════════════════════ -->
 
+<style>
+.rot-stat-link { text-decoration: none; color: inherit; }
+.rot-stat-link:hover .rot-stat-val { color: #e0c870; }
+.rot-stat-stars { font-size: 13px; letter-spacing: 1px; line-height: 1; }
+.rot-stat-stars .s-on  { color: #c9a84c; }
+.rot-stat-stars .s-off { color: #3a3020; }
+</style>
+
 <div class="rot-featured-museum">
   <div class="rot-block-header">
     <span class="rot-section-title" style="font-size:13px">Рекомендуемый музей</span>
@@ -29,6 +37,7 @@
       <div>
         <p class="rot-museum-label">📍 Вильгельмсхафен, Германия</p>
         <h3 class="rot-museum-title">Deutsches Marinemuseum</h3>
+        <p class="rot-stat-stars" style="margin:-4px 0 6px;font-size:14px"><span class="s-on">★★★</span><span class="s-off">★★</span></p>
         <p class="rot-museum-desc">
           Главный военно-морской музей Германии.
           Эсминцы, подводные лодки, корабельная артиллерия.
@@ -51,6 +60,16 @@
             <span class="rot-stat-val">1998</span>
             <span class="rot-stat-label">основан</span>
           </div>
+          <a class="rot-stat rot-stat-link" href="https://www.marinemuseum.de" target="_blank" rel="noopener">
+            <span class="rot-stat-icon">🌐</span>
+            <span class="rot-stat-val">сайт</span>
+            <span class="rot-stat-label">музея</span>
+          </a>
+          <a class="rot-stat rot-stat-link" href="https://www.google.com/maps/search/Deutsches+Marinemuseum+Wilhelmshaven" target="_blank" rel="noopener">
+            <span class="rot-stat-icon">🗺️</span>
+            <span class="rot-stat-val">карта</span>
+            <span class="rot-stat-label">маршрут</span>
+          </a>
         </div>
         <a class="rot-btn rot-btn-outline rot-museum-link"
            href="https://roadsoftimes.blogspot.com/2026/06/deutsches-marinemuseum.html"

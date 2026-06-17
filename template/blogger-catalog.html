@@ -1,0 +1,511 @@
+<style>
+.rot-cat *, .rot-cat *::before, .rot-cat *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.rot-cat { font-family: 'PT Sans', sans-serif; color: #c8c0a8; }
+
+/* FILTERS */
+.rot-cat .filters { padding: 20px 0; border-bottom: 1px solid #1a1a0e; display: flex; flex-direction: column; gap: 10px; }
+.rot-cat .filter-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.rot-cat .filter-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+.rot-cat .filter-group label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #9a8c70; }
+.rot-cat .filter-group input,
+.rot-cat .filter-group select {
+  background: #12120c; border: 1px solid #2a2510; color: #c8c0a8;
+  font-family: 'PT Sans', sans-serif; font-size: 13px; padding: 7px 10px;
+  border-radius: 3px; outline: none; transition: border-color 0.15s;
+}
+.rot-cat .filter-group input:focus,
+.rot-cat .filter-group select:focus { border-color: #c9a84c; }
+.rot-cat .filter-group select option { background: #12120c; }
+
+/* DATE FILTER */
+.rot-cat .date-filter { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
+.rot-cat .date-filter .filter-group { flex: 0 0 auto; min-width: 0; }
+.rot-cat .date-extra { display: none; align-items: flex-end; gap: 8px; flex-wrap: wrap; }
+.rot-cat .date-extra.show { display: flex; }
+.rot-cat .date-extra label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #9a8c70; display: block; margin-bottom: 4px; }
+.rot-cat .date-extra input[type="number"] { width: 80px; }
+.rot-cat .date-extra input[type="date"] { width: 140px; }
+.rot-cat .date-extra span { color: #9a8c70; font-size: 12px; padding-bottom: 9px; }
+
+/* TOOLBAR */
+.rot-cat .toolbar {
+  padding: 10px 0; font-size: 11px; color: #9a8c70; letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #1a1a0e;
+}
+.rot-cat .toolbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rot-cat .toolbar-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #9a8c70; }
+.rot-cat .view-toggle { display: flex; gap: 6px; }
+.rot-cat .view-btn {
+  background: none; border: 1px solid #2a2510; color: #9a8c70; cursor: pointer;
+  padding: 4px 10px; border-radius: 3px; font-size: 13px; line-height: 1.4;
+  transition: color .15s, border-color .15s; font-family: 'PT Sans', sans-serif;
+}
+.rot-cat .view-btn.active, .rot-cat .view-btn:hover { color: #c9a84c; border-color: #8a6f2e; }
+.rot-cat .toolbar select {
+  background: #12120c; border: 1px solid #2a2510; color: #c8c0a8;
+  font-family: 'PT Sans', sans-serif; font-size: 12px; padding: 4px 8px;
+  border-radius: 3px; outline: none;
+}
+
+/* GRID VIEW */
+.rot-cat .container.view-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1px; background: #1a1a0e;
+}
+.rot-cat .container.view-grid .card {
+  background: #0d0d08; cursor: pointer; transition: background 0.15s;
+  text-decoration: none; color: inherit; display: flex; flex-direction: column;
+}
+.rot-cat .container.view-grid .card:hover { background: #131309; }
+.rot-cat .container.view-grid .card-thumb {
+  height: 140px; background: #080806; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.rot-cat .container.view-grid .card-thumb video,
+.rot-cat .container.view-grid .card-thumb img { width: 90%; height: 90%; object-fit: contain; display: block; }
+.rot-cat .container.view-grid .card-body { padding: 14px 16px; flex: 1; }
+.rot-cat .container.view-grid .card-title { font-size: 13px; font-weight: 700; color: #e0d8c0; margin-bottom: 6px; line-height: 1.3; }
+.rot-cat .container.view-grid .card-meta { font-size: 11px; color: #a09880; line-height: 1.6; }
+.rot-cat .container.view-grid .card-meta span { color: #7ab0b0; }
+.rot-cat .container.view-grid .card-tags { padding: 8px 16px 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* LIST VIEW */
+.rot-cat .container.view-list { display: flex; flex-direction: column; }
+.rot-cat .container.view-list .card {
+  display: flex; flex-direction: row; align-items: stretch;
+  text-decoration: none; color: inherit; border-bottom: 1px solid #1a1a0e;
+  padding: 14px 0; gap: 16px; transition: background .15s; cursor: pointer;
+}
+.rot-cat .container.view-list .card:hover { background: #0d0d08; }
+.rot-cat .container.view-list .card-thumb {
+  width: 130px; min-width: 130px; height: 86px; background: #080806;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; border-radius: 2px;
+}
+.rot-cat .container.view-list .card-thumb video,
+.rot-cat .container.view-list .card-thumb img { width: 90%; height: 90%; object-fit: contain; display: block; }
+.rot-cat .container.view-list .card-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.rot-cat .container.view-list .card-title { font-size: 15px; font-weight: 700; color: #e0d8c0; line-height: 1.3; }
+.rot-cat .container.view-list .card-meta { font-size: 12px; color: #a09880; line-height: 1.5; }
+.rot-cat .container.view-list .card-meta span { color: #7ab0b0; }
+.rot-cat .container.view-list .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+
+.rot-cat .no-media { font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px; }
+.rot-cat .tag { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border: 1px solid #2a2510; color: #a09880; border-radius: 2px; }
+.rot-cat .empty { padding: 60px; text-align: center; color: #3a3020; font-size: 13px; letter-spacing: 1px; }
+
+/* TABLE VIEW */
+.rot-cat .container.view-table { width: 100%; }
+.rot-cat .rc-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rot-cat .rc-table th {
+  text-align: left; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: #9a8c70; padding: 8px 12px; border-bottom: 1px solid #2a2510;
+  background: #0d0d08; font-weight: normal; white-space: nowrap;
+}
+.rot-cat .rc-table td { padding: 9px 12px; border-bottom: 1px solid #161610; color: #c8c0a8; vertical-align: middle; }
+.rot-cat .rc-table tr.rc-row { cursor: pointer; transition: background .12s; }
+.rot-cat .rc-table tr.rc-row:hover { background: #131309; }
+.rot-cat .rc-table tr.rc-row.rc-selected { background: #1a1a0a; border-left: 2px solid #c9a84c; }
+.rot-cat .rc-table td.rc-title { font-weight: 700; color: #e0d8c0; }
+.rot-cat .rc-table td.rc-museum { color: #7ab0b0; }
+.rot-cat .rc-table td.rc-city,
+.rot-cat .rc-table td.rc-country { min-width: 110px; }
+.rot-cat .rc-table td.rc-date { color: #9a8c70; font-size: 11px; white-space: nowrap; }
+
+/* DETAIL PANEL */
+.rot-cat .rc-detail {
+  background: #0d0d08; border-top: 2px solid #2a2510;
+  display: none; padding: 20px 24px; gap: 20px;
+}
+.rot-cat .rc-detail.open { display: flex; flex-wrap: wrap; align-items: flex-start; }
+.rot-cat .rc-detail-thumb {
+  width: 160px; min-width: 160px; height: 104px; background: #080806;
+  display: flex; align-items: center; justify-content: center; border-radius: 2px; flex-shrink: 0;
+}
+.rot-cat .rc-detail-thumb video,
+.rot-cat .rc-detail-thumb img { width: 90%; height: 90%; object-fit: contain; display: block; }
+.rot-cat .rc-detail-fields { flex: 1; display: grid; grid-template-columns: auto 1fr; gap: 5px 16px; align-content: start; }
+.rot-cat .rc-detail-fields dt { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #9a8c70; white-space: nowrap; padding-top: 1px; }
+.rot-cat .rc-detail-fields dd { font-size: 13px; color: #c8c0a8; }
+.rot-cat .rc-detail-link { align-self: center; margin-left: auto; padding-left: 20px; flex-shrink: 0; }
+.rot-cat .rc-detail-link a {
+  display: inline-block; padding: 8px 18px; border: 1px solid #8a6f2e;
+  color: #c9a84c; text-decoration: none; font-size: 12px; border-radius: 3px;
+  letter-spacing: 1px; transition: background .15s;
+}
+.rot-cat .rc-detail-link a:hover { background: #1a1a0a; }
+
+/* PAGINATION */
+.rot-cat .pagination { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 24px 0; }
+.rot-cat .pg-btn {
+  background: none; border: 1px solid #2a2510; color: #a09880; cursor: pointer;
+  padding: 5px 12px; border-radius: 3px; font-family: 'PT Sans', sans-serif;
+  font-size: 13px; transition: color .15s, border-color .15s;
+}
+.rot-cat .pg-btn:hover { color: #c9a84c; border-color: #8a6f2e; }
+.rot-cat .pg-btn.active { color: #c9a84c; border-color: #8a6f2e; background: #12120c; }
+.rot-cat .pg-btn:disabled { opacity: 0.25; cursor: default; }
+</style>
+
+<div class="rot-cat">
+  <div class="filters">
+    <!-- текстовые поля -->
+    <div class="filter-row">
+      <div class="filter-group"><label>Название</label><input type="text" id="rc-title" placeholder="поиск…"></div>
+      <div class="filter-group"><label>Объект</label><input type="text" id="rc-object-q" placeholder="поиск…"></div>
+      <div class="filter-group"><label>ТТХ текст</label><input type="text" id="rc-ttx" placeholder="поиск…"></div>
+      <div class="filter-group"><label>Описание</label><input type="text" id="rc-desc" placeholder="поиск…"></div>
+    </div>
+    <!-- комбобоксы -->
+    <div class="filter-row">
+      <div class="filter-group"><label>Страна</label><select id="rc-country"><option value="">Все</option></select></div>
+      <div class="filter-group"><label>Город</label><select id="rc-city"><option value="">Все</option></select></div>
+      <div class="filter-group"><label>Категория</label><select id="rc-category"><option value="">Все</option></select></div>
+      <!-- дата -->
+      <div class="filter-group date-filter">
+        <label>Период</label>
+        <select id="rc-date-mode">
+          <option value="">Все периоды</option>
+          <option value="this-year">Этот год</option>
+          <option value="last-year">Прошлый год</option>
+          <option value="year">Год…</option>
+          <option value="range">Диапазон дат</option>
+        </select>
+      </div>
+      <div class="date-extra" id="rc-date-extra-year">
+        <div><label>Год</label><input type="number" id="rc-year-val" placeholder="2026" min="2000" max="2099"></div>
+      </div>
+      <div class="date-extra" id="rc-date-extra-range">
+        <div><label>С</label><input type="date" id="rc-date-from"></div>
+        <span>—</span>
+        <div><label>По</label><input type="date" id="rc-date-to"></div>
+      </div>
+    </div>
+  </div>
+  <div class="toolbar">
+    <span id="rc-count">Загрузка…</span>
+    <div class="toolbar-right">
+      <label class="toolbar-label">Сортировка</label>
+      <select id="rc-sort">
+        <option value="desc">С конца</option>
+        <option value="asc">С начала</option>
+      </select>
+      <div class="view-toggle">
+        <button class="view-btn active" id="rc-btn-grid" onclick="rcSetView('grid')">⊞ Сетка</button>
+        <button class="view-btn" id="rc-btn-list" onclick="rcSetView('list')">☰ Список</button>
+        <button class="view-btn" id="rc-btn-table" onclick="rcSetView('table')">⊟ Таблица</button>
+      </div>
+    </div>
+  </div>
+  <div class="container view-grid" id="rc-container"></div>
+  <div class="rc-detail" id="rc-detail"></div>
+  <div class="pagination" id="rc-pagination"></div>
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+  var CDN      = 'https://roadsoftimes.pages.dev';
+  var EXHIBIT  = 'https://roadsoftimes.blogspot.com/p/exhibit.html';
+  var DB       = CDN + '/infographics.json';
+  var PER_PAGE = 12;
+  var all = [], filtered = [], currentPage = 1;
+  var currentView = 'grid';
+  var colSort = { key: null, dir: 1 };
+  try { currentView = localStorage.getItem('rot-catalog-view') || 'grid'; } catch(e){}
+
+  fetch(DB).then(function(r){ return r.json(); }).then(function(data){
+    all = data.map(function(r,i){ return Object.assign({_idx:i}, r); });
+    populateFilters();
+    applyView(currentView);
+    render();
+  });
+
+  window.rcSetView = function(v){
+    currentView = v;
+    try { localStorage.setItem('rot-catalog-view', v); } catch(e){}
+    applyView(v); renderPage();
+  };
+
+  function applyView(v){
+    document.getElementById('rc-container').className = 'container view-' + v;
+    document.getElementById('rc-btn-grid').classList.toggle('active', v === 'grid');
+    document.getElementById('rc-btn-list').classList.toggle('active', v === 'list');
+    document.getElementById('rc-btn-table').classList.toggle('active', v === 'table');
+    document.getElementById('rc-detail').className = 'rc-detail';
+  }
+
+  function uniq(arr){ return Array.from(new Set(arr.filter(Boolean))).sort(); }
+
+  function populateFilters(){
+    fill('rc-country',  uniq(all.map(function(r){ return r.Country; })));
+    fill('rc-city',     uniq(all.map(function(r){ return r.City; })));
+    fill('rc-category', uniq(all.map(function(r){ return r.Category; })));
+
+    var ids = ['rc-title','rc-object-q','rc-ttx','rc-desc',
+               'rc-country','rc-city','rc-category','rc-sort',
+               'rc-date-mode','rc-year-val','rc-date-from','rc-date-to'];
+    ids.forEach(function(id){ document.getElementById(id).addEventListener('input', render); });
+
+    document.getElementById('rc-date-mode').addEventListener('change', function(){
+      var mode = this.value;
+      document.getElementById('rc-date-extra-year').classList.toggle('show', mode === 'year');
+      document.getElementById('rc-date-extra-range').classList.toggle('show', mode === 'range');
+      render();
+    });
+  }
+
+  function fill(id, vals){
+    var sel = document.getElementById(id);
+    vals.forEach(function(v){ var o = document.createElement('option'); o.value = o.textContent = v; sel.appendChild(o); });
+  }
+
+  function gval(id){ return (document.getElementById(id).value || '').trim().toLowerCase(); }
+  function sval(id){ return (document.getElementById(id).value || '').trim(); }
+
+  function textOf(r){
+    var ttx = (r.ttx_text || '') + ' ' + (r.zones && r.zones.ttx_text ? r.zones.ttx_text.text || '' : '');
+    var sub = (r.subtitle || '') + ' ' + (r.zones && r.zones.subtitle ? r.zones.subtitle.text || '' : '');
+    return { ttx: ttx.toLowerCase(), desc: sub.toLowerCase() };
+  }
+
+  function render(){
+    var q    = gval('rc-title');
+    var qobj = gval('rc-object-q');
+    var qttx = gval('rc-ttx');
+    var qdesc= gval('rc-desc');
+    var country  = gval('rc-country');
+    var city     = gval('rc-city');
+    var cat      = gval('rc-category');
+    var sort     = document.getElementById('rc-sort').value;
+    var dateMode = document.getElementById('rc-date-mode').value;
+    var nowYear  = new Date().getFullYear();
+    var yearVal  = parseInt(sval('rc-year-val'), 10) || 0;
+    var dateFrom = sval('rc-date-from');
+    var dateTo   = sval('rc-date-to');
+
+    filtered = all.filter(function(r){
+      if (q    && !(r.title||'').toLowerCase().includes(q) && !(r.id||'').toLowerCase().includes(q)) return false;
+      if (qobj && !(r.Object||'').toLowerCase().includes(qobj)) return false;
+      var tx = qttx || qdesc ? textOf(r) : null;
+      if (qttx && !tx.ttx.includes(qttx)) return false;
+      if (qdesc && !tx.desc.includes(qdesc)) return false;
+      if (country && (r.Country||'').toLowerCase() !== country) return false;
+      if (city    && (r.City||'').toLowerCase()    !== city)    return false;
+      if (cat     && (r.Category||'').toLowerCase()!== cat)     return false;
+
+      var d = r.date || '';
+      if (dateMode === 'this-year' && !d.startsWith(String(nowYear))) return false;
+      if (dateMode === 'last-year' && !d.startsWith(String(nowYear - 1))) return false;
+      if (dateMode === 'year' && yearVal && !d.startsWith(String(yearVal))) return false;
+      if (dateMode === 'range'){
+        if (dateFrom && d < dateFrom) return false;
+        if (dateTo   && d > dateTo)   return false;
+      }
+      return true;
+    }).sort(function(a, b){
+      var da = a.date || '', db = b.date || '';
+      if (da || db) return sort === 'asc' ? da.localeCompare(db) : db.localeCompare(da);
+      return sort === 'asc' ? a._idx - b._idx : b._idx - a._idx;
+    });
+
+    currentPage = 1;
+    renderPage();
+  }
+
+  function renderPage(){
+    var totalPages = Math.ceil(filtered.length / PER_PAGE);
+    var page = filtered.slice((currentPage-1)*PER_PAGE, currentPage*PER_PAGE);
+
+    document.getElementById('rc-count').textContent =
+      'Найдено: ' + filtered.length + ' из ' + all.length +
+      (totalPages > 1 ? '  ·  стр. ' + currentPage + ' / ' + totalPages : '');
+
+    var c = document.getElementById('rc-container');
+    c.innerHTML = '';
+
+    if (!filtered.length){
+      c.innerHTML = '<div class="empty">Ничего не найдено</div>';
+      document.getElementById('rc-pagination').innerHTML = '';
+      return;
+    }
+
+    if (currentView === 'table') { renderTable(page, totalPages); return; }
+
+    page.forEach(function(r){
+      var thumbSrc = currentView === 'list'
+        ? (glowSrc(r) || CDN + '/previews/' + r.id + '_pr.webm')
+        : CDN + '/previews/' + r.id + '_pr.webm';
+      var exhibitUrl = EXHIBIT + '?id=' + encodeURIComponent(r.id);
+
+      var a = document.createElement('a');
+      a.className = 'card';
+      a.href = exhibitUrl;
+
+      var thumb = document.createElement('div');
+      thumb.className = 'card-thumb';
+      var v = document.createElement('video');
+      v.src = thumbSrc; v.muted = true; v.autoplay = true; v.loop = true; v.setAttribute('playsinline','');
+      thumb.appendChild(v);
+
+      var body = document.createElement('div');
+      body.className = 'card-body';
+      body.innerHTML =
+        '<div class="card-title">' + esc(r.title || r.id) + '</div>' +
+        '<div class="card-meta">' +
+          (r.Museum ? '<span>' + esc(r.Museum) + '</span>' + (r.City ? ', ' : '') : '') +
+          [r.City, r.Country].filter(Boolean).map(esc).join(', ') +
+        '</div>';
+
+      var tags = document.createElement('div');
+      tags.className = 'card-tags';
+      [r.Object, r.Category].filter(Boolean).forEach(function(t){
+        tags.innerHTML += '<span class="tag">' + esc(t) + '</span>';
+      });
+      body.appendChild(tags);
+      a.appendChild(thumb);
+      a.appendChild(body);
+      c.appendChild(a);
+    });
+
+    renderPagination(totalPages);
+  }
+
+  var COL_KEYS = [
+    { label: 'Название', key: 'title' },
+    { label: 'Объект',   key: 'Object' },
+    { label: 'Музей',    key: 'Museum' },
+    { label: 'Город',    key: 'City' },
+    { label: 'Страна',   key: 'Country' },
+    { label: 'Дата',     key: 'date' }
+  ];
+
+  function renderTable(page, totalPages){
+    var c = document.getElementById('rc-container');
+    c.innerHTML = '';
+    if (!page.length){ c.innerHTML = '<div class="empty">Ничего не найдено</div>'; renderPagination(0); return; }
+
+    var table = document.createElement('table');
+    table.className = 'rc-table';
+    var thead = document.createElement('thead');
+    var htr = document.createElement('tr');
+    COL_KEYS.forEach(function(col){
+      var th = document.createElement('th');
+      var arrow = colSort.key === col.key ? (colSort.dir === 1 ? ' ▲' : ' ▼') : '';
+      th.textContent = col.label + arrow;
+      th.style.cursor = 'pointer';
+      th.onclick = function(){
+        if (colSort.key === col.key) { colSort.dir *= -1; }
+        else { colSort.key = col.key; colSort.dir = 1; }
+        sortFiltered();
+        currentPage = 1;
+        renderPage();
+      };
+      htr.appendChild(th);
+    });
+    thead.appendChild(htr);
+    table.appendChild(thead);
+
+    var tbody = document.createElement('tbody');
+    page.forEach(function(r){
+      var tr = document.createElement('tr');
+      tr.className = 'rc-row';
+      tr.innerHTML =
+        '<td class="rc-title">'  + esc(r.title || r.id) + '</td>' +
+        '<td>'                   + esc(r.Object || '') + '</td>' +
+        '<td class="rc-museum">' + esc(r.Museum || '') + '</td>' +
+        '<td class="rc-city">'   + esc(r.City || '') + '</td>' +
+        '<td class="rc-country">'+ esc(r.Country || '') + '</td>' +
+        '<td class="rc-date">'   + esc(r.date || '') + '</td>';
+      tr.onclick = function(){ selectRow(r, tr); };
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    c.appendChild(table);
+    renderPagination(totalPages);
+  }
+
+  function sortFiltered(){
+    if (!colSort.key) return;
+    var k = colSort.key, d = colSort.dir;
+    filtered.sort(function(a, b){
+      var va = (a[k] || '').toLowerCase(), vb = (b[k] || '').toLowerCase();
+      return va < vb ? -d : va > vb ? d : 0;
+    });
+  }
+
+  var selectedId = null;
+  function selectRow(r, tr){
+    if (selectedId === r.id){
+      selectedId = null;
+      document.querySelectorAll('.rc-row').forEach(function(el){ el.classList.remove('rc-selected'); });
+      document.getElementById('rc-detail').className = 'rc-detail';
+      return;
+    }
+    selectedId = r.id;
+    document.querySelectorAll('.rc-row').forEach(function(el){ el.classList.remove('rc-selected'); });
+    tr.classList.add('rc-selected');
+
+    var detailSrc = glowSrc(r) || CDN + '/previews/' + r.id + '_pr.webm';
+
+    var thumbHtml = '<a href="' + EXHIBIT + '?id=' + encodeURIComponent(r.id) + '" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%">' +
+      '<video src="' + detailSrc + '" muted autoplay loop playsinline style="width:90%;height:90%;object-fit:contain;display:block"></video>' +
+      '</a>';
+
+    var fields = [
+      ['ID', r.id], ['Название', r.title], ['Объект', r.Object],
+      ['Музей', r.Museum], ['Город', r.City], ['Страна', r.Country],
+      ['Категория', r.Category], ['Дата', r.date], ['Год', r.Year]
+    ].filter(function(f){ return f[1]; });
+
+    var fieldsHtml = fields.map(function(f){
+      return '<dt>' + esc(f[0]) + '</dt><dd>' + esc(String(f[1])) + '</dd>';
+    }).join('');
+
+    var det = document.getElementById('rc-detail');
+    det.innerHTML =
+      '<div class="rc-detail-thumb">' + thumbHtml + '</div>' +
+      '<dl class="rc-detail-fields">' + fieldsHtml + '</dl>' +
+      '<div class="rc-detail-link"><a href="' + EXHIBIT + '?id=' + encodeURIComponent(r.id) + '">Открыть →</a></div>';
+    det.className = 'rc-detail open';
+    det.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  }
+
+  function renderPagination(totalPages){
+    var el = document.getElementById('rc-pagination');
+    el.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    var prev = document.createElement('button');
+    prev.className = 'pg-btn'; prev.textContent = '←'; prev.disabled = currentPage === 1;
+    prev.onclick = function(){ currentPage--; renderPage(); scrollTo(0,0); };
+    el.appendChild(prev);
+
+    for (var p = 1; p <= totalPages; p++){
+      (function(p){
+        var btn = document.createElement('button');
+        btn.className = 'pg-btn' + (p === currentPage ? ' active' : '');
+        btn.textContent = p;
+        btn.onclick = function(){ currentPage = p; renderPage(); scrollTo(0,0); };
+        el.appendChild(btn);
+      })(p);
+    }
+
+    var next = document.createElement('button');
+    next.className = 'pg-btn'; next.textContent = '→'; next.disabled = currentPage === totalPages;
+    next.onclick = function(){ currentPage++; renderPage(); scrollTo(0,0); };
+    el.appendChild(next);
+  }
+
+  function glowSrc(r){
+    var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source;
+    return src ? CDN + '/' + src : null;
+  }
+
+  function esc(s){
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+}());
+//]]>
+</script>

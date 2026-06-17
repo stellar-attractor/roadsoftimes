@@ -185,7 +185,9 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 /* Метки и другие ссылки остаются кликабельными поверх */
 .rot-card-labels a,.rot-tag{position:relative;z-index:2}
 .rot-card-thumb{position:relative;height:160px;overflow:hidden;flex-shrink:0;background:#232318}
-.rot-card-thumb img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.rot-card-thumb img,.rot-card-thumb video{display:block;width:100%;height:100%;object-fit:cover}
+.rot-card-thumb video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;height:90%;object-fit:contain}
+.rot-card-thumb img{transition:transform .4s ease}
 .rot-post-card:hover .rot-card-thumb img{transform:scale(1.05)}
 .rot-tag{position:absolute;top:10px;left:10px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;z-index:2;background:#2a0f0f;color:#ae6a5a;border:1px solid #ae6a5a}
 .rot-card-body{padding:14px;flex:1;display:flex;flex-direction:column}
@@ -984,40 +986,48 @@ img_thumb_width = 200;
 <script type='text/javascript'>
 //<![CDATA[
 
-function removeHtmlTag(strx,chop){ 
+function removeHtmlTag(strx,chop){
+	strx = strx.replace(/<script[\s\S]*?<\/script>/gi,"");
+	strx = strx.replace(/<style[\s\S]*?<\/style>/gi,"");
 	if(strx.indexOf("<")!=-1)
 	{
-		var s = strx.split("<"); 
-		for(var i=0;i<s.length;i++){ 
-			if(s[i].indexOf(">")!=-1){ 
-				s[i] = s[i].substring(s[i].indexOf(">")+1,s[i].length); 
-			} 
-		} 
-		strx =  s.join(""); 
+		var s = strx.split("<");
+		for(var i=0;i<s.length;i++){
+			if(s[i].indexOf(">")!=-1){
+				s[i] = s[i].substring(s[i].indexOf(">")+1,s[i].length);
+			}
+		}
+		strx =  s.join("");
 	}
-	chop = (chop < strx.length-1) ? chop : strx.length-2; 
-	while(strx.charAt(chop-1)!=' ' && strx.indexOf(' ',chop)!=-1) chop++; 
-	strx = strx.substring(0,chop-1); 
-	return strx+'...'; 
+	chop = (chop < strx.length-1) ? chop : strx.length-2;
+	while(strx.charAt(chop-1)!=' ' && strx.indexOf(' ',chop)!=-1) chop++;
+	strx = strx.substring(0,chop-1);
+	return strx+'...';
 }
 
 function createSummaryAndThumb(id){
   var d=document.getElementById(id);
   var imgs=d.getElementsByTagName("img");
   var imgSrc=imgs.length>=1?imgs[0].src:null;
-  d.innerHTML="<span>"+removeHtmlTag(d.innerHTML,imgSrc?summary_img:summary_noimg)+"</span>";
-  if(imgSrc){
-    var card=d.closest?d.closest(".rot-post-card"):null;
-    if(card){
-      var thumb=card.querySelector(".rot-card-thumb");
-      if(thumb){
+  var previewVid=d.querySelector("video.rot-preview-src");
+  var vidSrc=previewVid?previewVid.src:null;
+  var html=d.innerHTML;
+  html=html.replace(/<script[\s\S]*?<\/script>/gi,"");
+  html=html.replace(/<style[\s\S]*?<\/style>/gi,"");
+  d.innerHTML="<span>"+removeHtmlTag(html,imgSrc?summary_img:summary_noimg)+"</span>";
+  var card=d.closest?d.closest(".rot-post-card"):null;
+  if(card){
+    var thumb=card.querySelector(".rot-card-thumb");
+    if(thumb){
+      if(vidSrc){
+        var v=document.createElement("video");
+        v.src=vidSrc;v.autoplay=true;v.muted=true;v.loop=true;
+        v.setAttribute("playsinline","");
+        thumb.appendChild(v);
+      } else if(imgSrc){
         var existing=thumb.querySelector("img");
-        if(existing){
-          existing.src=imgSrc; /* перезаписываем thumbnailUrl полноразмерным */
-        } else {
-          var el=document.createElement("img");el.src=imgSrc;el.alt="";
-          thumb.appendChild(el);
-        }
+        if(existing){existing.src=imgSrc;}
+        else{var el=document.createElement("img");el.src=imgSrc;el.alt="";thumb.appendChild(el);}
       }
     }
   }
@@ -1227,6 +1237,7 @@ embed, img, object, video {max-width: 100%;}
         <li id='rot-nav-vremena'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
         <li id='rot-nav-goroda'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0&quot;'>&#1043;&#1086;&#1088;&#1086;&#1076;&#1072;</a></li>
         <li id='rot-nav-muzei'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
+        <li id='rot-nav-catalog'><a href='https://roadsoftimes.blogspot.com/p/catalog.html'>&#1050;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;</a></li>
         <li style='position:relative'>
           <button id='rot-menu-toggle' title='&#1052;&#1077;&#1085;&#1102;'>&#9776;</button>
           <nav class='rot-dropmenu' id='rot-dropmenu'>
@@ -3018,6 +3029,11 @@ function rotSetView(v){
       if(el){ el.classList.add('rot-nav-active'); matched = true; }
     }
   });
+  // Каталог
+  if(!matched &amp;&amp; (path.indexOf('catalog') !== -1 || path.indexOf('blog-page_15') !== -1)){
+    var cat = document.getElementById('rot-nav-catalog');
+    if(cat){ cat.classList.add('rot-nav-active'); matched = true; }
+  }
   // Главная — только если это реально главная или архив, не статические страницы /p/
   if(!matched){
     if(path.indexOf('/p/') === -1){
