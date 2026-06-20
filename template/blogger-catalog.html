@@ -203,7 +203,6 @@
   <div class="pagination" id="rc-pagination"></div>
 </div>
 
-<script src="https://roadsoftimes.pages.dev/js/infographic-player.js"></script>
 <script>
 //<![CDATA[
 (function(){
@@ -505,9 +504,6 @@
   }
 
   function catalogPreviewSrc(r) {
-    if (window.RotExhibit && RotExhibit.previewUrl) {
-      return RotExhibit.previewUrl(r, CDN, true);
-    }
     var mobile = window.matchMedia('(max-width: 768px), (orientation: portrait)').matches;
     var path = (mobile && r.mobile && r.mobile.zones)
       ? ('previews/' + r.id + '_mobile_pr.webm')
