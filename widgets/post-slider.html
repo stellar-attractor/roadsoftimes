@@ -1,0 +1,130 @@
+<!-- ═══════════════════════════════════════════════════════════════
+  ВИДЖЕТ: Photo Slider (post-slider)
+  Вставляется прямо в HTML поста через редактор Blogger.
+
+  Использование:
+  1. Загрузи фотки в пост через редактор — Blogger загрузит их на Google.
+  2. Переключись в HTML-режим, скопируй URL из <a href="..."> (полный размер).
+  3. Вставь код ниже в нужное место поста, подставив свои URL в src="".
+  4. Удали оригинальные <div class="separator">...</div> с этими фотками.
+
+  Настройки:
+  - height: высота слайдера (по умолчанию 420px)
+  - Добавляй/убирай <img> внутри #rot-slider-track
+═══════════════════════════════════════════════════════════════ -->
+
+<div class="rot-slider" id="rot-slider">
+  <div class="rot-slider-track" id="rot-slider-track">
+    <!-- ↓ ВСТАВЬ СВОИ ФОТКИ -->
+    <img src="URL_ФОТО_1" alt="" />
+    <img src="URL_ФОТО_2" alt="" />
+    <img src="URL_ФОТО_3" alt="" />
+    <!-- ↑ КОНЕЦ ФОТОК -->
+  </div>
+  <button class="rot-slider-btn rot-slider-prev" onclick="rotSlide(this,-1)">&#8249;</button>
+  <button class="rot-slider-btn rot-slider-next" onclick="rotSlide(this,1)">&#8250;</button>
+  <div class="rot-slider-dots" id="rot-slider-dots"></div>
+</div>
+
+<style>
+.rot-slider {
+  position: relative;
+  max-width: 680px;
+  margin: 1em auto;
+  overflow: hidden;
+  background: #111;
+  border-radius: 4px;
+  height: 420px;
+}
+.rot-slider-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s ease;
+}
+.rot-slider-track img {
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.rot-slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+.rot-slider-btn:hover { background: rgba(0,0,0,0.8); }
+.rot-slider-prev { left: 8px; }
+.rot-slider-next { right: 8px; }
+.rot-slider-dots {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+.rot-slider-dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  margin: 0 4px;
+  cursor: pointer;
+  pointer-events: all;
+  transition: background 0.2s;
+}
+.rot-slider-dots span.active { background: #fff; }
+</style>
+
+<script>
+(function(){
+  var slider = document.getElementById('rot-slider');
+  var track  = document.getElementById('rot-slider-track');
+  var dotsEl = document.getElementById('rot-slider-dots');
+  var imgs   = track.querySelectorAll('img');
+  var cur    = 0;
+  var n      = imgs.length;
+
+  /* dots */
+  for (var i = 0; i < n; i++) {
+    var d = document.createElement('span');
+    if (i === 0) d.className = 'active';
+    d.setAttribute('data-i', i);
+    d.onclick = function(){ go(+this.getAttribute('data-i')); };
+    dotsEl.appendChild(d);
+  }
+
+  function go(i) {
+    cur = (i + n) % n;
+    track.style.transform = 'translateX(-' + cur * 100 + '%)';
+    dotsEl.querySelectorAll('span').forEach(function(d, j){
+      d.className = j === cur ? 'active' : '';
+    });
+  }
+
+  window.rotSlide = function(btn, dir) {
+    /* находим ближайший слайдер — на случай нескольких на странице */
+    go(cur + dir);
+  };
+
+  /* свайп на мобиле */
+  var startX = null;
+  slider.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; });
+  slider.addEventListener('touchend', function(e){
+    if (startX === null) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+    startX = null;
+  });
+})();
+</script>

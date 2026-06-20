@@ -1,0 +1,134 @@
+<!-- ═══════════════════════════════════════════════════════════════
+  ВИДЖЕТ: Video Slider / post-slider-video
+  Карусель WebM-видео для вставки в HTML поста Blogger.
+
+  Использование:
+  1. Загрузи webm-файлы куда-нибудь (Google Drive, Dropbox, свой хостинг).
+     Blogger сам webm не хостит — нужна прямая ссылка на файл.
+  2. Вставь код ниже в HTML-редактор поста.
+  3. Замени URL_ВИДЕО_1, URL_ВИДЕО_2 и т.д. на прямые ссылки .webm.
+  4. Добавляй/убирай блоки <video> по числу роликов.
+
+  Настройки:
+  - height: высота слайдера (по умолчанию 420px) — меняй в .rot-sv
+  - autoplay / loop / muted — атрибуты на <video>, убирай если не нужно
+═══════════════════════════════════════════════════════════════ -->
+
+<div class="rot-sv" id="rot-sv">
+  <div class="rot-sv-track" id="rot-sv-track">
+
+    <!-- ↓ ВСТАВЬ СВОИ ВИДЕО -->
+    <video src="URL_ВИДЕО_1" autoplay muted loop playsinline></video>
+    <video src="URL_ВИДЕО_2" autoplay muted loop playsinline></video>
+    <video src="URL_ВИДЕО_3" autoplay muted loop playsinline></video>
+    <!-- ↑ КОНЕЦ ВИДЕО -->
+
+  </div>
+  <button class="rot-sv-btn rot-sv-prev" onclick="rotSV(this,-1)">&#8249;</button>
+  <button class="rot-sv-btn rot-sv-next" onclick="rotSV(this,1)">&#8250;</button>
+  <div class="rot-sv-dots" id="rot-sv-dots"></div>
+</div>
+
+<style>
+.rot-sv {
+  position: relative;
+  max-width: 680px;
+  margin: 1em auto;
+  overflow: hidden;
+  background: #111;
+  border-radius: 4px;
+  height: 420px;
+}
+.rot-sv-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s ease;
+}
+.rot-sv-track video {
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.rot-sv-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+.rot-sv-btn:hover { background: rgba(0,0,0,0.8); }
+.rot-sv-prev { left: 8px; }
+.rot-sv-next { right: 8px; }
+.rot-sv-dots {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+.rot-sv-dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  margin: 0 4px;
+  cursor: pointer;
+  pointer-events: all;
+  transition: background 0.2s;
+}
+.rot-sv-dots span.active { background: #fff; }
+</style>
+
+<script>
+(function(){
+  var wrap   = document.getElementById('rot-sv');
+  var track  = document.getElementById('rot-sv-track');
+  var dotsEl = document.getElementById('rot-sv-dots');
+  var videos = track.querySelectorAll('video');
+  var n      = videos.length;
+  var cur    = 0;
+
+  /* dots */
+  for (var i = 0; i < n; i++) {
+    var d = document.createElement('span');
+    if (i === 0) d.className = 'active';
+    d.setAttribute('data-i', i);
+    d.onclick = function(){ go(+this.getAttribute('data-i')); };
+    dotsEl.appendChild(d);
+  }
+
+  function go(i) {
+    /* пауза на текущем, play на следующем */
+    videos[cur].pause();
+    cur = (i + n) % n;
+    track.style.transform = 'translateX(-' + cur * 100 + '%)';
+    videos[cur].currentTime = 0;
+    videos[cur].play();
+    dotsEl.querySelectorAll('span').forEach(function(d, j){
+      d.className = j === cur ? 'active' : '';
+    });
+  }
+
+  window.rotSV = function(btn, dir){ go(cur + dir); };
+
+  /* свайп на мобиле */
+  var startX = null;
+  wrap.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; });
+  wrap.addEventListener('touchend', function(e){
+    if (startX === null) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+    startX = null;
+  });
+})();
+</script>
