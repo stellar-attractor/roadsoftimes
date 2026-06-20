@@ -192,7 +192,7 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 .rot-posts-grid.view-feed .rot-post-card{flex-direction:row!important;border:none!important;border-bottom:1px solid #252418!important;border-radius:0!important;gap:0;padding:14px 0}
 .rot-posts-grid.view-feed .rot-post-card:hover{border-color:#252418!important;background:none!important}
 .rot-posts-grid.view-feed .rot-card-thumb{width:130px!important;min-width:130px!important;height:86px!important;flex-shrink:0;margin-right:16px;overflow:hidden}
-.rot-posts-grid.view-feed .rot-card-thumb img{width:100%;height:100%;object-fit:cover}
+.rot-posts-grid.view-feed .rot-card-thumb img,.rot-posts-grid.view-feed .rot-card-thumb video{width:100%;height:100%;object-fit:cover}
 .rot-posts-grid.view-feed .rot-card-body{padding:0!important;display:flex;flex-direction:column;justify-content:center;gap:4px}
 .rot-posts-grid.view-feed .rot-card-title{font-size:15px!important;margin:0 0 4px!important}
 .rot-posts-grid.view-feed .rot-card-excerpt{font-size:13px!important;-webkit-line-clamp:2!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
@@ -208,8 +208,8 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 /* Метки и другие ссылки остаются кликабельными поверх */
 .rot-card-labels a,.rot-tag{position:relative;z-index:2}
 .rot-card-thumb{position:relative;height:160px;overflow:hidden;flex-shrink:0;background:#232318}
-.rot-card-thumb img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
-.rot-post-card:hover .rot-card-thumb img{transform:scale(1.05)}
+.rot-card-thumb img,.rot-card-thumb video{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.rot-post-card:hover .rot-card-thumb img,.rot-post-card:hover .rot-card-thumb video{transform:scale(1.05)}
 .rot-tag{position:absolute;top:10px;left:10px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;z-index:2;background:#2a0f0f;color:#ae6a5a;border:1px solid #ae6a5a}
 .rot-card-body{padding:14px;flex:1;display:flex;flex-direction:column}
 .rot-card-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;color:#e8e0cc;line-height:1.25;margin-bottom:8px}
@@ -609,18 +609,28 @@ function createSummaryAndThumb(id){
   var d=document.getElementById(id);
   var imgs=d.getElementsByTagName("img");
   var imgSrc=imgs.length>=1?imgs[0].src:null;
-  d.innerHTML="<span>"+removeHtmlTag(d.innerHTML,imgSrc?summary_img:summary_noimg)+"</span>";
-  if(imgSrc){
-    var card=d.closest?d.closest(".rot-post-card"):null;
-    if(card){
-      var thumb=card.querySelector(".rot-card-thumb");
-      if(thumb){
+  var previewEl=d.querySelector?d.querySelector(".rot-preview-src"):null;
+  var previewSrc=previewEl?(previewEl.getAttribute("src")||previewEl.src):null;
+  var previewTag=previewEl?previewEl.tagName.toLowerCase():null;
+  d.innerHTML="<span>"+removeHtmlTag(d.innerHTML,(imgSrc||previewSrc)?summary_img:summary_noimg)+"</span>";
+  var card=d.closest?d.closest(".rot-post-card"):null;
+  if(card){
+    var thumb=card.querySelector(".rot-card-thumb");
+    if(thumb){
+      if(imgSrc){
         var existing=thumb.querySelector("img");
-        if(existing){
-          existing.src=imgSrc; /* перезаписываем thumbnailUrl полноразмерным */
+        if(existing){existing.src=imgSrc;}
+        else{var el=document.createElement("img");el.src=imgSrc;el.alt="";thumb.appendChild(el);}
+      } else if(previewSrc){
+        if(previewTag==="video"){
+          var v=document.createElement("video");
+          v.src=previewSrc;v.muted=true;v.autoplay=true;v.loop=true;
+          v.setAttribute("playsinline","");
+          v.style.cssText="width:100%;height:100%;object-fit:cover;display:block;";
+          thumb.appendChild(v);
         } else {
-          var el=document.createElement("img");el.src=imgSrc;el.alt="";
-          thumb.appendChild(el);
+          var img2=document.createElement("img");img2.src=previewSrc;img2.alt="";
+          thumb.appendChild(img2);
         }
       }
     }

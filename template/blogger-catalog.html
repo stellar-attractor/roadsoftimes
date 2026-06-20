@@ -500,7 +500,9 @@
 
   function glowSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source;
-    return src ? CDN + '/' + src : null;
+    if (!src) return null;
+    src = src.replace(/^assets\/videos\//, 'exhibits/');
+    return CDN + '/' + src;
   }
 
   function catalogPreviewSrc(r) {
