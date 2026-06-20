@@ -241,6 +241,7 @@
 
     this._wrap = document.createElement("div");
     this._wrap.className = "rot-exhibit-wrap";
+    this._wrap.style.background = "#000"; // prevent Blogger theme override
 
     // Stage container collapses to the visual (scaled) height so the nav sits below it
     this._stageWrap = document.createElement("div");
@@ -259,7 +260,6 @@
 
     this._stage = document.createElement("div");
     this._stage.className = "rot-exhibit-stage";
-    this._stage.style.background = "#000";
     this._stageWrap.appendChild(this._stage);
 
 
