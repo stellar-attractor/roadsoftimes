@@ -1247,10 +1247,11 @@ NAV_ACTIVE_JS = """
 (function(){
   var path = location.pathname + location.search;
   var map = [
-    ['rot-nav-dorogi',  'Дороги'],
-    ['rot-nav-vremena', 'Времена'],
-    ['rot-nav-goroda',  'Города'],
-    ['rot-nav-muzei',   'Музеи']
+    ['rot-nav-dorogi',   'Дороги'],
+    ['rot-nav-vremena',  'Времена'],
+    ['rot-nav-goroda',   'Города'],
+    ['rot-nav-muzei',    'Музеи'],
+    ['rot-nav-catalog',  'catalog']
   ];
   var matched = false;
   map.forEach(function(pair){
