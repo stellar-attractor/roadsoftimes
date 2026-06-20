@@ -677,6 +677,7 @@ OUR_HEADER = """
         <li id='rot-nav-vremena'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
         <li id='rot-nav-goroda'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0&quot;'>&#1043;&#1086;&#1088;&#1086;&#1076;&#1072;</a></li>
         <li id='rot-nav-muzei'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
+        <li id='rot-nav-catalog'><a href='https://roadsoftimes.blogspot.com/p/catalog.html'>&#1050;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;</a></li>
         <li style='position:relative'>
           <button id='rot-menu-toggle' title='&#1052;&#1077;&#1085;&#1102;'>&#9776;</button>
           <nav class='rot-dropmenu' id='rot-dropmenu'>
