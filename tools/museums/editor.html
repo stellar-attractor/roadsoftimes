@@ -178,7 +178,12 @@ td.center { text-align: center; }
   padding-top: 16px; border-top: 1px solid #1e1e14; align-items: center;
 }
 .form-actions .spacer { flex: 1; }
-.id-display { font-size: 11px; color: #444; font-family: monospace; margin-left: 4px; }
+.id-display { font-size: 11px; color: #666; font-family: monospace; margin-left: 4px; }
+.slug-badge { display: inline-block; font-size: 11px; font-family: monospace;
+  color: #8fda8f; background: #1a2e1a; border: 1px solid #2e4e2e;
+  border-radius: 3px; padding: 2px 7px; margin-left: 10px; vertical-align: middle;
+  opacity: 0; transition: opacity .15s; }
+.slug-badge.visible { opacity: 1; }
 
 .empty-state { text-align: center; padding: 48px; color: #444; font-size: 13px; }
 
@@ -250,7 +255,7 @@ td.center { text-align: center; }
   <div class="form-grid">
 
     <div class="field half">
-      <label>Название музея</label>
+      <label>Название музея <span class="slug-badge" id="slug-badge"></span></label>
       <input id="f-name" type="text" placeholder="Deutsches Panzermuseum" oninput="syncId()">
     </div>
     <div class="field">
@@ -488,12 +493,21 @@ function fillForm(r) {
   updateFeaturedUI();
   updatePhotoPreview();
   document.getElementById('id-display').textContent = r.id ? 'id: ' + r.id : '';
+  setSlugBadge(r.id || '');
 }
 
 function syncId() {
   if (editingId) return;
   var name = document.getElementById('f-name').value;
-  document.getElementById('id-display').textContent = name ? 'id: ' + makeId(name) : '';
+  var slug = name ? makeId(name) : '';
+  document.getElementById('id-display').textContent = slug ? 'id: ' + slug : '';
+  setSlugBadge(editingId || slug);
+}
+
+function setSlugBadge(slug) {
+  var el = document.getElementById('slug-badge');
+  if (slug) { el.textContent = slug; el.classList.add('visible'); }
+  else { el.textContent = ''; el.classList.remove('visible'); }
 }
 
 function setRating(v) {
