@@ -1,23 +1,6 @@
 [
   {
-    "id": "bolkow_castle",
-    "name": "Замок Болкув",
-    "city": "Болкув",
-    "country": "Польша",
-    "year_visited": 2026,
-    "description": "Средневековый рыцарский замок XIV века в Нижней Силезии, один из крупнейших в Польше. Входит в систему укреплений «Орлиные гнёзда». Сохранились башня, стены и фрагменты жилых построек.",
-    "ticket_price": "",
-    "working_hours": "",
-    "year_founded": 1355,
-    "website": "https://zamekbolkow.eu",
-    "map_url": "",
-    "landing_url": "",
-    "photo": "",
-    "rating": null,
-    "featured": false
-  },
-  {
-    "id": "deutsches_panzermuseum",
+    "id": "panzermuseum-munster",
     "name": "Deutsches Panzermuseum",
     "city": "Munster",
     "country": "Германия",
@@ -34,7 +17,7 @@
     "featured": false
   },
   {
-    "id": "deutsches_marinemuseum",
+    "id": "marinemuseum-wilhelmshaven",
     "name": "Deutsches Marinemuseum",
     "city": "Wilhelmshaven",
     "country": "Германия",
@@ -48,6 +31,40 @@
     "landing_url": "https://roadsoftimes.blogspot.com/2026/06/deutsches-marinemuseum.html",
     "photo": "",
     "rating": 3,
+    "featured": false
+  },
+  {
+    "id": "bolkow",
+    "name": "Замок Болкув",
+    "city": "Болкув",
+    "country": "Польша",
+    "year_visited": 2026,
+    "description": "Средневековый рыцарский замок XIV века в Нижней Силезии, один из крупнейших в Польше. Входит в систему укреплений «Орлиные гнёзда». Сохранились башня, стены и фрагменты жилых построек.",
+    "ticket_price": "",
+    "working_hours": "",
+    "year_founded": 1355,
+    "website": "https://zamekbolkow.eu",
+    "map_url": "",
+    "landing_url": "",
+    "photo": "",
+    "rating": null,
+    "featured": false
+  },
+  {
+    "id": "roadsoftimes",
+    "name": "Дороги Времён",
+    "city": "",
+    "country": "",
+    "year_visited": 2026,
+    "description": "Личная коллекция экспонатов проекта Дороги Времён — объекты вне основных музеев.",
+    "ticket_price": "",
+    "working_hours": "",
+    "year_founded": 2026,
+    "website": "",
+    "map_url": "",
+    "landing_url": "",
+    "photo": "",
+    "rating": null,
     "featured": false
   }
 ]
