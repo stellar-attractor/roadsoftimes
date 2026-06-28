@@ -29,6 +29,14 @@ GameTown Blogger Template/wowslider.txt
 __pycache__/
 *.pyc
 *.pyo
-site/
+site/collages/
+site/exhibits/
+site/flags/
+site/huds/
+site/images/
+site/previews/
+site/assets/
+site/infographics.json
+site/museums.json
 assets/
 preview/

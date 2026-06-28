@@ -335,8 +335,8 @@
 
     page.forEach(function(r){
       var thumbSrc = currentView === 'list'
-        ? (glowSrc(r) || catalogPreviewSrc(r))
-        : catalogPreviewSrc(r);
+        ? (glowSrc(r) || CDN + '/previews/' + r.id + '_pr.webm')
+        : CDN + '/previews/' + r.id + '_pr.webm';
       var exhibitUrl = EXHIBIT + '?id=' + encodeURIComponent(r.id);
 
       var a = document.createElement('a');
@@ -347,6 +347,12 @@
       thumb.className = 'card-thumb';
       var v = document.createElement('video');
       v.src = thumbSrc; v.muted = true; v.autoplay = true; v.loop = true; v.setAttribute('playsinline','');
+      (function(vid, rec){
+        vid.onerror = function(){
+          var fallback = glowSrc(rec);
+          if (fallback && vid.src !== fallback) { vid.src = fallback; }
+        };
+      }(v, r));
       thumb.appendChild(v);
 
       var body = document.createElement('div');
@@ -447,7 +453,7 @@
     document.querySelectorAll('.rc-row').forEach(function(el){ el.classList.remove('rc-selected'); });
     tr.classList.add('rc-selected');
 
-    var detailSrc = glowSrc(r) || catalogPreviewSrc(r);
+    var detailSrc = glowSrc(r) || CDN + '/previews/' + r.id + '_pr.webm';
 
     var thumbHtml = '<a href="' + EXHIBIT + '?id=' + encodeURIComponent(r.id) + '" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%">' +
       '<video src="' + detailSrc + '" muted autoplay loop playsinline style="width:90%;height:90%;object-fit:contain;display:block"></video>' +
@@ -500,25 +506,8 @@
 
   function glowSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source;
-    if (!src) return null;
-    src = src.replace(/^assets\/videos\//, 'exhibits/');
-    return CDN + '/' + src;
+    return src ? CDN + '/' + src : null;
   }
-
-  function catalogPreviewSrc(r) {
-    var mobile = window.matchMedia('(max-width: 768px), (orientation: portrait)').matches;
-    var path = (mobile && r.mobile && r.mobile.zones)
-      ? ('previews/' + r.id + '_mobile_pr.webm')
-      : ('previews/' + r.id + '_pr.webm');
-    return CDN + '/' + path;
-  }
-
-  var layoutMq = window.matchMedia('(max-width: 768px), (orientation: portrait)');
-  function onCatalogLayoutChange() {
-    if (all.length) renderPage();
-  }
-  if (layoutMq.addEventListener) layoutMq.addEventListener('change', onCatalogLayoutChange);
-  else if (layoutMq.addListener) layoutMq.addListener(onCatalogLayoutChange);
 
   function esc(s){
     return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');

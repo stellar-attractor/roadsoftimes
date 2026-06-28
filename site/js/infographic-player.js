@@ -424,7 +424,7 @@
   };
 
   ExhibitPlayer.prototype._appendFrameLayer = function (frameInfo) {
-    var z = frameInfo.z_index != null ? frameInfo.z_index : -1;
+    var z = -1; // always background — content zones render on top
     var style = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
     var src = frameInfo.source;
     var primary = this._cdnUrl(src);
@@ -471,6 +471,7 @@
     this._positionEl(wrap, z);
     wrap.style.zIndex = z.z_index != null ? z.z_index : 5;
     wrap.style.background = "transparent";
+    wrap.style.padding = "2.5%"; // keep exhibit within frame window (95% rule)
 
     const fit = z.fit === "stretch" ? "fill" : (z.fit === "contain" ? "contain" : "cover");
     if (z.source_png && IS_SAFARI) {
