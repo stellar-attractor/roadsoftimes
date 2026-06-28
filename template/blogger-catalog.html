@@ -215,6 +215,8 @@
   var colSort = { key: null, dir: 1 };
   try { currentView = localStorage.getItem('rot-catalog-view') || 'grid'; } catch(e){}
 
+  _loadMuseumSlugs();
+
   fetch(DB).then(function(r){ return r.json(); }).then(function(data){
     all = data.map(function(r,i){ return Object.assign({_idx:i}, r); });
     populateFilters();
@@ -509,12 +511,16 @@
     return src ? CDN + '/' + src : null;
   }
 
-  var _MUSEUM_SLUGS = {
-    'Deutsches Panzermuseum': 'panzermuseum-munster',
-    'Deutsches Marinemuseum': 'marinemuseum-wilhelmshaven',
-    'Болкув':       'bolkow',
-    'Дороги Времён': 'roadsoftimes'
-  };
+  var _MUSEUM_SLUGS = {};
+
+  function _loadMuseumSlugs() {
+    fetch(CDN + '/museums.json?_=' + Date.now())
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(list){
+        list.forEach(function(m){ if (m.name && m.id) _MUSEUM_SLUGS[m.name] = m.id; });
+      })
+      .catch(function(){});
+  }
 
   function previewSrc(r, suffix) {
     var slug = _MUSEUM_SLUGS[r.Museum] || '';
