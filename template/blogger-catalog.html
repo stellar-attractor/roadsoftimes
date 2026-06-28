@@ -335,8 +335,8 @@
 
     page.forEach(function(r){
       var thumbSrc = currentView === 'list'
-        ? (glowSrc(r) || CDN + '/previews/' + r.id + '_pr.webm')
-        : CDN + '/previews/' + r.id + '_pr.webm';
+        ? (glowSrc(r) || previewSrc(r))
+        : previewSrc(r);
       var exhibitUrl = EXHIBIT + '?id=' + encodeURIComponent(r.id);
 
       var a = document.createElement('a');
@@ -453,7 +453,7 @@
     document.querySelectorAll('.rc-row').forEach(function(el){ el.classList.remove('rc-selected'); });
     tr.classList.add('rc-selected');
 
-    var detailSrc = glowSrc(r) || CDN + '/previews/' + r.id + '_pr.webm';
+    var detailSrc = glowSrc(r) || previewSrc(r);
 
     var thumbHtml = '<a href="' + EXHIBIT + '?id=' + encodeURIComponent(r.id) + '" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%">' +
       '<video src="' + detailSrc + '" muted autoplay loop playsinline style="width:90%;height:90%;object-fit:contain;display:block"></video>' +
@@ -507,6 +507,20 @@
   function glowSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source;
     return src ? CDN + '/' + src : null;
+  }
+
+  var _MUSEUM_SLUGS = {
+    'Deutsches Panzermuseum': 'panzermuseum-munster',
+    'Deutsches Marinemuseum': 'marinemuseum-wilhelmshaven',
+    'Болкув':       'bolkow',
+    'Дороги Времён': 'roadsoftimes'
+  };
+
+  function previewSrc(r, suffix) {
+    var slug = _MUSEUM_SLUGS[r.Museum] || '';
+    var sfx  = suffix || '';
+    if (slug) return CDN + '/exhibits/' + slug + '/previews/' + r.id + sfx + '_pr.webm';
+    return CDN + '/previews/' + r.id + sfx + '_pr.webm'; // legacy fallback
   }
 
   function esc(s){
