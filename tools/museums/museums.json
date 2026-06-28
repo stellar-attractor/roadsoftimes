@@ -1,0 +1,53 @@
+[
+  {
+    "id": "bolkow_castle",
+    "name": "Замок Болкув",
+    "city": "Болкув",
+    "country": "Польша",
+    "year_visited": 2026,
+    "description": "Средневековый рыцарский замок XIV века в Нижней Силезии, один из крупнейших в Польше. Входит в систему укреплений «Орлиные гнёзда». Сохранились башня, стены и фрагменты жилых построек.",
+    "ticket_price": "",
+    "working_hours": "",
+    "year_founded": 1355,
+    "website": "https://zamekbolkow.eu",
+    "map_url": "",
+    "landing_url": "",
+    "photo": "",
+    "rating": null,
+    "featured": false
+  },
+  {
+    "id": "deutsches_panzermuseum",
+    "name": "Deutsches Panzermuseum",
+    "city": "Munster",
+    "country": "Германия",
+    "year_visited": 2026,
+    "description": "Один из крупнейших музеев бронетехники в Европе. Более 150 единиц техники на площади 9000+ м²: от Первой мировой до наших дней — Пантера, Тигр, Т-34, Леопард 2. Экспозиция делает акцент на историческом контексте и осмыслении войн, а не на технической стороне. Девиз у входа: «Wer aber den Frieden will, der rede vom Krieg».",
+    "ticket_price": "€13",
+    "working_hours": "10:00–18:00",
+    "year_founded": 1983,
+    "website": "https://daspanzermuseum.de/en/plan-a-visit/",
+    "map_url": "https://maps.app.goo.gl/g8E26iVG9Nqxu5hc7",
+    "landing_url": "https://roadsoftimes.blogspot.com/2026/06/panzermuseum.html",
+    "photo": "",
+    "rating": null,
+    "featured": false
+  },
+  {
+    "id": "deutsches_marinemuseum",
+    "name": "Deutsches Marinemuseum",
+    "city": "Wilhelmshaven",
+    "country": "Германия",
+    "year_visited": 2026,
+    "description": "Национальный военно-морской музей Германии на территории базы Вильгельмсхафен. Музей скромный, но «железа у причала достаточно, чтобы привести в восторг любого ребёнка». На открытой площадке — эсминец Z6, подводная лодка U-17, буксир Langeness и парусный барк Gorch Fock I. Экспозиция посвящена истории германского флота и Ютландской битве 1916 года.",
+    "ticket_price": "",
+    "working_hours": "",
+    "year_founded": 1978,
+    "website": "https://www.marinemuseum.de",
+    "map_url": "https://maps.app.goo.gl/6wbveYQP9eExHDjH6",
+    "landing_url": "https://roadsoftimes.blogspot.com/2026/06/deutsches-marinemuseum.html",
+    "photo": "",
+    "rating": 3,
+    "featured": false
+  }
+]

@@ -1003,31 +1003,32 @@ function removeHtmlTag(strx,chop){
 
 function createSummaryAndThumb(id){
   var d=document.getElementById(id);
+  if(!d)return;
   var imgs=d.getElementsByTagName("img");
   var imgSrc=imgs.length>=1?imgs[0].src:null;
   var previewEl=d.querySelector?d.querySelector(".rot-preview-src"):null;
   var previewSrc=previewEl?(previewEl.getAttribute("src")||previewEl.src):null;
   var previewTag=previewEl?previewEl.tagName.toLowerCase():null;
-  d.innerHTML="<span>"+removeHtmlTag(d.innerHTML,(imgSrc||previewSrc)?summary_img:summary_noimg)+"</span>";
   var card=d.closest?d.closest(".rot-post-card"):null;
   if(card){
     var thumb=card.querySelector(".rot-card-thumb");
     if(thumb){
-      if(imgSrc){
+      if(previewTag==="video"){
+        var v=document.createElement("video");
+        v.src=previewSrc;v.muted=true;v.autoplay=true;v.loop=true;
+        v.setAttribute("playsinline","");
+        v.style.cssText="width:100%;height:100%;object-fit:cover;display:block;";
+        thumb.appendChild(v);
+      } else if(imgSrc){
         var existing=thumb.querySelector("img");
         if(existing){existing.src=imgSrc;}
         else{var el=document.createElement("img");el.src=imgSrc;el.alt="";thumb.appendChild(el);}
       } else if(previewSrc){
-        if(previewTag==="video"){
-          var v=document.createElement("video");
-          v.src=previewSrc;v.muted=true;v.autoplay=true;v.loop=true;
-          v.setAttribute("playsinline","");
-          v.style.cssText="width:100%;height:100%;object-fit:cover;display:block;";
-          thumb.appendChild(v);
-        } else {
-          var img2=document.createElement("img");img2.src=previewSrc;img2.alt="";
-          thumb.appendChild(img2);
-        }
+        var img2=document.createElement("img");img2.src=previewSrc;img2.alt="";
+        thumb.appendChild(img2);
+      } else {
+        var timg=thumb.querySelector("img");
+        if(timg&&timg.src){timg.src=timg.src.replace(/\/s\d+(-c)?\//,'/s800/');}
       }
     }
   }
@@ -1236,7 +1237,7 @@ embed, img, object, video {max-width: 100%;}
         <li id='rot-nav-dorogi'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%94%D0%BE%D1%80%D0%BE%D0%B3%D0%B8&quot;'>&#1044;&#1086;&#1088;&#1086;&#1075;&#1080;</a></li>
         <li id='rot-nav-vremena'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0&quot;'>&#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072;</a></li>
         <li id='rot-nav-goroda'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0&quot;'>&#1043;&#1086;&#1088;&#1086;&#1076;&#1072;</a></li>
-        <li id='rot-nav-muzei'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%9C%D1%83%D0%B7%D0%B5%D0%B8&quot;'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
+        <li id='rot-nav-muzei'><a href='https://roadsoftimes.blogspot.com/p/museums.html'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
         <li id='rot-nav-catalog'><a href='https://roadsoftimes.blogspot.com/p/catalog.html'>&#1050;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;</a></li>
         <li style='position:relative'>
           <button id='rot-menu-toggle' title='&#1052;&#1077;&#1085;&#1102;'>&#9776;</button>
@@ -2104,10 +2105,9 @@ embed, img, object, video {max-width: 100%;}
     </div>
     <div class='rot-card-body'>
       <h3 class='rot-card-title'><a class='rot-card-link' expr:href='data:post.url'><data:post.title/></a></h3>
-      <div class='rot-card-excerpt'>
-        <div expr:id='&quot;summary&quot; + data:post.id'><data:post.body/></div>
-        <script type='text/javascript'>createSummaryAndThumb(&quot;summary<data:post.id/>&quot;);</script>
-      </div>
+      <div class='rot-card-excerpt'><data:post.snippet/></div>
+      <div style='display:none' expr:id='&quot;summary&quot; + data:post.id'><data:post.body/></div>
+      <script type='text/javascript'>createSummaryAndThumb(&quot;summary<data:post.id/>&quot;);</script>
       <div class='rot-card-meta'>
         <span>&#128197; <data:post.timestamp/></span>
         <b:if cond='data:post.allowComments'>
@@ -3019,7 +3019,7 @@ function rotSetView(v){
     ['rot-nav-dorogi',   'Дороги'],
     ['rot-nav-vremena',  'Времена'],
     ['rot-nav-goroda',   'Города'],
-    ['rot-nav-muzei',    'Музеи'],
+    ['rot-nav-muzei',    'museums'],
     ['rot-nav-catalog',  'catalog']
   ];
   var matched = false;

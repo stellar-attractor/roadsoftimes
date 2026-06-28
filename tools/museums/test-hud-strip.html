@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUD Strip Test</title>
+<style>
+  body { background: #0d0d08; color: #c8c0a8; font-family: 'PT Sans', sans-serif; padding: 32px; margin: 0; }
+  h2 { font-size: 13px; color: #8a6f2e; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<h2>HUD Strip Widget — Test</h2>
+
+<script>var ROT_MUSEUM = "Deutsches Marinemuseum";</script>
+
+<style>
+.rot-hs *, .rot-hs *::before, .rot-hs *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.rot-hs { font-family: 'PT Sans', sans-serif; color: #c8c0a8; margin: 32px 0; }
+.rot-hs .hs-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  border-bottom: 1px solid #2a2510; padding-bottom: 10px; margin-bottom: 16px;
+}
+.rot-hs .hs-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #8a6f2e; }
+.rot-hs .hs-all { font-size: 11px; letter-spacing: 1px; color: #c9a84c; text-decoration: none; }
+.rot-hs .hs-all:hover { text-decoration: underline; }
+.rot-hs .hs-strip-wrap { position: relative; }
+.rot-hs .hs-arr {
+  position: absolute; top: 0; bottom: 8px; width: 40px; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  color: #8a6f2e; font-size: 22px; line-height: 1; transition: color .15s;
+}
+.rot-hs .hs-arr:hover { color: #c9a84c; }
+.rot-hs .hs-arr-l { left: 0; background: linear-gradient(to right, #0d0d08 60%, transparent); }
+.rot-hs .hs-arr-r { right: 0; background: linear-gradient(to left, #0d0d08 60%, transparent); }
+.rot-hs .hs-strip {
+  display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scroll-behavior: smooth;
+  scrollbar-width: thin; scrollbar-color: #2a2510 transparent;
+}
+.rot-hs .hs-strip::-webkit-scrollbar { height: 4px; }
+.rot-hs .hs-strip::-webkit-scrollbar-track { background: transparent; }
+.rot-hs .hs-strip::-webkit-scrollbar-thumb { background: #2a2510; border-radius: 2px; }
+.rot-hs .hs-card {
+  flex: 0 0 260px; background: #1a1a0e; border: 1px solid #252418;
+  overflow: hidden; cursor: pointer; transition: border-color .2s; display: flex; flex-direction: column;
+}
+.rot-hs .hs-card:hover { border-color: #8a6f2e; }
+.rot-hs .hs-thumb { width: 260px; position: relative; background: #000; padding-top: calc(260px * 1080 / 1456); }
+.rot-hs .hs-thumb video, .rot-hs .hs-thumb img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: fill; display: block; pointer-events: none;
+}
+.rot-hs-modal {
+  position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.92);
+  display: flex; align-items: center; justify-content: center;
+}
+.rot-hs-modal .hs-modal-inner { position: relative; width: 90vw; max-width: 960px; }
+.rot-hs-modal .hs-modal-close {
+  position: absolute; top: -38px; right: 0;
+  background: none; border: none; color: #9a8c70; font-size: 20px;
+  cursor: pointer; line-height: 1; padding: 4px 10px;
+}
+.rot-hs-modal .hs-modal-close:hover { color: #e0d8c0; }
+.rot-hs-modal .hs-player-wrap { width: 100%; }
+</style>
+
+<div class="rot-hs" id="rot-hs-root">
+  <div class="hs-header">
+    <span class="hs-title">Экспозиция</span>
+    <a class="hs-all" id="hs-all-link" href="#" target="_blank">Все экспонаты →</a>
+  </div>
+  <div class="hs-strip-wrap">
+    <button class="hs-arr hs-arr-l" id="hs-arr-l">&#8249;</button>
+    <div class="hs-strip" id="hs-strip"></div>
+    <button class="hs-arr hs-arr-r" id="hs-arr-r">&#8250;</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var CDN     = 'https://roadsoftimes.pages.dev';
+  var CATALOG = 'https://roadsoftimes.blogspot.com/p/catalog.html';
+  var STRIP_COUNT = 6;
+  var museum = (typeof ROT_MUSEUM !== 'undefined') ? ROT_MUSEUM : null;
+  if (!museum) return;
+
+  document.getElementById('hs-all-link').href = CATALOG + '?museum=' + encodeURIComponent(museum);
+
+  function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function previewSrc(e){
+    var mobile = window.matchMedia && window.matchMedia('(max-width:768px),(orientation:portrait)').matches;
+    var suffix = (mobile && e.mobile && e.mobile.zones) ? '_mobile_pr.webm' : '_pr.webm';
+    return CDN + '/previews/' + e.id + suffix;
+  }
+
+  fetch(CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
+    var items = data.filter(function(e){ return e.Museum === museum; }).slice(-STRIP_COUNT).reverse();
+    if (!items.length) { document.getElementById('rot-hs-root').style.display = 'none'; return; }
+
+    var strip = document.getElementById('hs-strip');
+    strip.innerHTML = items.map(function(e){
+      return '<div class="hs-card" onclick="hsOpen(\'' + e.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' +
+        '<div class="hs-thumb"><video src="' + esc(previewSrc(e)) + '" autoplay muted loop playsinline></video></div>' +
+      '</div>';
+    }).join('');
+
+    var SCROLL = 272;
+    document.getElementById('hs-arr-l').addEventListener('click', function(){ strip.scrollBy({left: -SCROLL}); });
+    document.getElementById('hs-arr-r').addEventListener('click', function(){ strip.scrollBy({left:  SCROLL}); });
+  });
+
+  var playerLoaded = false;
+  var activeModal  = null;
+
+  function loadPlayer(cb){
+    if (playerLoaded){ cb(); return; }
+    var s = document.createElement('script');
+    s.src = CDN + '/js/infographic-player.js';
+    s.onload = function(){ playerLoaded = true; cb(); };
+    document.head.appendChild(s);
+  }
+
+  function closeModal(){
+    if (!activeModal) return;
+    var bd = activeModal._playerBackdrop;
+    if (bd && bd.parentNode) bd.parentNode.removeChild(bd);
+    if (activeModal.overlay && activeModal.overlay.parentNode)
+      activeModal.overlay.parentNode.removeChild(activeModal.overlay);
+    activeModal = null;
+    document.body.style.overflow = '';
+  }
+
+  window.hsOpen = function(id){
+    closeModal();
+
+    var overlay = document.createElement('div');
+    overlay.className = 'rot-hs-modal';
+    overlay.addEventListener('click', function(e){ if (e.target === overlay) closeModal(); });
+
+    var inner = document.createElement('div');
+    inner.className = 'hs-modal-inner';
+
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'hs-modal-close';
+    closeBtn.innerHTML = '&#10005;';
+    closeBtn.addEventListener('click', closeModal);
+
+    var wrap = document.createElement('div');
+    wrap.className = 'hs-player-wrap';
+
+    inner.appendChild(closeBtn);
+    inner.appendChild(wrap);
+    overlay.appendChild(inner);
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+    activeModal = { overlay: overlay, _playerBackdrop: null };
+
+    loadPlayer(function(){
+      var player = RotExhibit.init({
+        container: wrap,
+        db: CDN + '/infographics.json',
+        cdnBase: CDN,
+        stripSitePrefix: true,
+        id: id,
+        single: true
+      });
+      activeModal._playerBackdrop = player._backdrop;
+    });
+  };
+
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+})();
+</script>
+</body>
+</html>

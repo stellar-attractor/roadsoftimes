@@ -1,0 +1,340 @@
+<style>
+.rot-mus *, .rot-mus *::before, .rot-mus *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.rot-mus { font-family: 'PT Sans', sans-serif; color: #c8c0a8; }
+
+/* TOOLBAR */
+.rot-mus .toolbar {
+  padding: 10px 0; font-size: 11px; color: #9a8c70; letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #1a1a0e; margin-bottom: 16px;
+}
+.rot-mus .toolbar-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rot-mus .toolbar-right { display: flex; align-items: center; gap: 10px; }
+.rot-mus .view-toggle { display: flex; gap: 6px; }
+.rot-mus .view-btn {
+  background: none; border: 1px solid #2a2510; color: #9a8c70; cursor: pointer;
+  padding: 4px 10px; border-radius: 3px; font-size: 13px; line-height: 1.4;
+  transition: color .15s, border-color .15s; font-family: 'PT Sans', sans-serif;
+}
+.rot-mus .view-btn.active, .rot-mus .view-btn:hover { color: #c9a84c; border-color: #8a6f2e; }
+.rot-mus .search-box {
+  background: #12120c; border: 1px solid #2a2510; color: #c8c0a8;
+  font-family: 'PT Sans', sans-serif; font-size: 13px; padding: 4px 10px;
+  border-radius: 3px; outline: none; transition: border-color .15s; width: 200px;
+}
+.rot-mus .search-box:focus { border-color: #c9a84c; }
+
+/* ── GRID VIEW ── */
+.rot-mus .rm-container.view-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.rot-mus .view-grid .rm-card {
+  background: #1a1a0e; border: 1px solid #252418; overflow: hidden;
+  cursor: pointer; transition: border-color 0.2s; display: flex; flex-direction: column; position: relative;
+}
+.rot-mus .view-grid .rm-card:hover { border-color: #8a6f2e; }
+.rot-mus .view-grid .rm-photo {
+  height: 160px; background: #232318; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.rot-mus .view-grid .rm-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.rot-mus .view-grid .rm-card:hover .rm-photo img { transform: scale(1.05); }
+.rot-mus .view-grid .rm-photo .rm-no-photo {
+  font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px;
+}
+.rot-mus .view-grid .rm-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.rot-mus .view-grid .rm-name { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; color: #e8e0cc; line-height: 1.25; margin-bottom: 2px; }
+.rot-mus .view-grid .rm-loc { font-size: 11px; color: #7a7060; }
+.rot-mus .view-grid .rm-desc { font-size: 12px; color: #7a7060; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rot-mus .view-grid .rm-stars { color: #c8a020; font-size: 13px; margin-top: auto; }
+.rot-mus .view-grid .rm-stars .dim { color: #2a2510; }
+
+/* ── LIST VIEW ── */
+.rot-mus .rm-container.view-list { display: flex; flex-direction: column; }
+.rot-mus .view-list .rm-card {
+  display: flex; flex-direction: row; align-items: stretch;
+  border-bottom: 1px solid #1a1a0e; padding: 14px 0; gap: 16px;
+  transition: background .15s; cursor: pointer;
+}
+.rot-mus .view-list .rm-card:hover { background: #0d0d08; }
+.rot-mus .view-list .rm-photo {
+  width: 130px; min-width: 130px; height: 86px; background: #080806;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; border-radius: 2px;
+}
+.rot-mus .view-list .rm-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rot-mus .view-list .rm-photo .rm-no-photo { font-family: 'Orbitron', sans-serif; font-size: 8px; color: #2a2510; letter-spacing: 2px; }
+.rot-mus .view-list .rm-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 3px; }
+.rot-mus .view-list .rm-name { font-size: 15px; font-weight: 700; color: #e0d8c0; line-height: 1.3; }
+.rot-mus .view-list .rm-loc { font-size: 12px; color: #7ab0b0; }
+.rot-mus .view-list .rm-desc { font-size: 12px; color: #a09880; line-height: 1.5; margin-top: 2px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rot-mus .view-list .rm-stars { color: #c8a020; font-size: 13px; margin-top: 4px; }
+.rot-mus .view-list .rm-stars .dim { color: #2a2510; }
+
+/* ── TABLE VIEW ── */
+.rot-mus .rm-container.view-table { width: 100%; }
+.rot-mus .rm-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rot-mus .rm-table th {
+  text-align: left; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: #9a8c70; padding: 8px 12px; border-bottom: 1px solid #2a2510;
+  background: #0d0d08; font-weight: normal; white-space: nowrap; cursor: pointer; user-select: none;
+}
+.rot-mus .rm-table th:hover { color: #c9a84c; }
+.rot-mus .rm-table th.sorted { color: #c9a84c; }
+.rot-mus .rm-table td { padding: 9px 12px; border-bottom: 1px solid #161610; color: #c8c0a8; vertical-align: middle; }
+.rot-mus .rm-table tr.rm-row { cursor: pointer; transition: background .12s; }
+.rot-mus .rm-table tr.rm-row:hover { background: #131309; }
+.rot-mus .rm-table tr.rm-row.rm-selected { background: #1a1a0a; border-left: 2px solid #c9a84c; }
+.rot-mus .rm-table td.rm-t-name { font-weight: 700; color: #e0d8c0; }
+.rot-mus .rm-table td.rm-t-loc { color: #7ab0b0; }
+.rot-mus .rm-table .rm-t-stars { color: #c8a020; }
+.rot-mus .rm-table .rm-t-stars .dim { color: #2a2510; }
+
+/* ── DETAIL PANEL ── */
+.rot-mus .rm-detail { display: none; padding: 12px 0 2px; }
+.rot-mus .rm-detail.open { display: block; }
+.rot-mus .rm-detail-card {
+  background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px;
+  overflow: hidden; display: flex; flex-direction: row;
+}
+.rot-mus .rm-detail-photo {
+  width: 200px; min-width: 200px; background: #080806;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden; align-self: stretch;
+}
+.rot-mus .rm-detail-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rot-mus .rm-detail-photo .rm-no-photo { font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px; }
+.rot-mus .rm-detail-body { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 16px 20px; min-width: 0; }
+.rot-mus .rm-detail-name { font-size: 17px; font-weight: 700; color: #e0d8c0; line-height: 1.3; text-decoration: none; display: block; }
+.rot-mus a.rm-detail-name:hover { color: #f0e8d0; text-decoration: underline; }
+.rot-mus .rm-detail-meta {
+  display: flex; align-items: baseline; gap: 0;
+  font-size: 12px; color: #9a8c70;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.rot-mus .rm-detail-meta .rm-stars { color: #c8a020; letter-spacing: 1px; }
+.rot-mus .rm-detail-meta .rm-stars .dim { color: #2a2510; }
+.rot-mus .rm-detail-meta .sep { color: #3a3020; }
+.rot-mus .rm-detail-meta b { color: #c8c0a8; font-weight: normal; }
+.rot-mus .rm-detail-meta a { color: #c9a84c; text-decoration: none; }
+.rot-mus .rm-detail-meta a:hover { text-decoration: underline; }
+.rot-mus .rm-detail-meta a.map { color: #70b0a8; }
+.rot-mus .rm-detail-meta a.landing { color: #a0c080; }
+.rot-mus .rm-detail-desc {
+  font-size: 13px; color: #a09880; line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.rot-mus .rm-empty { padding: 60px; text-align: center; color: #3a3020; font-size: 13px; letter-spacing: 1px; }
+</style>
+
+<div class="rot-mus">
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span id="rm-count"></span>
+      <input class="search-box" id="rm-search" type="text" placeholder="Поиск музея…" oninput="rmRender()">
+    </div>
+    <div class="toolbar-right">
+      <div class="view-toggle">
+        <button class="view-btn active" id="rm-btn-grid"  onclick="rmSetView('grid')">⊞ Сетка</button>
+        <button class="view-btn"        id="rm-btn-list"  onclick="rmSetView('list')">☰ Список</button>
+        <button class="view-btn"        id="rm-btn-table" onclick="rmSetView('table')">⊟ Таблица</button>
+      </div>
+    </div>
+  </div>
+  <div class="rm-container view-grid" id="rm-container"></div>
+  <div class="rm-detail" id="rm-detail"></div>
+  <div class="rm-empty" id="rm-empty" style="display:none">Ничего не найдено.</div>
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+  var CDN = 'https://roadsoftimes.pages.dev';
+  var DB  = CDN + '/museums.json';
+  var all = [], filtered = [], selectedId = null;
+  var currentView = 'grid';
+  var tblSort = { col: 'name', asc: true };
+  try { currentView = localStorage.getItem('rot-museums-view') || 'grid'; } catch(e){}
+
+  fetch(DB).then(function(r){ return r.json(); }).then(function(data){
+    all = data;
+    applyView(currentView);
+    rmRender();
+  }).catch(function(){ document.getElementById('rm-empty').style.display = 'block'; });
+
+  window.rmSetView = function(v){
+    currentView = v;
+    try { localStorage.setItem('rot-museums-view', v); } catch(e){}
+    selectedId = null;
+    applyView(v);
+    rmRender();
+  };
+
+  function applyView(v){
+    document.getElementById('rm-container').className = 'rm-container view-' + v;
+    ['grid','list','table'].forEach(function(x){
+      document.getElementById('rm-btn-' + x).classList.toggle('active', x === v);
+    });
+    document.getElementById('rm-detail').className = 'rm-detail';
+  }
+
+  window.rmRender = function(){
+    var q = (document.getElementById('rm-search').value || '').trim().toLowerCase();
+    filtered = all.filter(function(r){
+      if (!q) return true;
+      return (r.name||'').toLowerCase().includes(q) ||
+             (r.city||'').toLowerCase().includes(q) ||
+             (r.country||'').toLowerCase().includes(q) ||
+             (r.description||'').toLowerCase().includes(q);
+    });
+
+    document.getElementById('rm-count').textContent = filtered.length + ' музеев';
+    document.getElementById('rm-empty').style.display = filtered.length ? 'none' : 'block';
+
+    if (currentView === 'table') renderTable();
+    else renderCards();
+
+    if (selectedId) showDetail(selectedId, false);
+    else document.getElementById('rm-detail').className = 'rm-detail';
+  };
+
+  function stars(n){
+    if (!n) return '';
+    var s = '';
+    for (var i = 1; i <= 5; i++) s += '<span class="' + (i <= n ? '' : 'dim') + '">★</span>';
+    return s;
+  }
+
+  function photo(r, cls){
+    if (r.photo) return '<img src="' + esc(r.photo) + '" alt="" loading="lazy">';
+    return '<span class="rm-no-photo">NO PHOTO</span>';
+  }
+
+  function renderCards(){
+    var c = document.getElementById('rm-container');
+    if (!filtered.length){ c.innerHTML = ''; return; }
+    c.innerHTML = filtered.map(function(r){
+      var loc = [r.city, r.country].filter(Boolean).join(', ');
+      var yr  = r.year_visited ? ' · ' + r.year_visited : '';
+      var desc = r.description ? r.description.split(/[.!?]/)[0].trim() : '';
+      var cardClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rmSelect(\'' + esc(r.id) + '\')';
+      return '<div class="rm-card" onclick="' + cardClick + '">' +
+        '<div class="rm-photo">' + photo(r) + '</div>' +
+        '<div class="rm-body">' +
+          '<div class="rm-name">' + esc(r.name||'') + '</div>' +
+          '<div class="rm-loc">' + esc(loc) + yr + '</div>' +
+          (desc ? '<div class="rm-desc">' + esc(desc) + '</div>' : '') +
+          (r.rating ? '<div class="rm-stars">' + stars(r.rating) + '</div>' : '') +
+        '</div></div>';
+    }).join('');
+  }
+
+  function renderTable(){
+    var c = document.getElementById('rm-container');
+    if (!filtered.length){ c.innerHTML = ''; return; }
+
+    var cols = [
+      { key:'name',         label:'Музей' },
+      { key:'city',         label:'Город' },
+      { key:'country',      label:'Страна' },
+      { key:'year_visited', label:'Год' },
+      { key:'year_founded', label:'Основан' },
+      { key:'rating',       label:'Рейтинг' },
+      { key:'ticket_price', label:'Билет' },
+    ];
+
+    var rows = filtered.slice().sort(function(a,b){
+      var va = a[tblSort.col], vb = b[tblSort.col];
+      if (va == null && vb == null) return 0;
+      if (va == null) return 1; if (vb == null) return -1;
+      if (typeof va === 'number') return tblSort.asc ? va-vb : vb-va;
+      return tblSort.asc ? String(va).localeCompare(String(vb),'ru') : String(vb).localeCompare(String(va),'ru');
+    });
+
+    var thead = '<thead><tr>' + cols.map(function(col){
+      var active = tblSort.col === col.key;
+      var arrow  = active ? (tblSort.asc ? ' ▲' : ' ▼') : '';
+      return '<th class="' + (active?'sorted':'') + '" onclick="rmTblSort(\'' + col.key + '\')">' + col.label + arrow + '</th>';
+    }).join('') + '</tr></thead>';
+
+    var tbody = '<tbody>' + rows.map(function(r){
+      var sel = r.id === selectedId ? ' rm-selected' : '';
+      var rowClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rmSelect(\'' + esc(r.id) + '\')';
+      return '<tr class="rm-row' + sel + '" onclick="' + rowClick + '">' +
+        '<td class="rm-t-name">' + esc(r.name||'') + '</td>' +
+        '<td class="rm-t-loc">' + esc(r.city||'') + '</td>' +
+        '<td>' + esc(r.country||'') + '</td>' +
+        '<td>' + (r.year_visited||'') + '</td>' +
+        '<td>' + (r.year_founded||'') + '</td>' +
+        '<td class="rm-t-stars">' + (r.rating ? stars(r.rating) : '') + '</td>' +
+        '<td>' + esc(r.ticket_price||'') + '</td>' +
+      '</tr>';
+    }).join('') + '</tbody>';
+
+    c.innerHTML = '<table class="rm-table">' + thead + tbody + '</table>';
+  }
+
+  window.rmTblSort = function(col){
+    if (tblSort.col === col) tblSort.asc = !tblSort.asc;
+    else { tblSort.col = col; tblSort.asc = true; }
+    renderTable();
+    if (selectedId) showDetail(selectedId, false);
+  };
+
+  window.rmSelect = function(id){
+    if (selectedId === id) {
+      selectedId = null;
+      document.getElementById('rm-detail').className = 'rm-detail';
+      if (currentView === 'table') renderTable();
+      return;
+    }
+    selectedId = id;
+    if (currentView === 'table') renderTable();
+    showDetail(id, true);
+  };
+
+  function showDetail(id, scroll){
+    var r = all.find(function(x){ return x.id === id; });
+    if (!r) return;
+    var loc = [r.city, r.country].filter(Boolean).join(', ');
+    var meta = [];
+    if (r.rating)        meta.push('<span class="rm-stars">' + stars(r.rating) + '</span>');
+    if (loc)             meta.push(esc(loc));
+    if (r.year_visited)  meta.push('📅 <b>' + r.year_visited + '</b>');
+    if (r.year_founded)  meta.push('🏛 <b>' + r.year_founded + '</b>');
+    if (r.ticket_price)  meta.push('🎟 <b>' + esc(r.ticket_price) + '</b>');
+    if (r.working_hours) meta.push('🕐 <b>' + esc(r.working_hours) + '</b>');
+    if (r.website)      meta.push('<a href="' + esc(r.website) + '" target="_blank" rel="noopener">🌐 Сайт</a>');
+    if (r.map_url)      meta.push('<a class="map" href="' + esc(r.map_url) + '" target="_blank" rel="noopener">📍 Карта</a>');
+    if (r.landing_url)  meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
+
+    var metaHtml = meta.length
+      ? '<div class="rm-detail-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      : '';
+
+    var nameHtml = r.landing_url
+      ? '<a class="rm-detail-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>'
+      : '<div class="rm-detail-name">' + esc(r.name||'') + '</div>';
+
+    var d = document.getElementById('rm-detail');
+    d.innerHTML =
+      '<div class="rm-detail-card">' +
+        '<div class="rm-detail-photo">' + (r.photo ? '<img src="' + esc(r.photo) + '" alt="">' : '<span class="rm-no-photo">NO PHOTO</span>') + '</div>' +
+        '<div class="rm-detail-body">' +
+          nameHtml +
+          metaHtml +
+          (r.description ? '<div class="rm-detail-desc">' + esc(r.description) + '</div>' : '') +
+        '</div>' +
+      '</div>';
+    d.className = 'rm-detail open';
+    if (scroll) d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function esc(s){
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+//]]>
+</script>

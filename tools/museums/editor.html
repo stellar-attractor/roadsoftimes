@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Museums Editor — Дороги Времён</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  background: #0d0d0d;
+  color: #d4d4c8;
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+header {
+  background: #111;
+  border-bottom: 1px solid #2a2a1e;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+header h1 { font-size: 16px; font-weight: 600; color: #e8e8d8; letter-spacing: 0.04em; }
+header .subtitle { font-size: 12px; color: #666; }
+
+.toolbar {
+  padding: 12px 24px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-bottom: 1px solid #1a1a12;
+}
+
+.btn {
+  padding: 6px 14px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #1a1a14;
+  color: #c8c8b8;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn:hover { background: #252518; border-color: #555; }
+.btn.primary { background: #1e3a1e; border-color: #2e6e2e; color: #8fda8f; }
+.btn.primary:hover { background: #254a25; }
+.btn.danger { background: #3a1e1e; border-color: #6e2e2e; color: #da8f8f; }
+.btn.danger:hover { background: #4a2525; }
+
+.count { font-size: 12px; color: #555; margin-left: 8px; }
+.hint { font-size: 11px; color: #444; margin-left: auto; font-style: italic; }
+.hint code { color: #5a8a5a; font-style: normal; }
+
+/* TABLE */
+.table-wrap {
+  overflow-x: auto;
+  padding: 0 24px;
+  margin-top: 16px;
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+thead th {
+  background: #161610;
+  color: #888;
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #2a2a1e;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  position: sticky;
+  top: 0;
+}
+thead th:hover { color: #bbb; }
+thead th.nosort { cursor: default; }
+thead th .sort-icon { margin-left: 4px; opacity: 0.4; font-size: 10px; }
+thead th.sorted .sort-icon { opacity: 1; color: #8fda8f; }
+
+tbody tr { border-bottom: 1px solid #1a1a12; cursor: pointer; transition: background 0.1s; }
+tbody tr:hover { background: #161610; }
+tbody tr.selected { background: #1a2e1a; border-left: 3px solid #4a9e4a; }
+
+td { padding: 7px 10px; vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+td.dim { color: #555; }
+td.center { text-align: center; }
+
+.thumb-cell { width: 48px; padding: 4px 8px; }
+.thumb-cell img { width: 40px; height: 28px; object-fit: cover; border-radius: 2px; display: block; }
+.thumb-placeholder { width: 40px; height: 28px; background: #1e1e16; border-radius: 2px; display: block; }
+
+.featured-badge { color: #e8c040; font-size: 14px; }
+
+.stars { color: #c8a020; }
+.stars.empty { color: #333; }
+
+/* FORM */
+.form-section {
+  margin: 24px 24px 40px;
+  background: #111;
+  border: 1px solid #2a2a1e;
+  border-radius: 6px;
+  padding: 20px 24px;
+}
+.form-section h2 {
+  font-size: 14px; font-weight: 600; color: #888;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 18px; padding-bottom: 10px;
+  border-bottom: 1px solid #1e1e14;
+  display: flex; align-items: center; gap: 12px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+.form-grid .full { grid-column: 1 / -1; }
+.form-grid .half { grid-column: span 2; }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 11px; color: #666; letter-spacing: 0.06em; text-transform: uppercase; }
+.field input, .field textarea {
+  background: #0d0d0d; border: 1px solid #2a2a1e; border-radius: 3px;
+  color: #d4d4c8; padding: 7px 9px; font-size: 13px; font-family: inherit;
+  transition: border-color 0.15s; width: 100%;
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: #4a7a4a; }
+.field textarea { resize: vertical; min-height: 80px; }
+
+/* photo field */
+.photo-field { display: flex; flex-direction: column; gap: 5px; }
+.photo-field label { font-size: 11px; color: #666; letter-spacing: 0.06em; text-transform: uppercase; }
+.photo-row { display: flex; gap: 8px; align-items: flex-start; }
+.photo-preview {
+  width: 80px; height: 56px; object-fit: cover; border-radius: 3px;
+  background: #1e1e16; border: 1px solid #2a2a1e; flex-shrink: 0;
+  display: block;
+}
+.photo-preview.empty { opacity: 0; }
+.photo-row input {
+  flex: 1; background: #0d0d0d; border: 1px solid #2a2a1e; border-radius: 3px;
+  color: #d4d4c8; padding: 7px 9px; font-size: 13px; font-family: inherit;
+  transition: border-color 0.15s;
+}
+.photo-row input:focus { outline: none; border-color: #4a7a4a; }
+
+/* star picker */
+.rating-field { display: flex; flex-direction: column; gap: 5px; }
+.rating-field label { font-size: 11px; color: #666; letter-spacing: 0.06em; text-transform: uppercase; }
+.star-picker { display: flex; gap: 4px; margin-top: 2px; }
+.star-picker .star { font-size: 22px; cursor: pointer; color: #333; transition: color 0.1s, transform 0.1s; line-height: 1; }
+.star-picker .star:hover { transform: scale(1.15); }
+.star-picker .star.on { color: #c8a020; }
+
+/* featured toggle */
+.featured-field { display: flex; flex-direction: column; gap: 8px; }
+.featured-field label.top { font-size: 11px; color: #666; letter-spacing: 0.06em; text-transform: uppercase; }
+.featured-toggle {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: 4px; cursor: pointer;
+  border: 1px solid #2a2a1e; background: #0d0d0d;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+.featured-toggle:hover { background: #161610; }
+.featured-toggle.on { background: #2a2400; border-color: #6a5800; }
+.featured-toggle .icon { font-size: 18px; }
+.featured-toggle .label { font-size: 13px; color: #888; }
+.featured-toggle.on .label { color: #e8c040; }
+
+.form-actions {
+  display: flex; gap: 8px; margin-top: 18px;
+  padding-top: 16px; border-top: 1px solid #1e1e14; align-items: center;
+}
+.form-actions .spacer { flex: 1; }
+.id-display { font-size: 11px; color: #444; font-family: monospace; margin-left: 4px; }
+
+.empty-state { text-align: center; padding: 48px; color: #444; font-size: 13px; }
+
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #1e3a1e; border: 1px solid #2e6e2e; color: #8fda8f;
+  padding: 10px 18px; border-radius: 5px; font-size: 13px;
+  opacity: 0; transition: opacity 0.2s; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+#load-file-wrap {
+  display: none; align-items: center; gap: 12px;
+  margin: 24px 24px 0; padding: 16px 20px;
+  background: #161610; border: 1px dashed #3a3a28; border-radius: 6px;
+  font-size: 13px; color: #888;
+}
+#load-file-wrap label {
+  cursor: pointer; padding: 6px 14px;
+  border: 1px solid #4a7a4a; border-radius: 4px;
+  background: #1e3a1e; color: #8fda8f; font-size: 13px; transition: background 0.15s;
+}
+#load-file-wrap label:hover { background: #254a25; }
+#load-file-wrap input[type=file] { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Museums Editor</h1>
+  <span class="subtitle">Дороги Времён — внутренний редактор</span>
+</header>
+
+<div class="toolbar">
+  <button class="btn primary" onclick="newRecord()">+ Добавить музей</button>
+  <button class="btn" onclick="downloadJSON()">Скачать JSON</button>
+  <button class="btn" id="btn-save-site" onclick="saveToSite()">Сохранить в site/ →</button>
+  <span class="count" id="count"></span>
+  <span class="hint">После скачивания скопировать в <code>site/museums.json</code></span>
+</div>
+
+<div id="load-file-wrap">
+  <span>Открыть через file:// — загрузи JSON вручную:</span>
+  <label>Выбрать museums.json <input type="file" accept=".json" onchange="loadFromFile(this)"></label>
+</div>
+
+<div class="table-wrap">
+  <table id="museums-table">
+    <thead>
+      <tr>
+        <th class="nosort" style="width:52px"></th>
+        <th onclick="sortBy('name')">Музей <span class="sort-icon">▲</span></th>
+        <th onclick="sortBy('city')">Город <span class="sort-icon">▲</span></th>
+        <th onclick="sortBy('country')">Страна <span class="sort-icon">▲</span></th>
+        <th onclick="sortBy('year_visited')">Год <span class="sort-icon">▲</span></th>
+        <th onclick="sortBy('year_founded')">Основан <span class="sort-icon">▲</span></th>
+        <th onclick="sortBy('rating')">Рейтинг <span class="sort-icon">▲</span></th>
+        <th onclick="sortBy('ticket_price')">Билет <span class="sort-icon">▲</span></th>
+        <th class="nosort" style="width:60px; text-align:center">Реком.</th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+  <div id="empty-state" class="empty-state" style="display:none">Нет записей. Нажмите «+ Добавить музей».</div>
+</div>
+
+<div class="form-section" id="form-section" style="display:none">
+  <h2 id="form-title">Редактирование</h2>
+  <div class="form-grid">
+
+    <div class="field half">
+      <label>Название музея</label>
+      <input id="f-name" type="text" placeholder="Deutsches Panzermuseum" oninput="syncId()">
+    </div>
+    <div class="field">
+      <label>Город</label>
+      <input id="f-city" type="text" placeholder="Munster">
+    </div>
+
+    <div class="field">
+      <label>Страна</label>
+      <input id="f-country" type="text" placeholder="Германия">
+    </div>
+    <div class="field">
+      <label>Год посещения</label>
+      <input id="f-year_visited" type="number" placeholder="2026" min="1800" max="2100">
+    </div>
+    <div class="field">
+      <label>Год основания</label>
+      <input id="f-year_founded" type="number" placeholder="1983" min="1000" max="2100">
+    </div>
+
+    <div class="rating-field">
+      <label>Рейтинг</label>
+      <div class="star-picker" id="star-picker">
+        <span class="star" data-v="1" onclick="setRating(1)">★</span>
+        <span class="star" data-v="2" onclick="setRating(2)">★</span>
+        <span class="star" data-v="3" onclick="setRating(3)">★</span>
+        <span class="star" data-v="4" onclick="setRating(4)">★</span>
+        <span class="star" data-v="5" onclick="setRating(5)">★</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Стоимость билета</label>
+      <input id="f-ticket_price" type="text" placeholder="€8 / бесплатно">
+    </div>
+    <div class="field">
+      <label>Часы работы</label>
+      <input id="f-working_hours" type="text" placeholder="Вт–Вс 10:00–18:00">
+    </div>
+
+    <div class="featured-field">
+      <label class="top">Виджет «Рекомендую»</label>
+      <div class="featured-toggle" id="featured-toggle" onclick="toggleFeatured()">
+        <span class="icon">★</span>
+        <span class="label" id="featured-label">Не выбран</span>
+      </div>
+    </div>
+
+    <div class="photo-field full">
+      <label>Фото (URL)</label>
+      <div class="photo-row">
+        <img id="photo-preview" class="photo-preview empty" src="" alt="">
+        <input id="f-photo" type="url" placeholder="https://..." oninput="updatePhotoPreview()">
+      </div>
+    </div>
+
+    <div class="field full">
+      <label>Описание</label>
+      <textarea id="f-description" placeholder="Краткое описание музея..."></textarea>
+    </div>
+
+    <div class="field half">
+      <label>Сайт</label>
+      <input id="f-website" type="url" placeholder="https://www.museum.de">
+    </div>
+    <div class="field half">
+      <label>Карта (Google Maps)</label>
+      <input id="f-map_url" type="url" placeholder="https://maps.app.goo.gl/...">
+    </div>
+    <div class="field full">
+      <label>Страница на блоге (landing)</label>
+      <input id="f-landing_url" type="url" placeholder="https://roadsoftimes.blogspot.com/...">
+    </div>
+
+  </div>
+  <div class="form-actions">
+    <span class="id-display" id="id-display"></span>
+    <div class="spacer"></div>
+    <button class="btn danger" id="btn-delete" onclick="deleteRecord()">Удалить</button>
+    <button class="btn" onclick="cancelEdit()">Отмена</button>
+    <button class="btn primary" onclick="saveRecord()">Сохранить</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var DATA = [];
+var editingId = null;
+var currentRating = null;
+var currentFeatured = false;
+var sortCol = 'name';
+var sortAsc = true;
+
+fetch('museums.json?_=' + Date.now())
+  .then(function(r){ return r.json(); })
+  .then(function(d){ DATA = d; render(); })
+  .catch(function(){
+    DATA = [];
+    render();
+    document.getElementById('load-file-wrap').style.display = 'flex';
+  });
+
+function loadFromFile(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      DATA = JSON.parse(e.target.result);
+      document.getElementById('load-file-wrap').style.display = 'none';
+      render();
+      toast('Загружено: ' + DATA.length + ' записей');
+    } catch(err) { toast('Ошибка парсинга JSON'); }
+  };
+  reader.readAsText(file);
+}
+
+function slugify(s) {
+  return s.toLowerCase()
+    .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e')
+    .replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o')
+    .replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n')
+    .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'')
+    .replace(/_+/g,'_').replace(/^_|_$/g,'');
+}
+
+function makeId(name) {
+  var base = slugify(name) || 'museum';
+  var existing = DATA.filter(function(r){ return r.id !== editingId; }).map(function(r){ return r.id; });
+  if (!existing.includes(base)) return base;
+  var i = 2;
+  while (existing.includes(base + '_' + i)) i++;
+  return base + '_' + i;
+}
+
+function render() {
+  var sorted = DATA.slice().sort(function(a, b) {
+    var va = a[sortCol], vb = b[sortCol];
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    if (typeof va === 'number') return sortAsc ? va - vb : vb - va;
+    return sortAsc
+      ? String(va).localeCompare(String(vb), 'ru')
+      : String(vb).localeCompare(String(va), 'ru');
+  });
+
+  var tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  document.getElementById('count').textContent = DATA.length + ' записей';
+  document.getElementById('empty-state').style.display = DATA.length ? 'none' : 'block';
+
+  sorted.forEach(function(r) {
+    var tr = document.createElement('tr');
+    if (r.id === editingId) tr.className = 'selected';
+    tr.onclick = function() { openEdit(r.id); };
+
+    var thumbHtml = r.photo
+      ? '<img src="' + esc(r.photo) + '" alt="" loading="lazy">'
+      : '<span class="thumb-placeholder"></span>';
+
+    tr.innerHTML =
+      '<td class="thumb-cell">' + thumbHtml + '</td>' +
+      '<td>' + esc(r.name || '') + '</td>' +
+      '<td>' + esc(r.city || '') + '</td>' +
+      '<td>' + esc(r.country || '') + '</td>' +
+      '<td>' + (r.year_visited || '<span class="dim">—</span>') + '</td>' +
+      '<td>' + (r.year_founded || '<span class="dim">—</span>') + '</td>' +
+      '<td>' + renderStars(r.rating) + '</td>' +
+      '<td>' + esc(r.ticket_price || '') + '</td>' +
+      '<td class="center">' + (r.featured ? '<span class="featured-badge">★</span>' : '') + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  document.querySelectorAll('thead th:not(.nosort)').forEach(function(th) {
+    var col = th.getAttribute('onclick').replace("sortBy('","").replace("')","");
+    th.classList.toggle('sorted', col === sortCol);
+    var icon = th.querySelector('.sort-icon');
+    if (icon) icon.textContent = (col === sortCol) ? (sortAsc ? '▲' : '▼') : '▲';
+  });
+}
+
+function renderStars(rating) {
+  if (!rating) return '<span class="dim">—</span>';
+  var s = '';
+  for (var i = 1; i <= 5; i++)
+    s += '<span class="stars' + (i <= rating ? '' : ' empty') + '">★</span>';
+  return s;
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function sortBy(col) {
+  if (sortCol === col) sortAsc = !sortAsc;
+  else { sortCol = col; sortAsc = true; }
+  render();
+}
+
+function openEdit(id) {
+  var r = DATA.find(function(x){ return x.id === id; });
+  if (!r) return;
+  editingId = id;
+  fillForm(r);
+  document.getElementById('form-title').textContent = 'Редактирование';
+  document.getElementById('btn-delete').style.display = '';
+  document.getElementById('form-section').style.display = '';
+  document.getElementById('form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  render();
+}
+
+function newRecord() {
+  editingId = null;
+  fillForm({});
+  document.getElementById('form-title').textContent = 'Новый музей';
+  document.getElementById('btn-delete').style.display = 'none';
+  document.getElementById('id-display').textContent = '';
+  document.getElementById('form-section').style.display = '';
+  document.getElementById('form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('f-name').focus();
+  render();
+}
+
+function fillForm(r) {
+  ['name','city','country','ticket_price','working_hours','description','website','map_url','landing_url','photo'].forEach(function(k){
+    document.getElementById('f-' + k).value = r[k] || '';
+  });
+  ['year_visited','year_founded'].forEach(function(k){
+    document.getElementById('f-' + k).value = r[k] != null ? r[k] : '';
+  });
+  currentRating = r.rating || null;
+  updateStarUI();
+  currentFeatured = !!r.featured;
+  updateFeaturedUI();
+  updatePhotoPreview();
+  document.getElementById('id-display').textContent = r.id ? 'id: ' + r.id : '';
+}
+
+function syncId() {
+  if (editingId) return;
+  var name = document.getElementById('f-name').value;
+  document.getElementById('id-display').textContent = name ? 'id: ' + makeId(name) : '';
+}
+
+function setRating(v) {
+  currentRating = (currentRating === v) ? null : v;
+  updateStarUI();
+}
+
+function updateStarUI() {
+  document.querySelectorAll('#star-picker .star').forEach(function(s) {
+    s.classList.toggle('on', currentRating != null && parseInt(s.dataset.v) <= currentRating);
+  });
+}
+
+function toggleFeatured() {
+  currentFeatured = !currentFeatured;
+  updateFeaturedUI();
+}
+
+function updateFeaturedUI() {
+  var toggle = document.getElementById('featured-toggle');
+  var label = document.getElementById('featured-label');
+  toggle.classList.toggle('on', currentFeatured);
+  label.textContent = currentFeatured ? 'Рекомендую (виджет)' : 'Не выбран';
+}
+
+function updatePhotoPreview() {
+  var url = document.getElementById('f-photo').value.trim();
+  var img = document.getElementById('photo-preview');
+  if (url) {
+    img.src = url;
+    img.classList.remove('empty');
+  } else {
+    img.src = '';
+    img.classList.add('empty');
+  }
+}
+
+function getFormData() {
+  var name = document.getElementById('f-name').value.trim();
+  var isFeatured = currentFeatured;
+  return {
+    id: editingId || makeId(name),
+    name: name,
+    city: document.getElementById('f-city').value.trim(),
+    country: document.getElementById('f-country').value.trim(),
+    year_visited: parseInt(document.getElementById('f-year_visited').value) || null,
+    description: document.getElementById('f-description').value.trim(),
+    ticket_price: document.getElementById('f-ticket_price').value.trim(),
+    working_hours: document.getElementById('f-working_hours').value.trim(),
+    year_founded: parseInt(document.getElementById('f-year_founded').value) || null,
+    website: document.getElementById('f-website').value.trim(),
+    map_url: document.getElementById('f-map_url').value.trim(),
+    landing_url: document.getElementById('f-landing_url').value.trim(),
+    photo: document.getElementById('f-photo').value.trim(),
+    rating: currentRating,
+    featured: isFeatured
+  };
+}
+
+function saveRecord() {
+  var rec = getFormData();
+  if (!rec.name) { toast('Укажите название музея'); return; }
+
+  // enforce single featured
+  if (rec.featured) {
+    DATA.forEach(function(r){ if (r.id !== rec.id) r.featured = false; });
+  }
+
+  if (editingId) {
+    var idx = DATA.findIndex(function(r){ return r.id === editingId; });
+    if (idx !== -1) DATA[idx] = rec;
+  } else {
+    DATA.push(rec);
+  }
+  editingId = rec.id;
+  document.getElementById('id-display').textContent = 'id: ' + rec.id;
+  document.getElementById('btn-delete').style.display = '';
+  document.getElementById('form-title').textContent = 'Редактирование';
+  render();
+  toast('Сохранено. Не забудьте экспортировать JSON.');
+}
+
+function deleteRecord() {
+  if (!editingId) return;
+  var r = DATA.find(function(x){ return x.id === editingId; });
+  if (!r) return;
+  if (!confirm('Удалить «' + (r.name || editingId) + '»?')) return;
+  DATA = DATA.filter(function(x){ return x.id !== editingId; });
+  editingId = null;
+  document.getElementById('form-section').style.display = 'none';
+  render();
+  toast('Запись удалена.');
+}
+
+function cancelEdit() {
+  editingId = null;
+  document.getElementById('form-section').style.display = 'none';
+  render();
+}
+
+function downloadJSON() {
+  var json = JSON.stringify(DATA, null, 2);
+  var blob = new Blob([json], { type: 'application/json' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'museums.json';
+  a.click();
+}
+
+var siteFileHandle = null;
+
+async function saveToSite() {
+  var json = JSON.stringify(DATA, null, 2);
+  try {
+    if (!siteFileHandle) {
+      var handles = await window.showOpenFilePicker({
+        id: 'museums-site',
+        startIn: 'documents',
+        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }],
+        excludeAcceptAllOption: true,
+        multiple: false
+      });
+      siteFileHandle = handles[0];
+      document.getElementById('btn-save-site').textContent = 'Сохранить в site/ ✓';
+    }
+    var writable = await siteFileHandle.createWritable();
+    await writable.write(json);
+    await writable.close();
+    toast('Сохранено в ' + siteFileHandle.name);
+  } catch(e) {
+    if (e.name !== 'AbortError') toast('Ошибка: ' + e.message);
+  }
+}
+
+function toast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 2800);
+}
+</script>
+</body>
+</html>

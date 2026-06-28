@@ -25,6 +25,15 @@ GameTown Blogger Template/wowslider.txt
 # Claude
 .claude/
 
+# IDE / editor
+.idea/
+
+# Cloudflare local cache
+.wrangler/
+
+# macOS folder alias
+Roads Of Times Site
+
 # Производные / кэш
 __pycache__/
 *.pyc

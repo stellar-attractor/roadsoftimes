@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест: Museums pages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+<style>
+body { background: #0a0a08; color: #c8c0a8; font-family: 'PT Sans', sans-serif; margin: 0; padding: 0; }
+.page { max-width: 900px; margin: 0 auto; padding: 32px 20px; }
+h2 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #8a6f2e; margin: 40px 0 16px; border-bottom: 1px solid #2a2510; padding-bottom: 8px; }
+h2:first-child { margin-top: 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h2>Виджет «Рекомендую»</h2>
+<div id="widget-wrap"></div>
+
+<h2>Каталог музеев</h2>
+<div id="catalog-wrap"></div>
+
+</div>
+
+<script>
+function loadFragment(url, targetId) {
+  fetch(url).then(function(r){ return r.text(); }).then(function(html){
+    var wrap = document.getElementById(targetId);
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html;
+
+    // inject styles
+    tmp.querySelectorAll('style').forEach(function(s){ document.head.appendChild(s.cloneNode(true)); });
+
+    // inject HTML (skip style/script tags — append separately)
+    tmp.querySelectorAll('style').forEach(function(s){ s.remove(); });
+    var scripts = Array.from(tmp.querySelectorAll('script'));
+    scripts.forEach(function(s){ s.remove(); });
+    wrap.appendChild(tmp);
+
+    // run scripts
+    scripts.forEach(function(s){
+      var ns = document.createElement('script');
+      ns.textContent = s.textContent;
+      document.body.appendChild(ns);
+    });
+  });
+}
+
+loadFragment('/template/blogger-museums-widget.html', 'widget-wrap');
+loadFragment('/template/blogger-museums.html', 'catalog-wrap');
+</script>
+</body>
+</html>

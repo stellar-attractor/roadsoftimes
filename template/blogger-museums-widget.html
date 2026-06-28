@@ -1,0 +1,98 @@
+<style>
+.rot-mw *, .rot-mw *::before, .rot-mw *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.rot-mw { font-family: 'PT Sans', sans-serif; color: #c8c0a8; }
+
+.rot-mw .mw-card {
+  background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px;
+  overflow: hidden; display: flex; flex-direction: row;
+}
+
+.rot-mw .mw-photo {
+  width: 200px; min-width: 200px; background: #080806; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  align-self: stretch;
+}
+.rot-mw .mw-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rot-mw .mw-photo .mw-no-photo {
+  font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px;
+}
+
+.rot-mw .mw-body {
+  padding: 16px 20px; display: flex; flex-direction: column; gap: 8px;
+  flex: 1; min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .rot-mw .mw-card { flex-direction: column; }
+  .rot-mw .mw-photo { width: 100%; min-width: 0; height: 160px; }
+}
+
+.rot-mw .mw-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #8a6f2e; }
+.rot-mw .mw-name { font-size: 17px; font-weight: 700; color: #e0d8c0; line-height: 1.3; text-decoration: none; display: block; }
+.rot-mw a.mw-name:hover { color: #f0e8d0; text-decoration: underline; }
+.rot-mw .mw-meta {
+  display: flex; flex-wrap: nowrap; align-items: baseline; gap: 0;
+  font-size: 12px; color: #9a8c70;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.rot-mw .mw-meta .mw-stars { color: #c8a020; letter-spacing: 1px; margin-right: 4px; }
+.rot-mw .mw-meta .mw-stars .dim { color: #2a2510; }
+.rot-mw .mw-meta .sep { color: #3a3020; }
+.rot-mw .mw-meta b { color: #c8c0a8; font-weight: normal; }
+.rot-mw .mw-meta a { color: #c9a84c; text-decoration: none; }
+.rot-mw .mw-meta a:hover { text-decoration: underline; }
+.rot-mw .mw-meta a.map { color: #70b0a8; }
+.rot-mw .mw-meta a.landing { color: #a0c080; }
+.rot-mw .mw-desc {
+  font-size: 13px; color: #a09880; line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+</style>
+
+<div class="rot-mw" id="rot-mw-root"></div>
+
+<script>
+//<![CDATA[
+(function(){
+  var CDN = 'https://roadsoftimes.pages.dev';
+  fetch(CDN + '/museums.json').then(function(r){ return r.json(); }).then(function(data){
+    var r = data.find(function(m){ return m.featured; });
+    if (!r) return;
+
+    function stars(n){
+      if (!n) return '';
+      var s = '';
+      for (var i = 1; i <= 5; i++) s += '<span class="' + (i <= n ? '' : 'dim') + '">★</span>';
+      return s;
+    }
+    function esc(s){
+      return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    var meta = [];
+    if (r.rating)        meta.push('<span class="mw-stars">' + stars(r.rating) + '</span>');
+    if (r.year_founded)  meta.push('🏛 <b>' + r.year_founded + '</b>');
+    if (r.ticket_price)  meta.push('🎟 <b>' + esc(r.ticket_price) + '</b>');
+    if (r.working_hours) meta.push('🕐 <b>' + esc(r.working_hours) + '</b>');
+    if (r.website)      meta.push('<a href="' + esc(r.website) + '" target="_blank" rel="noopener">🌐 Сайт</a>');
+    if (r.map_url)      meta.push('<a class="map" href="' + esc(r.map_url) + '" target="_blank" rel="noopener">📍 Карта</a>');
+    if (r.landing_url)  meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
+
+    var metaHtml = meta.length
+      ? '<div class="mw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      : '';
+
+    document.getElementById('rot-mw-root').innerHTML =
+      '<div class="mw-card">' +
+        '<div class="mw-photo"><img src="' + esc(r.photo||'') + '" alt=""' + (r.photo ? '' : ' style="display:none"') + '></div>' +
+        '<div class="mw-body">' +
+          '<div class="mw-label">★ Рекомендую</div>' +
+          (r.landing_url ? '<a class="mw-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>' : '<div class="mw-name">' + esc(r.name||'') + '</div>') +
+          metaHtml +
+          (r.description ? '<div class="mw-desc">' + esc(r.description) + '</div>' : '') +
+        '</div>' +
+      '</div>';
+  });
+})();
+//]]>
+</script>
