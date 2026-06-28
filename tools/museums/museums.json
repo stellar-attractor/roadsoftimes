@@ -1,6 +1,6 @@
 [
   {
-    "id": "bolkow_castle",
+    "id": "bolkow",
     "name": "Замок Болкув",
     "city": "Болкув",
     "country": "Польша",
@@ -17,7 +17,7 @@
     "featured": false
   },
   {
-    "id": "deutsches_panzermuseum",
+    "id": "panzermuseum-munster",
     "name": "Deutsches Panzermuseum",
     "city": "Munster",
     "country": "Германия",
@@ -34,7 +34,7 @@
     "featured": false
   },
   {
-    "id": "deutsches_marinemuseum",
+    "id": "marinemuseum-wilhelmshaven",
     "name": "Deutsches Marinemuseum",
     "city": "Wilhelmshaven",
     "country": "Германия",
