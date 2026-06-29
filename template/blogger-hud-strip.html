@@ -71,6 +71,7 @@
 </style>
 
 <div class="rot-hs" id="rot-hs-root">
+  <span id="rot-museum-name" style="display:none"><!-- вставь сюда название музея --></span>
   <div class="hs-header">
     <span class="hs-title">Экспозиция</span>
     <a class="hs-all" id="hs-all-link" href="#" target="_blank">Все экспонаты →</a>
@@ -88,35 +89,47 @@
   var CDN     = 'https://roadsoftimes.pages.dev';
   var CATALOG = 'https://roadsoftimes.blogspot.com/p/catalog.html';
   var STRIP_COUNT = 6;
-  var museum = (typeof ROT_MUSEUM !== 'undefined') ? ROT_MUSEUM : null;
+  var _nameEl = document.getElementById('rot-museum-name');
+  var museum = (_nameEl && _nameEl.textContent.trim())
+    || (typeof ROT_MUSEUM !== 'undefined' ? ROT_MUSEUM : null);
   if (!museum) return;
 
   document.getElementById('hs-all-link').href = CATALOG + '?museum=' + encodeURIComponent(museum);
 
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+  var _museumSlug = '';
+
   function previewSrc(e){
     var mobile = window.matchMedia && window.matchMedia('(max-width:768px),(orientation:portrait)').matches;
     var suffix = (mobile && e.mobile && e.mobile.zones) ? '_mobile_pr.webm' : '_pr.webm';
-    return CDN + '/previews/' + e.id + suffix;
+    if (_museumSlug) return CDN + '/exhibits/' + _museumSlug + '/previews/' + e.id + suffix;
+    return CDN + '/previews/' + e.id + suffix; // legacy fallback
   }
 
-  fetch(CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
-    var items = data.filter(function(e){ return e.Museum === museum; }).slice(-STRIP_COUNT).reverse();
-    if (!items.length) { document.getElementById('rot-hs-root').style.display = 'none'; return; }
+  function _fetchAndRender(){
+    fetch(CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
+      var items = data.filter(function(e){ return e.Museum === museum; }).slice(-STRIP_COUNT).reverse();
+      if (!items.length) { document.getElementById('rot-hs-root').style.display = 'none'; return; }
 
-    var strip = document.getElementById('hs-strip');
-    strip.innerHTML = items.map(function(e){
-      return '<div class="hs-card" onclick="hsOpen(\'' + e.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' +
-        '<div class="hs-thumb"><video src="' + esc(previewSrc(e)) + '" autoplay muted loop playsinline></video></div>' +
-      '</div>';
-    }).join('');
+      var strip = document.getElementById('hs-strip');
+      strip.innerHTML = items.map(function(e){
+        return '<div class="hs-card" onclick="hsOpen(\'' + e.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' +
+          '<div class="hs-thumb"><video src="' + esc(previewSrc(e)) + '" autoplay muted loop playsinline></video></div>' +
+        '</div>';
+      }).join('');
 
-    /* scroll arrows */
-    var SCROLL = 272;
-    document.getElementById('hs-arr-l').addEventListener('click', function(){ strip.scrollBy({left: -SCROLL}); });
-    document.getElementById('hs-arr-r').addEventListener('click', function(){ strip.scrollBy({left:  SCROLL}); });
-  });
+      /* scroll arrows */
+      var SCROLL = 272;
+      document.getElementById('hs-arr-l').addEventListener('click', function(){ strip.scrollBy({left: -SCROLL}); });
+      document.getElementById('hs-arr-r').addEventListener('click', function(){ strip.scrollBy({left:  SCROLL}); });
+    });
+  }
+
+  // Resolve museum slug, then render the strip
+  fetch(CDN + '/museums.json').then(function(r){ return r.json(); }).then(function(list){
+    list.forEach(function(m){ if (m.name === museum && m.id) _museumSlug = m.id; });
+  }).catch(function(){}).then(function(){ _fetchAndRender(); });
 
   var playerLoaded = false;
   var activeModal  = null;

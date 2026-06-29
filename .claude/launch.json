@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "-l", "5500", "."],
       "port": 5500
+    },
+    {
+      "name": "museums-editor",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "5510", "tools/museums"],
+      "port": 5510
     }
   ]
 }

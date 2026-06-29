@@ -220,9 +220,9 @@ td.center { text-align: center; }
 <div class="toolbar">
   <button class="btn primary" onclick="newRecord()">+ Добавить музей</button>
   <button class="btn" onclick="downloadJSON()">Скачать JSON</button>
-  <button class="btn" id="btn-save-site" onclick="saveToSite()">Сохранить в site/ →</button>
+  <button class="btn" id="btn-save-site" onclick="saveToSite()">Синк в site/ →</button>
   <span class="count" id="count"></span>
-  <span class="hint">После скачивания скопировать в <code>site/museums.json</code></span>
+  <span class="hint" id="sync-hint">Выбери <code>site/museums.json</code> один раз — далее автосинк при каждом сохранении</span>
 </div>
 
 <div id="load-file-wrap">
@@ -587,7 +587,12 @@ function saveRecord() {
   document.getElementById('btn-delete').style.display = '';
   document.getElementById('form-title').textContent = 'Редактирование';
   render();
-  toast('Сохранено. Не забудьте экспортировать JSON.');
+  if (siteFileHandle) {
+    _writeSiteFile().then(function(){ toast('Сохранено + синк в ' + siteFileHandle.name); })
+                    .catch(function(e){ toast('Сохранено локально, ошибка синка: ' + e.message); });
+  } else {
+    toast('Сохранено. Не забудьте экспортировать JSON.');
+  }
 }
 
 function deleteRecord() {
@@ -599,7 +604,12 @@ function deleteRecord() {
   editingId = null;
   document.getElementById('form-section').style.display = 'none';
   render();
-  toast('Запись удалена.');
+  if (siteFileHandle) {
+    _writeSiteFile().then(function(){ toast('Удалено + синк в ' + siteFileHandle.name); })
+                    .catch(function(e){ toast('Удалено локально, ошибка синка: ' + e.message); });
+  } else {
+    toast('Запись удалена.');
+  }
 }
 
 function cancelEdit() {
@@ -619,8 +629,24 @@ function downloadJSON() {
 
 var siteFileHandle = null;
 
-async function saveToSite() {
+async function _writeSiteFile() {
+  if (!siteFileHandle) return false;
   var json = JSON.stringify(DATA, null, 2);
+  var writable = await siteFileHandle.createWritable();
+  await writable.write(json);
+  await writable.close();
+  return true;
+}
+
+function _setSiteHandle(handle) {
+  siteFileHandle = handle;
+  var btn = document.getElementById('btn-save-site');
+  btn.textContent = '⟳ Автосинк: ' + handle.name;
+  btn.style.background = '#254a25';
+  document.getElementById('sync-hint').innerHTML = 'Автосинк активен — каждое сохранение пишет в <code>' + handle.name + '</code>';
+}
+
+async function saveToSite() {
   try {
     if (!siteFileHandle) {
       var handles = await window.showOpenFilePicker({
@@ -630,13 +656,10 @@ async function saveToSite() {
         excludeAcceptAllOption: true,
         multiple: false
       });
-      siteFileHandle = handles[0];
-      document.getElementById('btn-save-site').textContent = 'Сохранить в site/ ✓';
+      _setSiteHandle(handles[0]);
     }
-    var writable = await siteFileHandle.createWritable();
-    await writable.write(json);
-    await writable.close();
-    toast('Сохранено в ' + siteFileHandle.name);
+    await _writeSiteFile();
+    toast('Записано в ' + siteFileHandle.name);
   } catch(e) {
     if (e.name !== 'AbortError') toast('Ошибка: ' + e.message);
   }
