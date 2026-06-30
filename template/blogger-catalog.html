@@ -182,6 +182,15 @@
 .rot-cat .pg-btn.active { color: #c9a84c; border-color: #8a6f2e; background: #12120c; }
 .rot-cat .pg-btn:disabled { opacity: 0.25; cursor: default; }
 
+/* PREVIEW OVERLAY */
+.rc-overlay { display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.9); cursor:pointer; align-items:center; justify-content:center; flex-direction:column; gap:16px; }
+.rc-overlay.open { display:flex; }
+.rc-overlay-video { max-width:82vw; max-height:78vh; display:block; cursor:default; }
+.rc-overlay-bar { display:flex; align-items:center; justify-content:space-between; width:82vw; cursor:default; }
+.rc-overlay-title { color:#c8c0a8; font-family:'PT Sans',sans-serif; font-size:14px; letter-spacing:1px; }
+.rc-overlay-link { color:#c9a84c; text-decoration:none; font-family:'PT Sans',sans-serif; font-size:13px; letter-spacing:1px; border:1px solid #8a6f2e; padding:5px 14px; border-radius:3px; }
+.rc-overlay-link:hover { background:#1a1a0a; }
+
 /* STATS VIEW */
 .rot-cat .rc-stats { padding: 24px 0; display: none; flex-direction: column; gap: 28px; }
 .rot-cat .rc-stats.show { display: flex; }
@@ -296,6 +305,13 @@
   <div class="container view-grid" id="rc-container"></div>
   <div class="rc-detail" id="rc-detail"></div>
   <div class="pagination" id="rc-pagination"></div>
+  <div class="rc-overlay" id="rc-overlay">
+    <div class="rc-overlay-bar" id="rc-overlay-bar">
+      <span class="rc-overlay-title" id="rc-overlay-title"></span>
+      <a class="rc-overlay-link" id="rc-overlay-link" href="#">Открыть страницу →</a>
+    </div>
+    <video class="rc-overlay-video" id="rc-overlay-video" autoplay loop muted playsinline></video>
+  </div>
   <div class="rc-stats" id="rc-stats">
     <div class="stats-kpi" id="rc-stats-kpi"></div>
     <div class="stats-charts" id="rc-stats-charts"></div>
@@ -318,6 +334,7 @@
 
   fetch(DB).then(function(r){ return r.json(); }).then(function(data){
     all = data.map(function(r,i){ return Object.assign({_idx:i}, r); });
+    all.forEach(function(r){ _recById[r.id] = r; });
     populateFilters();
     applyView(currentView);
     render();
@@ -404,6 +421,32 @@
 
     return { get: function(){ return current; }, set: _set };
   }
+
+  /* ── PREVIEW OVERLAY ── */
+  var _recById = {};
+
+  window.rcOpenPreview = function(id, evt) {
+    if (evt) { evt.preventDefault(); evt.stopPropagation(); }
+    var r = _recById[id]; if (!r) return;
+    var src = glowSrc(r) || previewSrc(r);
+    var vid = document.getElementById('rc-overlay-video');
+    vid.src = src;
+    vid.onerror = function(){ var fb = previewSrc(r); if (fb && vid.src !== fb) vid.src = fb; };
+    document.getElementById('rc-overlay-title').textContent = r.title || r.id;
+    document.getElementById('rc-overlay-link').href = EXHIBIT + '?id=' + encodeURIComponent(r.id);
+    document.getElementById('rc-overlay').classList.add('open');
+  };
+
+  function _closeOverlay() {
+    var o = document.getElementById('rc-overlay');
+    o.classList.remove('open');
+    document.getElementById('rc-overlay-video').src = '';
+  }
+
+  document.getElementById('rc-overlay').addEventListener('click', _closeOverlay);
+  document.getElementById('rc-overlay-video').addEventListener('click', function(e){ e.stopPropagation(); });
+  document.getElementById('rc-overlay-bar').addEventListener('click', function(e){ e.stopPropagation(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') _closeOverlay(); });
 
   var _museumSel, _countrySel, _categorySel;
 
@@ -523,9 +566,10 @@
         : previewSrc(r);
       var exhibitUrl = EXHIBIT + '?id=' + encodeURIComponent(r.id);
 
-      var a = document.createElement('a');
+      var a = document.createElement('div');
       a.className = 'card';
-      a.href = exhibitUrl;
+      a.style.cursor = 'pointer';
+      a.onclick = (function(rid){ return function(){ rcOpenPreview(rid); }; })(r.id);
 
       var thumb = document.createElement('div');
       thumb.className = 'card-thumb';
@@ -608,7 +652,7 @@
         '<td class="rc-city">'   + esc(r.City || '') + '</td>' +
         '<td class="rc-country">'+ esc(r.Country || '') + '</td>' +
         '<td class="rc-date">'   + esc(r.date || '') + '</td>';
-      tr.onclick = function(){ selectRow(r, tr); };
+      tr.onclick = (function(rid){ return function(){ rcOpenPreview(rid); }; })(r.id);
       tbody.appendChild(tr);
     });
     table.appendChild(tbody);
