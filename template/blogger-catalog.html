@@ -428,14 +428,11 @@
     function _initPlayer() {
       var el = document.getElementById('rc-overlay-player');
       el.innerHTML = '';
-      var p = window.RotExhibit.init({
-        container: el, db: DB, id: r.id, cdnBase: CDN, single: true
-      });
-      // force both-axis scaling so frame is never clipped
-      if (p && p._wrap) {
-        p._wrap.classList.add('rot-fullscreen');
-        p._rescale();
-      }
+      var stageW = r.canvas_width  || 1456;
+      var stageH = r.canvas_height || 1080;
+      var scale  = Math.min(window.innerWidth * 0.9 / stageW, window.innerHeight * 0.9 / stageH);
+      el.style.width = Math.round(stageW * scale) + 'px';
+      window.RotExhibit.init({ container: el, db: DB, id: r.id, cdnBase: CDN, single: true });
     }
     if (window.RotExhibit) {
       _initPlayer();
