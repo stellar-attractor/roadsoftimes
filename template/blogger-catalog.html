@@ -185,7 +185,6 @@
 /* PREVIEW OVERLAY */
 .rc-overlay { display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.92); cursor:pointer; align-items:center; justify-content:center; }
 .rc-overlay.open { display:flex; }
-#rc-overlay-player { cursor:default; }
 
 /* STATS VIEW */
 .rot-cat .rc-stats { padding: 24px 0; display: none; flex-direction: column; gap: 28px; }
@@ -302,10 +301,7 @@
   <div class="rc-detail" id="rc-detail"></div>
   <div class="pagination" id="rc-pagination"></div>
   <div class="rc-overlay" id="rc-overlay">
-    <div style="position:relative;display:inline-block;">
-      <div id="rc-overlay-player"></div>
-      <div id="rc-overlay-cap" style="position:absolute;inset:0;z-index:99999;cursor:pointer;"></div>
-    </div>
+    <video id="rc-overlay-video" autoplay loop muted playsinline style="max-width:90vw;max-height:90vh;display:block;cursor:pointer;"></video>
   </div>
   <div class="rc-stats" id="rc-stats">
     <div class="stats-kpi" id="rc-stats-kpi"></div>
@@ -420,41 +416,20 @@
   /* ── PREVIEW OVERLAY ── */
   var _recById = {};
 
-  var _playerScriptLoaded = false;
-
   window.rcOpenPreview = function(id) {
     var r = _recById[id]; if (!r) return;
+    var vid = document.getElementById('rc-overlay-video');
+    vid.src = previewSrc(r);
+    vid.onerror = function(){ var fb = glowSrc(r); if (fb && vid.src !== fb) vid.src = fb; };
     document.getElementById('rc-overlay').classList.add('open');
-
-    function _initPlayer() {
-      document.getElementById('rc-overlay-player').innerHTML = '';
-      window.RotExhibit.init({
-        container: document.getElementById('rc-overlay-player'),
-        db: DB,
-        id: r.id,
-        cdnBase: CDN,
-        single: true
-      });
-    }
-
-    if (window.RotExhibit) {
-      _initPlayer();
-    } else if (!_playerScriptLoaded) {
-      _playerScriptLoaded = true;
-      var s = document.createElement('script');
-      s.src = CDN + '/js/infographic-player.js';
-      s.onload = _initPlayer;
-      document.head.appendChild(s);
-    }
   };
 
   function _closeOverlay() {
     document.getElementById('rc-overlay').classList.remove('open');
-    document.getElementById('rc-overlay-player').innerHTML = '';
+    document.getElementById('rc-overlay-video').src = '';
   }
 
   document.getElementById('rc-overlay').addEventListener('click', _closeOverlay);
-  document.getElementById('rc-overlay-cap').addEventListener('click', _closeOverlay);
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') _closeOverlay(); });
 
   var _museumSel, _countrySel, _categorySel;
