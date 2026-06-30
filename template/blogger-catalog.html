@@ -766,8 +766,8 @@
         var src = pngSrc(pick);
         var href = EXHIBIT + '?id=' + encodeURIComponent(pick.id);
         thumbInner = '<a href="'+href+'" title="'+esc(pick.title||pick.id)+'"'+
-          ' style="position:absolute;left:'+pct+'%;top:50%;transform:translate(-50%,-50%);z-index:2;display:block;">'+
-          '<img class="rc-bar-thumb" src="'+src+'" alt="'+esc(pick.title||pick.id)+'"></a>';
+          ' style="position:absolute;left:'+pct+'%;top:50%;transform:translate(-50%,-50%);z-index:2;display:block;height:64px;">'+
+          '<img src="'+src+'" alt="'+esc(pick.title||pick.id)+'" style="height:64px;width:auto;object-fit:contain;display:block;opacity:.85;border-radius:2px;"></a>';
       }
       return '<div class="rc-bar-row">'+
         '<div class="rc-bar-lbl">'+esc(String(g.label))+'</div>'+
