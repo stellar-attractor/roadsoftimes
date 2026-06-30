@@ -761,7 +761,7 @@
   function renderBars(groups){
     var maxVal = groups.reduce(function(m,g){ return Math.max(m,g.count); }, 1);
     return groups.map(function(g){
-      var pct = Math.round(g.count/maxVal*62);
+      var pct = Math.round(g.count/maxVal*72);
       var pick = pickRandom(g.records, 1)[0];
       var thumbInner = '';
       if (pick) {
