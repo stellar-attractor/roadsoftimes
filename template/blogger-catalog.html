@@ -53,14 +53,16 @@
 }
 
 /* DATE FILTER */
-.rot-cat .date-filter { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
-.rot-cat .date-filter .filter-group { flex: 0 0 auto; min-width: 0; }
-.rot-cat .date-extra { display: none; align-items: flex-end; gap: 8px; flex-wrap: wrap; }
-.rot-cat .date-extra.show { display: flex; }
-.rot-cat .date-extra label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #9a8c70; display: block; margin-bottom: 4px; }
-.rot-cat .date-extra input[type="number"] { width: 80px; }
-.rot-cat .date-extra input[type="date"] { width: 140px; }
-.rot-cat .date-extra span { color: #9a8c70; font-size: 12px; padding-bottom: 9px; }
+/* QUICK TYPE FILTERS */
+.rc-quick-section { padding: 20px 0 16px; border-bottom: 1px solid #1a1a0e; }
+.rc-quick-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #9a8c70; margin-bottom: 16px; }
+.rc-quick-btns { display: flex; gap: 28px; flex-wrap: wrap; }
+.rc-quick-btn { cursor: pointer; text-align: center; background: none; border: 2px solid transparent; border-radius: 4px; padding: 4px; transition: border-color .15s; }
+.rc-quick-btn:hover { border-color: #4a3f20; }
+.rc-quick-btn.active { border-color: #c9a84c; }
+.rc-quick-thumb { position: relative; width: 120px; height: 72px; background: no-repeat center / contain; }
+.rc-quick-count { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 700; color: #c9a84c; text-shadow: 0 0 12px #000, 0 0 4px #000; font-family: 'PT Sans',sans-serif; pointer-events: none; }
+.rc-quick-label { font-size: 15px; font-weight: 700; color: #c8c0a8; margin-top: 6px; letter-spacing: 0.5px; font-family: 'PT Sans',sans-serif; }
 
 /* TOOLBAR */
 .rot-cat .toolbar {
@@ -230,6 +232,10 @@
 </style>
 
 <div class="rot-cat">
+  <div class="rc-quick-section">
+    <div class="rc-quick-title">В базе экспонатов доступно</div>
+    <div class="rc-quick-btns" id="rc-quick-btns"></div>
+  </div>
   <div class="filters">
     <!-- комбобоксы -->
     <div class="filter-row">
@@ -261,25 +267,6 @@
       <div class="filter-group"><label>Объект</label><input type="text" id="rc-object-q" placeholder="поиск…"></div>
       <div class="filter-group"><label>ТТХ текст</label><input type="text" id="rc-ttx" placeholder="поиск…"></div>
       <div class="filter-group"><label>Описание</label><input type="text" id="rc-desc" placeholder="поиск…"></div>
-      <!-- дата -->
-      <div class="filter-group date-filter">
-        <label>Период</label>
-        <select id="rc-date-mode">
-          <option value="">Все периоды</option>
-          <option value="this-year">Этот год</option>
-          <option value="last-year">Прошлый год</option>
-          <option value="year">Год…</option>
-          <option value="range">Диапазон дат</option>
-        </select>
-      </div>
-      <div class="date-extra" id="rc-date-extra-year">
-        <div><label>Год</label><input type="number" id="rc-year-val" placeholder="2026" min="2000" max="2099"></div>
-      </div>
-      <div class="date-extra" id="rc-date-extra-range">
-        <div><label>С</label><input type="date" id="rc-date-from"></div>
-        <span>—</span>
-        <div><label>По</label><input type="date" id="rc-date-to"></div>
-      </div>
     </div>
   </div>
   <div class="toolbar">
@@ -483,16 +470,11 @@
     var urlMuseum = new URLSearchParams(location.search).get('museum');
     if (urlMuseum) _museumSel.set(urlMuseum, urlMuseum, '');
 
-    var ids = ['rc-title','rc-object-q','rc-ttx','rc-desc','rc-sort',
-               'rc-date-mode','rc-year-val','rc-date-from','rc-date-to'];
-    ids.forEach(function(id){ document.getElementById(id).addEventListener('input', render); });
-
-    document.getElementById('rc-date-mode').addEventListener('change', function(){
-      var mode = this.value;
-      document.getElementById('rc-date-extra-year').classList.toggle('show', mode === 'year');
-      document.getElementById('rc-date-extra-range').classList.toggle('show', mode === 'range');
-      render();
+    ['rc-title','rc-object-q','rc-ttx','rc-desc','rc-sort'].forEach(function(id){
+      document.getElementById(id).addEventListener('input', render);
     });
+
+    _buildQuickFilters();
   }
 
   function gval(id){ return (document.getElementById(id).value || '').trim().toLowerCase(); }
@@ -504,6 +486,48 @@
     return { ttx: ttx.toLowerCase(), desc: sub.toLowerCase() };
   }
 
+  var _quickType = '';
+
+  function _buildQuickFilters(){
+    var counts = {};
+    var pngs   = {};
+    all.forEach(function(r){
+      var t = r.Object || ''; if (!t) return;
+      counts[t] = (counts[t] || 0) + 1;
+      if (!pngs[t] && pngSrc(r)) pngs[t] = pngSrc(r);
+    });
+    var top5 = Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; }).slice(0,5);
+    var wrap = document.getElementById('rc-quick-btns');
+    wrap.innerHTML = top5.map(function(t){
+      var img = pngs[t] || '';
+      var sid = 'rc-qc-' + t.replace(/\s+/g,'_');
+      return '<div class="rc-quick-btn" data-type="'+esc(t)+'" onclick="rcQuickFilter(this)">'
+        +'<div class="rc-quick-thumb" style="background-image:url(\''+img+'\')">'
+        +'<div class="rc-quick-count" id="'+sid+'">'+counts[t]+'</div>'
+        +'</div>'
+        +'<div class="rc-quick-label">'+esc(t)+'</div>'
+        +'</div>';
+    }).join('');
+  }
+
+  window.rcQuickFilter = function(btn){
+    var t = btn.getAttribute('data-type');
+    _quickType = (_quickType === t) ? '' : t;
+    document.querySelectorAll('.rc-quick-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-type') === _quickType);
+    });
+    render();
+  };
+
+  function _updateQuickCounts(pool){
+    document.querySelectorAll('.rc-quick-btn').forEach(function(b){
+      var t = b.getAttribute('data-type');
+      var cnt = pool.filter(function(r){ return r.Object === t; }).length;
+      var el = document.getElementById('rc-qc-' + t.replace(/\s+/g,'_'));
+      if (el) el.textContent = cnt;
+    });
+  }
+
   function render(){
     var q    = gval('rc-title');
     var qobj = gval('rc-object-q');
@@ -512,13 +536,8 @@
     var country  = _countrySel  ? _countrySel.get()  : '';
     var cat      = _categorySel ? _categorySel.get() : '';
     var sort     = document.getElementById('rc-sort').value;
-    var dateMode = document.getElementById('rc-date-mode').value;
-    var nowYear  = new Date().getFullYear();
-    var yearVal  = parseInt(sval('rc-year-val'), 10) || 0;
-    var dateFrom = sval('rc-date-from');
-    var dateTo   = sval('rc-date-to');
 
-    filtered = all.filter(function(r){
+    var preQuick = all.filter(function(r){
       if (q    && !(r.title||'').toLowerCase().includes(q) && !(r.id||'').toLowerCase().includes(q)) return false;
       if (qobj && !(r.Object||'').toLowerCase().includes(qobj)) return false;
       var tx = qttx || qdesc ? textOf(r) : null;
@@ -528,17 +547,15 @@
       if (museum  && (r.Museum||'')   !== museum)  return false;
       if (country && (r.Country||'')  !== country) return false;
       if (cat     && (r.Category||'') !== cat)     return false;
-
-      var d = r.date || '';
-      if (dateMode === 'this-year' && !d.startsWith(String(nowYear))) return false;
-      if (dateMode === 'last-year' && !d.startsWith(String(nowYear - 1))) return false;
-      if (dateMode === 'year' && yearVal && !d.startsWith(String(yearVal))) return false;
-      if (dateMode === 'range'){
-        if (dateFrom && d < dateFrom) return false;
-        if (dateTo   && d > dateTo)   return false;
-      }
       return true;
-    }).sort(function(a, b){
+    });
+
+    _updateQuickCounts(preQuick);
+
+    filtered = (_quickType
+      ? preQuick.filter(function(r){ return r.Object === _quickType; })
+      : preQuick
+    ).sort(function(a, b){
       var da = a.date || '', db = b.date || '';
       if (da || db) return sort === 'asc' ? da.localeCompare(db) : db.localeCompare(da);
       return sort === 'asc' ? a._idx - b._idx : b._idx - a._idx;
