@@ -211,7 +211,7 @@
 /* bar chart */
 .rc-bars { display: flex; flex-direction: column; gap: 3px; }
 .rc-bar-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #c8c0a8; height: 68px; }
-.rc-bar-lbl { width: 44px; text-align: right; color: #9a8c70; flex-shrink: 0; font-size: 13px; }
+.rc-bar-lbl { width: 54px; text-align: right; color: #9a8c70; flex-shrink: 0; font-size: 26px; }
 .rc-bar-track { flex: 1; height: 64px; background: #12120c; border-radius: 4px; overflow: visible; position: relative; max-width: calc(100% - 120px); }
 .rc-bar-fill { height: 100%; background: #c9a84c; border-radius: 2px; transition: width .3s; }
 .rc-bar-cnt { flex-shrink: 0; color: #c9a84c; font-size: 48px; font-weight: 700; line-height: 1; padding-left: 6px; }
@@ -834,7 +834,7 @@
     });
     var yearGroups = Object.entries(yearMap)
       .map(function(e){ return { label: e[0], count: e[1].length, records: e[1] }; })
-      .sort(function(a,b){ return a.label - b.label; });
+      .sort(function(a,b){ return b.label - a.label; });
     if (yearGroups.length) {
       charts += chartCard('Хронология объектов', '<div class="rc-bars">'+renderBars(yearGroups)+'</div>', true);
     }
