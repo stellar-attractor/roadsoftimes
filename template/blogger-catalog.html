@@ -698,13 +698,12 @@
       .sort(function(a,b){ return b.count - a.count; });
   }
 
-  function renderDonut(groups, size, withSectorThumb, thumbScale, maxThumbs){
-    size = size || 160;
-    thumbScale = thumbScale || 1;
-    maxThumbs = maxThumbs || 3;
+  function renderDonut(groups, size, imgSz, maxThumbs, flagMap){
+    size = size || 280;
+    imgSz = imgSz || 0;
+    maxThumbs = maxThumbs || 0;
     var r = size/2, cx = r, cy = r, ir = r*0.52;
-    var imgR = (r + ir) / 2; /* center of ring */
-    var imgSz = Math.round(ir * 0.72 * thumbScale); /* fits inside ring thickness */
+    var imgR = (r + ir) / 2;
     var total = groups.reduce(function(s,g){ return s+g.count; }, 0);
     if (!total) return '<svg width="'+size+'" height="'+size+'"></svg><div class="rc-donut-legend"></div>';
 
@@ -724,21 +723,31 @@
                ' L'+xi2+','+yi2+' A'+ir+','+ir+' 0 '+large+',0 '+xi1+','+yi1+' Z"'+
                ' fill="'+col+'" stroke="#0d0d08" stroke-width="1.5"/>';
 
-      /* image on sector — top N largest slices */
-      if (withSectorThumb && i < maxThumbs) {
-        var pick = pickRandom(g.records, 1)[0];
-        if (pick) {
-          var src = pngSrc(pick);
-          var ix = cx + imgR * Math.cos(midAngle);
-          var iy = cy + imgR * Math.sin(midAngle);
-          var half = imgSz/2;
-          var clipId = 'rc-clip-'+i;
-          defs += '<clipPath id="'+clipId+'"><circle cx="'+ix+'" cy="'+iy+'" r="'+half+'"/></clipPath>';
-          var href = EXHIBIT + '?id=' + encodeURIComponent(pick.id);
-          imgs += '<a href="'+href+'" title="'+esc(pick.title||pick.id)+'" target="_self">'+
-            '<image href="'+src+'" x="'+(ix-half)+'" y="'+(iy-half)+'" width="'+imgSz+'" height="'+imgSz+'"'+
-            ' clip-path="url(#'+clipId+')" preserveAspectRatio="xMidYMid meet" style="cursor:pointer"/>'+
-            '</a>';
+      if (maxThumbs && i < maxThumbs && imgSz) {
+        var ix = cx + imgR * Math.cos(midAngle);
+        var iy = cy + imgR * Math.sin(midAngle);
+        var half = imgSz/2;
+        var clipId = 'rc-clip-'+i;
+        var src = '', href = '';
+
+        if (flagMap && flagMap[g.label]) {
+          /* flag — rectangular clip with rounded corners */
+          var fw = Math.round(imgSz*1.5), fh = imgSz;
+          defs += '<clipPath id="'+clipId+'"><rect x="'+(ix-fw/2)+'" y="'+(iy-fh/2)+'" width="'+fw+'" height="'+fh+'" rx="3"/></clipPath>';
+          src = CDN + '/' + flagMap[g.label];
+          imgs += '<image href="'+src+'" x="'+(ix-fw/2)+'" y="'+(iy-fh/2)+'" width="'+fw+'" height="'+fh+'"'+
+            ' clip-path="url(#'+clipId+')" preserveAspectRatio="xMidYMid meet"/>';
+        } else {
+          var pick = pickRandom(g.records, 1)[0];
+          if (pick) {
+            src = pngSrc(pick);
+            href = EXHIBIT + '?id=' + encodeURIComponent(pick.id);
+            defs += '<clipPath id="'+clipId+'"><circle cx="'+ix+'" cy="'+iy+'" r="'+half+'"/></clipPath>';
+            imgs += '<a href="'+href+'" title="'+esc(pick.title||pick.id)+'" target="_self">'+
+              '<image href="'+src+'" x="'+(ix-half)+'" y="'+(iy-half)+'" width="'+imgSz+'" height="'+imgSz+'"'+
+              ' clip-path="url(#'+clipId+')" preserveAspectRatio="xMidYMid meet" style="cursor:pointer"/>'+
+              '</a>';
+          }
         }
       }
     });
@@ -755,7 +764,7 @@
         '</div>';
     }).join('');
 
-    return svg + '<div class="rc-donut-legend">' + legend + '</div>';
+    return svg + '<div class="rc-donut-legend" style="align-self:stretch;justify-content:space-evenly;">' + legend + '</div>';
   }
 
   function renderBars(groups){
@@ -799,27 +808,24 @@
     var byCountry = groupBy(data, 'Country');
     var byMuseum  = groupBy(data, 'Museum');
 
-    var donutsHtml = '<div class="stats-chart-card wide"><div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">';
+    var H3 = 'font-size:14px;letter-spacing:1px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;';
+    var flagMap = _buildFlagMap();
+    var donutsHtml = '<div class="stats-chart-card wide"><div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">';
 
     if (byObj.length) {
-      var d1 = renderDonut(byObj, 280, true, 2, 5);
-      donutsHtml += '<div><h3 style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;">По типу объекта</h3>'+
+      var d1 = renderDonut(byObj, 280, 64, 3, null);
+      donutsHtml += '<div><h3 style="'+H3+'">По типу объекта</h3>'+
         '<div class="rc-donut-wrap">'+d1+'</div></div>';
     }
-
-    var smallDonuts = '';
     if (byCountry.length) {
-      var d2 = renderDonut(byCountry, 140, true);
-      smallDonuts += '<div><h3 style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;">По стране производителя</h3>'+
+      var d2 = renderDonut(byCountry, 280, 32, 4, flagMap);
+      donutsHtml += '<div><h3 style="'+H3+'">По стране производителя</h3>'+
         '<div class="rc-donut-wrap">'+d2+'</div></div>';
     }
     if (byMuseum.length > 1) {
-      var d3 = renderDonut(byMuseum, 140, false);
-      smallDonuts += '<div><h3 style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;">По музею</h3>'+
+      var d3 = renderDonut(byMuseum, 280, 0, 0, null);
+      donutsHtml += '<div><h3 style="'+H3+'">По музею</h3>'+
         '<div class="rc-donut-wrap">'+d3+'</div></div>';
-    }
-    if (smallDonuts) {
-      donutsHtml += '<div style="display:flex;flex-direction:column;gap:16px;justify-content:space-between;">'+smallDonuts+'</div>';
     }
 
     donutsHtml += '</div></div>';
