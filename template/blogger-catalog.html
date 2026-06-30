@@ -17,6 +17,41 @@
 .rot-cat .filter-group select:focus { border-color: #c9a84c; }
 .rot-cat .filter-group select option { background: #12120c; }
 
+/* FLAG SELECT */
+.rc-flag-sel { position: relative; }
+.rc-flag-trigger {
+  background: #12120c; border: 1px solid #2a2510; color: #c8c0a8;
+  font-family: 'PT Sans', sans-serif; font-size: 13px; padding: 7px 10px;
+  border-radius: 3px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: border-color .15s; user-select: none; white-space: nowrap;
+}
+.rc-flag-trigger:hover, .rc-flag-sel.open .rc-flag-trigger { border-color: #c9a84c; }
+.rc-flag-trigger img { width: 20px; height: 14px; object-fit: cover; border: 1px solid #3a3520; flex-shrink: 0; }
+.rc-flag-trigger::after { content: '\25BE'; margin-left: auto; padding-left: 8px; color: #6a5f40; font-size: 11px; }
+.rc-flag-drop {
+  display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 200;
+  background: #12120c; border: 1px solid #2a2510; border-radius: 3px;
+  width: 160px; max-height: 260px; overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,.7);
+}
+.rc-flag-sel.open .rc-flag-drop { display: block; }
+.rc-flag-opt {
+  display: flex; align-items: center; gap: 8px;
+  padding: 2px 10px; margin: 0; cursor: pointer;
+  font-size: 12px; color: #c8c0a8; transition: background .12s;
+  white-space: nowrap; line-height: 1;
+}
+.rc-flag-opt:hover { background: #1e1d14; }
+.rc-flag-opt.selected { color: #c9a84c; background: #161610; }
+.rc-flag-opt img { width: 20px; height: 14px; object-fit: cover; border: 1px solid #3a3520; flex-shrink: 0; }
+#rc-museum-list .rc-flag-opt,
+#rc-country-list .rc-flag-opt,
+#rc-category-list .rc-flag-opt {
+  margin: 0 !important; padding: 2px 10px !important;
+  line-height: 1 !important; font-size: 12px !important;
+  margin-bottom: 0 !important; margin-top: 0 !important;
+}
+
 /* DATE FILTER */
 .rot-cat .date-filter { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
 .rot-cat .date-filter .filter-group { flex: 0 0 auto; min-width: 0; }
@@ -50,7 +85,7 @@
 
 /* GRID VIEW */
 .rot-cat .container.view-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 1px; background: #1a1a0e;
 }
 .rot-cat .container.view-grid .card {
@@ -59,7 +94,7 @@
 }
 .rot-cat .container.view-grid .card:hover { background: #131309; }
 .rot-cat .container.view-grid .card-thumb {
-  height: 140px; background: #080806; overflow: hidden;
+  height: 200px; background: #080806; overflow: hidden;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .rot-cat .container.view-grid .card-thumb video,
@@ -146,22 +181,79 @@
 .rot-cat .pg-btn:hover { color: #c9a84c; border-color: #8a6f2e; }
 .rot-cat .pg-btn.active { color: #c9a84c; border-color: #8a6f2e; background: #12120c; }
 .rot-cat .pg-btn:disabled { opacity: 0.25; cursor: default; }
+
+/* STATS VIEW */
+.rot-cat .rc-stats { padding: 24px 0; display: none; flex-direction: column; gap: 28px; }
+.rot-cat .rc-stats.show { display: flex; }
+.rot-cat .stats-kpi { display: flex; gap: 16px; flex-wrap: wrap; }
+.rot-cat .stats-kpi-card {
+  background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px;
+  padding: 16px 24px; min-width: 140px;
+}
+.rot-cat .stats-kpi-card .kpi-val { font-size: 32px; font-weight: 700; color: #c9a84c; line-height: 1; }
+.rot-cat .stats-kpi-card .kpi-lbl { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #9a8c70; margin-top: 6px; }
+.rot-cat .stats-charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.rot-cat .stats-chart-card {
+  background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px; padding: 16px 20px;
+}
+.rot-cat .stats-chart-card h3 { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #9a8c70; margin-bottom: 14px; font-weight: normal; }
+.rot-cat .stats-chart-card.wide { grid-column: 1 / -1; }
+/* donut */
+.rc-donut-wrap { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.rc-donut-wrap svg { flex-shrink: 0; }
+.rc-donut-legend { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 120px; max-height: 200px; overflow-y: auto; }
+.rc-donut-legend::-webkit-scrollbar { width: 4px; }
+.rc-donut-legend::-webkit-scrollbar-track { background: #12120c; }
+.rc-donut-legend::-webkit-scrollbar-thumb { background: #2a2510; }
+.rc-legend-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #c8c0a8; white-space: nowrap; }
+.rc-legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.rc-legend-cnt { margin-left: auto; color: #9a8c70; padding-left: 8px; }
+/* bar chart */
+.rc-bars { display: flex; flex-direction: column; gap: 3px; }
+.rc-bar-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #c8c0a8; height: 72px; }
+.rc-bar-lbl { width: 44px; text-align: right; color: #9a8c70; flex-shrink: 0; font-size: 13px; }
+.rc-bar-track { flex: 1; height: 14px; background: #12120c; border-radius: 2px; overflow: visible; position: relative; }
+.rc-bar-fill { height: 100%; background: #c9a84c; border-radius: 2px; transition: width .3s; }
+.rc-bar-cnt { width: 32px; text-align: right; color: #c9a84c; flex-shrink: 0; font-size: 14px; font-weight: 700; }
+.rc-bar-thumb { height: 64px; width: auto; object-fit: contain; flex-shrink: 0; opacity: 0.85; border-radius: 2px; display: block; }
+/* donut thumbs */
+.rc-donut-thumbs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+.rc-donut-thumb { height: 40px; width: auto; object-fit: contain; border-radius: 2px; opacity: 0.85; cursor: pointer; transition: opacity .15s; }
+.rc-donut-thumb:hover { opacity: 1; }
 </style>
 
 <div class="rot-cat">
   <div class="filters">
+    <!-- комбобоксы -->
+    <div class="filter-row">
+      <div class="filter-group"><label>Музей</label>
+        <div class="rc-flag-sel" id="rc-museum-wrap">
+          <div class="rc-flag-trigger" id="rc-museum-trigger">Все музеи</div>
+          <div class="rc-flag-drop" id="rc-museum-list"><div class="rc-flag-opt selected" data-value="">Все музеи</div></div>
+        </div>
+      </div>
+      <div class="filter-group"><label>Страна</label>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div id="rc-country-flag" style="display:none;width:22px;height:15px;background-size:cover;background-position:center;border:1px solid #3a3520;flex-shrink:0;border-radius:1px"></div>
+          <div class="rc-flag-sel" id="rc-country-wrap" style="flex:1">
+            <div class="rc-flag-trigger" id="rc-country-trigger">Все страны</div>
+            <div class="rc-flag-drop" id="rc-country-list"><div class="rc-flag-opt selected" data-value="">Все страны</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group"><label>Категория</label>
+        <div class="rc-flag-sel" id="rc-category-wrap">
+          <div class="rc-flag-trigger" id="rc-category-trigger">Все</div>
+          <div class="rc-flag-drop" id="rc-category-list"><div class="rc-flag-opt selected" data-value="">Все</div></div>
+        </div>
+      </div>
+    </div>
     <!-- текстовые поля -->
     <div class="filter-row">
       <div class="filter-group"><label>Название</label><input type="text" id="rc-title" placeholder="поиск…"></div>
       <div class="filter-group"><label>Объект</label><input type="text" id="rc-object-q" placeholder="поиск…"></div>
       <div class="filter-group"><label>ТТХ текст</label><input type="text" id="rc-ttx" placeholder="поиск…"></div>
       <div class="filter-group"><label>Описание</label><input type="text" id="rc-desc" placeholder="поиск…"></div>
-    </div>
-    <!-- комбобоксы -->
-    <div class="filter-row">
-      <div class="filter-group"><label>Страна</label><select id="rc-country"><option value="">Все</option></select></div>
-      <div class="filter-group"><label>Город</label><select id="rc-city"><option value="">Все</option></select></div>
-      <div class="filter-group"><label>Категория</label><select id="rc-category"><option value="">Все</option></select></div>
       <!-- дата -->
       <div class="filter-group date-filter">
         <label>Период</label>
@@ -195,12 +287,17 @@
         <button class="view-btn active" id="rc-btn-grid" onclick="rcSetView('grid')">⊞ Сетка</button>
         <button class="view-btn" id="rc-btn-list" onclick="rcSetView('list')">☰ Список</button>
         <button class="view-btn" id="rc-btn-table" onclick="rcSetView('table')">⊟ Таблица</button>
+        <button class="view-btn" id="rc-btn-stats" onclick="rcSetView('stats')">◎ Статистика</button>
       </div>
     </div>
   </div>
   <div class="container view-grid" id="rc-container"></div>
   <div class="rc-detail" id="rc-detail"></div>
   <div class="pagination" id="rc-pagination"></div>
+  <div class="rc-stats" id="rc-stats">
+    <div class="stats-kpi" id="rc-stats-kpi"></div>
+    <div class="stats-charts" id="rc-stats-charts"></div>
+  </div>
 </div>
 
 <script>
@@ -231,22 +328,109 @@
   };
 
   function applyView(v){
-    document.getElementById('rc-container').className = 'container view-' + v;
+    var isStats = v === 'stats';
+    document.getElementById('rc-container').className = 'container view-' + (isStats ? 'grid' : v);
+    document.getElementById('rc-container').style.display = isStats ? 'none' : '';
+    document.getElementById('rc-pagination').style.display = isStats ? 'none' : '';
+    document.getElementById('rc-detail').className = 'rc-detail';
+    document.getElementById('rc-stats').classList.toggle('show', isStats);
     document.getElementById('rc-btn-grid').classList.toggle('active', v === 'grid');
     document.getElementById('rc-btn-list').classList.toggle('active', v === 'list');
     document.getElementById('rc-btn-table').classList.toggle('active', v === 'table');
-    document.getElementById('rc-detail').className = 'rc-detail';
+    document.getElementById('rc-btn-stats').classList.toggle('active', isStats);
   }
 
   function uniq(arr){ return Array.from(new Set(arr.filter(Boolean))).sort(); }
 
-  function populateFilters(){
-    fill('rc-country',  uniq(all.map(function(r){ return r.Country; })));
-    fill('rc-city',     uniq(all.map(function(r){ return r.City; })));
-    fill('rc-category', uniq(all.map(function(r){ return r.Category; })));
+  /* ── custom dropdown factory ── */
+  var _FLAG_FALLBACK = { 'Польша': 'flags/pl.svg' };
 
-    var ids = ['rc-title','rc-object-q','rc-ttx','rc-desc',
-               'rc-country','rc-city','rc-category','rc-sort',
+  function _buildFlagMap(){
+    var m = Object.assign({}, _FLAG_FALLBACK);
+    all.forEach(function(r){
+      if (r.Country && !m[r.Country] && r.zones && r.zones.image_flag)
+        m[r.Country] = r.zones.image_flag.source || '';
+    });
+    return m;
+  }
+
+  /* Returns {get, set(val)} */
+  function _makeDropdown(wrapId, placeholder, vals, flagMap, flagImgId){
+    var wrap    = document.getElementById(wrapId);
+    var trigger = wrap.querySelector('.rc-flag-trigger');
+    var list    = wrap.querySelector('.rc-flag-drop');
+    var flagImg = flagImgId ? document.getElementById(flagImgId) : null;
+    var current = '';
+
+    function _set(val, label, src){
+      current = val;
+      trigger.textContent = label || placeholder;
+      if (flagImg) {
+        if (val && src) {
+          flagImg.style.backgroundImage = 'url(' + CDN + '/' + src + ')';
+          flagImg.style.display = 'block';
+        } else {
+          flagImg.style.display = 'none';
+        }
+      }
+      list.querySelectorAll('.rc-flag-opt').forEach(function(li){
+        li.classList.toggle('selected', li.dataset.value === val);
+      });
+      wrap.classList.remove('open');
+      render();
+    }
+
+    list.querySelector('[data-value=""]').addEventListener('click', function(){ _set('', placeholder, ''); });
+
+    var OPT_STYLE = 'display:flex;align-items:center;gap:8px;padding:2px 10px;margin:0;line-height:1;font-size:12px;cursor:pointer;white-space:nowrap;color:#c8c0a8;';
+    vals.forEach(function(v){
+      var li  = document.createElement('div');
+      li.className    = 'rc-flag-opt';
+      li.dataset.value = v;
+      li.style.cssText = OPT_STYLE;
+      var src = flagMap && flagMap[v] || '';
+      li.textContent = v;
+      li.addEventListener('click', function(){ _set(v, v, src); });
+      list.appendChild(li);
+    });
+
+    trigger.addEventListener('click', function(e){
+      e.stopPropagation();
+      document.querySelectorAll('.rc-flag-sel.open').forEach(function(w){ if (w !== wrap) w.classList.remove('open'); });
+      wrap.classList.toggle('open');
+    });
+
+    return { get: function(){ return current; }, set: _set };
+  }
+
+  var _museumSel, _countrySel, _categorySel;
+
+  function _injectDropdownStyles(){
+    var s = document.createElement('style');
+    s.textContent =
+      '#rc-museum-list > *, #rc-country-list > *, #rc-category-list > * {' +
+      'margin:0!important;margin-top:0!important;margin-bottom:0!important;' +
+      'padding:2px 10px!important;line-height:1!important;font-size:12px!important;' +
+      'display:flex!important;align-items:center;gap:8px;cursor:pointer;' +
+      'white-space:nowrap;color:#c8c0a8;box-sizing:border-box!important;}';
+    document.head.appendChild(s);
+  }
+
+  function populateFilters(){
+    _injectDropdownStyles();
+    var flagMap = _buildFlagMap();
+
+    _museumSel   = _makeDropdown('rc-museum-wrap',   'Все музеи',  uniq(all.map(function(r){ return r.Museum; })),   null);
+    _countrySel  = _makeDropdown('rc-country-wrap',  'Все страны', uniq(all.map(function(r){ return r.Country; })),  flagMap, 'rc-country-flag');
+    _categorySel = _makeDropdown('rc-category-wrap', 'Все',        uniq(all.map(function(r){ return r.Category; })), null);
+
+    document.addEventListener('click', function(){ document.querySelectorAll('.rc-flag-sel.open').forEach(function(w){ w.classList.remove('open'); }); });
+
+    // pre-select museum from URL param ?museum=
+    var urlMuseum = new URLSearchParams(location.search).get('museum');
+    if (urlMuseum) _museumSel.set(urlMuseum, urlMuseum, '');
+
+    var ids = ['rc-title','rc-object-q','rc-ttx','rc-desc','rc-sort',
                'rc-date-mode','rc-year-val','rc-date-from','rc-date-to'];
     ids.forEach(function(id){ document.getElementById(id).addEventListener('input', render); });
 
@@ -256,11 +440,6 @@
       document.getElementById('rc-date-extra-range').classList.toggle('show', mode === 'range');
       render();
     });
-  }
-
-  function fill(id, vals){
-    var sel = document.getElementById(id);
-    vals.forEach(function(v){ var o = document.createElement('option'); o.value = o.textContent = v; sel.appendChild(o); });
   }
 
   function gval(id){ return (document.getElementById(id).value || '').trim().toLowerCase(); }
@@ -277,9 +456,8 @@
     var qobj = gval('rc-object-q');
     var qttx = gval('rc-ttx');
     var qdesc= gval('rc-desc');
-    var country  = gval('rc-country');
-    var city     = gval('rc-city');
-    var cat      = gval('rc-category');
+    var country  = _countrySel  ? _countrySel.get()  : '';
+    var cat      = _categorySel ? _categorySel.get() : '';
     var sort     = document.getElementById('rc-sort').value;
     var dateMode = document.getElementById('rc-date-mode').value;
     var nowYear  = new Date().getFullYear();
@@ -293,9 +471,10 @@
       var tx = qttx || qdesc ? textOf(r) : null;
       if (qttx && !tx.ttx.includes(qttx)) return false;
       if (qdesc && !tx.desc.includes(qdesc)) return false;
-      if (country && (r.Country||'').toLowerCase() !== country) return false;
-      if (city    && (r.City||'').toLowerCase()    !== city)    return false;
-      if (cat     && (r.Category||'').toLowerCase()!== cat)     return false;
+      var museum = _museumSel ? _museumSel.get() : '';
+      if (museum  && (r.Museum||'')   !== museum)  return false;
+      if (country && (r.Country||'')  !== country) return false;
+      if (cat     && (r.Category||'') !== cat)     return false;
 
       var d = r.date || '';
       if (dateMode === 'this-year' && !d.startsWith(String(nowYear))) return false;
@@ -333,6 +512,7 @@
       return;
     }
 
+    if (currentView === 'stats') { renderStats(); return; }
     if (currentView === 'table') { renderTable(page, totalPages); return; }
 
     page.forEach(function(r){
@@ -478,6 +658,192 @@
       '<div class="rc-detail-link"><a href="' + EXHIBIT + '?id=' + encodeURIComponent(r.id) + '">Открыть →</a></div>';
     det.className = 'rc-detail open';
     det.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  }
+
+  /* ── STATS ── */
+  var DONUT_COLORS = [
+    '#c9a84c','#7ab0b0','#b07a7a','#7ab07a','#b07ab0',
+    '#7a9ab0','#b0967a','#8ab07a','#b07a96','#7ab0a0',
+    '#a0b07a','#b08a7a','#7a8ab0','#b0a07a','#7ab0b8'
+  ];
+
+  function pngSrc(r){
+    var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source_png;
+    return src ? CDN + '/' + src : null;
+  }
+
+  function pickRandom(arr, n){
+    var a = arr.slice().filter(pngSrc);
+    var out = [];
+    while (out.length < n && a.length) {
+      var i = Math.floor(Math.random() * a.length);
+      out.push(a.splice(i, 1)[0]);
+    }
+    return out;
+  }
+
+  /* groups: [{label, count, records[]}] sorted desc */
+  function groupBy(arr, key){
+    var m = {};
+    arr.forEach(function(r){
+      var v = r[key] || '';
+      if (!v) return;
+      if (!m[v]) m[v] = [];
+      m[v].push(r);
+    });
+    return Object.entries(m)
+      .map(function(e){ return { label: e[0], count: e[1].length, records: e[1] }; })
+      .sort(function(a,b){ return b.count - a.count; });
+  }
+
+  function renderDonut(groups, size, withSectorThumb, thumbScale, maxThumbs){
+    size = size || 160;
+    thumbScale = thumbScale || 1;
+    maxThumbs = maxThumbs || 3;
+    var r = size/2, cx = r, cy = r, ir = r*0.52;
+    var imgR = (r + ir) / 2; /* center of ring */
+    var imgSz = Math.round(ir * 0.72 * thumbScale); /* fits inside ring thickness */
+    var total = groups.reduce(function(s,g){ return s+g.count; }, 0);
+    if (!total) return '<svg width="'+size+'" height="'+size+'"></svg><div class="rc-donut-legend"></div>';
+
+    var angle = -Math.PI/2;
+    var defs = '', paths = '', imgs = '';
+    groups.forEach(function(g, i){
+      var slice = (g.count/total)*Math.PI*2;
+      var midAngle = angle + slice/2;
+      var x1=cx+r*Math.cos(angle), y1=cy+r*Math.sin(angle);
+      angle += slice;
+      var x2=cx+r*Math.cos(angle), y2=cy+r*Math.sin(angle);
+      var xi1=cx+ir*Math.cos(angle-slice), yi1=cy+ir*Math.sin(angle-slice);
+      var xi2=cx+ir*Math.cos(angle), yi2=cy+ir*Math.sin(angle);
+      var large = slice > Math.PI ? 1 : 0;
+      var col = DONUT_COLORS[i % DONUT_COLORS.length];
+      paths += '<path d="M'+x1+','+y1+' A'+r+','+r+' 0 '+large+',1 '+x2+','+y2+
+               ' L'+xi2+','+yi2+' A'+ir+','+ir+' 0 '+large+',0 '+xi1+','+yi1+' Z"'+
+               ' fill="'+col+'" stroke="#0d0d08" stroke-width="1.5"/>';
+
+      /* image on sector — top N largest slices */
+      if (withSectorThumb && i < maxThumbs) {
+        var pick = pickRandom(g.records, 1)[0];
+        if (pick) {
+          var src = pngSrc(pick);
+          var ix = cx + imgR * Math.cos(midAngle);
+          var iy = cy + imgR * Math.sin(midAngle);
+          var half = imgSz/2;
+          var clipId = 'rc-clip-'+i;
+          defs += '<clipPath id="'+clipId+'"><circle cx="'+ix+'" cy="'+iy+'" r="'+half+'"/></clipPath>';
+          var href = EXHIBIT + '?id=' + encodeURIComponent(pick.id);
+          imgs += '<a href="'+href+'" title="'+esc(pick.title||pick.id)+'" target="_self">'+
+            '<image href="'+src+'" x="'+(ix-half)+'" y="'+(iy-half)+'" width="'+imgSz+'" height="'+imgSz+'"'+
+            ' clip-path="url(#'+clipId+')" preserveAspectRatio="xMidYMid meet" style="cursor:pointer"/>'+
+            '</a>';
+        }
+      }
+    });
+
+    var svg = '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'+
+      '<defs>'+defs+'</defs>'+paths+imgs+'</svg>';
+
+    var legend = groups.map(function(g, i){
+      var col = DONUT_COLORS[i % DONUT_COLORS.length];
+      return '<div class="rc-legend-item">'+
+        '<div class="rc-legend-dot" style="background:'+col+'"></div>'+
+        '<span>'+esc(g.label)+'</span>'+
+        '<span class="rc-legend-cnt">'+g.count+'</span>'+
+        '</div>';
+    }).join('');
+
+    return svg + '<div class="rc-donut-legend">' + legend + '</div>';
+  }
+
+  function renderBars(groups){
+    var maxVal = groups.reduce(function(m,g){ return Math.max(m,g.count); }, 1);
+    return groups.map(function(g){
+      var pct = Math.round(g.count/maxVal*100);
+      var pick = pickRandom(g.records, 1)[0];
+      var thumbInner = '';
+      if (pick) {
+        var src = pngSrc(pick);
+        var href = EXHIBIT + '?id=' + encodeURIComponent(pick.id);
+        thumbInner = '<a href="'+href+'" title="'+esc(pick.title||pick.id)+'"'+
+          ' style="position:absolute;left:'+pct+'%;top:50%;transform:translate(-50%,-50%);z-index:2;display:block;">'+
+          '<img class="rc-bar-thumb" src="'+src+'" alt="'+esc(pick.title||pick.id)+'"></a>';
+      }
+      return '<div class="rc-bar-row">'+
+        '<div class="rc-bar-lbl">'+esc(String(g.label))+'</div>'+
+        '<div class="rc-bar-track"><div class="rc-bar-fill" style="width:'+pct+'%"></div>'+thumbInner+'</div>'+
+        '<div class="rc-bar-cnt">'+g.count+'</div>'+
+        '</div>';
+    }).join('');
+  }
+
+  function renderStats(){
+    var data = filtered;
+
+    /* KPI */
+    var exhibits = data.filter(function(r){ return r.Category === 'Экспонаты'; }).length;
+    var collages = data.filter(function(r){ return r.Category === 'Коллажи'; }).length;
+    document.getElementById('rc-stats-kpi').innerHTML =
+      kpiCard(data.length, 'Всего записей') +
+      kpiCard(exhibits, 'Экспонатов') +
+      kpiCard(collages, 'Коллажей');
+
+    var charts = '';
+
+    /* donuts: объект (большой) + страна и музей (малые) справа */
+    var byObj     = groupBy(data, 'Object');
+    var byCountry = groupBy(data, 'Country');
+    var byMuseum  = groupBy(data, 'Museum');
+
+    var donutsHtml = '<div class="stats-chart-card wide"><div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">';
+
+    if (byObj.length) {
+      var d1 = renderDonut(byObj, 280, true, 2, 5);
+      donutsHtml += '<div><h3 style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;">По типу объекта</h3>'+
+        '<div class="rc-donut-wrap">'+d1+'</div></div>';
+    }
+
+    var smallDonuts = '';
+    if (byCountry.length) {
+      var d2 = renderDonut(byCountry, 140, true);
+      smallDonuts += '<div><h3 style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;">По стране производителя</h3>'+
+        '<div class="rc-donut-wrap">'+d2+'</div></div>';
+    }
+    if (byMuseum.length > 1) {
+      var d3 = renderDonut(byMuseum, 140, false);
+      smallDonuts += '<div><h3 style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;">По музею</h3>'+
+        '<div class="rc-donut-wrap">'+d3+'</div></div>';
+    }
+    if (smallDonuts) {
+      donutsHtml += '<div style="display:flex;flex-direction:column;gap:16px;justify-content:space-between;">'+smallDonuts+'</div>';
+    }
+
+    donutsHtml += '</div></div>';
+    charts += donutsHtml;
+
+    /* bar: хронология по году */
+    var yearMap = {};
+    data.forEach(function(r){
+      var y = r.Year || ''; if (!y) return;
+      if (!yearMap[y]) yearMap[y] = [];
+      yearMap[y].push(r);
+    });
+    var yearGroups = Object.entries(yearMap)
+      .map(function(e){ return { label: e[0], count: e[1].length, records: e[1] }; })
+      .sort(function(a,b){ return a.label - b.label; });
+    if (yearGroups.length) {
+      charts += chartCard('Хронология объектов', '<div class="rc-bars">'+renderBars(yearGroups)+'</div>', true);
+    }
+
+    document.getElementById('rc-stats-charts').innerHTML = charts;
+  }
+
+  function kpiCard(val, lbl){
+    return '<div class="stats-kpi-card"><div class="kpi-val">'+val+'</div><div class="kpi-lbl">'+lbl+'</div></div>';
+  }
+
+  function chartCard(title, body, wide){
+    return '<div class="stats-chart-card'+(wide?' wide':'')+'"><h3>'+title+'</h3>'+body+'</div>';
   }
 
   function renderPagination(totalPages){
