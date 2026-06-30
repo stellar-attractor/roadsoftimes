@@ -143,6 +143,58 @@
 
   const MOBILE_TEXT_OVERRIDES = ["subtitle", "header", "ttx_text"];
 
+  var _museumSlugs = { "Болкув": "bolkow" };
+
+  function _loadMuseumSlugMap(dbUrl) {
+    var museumsUrl = String(dbUrl || "").replace(/[^/]+$/, "museums.json");
+    if (!museumsUrl || museumsUrl === "museums.json") {
+      museumsUrl = "museums.json";
+    }
+    return fetch(museumsUrl + "?v=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (list) {
+        (list || []).forEach(function (m) {
+          if (m && m.name && m.id) _museumSlugs[m.name] = m.id;
+        });
+      })
+      .catch(function () {});
+  }
+
+  function _museumSlugForRec(rec) {
+    if (!rec || typeof rec !== "object") return "";
+    var mus = String(rec.Museum || "").trim();
+    if (_museumSlugs[mus]) return _museumSlugs[mus];
+    if (rec.Category === "Коллажи") {
+      return _museumSlugs["Дороги Времён"] || "roadsoftimes";
+    }
+    return "";
+  }
+
+  function _defaultPreviewPath(rec, mobile) {
+    if (!rec || !rec.id) return null;
+    var slug = _museumSlugForRec(rec);
+    if (!slug) return null;
+    var suffix = mobile ? "_mobile_pr.webm" : "_pr.webm";
+    return "exhibits/" + slug + "/previews/" + rec.id + suffix;
+  }
+
+  function _isCollage(rec) {
+    return !!rec && String(rec.Category || "").trim() === "Коллажи";
+  }
+
+  // Collage = standalone pre-rendered video at exhibits/<museum>/videos/<id>.webm
+  // (museum of the record, else the virtual museum "Дороги Времён" → roadsoftimes).
+  function _collageVideoPath(rec, mobile) {
+    if (!rec || !rec.id) return null;
+    // Honor an explicit path only if it's already a proper exhibits/<museum>/videos/
+    // entry — older records may carry a stale flat exhibits/<id>_800_glow.webm.
+    var explicit = mobile ? (rec.mobile && rec.mobile.video) : rec.video;
+    if (explicit && /\/videos\//.test(explicit)) return explicit;
+    var slug = _museumSlugForRec(rec) || "roadsoftimes";
+    var suffix = mobile ? "_mobile.webm" : ".webm";
+    return "exhibits/" + slug + "/videos/" + rec.id + suffix;
+  }
+
   function _layoutQueryOverride() {
     var q = new URLSearchParams(window.location.search).get("layout");
     if (q === "mobile" || q === "desktop") return q;
@@ -193,10 +245,10 @@
       (override !== "desktop" && _isMobileViewport());
     if (wantMobile && rec.mobile && (rec.mobile.preview || rec.mobile.zones)) {
       if (rec.mobile.preview) return rec.mobile.preview;
-      if (rec.id) return "previews/" + rec.id + "_mobile_pr.webm";
+      return _defaultPreviewPath(rec, true);
     }
-    if (rec.id) return "previews/" + rec.id + "_pr.webm";
-    return null;
+    if (rec.preview) return rec.preview;
+    return _defaultPreviewPath(rec, false);
   }
 
   function previewUrl(rec, cdnBase, stripSitePrefix) {
@@ -317,25 +369,27 @@
 
   ExhibitPlayer.prototype._load = function () {
     const self = this;
-    fetch(this.dbUrl + "?v=" + Date.now())
-      .then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        return r.json();
-      })
-      .then(function (data) {
-        self.records = Array.isArray(data) ? data : [];
-        if (self.records.length === 0) throw new Error("Пустая база");
+    _loadMuseumSlugMap(self.dbUrl).finally(function () {
+      fetch(self.dbUrl + "?v=" + Date.now())
+        .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          self.records = Array.isArray(data) ? data : [];
+          if (self.records.length === 0) throw new Error("Пустая база");
 
-        // Find starting index
-        if (self.startId) {
-          const idx = self.records.findIndex(function (r) { return r.id === self.startId; });
-          self.index = idx >= 0 ? idx : 0;
-        }
-        self._render();
-      })
-      .catch(function (err) {
-        self._stage.innerHTML = '<div class="rot-exhibit-error">Ошибка загрузки: ' + err.message + '</div>';
-      });
+          // Find starting index
+          if (self.startId) {
+            const idx = self.records.findIndex(function (r) { return r.id === self.startId; });
+            self.index = idx >= 0 ? idx : 0;
+          }
+          self._render();
+        })
+        .catch(function (err) {
+          self._stage.innerHTML = '<div class="rot-exhibit-error">Ошибка загрузки: ' + err.message + '</div>';
+        });
+    });
   };
 
   ExhibitPlayer.prototype._go = function (delta) {
@@ -368,6 +422,21 @@
     this._stage.style.width  = W + "px";
     this._stage.style.height = H + "px";
 
+    // ── Collage: a standalone pre-rendered video. Play it full-stage and skip the
+    //    zone/frame compositing and the 800/800_glow source media exhibits require.
+    if (_isCollage(rec)) {
+      var collageSrc = _collageVideoPath(rec, !!rec._isMobile);
+      if (collageSrc) {
+        var cv = this._makeVideo(this._cdnUrl(collageSrc));
+        cv.style.cssText = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
+        cv.style.zIndex = 0;
+        this._stage.appendChild(cv);
+      }
+      this._rescale();
+      this._updateNav(base, rec);
+      return;
+    }
+
     // ── Frame (HUD background video) ──────────────────────────────────────
     const frameInfo = rec.frame || (rec.zones && rec.zones.frame);
     if (frameInfo && frameInfo.source) {
@@ -381,16 +450,28 @@
     // exhibit video
     if (zones.exhibit_video) this._appendVideoZone(zones.exhibit_video);
 
-    // all image zones (image, image_2, image_3, image_4, ...)
+    // all image zones — any zone with type/media_type 'image' (except frame)
+    const _renderedImgIds = new Set();
     Object.keys(zones).forEach(role => {
-      if (role === "image" || role.match(/^image_\d+$/)) {
-        this._appendImageZone(zones[role]);
+      if (role === 'frame' || role === 'frame_overlay') return;
+      const z = zones[role]; if (!z) return;
+      if (z.type === 'image' || z.media_type === 'image') {
+        this._appendImageZone(z);
+        if (z.id) _renderedImgIds.add(z.id);
       }
     });
 
-    // text zones in fixed order
+    // text zones: fixed order first, then any remaining text/ttx zones
+    const _renderedTextRoles = new Set(TEXT_ROLES);
     TEXT_ROLES.forEach(role => {
       if (zones[role]) this._appendTextZone(zones[role], role);
+    });
+    Object.keys(zones).forEach(role => {
+      if (_renderedTextRoles.has(role) || role === 'frame') return;
+      const z = zones[role]; if (!z) return;
+      if (z.type === 'text' || z.type === 'ttx' || z.type === 'header') {
+        this._appendTextZone(z, role);
+      }
     });
 
     // frame overlay
