@@ -217,6 +217,7 @@
 .rc-bar-cnt { flex-shrink: 0; color: #c9a84c; font-size: 48px; font-weight: 700; line-height: 1; padding-left: 6px; }
 .rc-bar-thumb { height: 64px; width: auto; object-fit: contain; flex-shrink: 0; opacity: 0.85; display: block; border: none; outline: none; }
 .rot-cat .rc-bar-track img { height: 64px !important; width: auto !important; display: block !important; vertical-align: top !important; max-width: none !important; border: none !important; }
+.rot-cat .rc-bar-track a { text-decoration: none !important; border: none !important; border-bottom: none !important; outline: none !important; box-shadow: none !important; }
 /* donut thumbs */
 .rc-donut-thumbs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
 .rc-donut-thumb { height: 40px; width: auto; object-fit: contain; border-radius: 2px; opacity: 0.85; cursor: pointer; transition: opacity .15s; }
@@ -760,7 +761,7 @@
   function renderBars(groups){
     var maxVal = groups.reduce(function(m,g){ return Math.max(m,g.count); }, 1);
     return groups.map(function(g){
-      var pct = Math.round(g.count/maxVal*100);
+      var pct = Math.round(g.count/maxVal*62);
       var pick = pickRandom(g.records, 1)[0];
       var thumbInner = '';
       if (pick) {
