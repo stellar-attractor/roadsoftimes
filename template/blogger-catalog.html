@@ -3,7 +3,8 @@
 .rot-cat { font-family: 'PT Sans', sans-serif; color: #c8c0a8; }
 
 /* FILTERS */
-.rot-cat .filters { padding: 20px 0; border-bottom: 1px solid #1a1a0e; display: flex; flex-direction: column; gap: 10px; }
+.rot-cat .filters { padding: 20px; margin-bottom: 16px; border: 1px solid #2a2a1a; border-radius: 10px; display: flex; flex-direction: column; gap: 10px; }
+.rot-cat .filters-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #9a8c70; margin-bottom: 4px; }
 .rot-cat .filter-row { display: flex; flex-wrap: wrap; gap: 12px; }
 .rot-cat .filter-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
 .rot-cat .filter-group label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #9a8c70; }
@@ -54,7 +55,7 @@
 
 /* DATE FILTER */
 /* QUICK TYPE FILTERS */
-.rc-quick-section { padding: 20px 0 16px; border-bottom: 1px solid #1a1a0e; }
+.rc-quick-section { padding: 20px; margin: 16px 0; border: 1px solid #2a2a1a; border-radius: 10px; }
 .rc-quick-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #9a8c70; margin-bottom: 16px; }
 .rc-quick-btns { display: flex; gap: 28px; flex-wrap: wrap; }
 .rc-quick-btn { cursor: pointer; text-align: center; background: none; border: 2px solid transparent; border-radius: 4px; padding: 4px; transition: border-color .15s; }
@@ -237,7 +238,7 @@
     <div class="rc-quick-btns" id="rc-quick-btns"></div>
   </div>
   <div class="filters">
-    <!-- комбобоксы -->
+    <div class="filters-title">Фильтры</div>
     <div class="filter-row">
       <div class="filter-group"><label>Музей</label>
         <div class="rc-flag-sel" id="rc-museum-wrap">
