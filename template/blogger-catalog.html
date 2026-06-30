@@ -767,7 +767,7 @@
       if (pick) {
         var src = pngSrc(pick);
         var href = EXHIBIT + '?id=' + encodeURIComponent(pick.id);
-        thumbInner = '<a href="'+href+'" title="'+esc(pick.title||pick.id)+'"'+
+        thumbInner = '<a href="'+href+'" title="'+esc(g.label+': '+(pick.title||pick.id))+'"'+
           ' style="position:absolute;left:'+pct+'%;top:0;transform:translateX(-50%);z-index:2;display:block;'+
           'height:64px;width:96px;'+
           'background-image:url(\''+src+'\');background-size:contain;background-repeat:no-repeat;background-position:center center;'+
