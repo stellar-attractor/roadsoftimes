@@ -571,10 +571,11 @@
 
     const fit = z.fit === "stretch" ? "fill" : (z.fit === "contain" ? "contain" : "cover");
     if (z.source_png && IS_SAFARI) {
-      const img = document.createElement("img");
-      img.src = this._cdnUrl(z.source_png);
-      img.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:" + fit + ";";
-      wrap.appendChild(img);
+      var bgSz = fit === "fill" ? "100% 100%" : fit;
+      wrap.style.backgroundImage    = "url('" + this._cdnUrl(z.source_png) + "')";
+      wrap.style.backgroundSize     = bgSz;
+      wrap.style.backgroundRepeat   = "no-repeat";
+      wrap.style.backgroundPosition = "center";
     } else {
       const v = this._makeVideo(this._cdnUrl(z.source));
       v.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:" + fit + ";display:block;background:transparent;";
@@ -611,7 +612,7 @@
     el.style.justifyContent = "center";
     el.style.boxSizing = "border-box";
     el.style.margin   = "0";
-    el.style.padding  = "0";
+    el.style.padding  = "8px";
 
     if (z.text_effect === "engraved") {
       el.style.textShadow = "0 1px 2px rgba(0,0,0,0.8), 0 -1px 1px rgba(255,255,255,0.12)";
