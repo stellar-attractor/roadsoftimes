@@ -29,21 +29,21 @@
   transform-origin: top left;
   overflow: hidden;
 }
-/* Hard-reset all stage children — neutralize Blogger/theme CSS overrides */
+/* Neutralize Blogger/theme CSS overrides inside the stage.
+   Only reset properties NOT set via inline JS styles —
+   padding and line-height are controlled per-element by JS. */
 .rot-exhibit-stage * {
   margin: 0 !important;
-  padding: 0 !important;
   border: 0 !important;
   outline: 0 !important;
   box-shadow: none !important;
   text-decoration: none !important;
-  vertical-align: top !important;
   box-sizing: border-box !important;
-  line-height: inherit !important;
 }
 .rot-exhibit-stage img {
   display: block !important;
   max-width: none !important;
+  height: auto;
 }
 .rot-exhibit-stage video,
 .rot-exhibit-stage .rot-zone {
