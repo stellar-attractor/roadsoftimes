@@ -612,7 +612,7 @@
     el.style.justifyContent = "center";
     el.style.boxSizing = "border-box";
     el.style.margin   = "0";
-    el.style.padding  = "8px";
+    el.style.padding  = "0";
 
     if (z.text_effect === "engraved") {
       el.style.textShadow = "0 1px 2px rgba(0,0,0,0.8), 0 -1px 1px rgba(255,255,255,0.12)";
@@ -639,8 +639,11 @@
     inner.style.margin     = "0";
     inner.style.padding    = "0";
 
+    var hPad = Math.max(6, Math.round((z.width || 0) * 0.04));
     var textAlign = z.text_align || "left";
-    inner.style.textAlign = textAlign;
+    inner.style.textAlign    = textAlign;
+    inner.style.paddingLeft  = hPad + "px";
+    inner.style.paddingRight = hPad + "px";
 
     if (textAlign === "justify" && z.type !== "ttx" && role !== "ttx_text") {
       inner.style.whiteSpace = "normal";
