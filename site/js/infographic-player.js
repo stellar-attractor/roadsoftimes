@@ -570,18 +570,17 @@
 
   ExhibitPlayer.prototype._appendImageZone = function (z) {
     if (!z || !z.source) return;
-    const el = document.createElement("img");
-    el.src = this._cdnUrl(z.source);
-    el.style.position = "absolute";
-    el.style.left   = z.x + "px";
-    el.style.top    = z.y + "px";
-    el.style.width  = z.width  + "px";
-    el.style.height = z.height + "px";
-    el.style.zIndex = z.z_index != null ? z.z_index : 5;
-    el.style.opacity = z.opacity != null ? z.opacity : 1;
+    // Wrap in a positioned div so Blogger's "img { height: auto !important }" can't interfere
+    const wrap = document.createElement("div");
+    wrap.style.cssText = "position:absolute;left:"+z.x+"px;top:"+z.y+"px;width:"+z.width+"px;height:"+z.height+"px;overflow:hidden;";
+    wrap.style.zIndex   = z.z_index != null ? z.z_index : 5;
+    wrap.style.opacity  = z.opacity != null ? z.opacity : 1;
+    const img = document.createElement("img");
+    img.src = this._cdnUrl(z.source);
     var fit = z.fit || "stretch";
-    el.style.objectFit = fit === "stretch" ? "fill" : (fit === "contain" ? "contain" : "cover");
-    this._stage.appendChild(el);
+    img.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:"+(fit === "stretch" ? "fill" : fit)+";";
+    wrap.appendChild(img);
+    this._stage.appendChild(wrap);
   };
 
   ExhibitPlayer.prototype._appendTextZone = function (z, role) {
@@ -594,6 +593,8 @@
     el.style.flexDirection = "column";
     el.style.justifyContent = "center";
     el.style.boxSizing = "border-box";
+    el.style.margin   = "0";
+    el.style.padding  = "0";
 
     if (z.text_effect === "engraved") {
       el.style.textShadow = "0 1px 2px rgba(0,0,0,0.8), 0 -1px 1px rgba(255,255,255,0.12)";
@@ -617,6 +618,8 @@
     inner.style.lineHeight = "1.3";
     inner.style.boxSizing  = "border-box";
     inner.style.width      = "100%";
+    inner.style.margin     = "0";
+    inner.style.padding    = "0";
 
     var textAlign = z.text_align || "left";
     inner.style.textAlign = textAlign;
