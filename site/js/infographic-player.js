@@ -552,14 +552,12 @@
     this._positionEl(wrap, z);
     wrap.style.zIndex = z.z_index != null ? z.z_index : 5;
     wrap.style.background = "transparent";
-    wrap.style.padding = "2.5%"; // keep exhibit within frame window (95% rule)
 
     const fit = z.fit === "stretch" ? "fill" : (z.fit === "contain" ? "contain" : "cover");
     if (z.source_png && IS_SAFARI) {
-      // PNG only for Safari: VP9 alpha not supported there
       const img = document.createElement("img");
       img.src = this._cdnUrl(z.source_png);
-      img.style.cssText = "position:absolute;top:5%;left:5%;width:90%;height:90%;object-fit:" + fit + ";";
+      img.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:" + fit + ";";
       wrap.appendChild(img);
     } else {
       const v = this._makeVideo(this._cdnUrl(z.source));
@@ -601,6 +599,8 @@
       el.style.textShadow = "0 1px 2px rgba(0,0,0,0.8), 0 -1px 1px rgba(255,255,255,0.12)";
     }
 
+    if (z.font_file) this._loadFontFile(z.font_file);
+
     // Inner div: carries font, color, alignment, padding, actual text
     var inner = document.createElement("div");
     var parsed = _parseFontStr(z.font);
@@ -619,10 +619,7 @@
     inner.style.width      = "100%";
 
     var textAlign = z.text_align || "left";
-    var hPad = Math.max(6, Math.round((z.width || 0) * 0.04));
     inner.style.textAlign = textAlign;
-    if (textAlign === "left" || textAlign === "justify") inner.style.paddingLeft  = hPad + "px";
-    if (textAlign === "right")                           inner.style.paddingRight = hPad + "px";
 
     if (textAlign === "justify" && z.type !== "ttx" && role !== "ttx_text") {
       inner.style.whiteSpace = "normal";
@@ -637,6 +634,19 @@
 
     el.appendChild(inner);
     this._stage.appendChild(el);
+  };
+
+  ExhibitPlayer.prototype._loadFontFile = function (fontFile) {
+    if (!fontFile) return;
+    var url = this._cdnUrl(fontFile);
+    var id = "rot-ff-" + fontFile.replace(/[^a-z0-9]/gi, "_");
+    if (!document.getElementById(id)) {
+      var lnk = document.createElement("link");
+      lnk.id   = id;
+      lnk.rel  = "stylesheet";
+      lnk.href = url;
+      document.head.appendChild(lnk);
+    }
   };
 
   ExhibitPlayer.prototype._positionEl = function (el, z) {
