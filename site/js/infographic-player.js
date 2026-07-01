@@ -29,6 +29,22 @@
   transform-origin: top left;
   overflow: hidden;
 }
+/* Hard-reset all stage children — neutralize Blogger/theme CSS overrides */
+.rot-exhibit-stage * {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  vertical-align: top !important;
+  box-sizing: border-box !important;
+  line-height: inherit !important;
+}
+.rot-exhibit-stage img {
+  display: block !important;
+  max-width: none !important;
+}
 .rot-exhibit-stage video,
 .rot-exhibit-stage .rot-zone {
   position: absolute;
@@ -38,7 +54,7 @@
   box-sizing: border-box;
 }
 .rot-exhibit-stage .rot-zone-text {
-  line-height: 1.45;
+  line-height: 1.3 !important;
   overflow: hidden;
 }
 .rot-exhibit-nav {
@@ -561,7 +577,7 @@
       wrap.appendChild(img);
     } else {
       const v = this._makeVideo(this._cdnUrl(z.source));
-      v.style.cssText = "width:100%;height:100%;object-fit:" + fit + ";display:block;background:transparent;";
+      v.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:" + fit + ";display:block;background:transparent;";
       wrap.appendChild(v);
     }
 
@@ -570,17 +586,18 @@
 
   ExhibitPlayer.prototype._appendImageZone = function (z) {
     if (!z || !z.source) return;
-    // Wrap in a positioned div so Blogger's "img { height: auto !important }" can't interfere
-    const wrap = document.createElement("div");
-    wrap.style.cssText = "position:absolute;left:"+z.x+"px;top:"+z.y+"px;width:"+z.width+"px;height:"+z.height+"px;overflow:hidden;";
-    wrap.style.zIndex   = z.z_index != null ? z.z_index : 5;
-    wrap.style.opacity  = z.opacity != null ? z.opacity : 1;
-    const img = document.createElement("img");
-    img.src = this._cdnUrl(z.source);
     var fit = z.fit || "stretch";
-    img.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:"+(fit === "stretch" ? "fill" : fit)+";";
-    wrap.appendChild(img);
-    this._stage.appendChild(wrap);
+    var bgSize = fit === "stretch" ? "100% 100%" : (fit === "contain" ? "contain" : "cover");
+    var el = document.createElement("div");
+    el.style.cssText = "position:absolute;"
+      + "left:" + z.x + "px;top:" + z.y + "px;"
+      + "width:" + z.width + "px;height:" + z.height + "px;"
+      + "background-image:url('" + this._cdnUrl(z.source) + "');"
+      + "background-size:" + bgSize + ";"
+      + "background-repeat:no-repeat;background-position:center;"
+      + "z-index:" + (z.z_index != null ? z.z_index : 5) + ";"
+      + "opacity:" + (z.opacity != null ? z.opacity : 1) + ";";
+    this._stage.appendChild(el);
   };
 
   ExhibitPlayer.prototype._appendTextZone = function (z, role) {
