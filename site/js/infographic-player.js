@@ -52,6 +52,8 @@
 .rot-exhibit-stage .rot-zone {
   overflow: hidden;
   box-sizing: border-box;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 .rot-exhibit-stage .rot-zone-text {
   line-height: 1.3 !important;
