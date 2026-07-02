@@ -44,8 +44,9 @@ site/flags/
 site/huds/
 site/images/
 site/previews/
-site/assets/
+site/assets/*
+!site/assets/og-cover.jpg
 site/infographics.json
 site/museums.json
-assets/
+/assets/
 preview/
