@@ -474,8 +474,15 @@
     var urlMuseum = new URLSearchParams(location.search).get('museum');
     if (urlMuseum) _museumSel.set(urlMuseum, urlMuseum, '');
 
-    ['rc-title','rc-object-q','rc-ttx','rc-desc','rc-sort'].forEach(function(id){
+    ['rc-title','rc-ttx','rc-desc','rc-sort'].forEach(function(id){
       document.getElementById(id).addEventListener('input', render);
+    });
+    document.getElementById('rc-object-q').addEventListener('input', function(){
+      if (gval('rc-object-q')) {
+        _quickType = '';
+        document.querySelectorAll('.rc-quick-btn').forEach(function(b){ b.classList.remove('active'); });
+      }
+      render();
     });
 
     _buildQuickFilters();
