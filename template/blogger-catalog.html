@@ -132,9 +132,6 @@
 .rot-cat .no-media { font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px; }
 .rot-cat .tag { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border: 1px solid #2a2510; color: #a09880; border-radius: 2px; }
 .rot-cat .empty { padding: 60px; text-align: center; color: #3a3020; font-size: 13px; letter-spacing: 1px; }
-.rot-cat .rc-single-result { display:flex; flex-direction:column; align-items:center; padding: 24px 0; cursor:pointer; }
-.rot-cat .rc-single-media { width:100%; max-width:600px; height:auto; display:block; object-fit:contain; }
-.rot-cat .rc-single-label { margin-top:16px; font-size:22px; font-weight:700; color:#e0d8c0; letter-spacing:1px; text-align:center; }
 
 /* TABLE VIEW */
 .rot-cat .container.view-table { width: 100%; }
@@ -268,7 +265,7 @@
     <!-- текстовые поля -->
     <div class="filter-row">
       <div class="filter-group"><label>Название</label><input type="text" id="rc-title" placeholder="поиск…"></div>
-      <div class="filter-group"><label>Объект</label><input type="text" id="rc-object-q" placeholder="поиск…" oninput="rcObjectFilter(this.value)"></div>
+      <div class="filter-group"><label>Объект</label><input type="text" id="rc-object-q" placeholder="поиск…"></div>
       <div class="filter-group"><label>ТТХ текст</label><input type="text" id="rc-ttx" placeholder="поиск…"></div>
       <div class="filter-group"><label>Описание</label><input type="text" id="rc-desc" placeholder="поиск…"></div>
     </div>
@@ -422,7 +419,7 @@
       var stageW = r.canvas_width  || 1456;
       var stageH = r.canvas_height || 1080;
       var scale  = Math.min(window.innerWidth * 0.9 / stageW, window.innerHeight * 0.9 / stageH);
-      el.style.setProperty('width', Math.round(stageW * scale) + 'px', 'important');
+      el.style.width = Math.round(stageW * scale) + 'px';
       window.RotExhibit.init({ container: el, db: DB, id: r.id, cdnBase: CDN, single: true });
     }
     if (window.RotExhibit) {
@@ -430,7 +427,7 @@
     } else if (!_playerScriptLoaded) {
       _playerScriptLoaded = true;
       var s = document.createElement('script');
-      s.src = CDN + '/js/infographic-player.js?v=' + Date.now();
+      s.src = CDN + '/js/infographic-player.js';
       s.onload = _initPlayer;
       document.head.appendChild(s);
     }
@@ -514,14 +511,6 @@
     }).join('');
   }
 
-  window.rcObjectFilter = function(val){
-    if (val) {
-      _quickType = '';
-      document.querySelectorAll('.rc-quick-btn').forEach(function(b){ b.classList.remove('active'); });
-    }
-    render();
-  };
-
   window.rcQuickFilter = function(btn){
     var t = btn.getAttribute('data-type');
     _quickType = (_quickType === t) ? '' : t;
@@ -594,46 +583,7 @@
       return;
     }
 
-    if (filtered.length === 1) {
-      var sr = filtered[0];
-      // ensure container is visible (stats view hides it)
-      c.style.display = '';
-      var sdiv = document.createElement('div');
-      sdiv.className = 'rc-single-result';
-      sdiv.onclick = function(){ rcOpenPreview(sr.id); };
-      var imgSrc = pngSrc(sr);
-      var media;
-      if (imgSrc) {
-        media = document.createElement('img');
-        media.className = 'rc-single-media';
-        media.src = imgSrc;
-      } else {
-        var videoSrc = glowSrc(sr) || previewSrc(sr);
-        media = document.createElement('video');
-        media.className = 'rc-single-media';
-        media.src = videoSrc;
-        media.muted = true; media.autoplay = true; media.loop = true;
-        media.setAttribute('playsinline', '');
-      }
-      var lbl = document.createElement('div');
-      lbl.className = 'rc-single-label';
-      lbl.textContent = sr.title || sr.id;
-      sdiv.appendChild(media);
-      sdiv.appendChild(lbl);
-      c.appendChild(sdiv);
-      document.getElementById('rc-pagination').innerHTML = '';
-      var qs = document.querySelector('.rc-quick-section');
-      if (qs) qs.style.display = 'none';
-      return;
-    }
-    var qs2 = document.querySelector('.rc-quick-section');
-    if (qs2) qs2.style.display = '';
-
-    if (currentView === 'stats') {
-      document.getElementById('rc-stats').classList.add('show');
-      renderStats(); return;
-    }
-
+    if (currentView === 'stats') { renderStats(); return; }
     if (currentView === 'table') { renderTable(page, totalPages); return; }
 
     page.forEach(function(r){
