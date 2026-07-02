@@ -132,6 +132,9 @@
 .rot-cat .no-media { font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px; }
 .rot-cat .tag { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border: 1px solid #2a2510; color: #a09880; border-radius: 2px; }
 .rot-cat .empty { padding: 60px; text-align: center; color: #3a3020; font-size: 13px; letter-spacing: 1px; }
+.rot-cat .rc-single-result { display:flex; flex-direction:column; align-items:center; padding: 24px 0; cursor:pointer; }
+.rot-cat .rc-single-img { width:100%; max-width:600px; aspect-ratio:800/588; background-size:contain; background-repeat:no-repeat; background-position:center; }
+.rot-cat .rc-single-label { margin-top:16px; font-size:22px; font-weight:700; color:#e0d8c0; letter-spacing:1px; text-align:center; }
 
 /* TABLE VIEW */
 .rot-cat .container.view-table { width: 100%; }
@@ -419,7 +422,7 @@
       var stageW = r.canvas_width  || 1456;
       var stageH = r.canvas_height || 1080;
       var scale  = Math.min(window.innerWidth * 0.9 / stageW, window.innerHeight * 0.9 / stageH);
-      el.style.width = Math.round(stageW * scale) + 'px';
+      el.style.setProperty('width', Math.round(stageW * scale) + 'px', 'important');
       window.RotExhibit.init({ container: el, db: DB, id: r.id, cdnBase: CDN, single: true });
     }
     if (window.RotExhibit) {
@@ -427,7 +430,7 @@
     } else if (!_playerScriptLoaded) {
       _playerScriptLoaded = true;
       var s = document.createElement('script');
-      s.src = CDN + '/js/infographic-player.js';
+      s.src = CDN + '/js/infographic-player.js?v=' + Date.now();
       s.onload = _initPlayer;
       document.head.appendChild(s);
     }
@@ -584,6 +587,22 @@
     }
 
     if (currentView === 'stats') { renderStats(); return; }
+
+    if (filtered.length === 1) {
+      var sr = filtered[0];
+      var sp = pngSrc(sr) || previewSrc(sr);
+      var sdiv = document.createElement('div');
+      sdiv.className = 'rc-single-result';
+      sdiv.onclick = function(){ rcOpenPreview(sr.id); };
+      sdiv.innerHTML = '<div class="rc-single-img" style="background-image:url(\'' + (sp||'') + '\')"></div>'
+        + '<div class="rc-single-label">' + esc(sr.title || sr.id) + '</div>';
+      c.appendChild(sdiv);
+      document.getElementById('rc-pagination').innerHTML = '';
+      document.querySelector('.rc-quick-section').style.display = 'none';
+      return;
+    }
+    document.querySelector('.rc-quick-section').style.display = '';
+
     if (currentView === 'table') { renderTable(page, totalPages); return; }
 
     page.forEach(function(r){

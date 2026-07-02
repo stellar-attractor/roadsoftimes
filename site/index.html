@@ -363,15 +363,24 @@
   var colSort = { key: null, dir: 1 };
   try { currentView = localStorage.getItem('rot-catalog-view') || 'grid'; } catch(e){}
 
-  _loadMuseumSlugs();
-
-  fetch(DB).then(function(r){ return r.json(); }).then(function(data){
-    all = data.map(function(r,i){ return Object.assign({_idx:i}, r); });
-    all.forEach(function(r){ _recById[r.id] = r; });
-    populateFilters();
-    applyView(currentView);
-    render();
-  });
+  // load museum slugs first so previewSrc paths are correct when render() runs
+  fetch(CDN + '/museums.json?_=' + Date.now())
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(list){
+      list.forEach(function(m){ if (m.name && m.id) _MUSEUM_SLUGS[m.name] = m.id; });
+    })
+    .catch(function(){})
+    .then(function(){
+      return fetch(DB);
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      all = data.map(function(r,i){ return Object.assign({_idx:i}, r); });
+      all.forEach(function(r){ _recById[r.id] = r; });
+      populateFilters();
+      applyView(currentView);
+      render();
+    });
 
   window.rcSetView = function(v){
     currentView = v;
