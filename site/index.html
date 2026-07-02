@@ -168,7 +168,7 @@
     .rot-cat .tag { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border: 1px solid #2a2510; color: #a09880; border-radius: 2px; }
     .rot-cat .empty { padding: 60px; text-align: center; color: #3a3020; font-size: 13px; letter-spacing: 1px; }
     .rot-cat .rc-single-result { display:flex; flex-direction:column; align-items:center; padding: 24px 0; cursor:pointer; }
-    .rot-cat .rc-single-img { width:100%; max-width:600px; aspect-ratio:800/588; background-size:contain; background-repeat:no-repeat; background-position:center; }
+    .rot-cat .rc-single-media { width:100%; max-width:600px; height:auto; display:block; object-fit:contain; }
     .rot-cat .rc-single-label { margin-top:16px; font-size:22px; font-weight:700; color:#e0d8c0; letter-spacing:1px; text-align:center; }
 
     /* TABLE VIEW */
@@ -636,20 +636,31 @@
       return;
     }
 
-    if (currentView === 'stats') { renderStats(); return; }
-
     if (filtered.length === 1) {
       var sr = filtered[0];
-      var sp = pngSrc(sr) || previewSrc(sr);
       var sdiv = document.createElement('div');
       sdiv.className = 'rc-single-result';
       sdiv.onclick = function(){ rcOpenPreview(sr.id); };
-      sdiv.innerHTML = '<div class="rc-single-img" style="background-image:url(\'' + (sp||'') + '\')"></div>'
-        + '<div class="rc-single-label">' + esc(sr.title || sr.id) + '</div>';
+      var videoSrc = glowSrc(sr) || previewSrc(sr);
+      var imgSrc   = pngSrc(sr);
+      var mediaHtml;
+      if (videoSrc) {
+        mediaHtml = '<video class="rc-single-media" src="' + videoSrc + '" muted autoplay loop playsinline></video>';
+      } else if (imgSrc) {
+        mediaHtml = '<img class="rc-single-media" src="' + imgSrc + '">';
+      } else {
+        mediaHtml = '<div class="rc-single-media"></div>';
+      }
+      sdiv.innerHTML = mediaHtml + '<div class="rc-single-label">' + esc(sr.title || sr.id) + '</div>';
       c.appendChild(sdiv);
       document.getElementById('rc-pagination').innerHTML = '';
+      document.querySelector('.rc-quick-section').style.display = 'none';
+      document.getElementById('rc-stats').classList.remove('show');
       return;
     }
+    document.querySelector('.rc-quick-section').style.display = '';
+
+    if (currentView === 'stats') { renderStats(); return; }
 
     if (currentView === 'table') { renderTable(page, totalPages); return; }
 
