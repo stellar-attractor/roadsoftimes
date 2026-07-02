@@ -268,7 +268,7 @@
     <!-- текстовые поля -->
     <div class="filter-row">
       <div class="filter-group"><label>Название</label><input type="text" id="rc-title" placeholder="поиск…"></div>
-      <div class="filter-group"><label>Объект</label><input type="text" id="rc-object-q" placeholder="поиск…"></div>
+      <div class="filter-group"><label>Объект</label><input type="text" id="rc-object-q" placeholder="поиск…" oninput="rcObjectFilter(this.value)"></div>
       <div class="filter-group"><label>ТТХ текст</label><input type="text" id="rc-ttx" placeholder="поиск…"></div>
       <div class="filter-group"><label>Описание</label><input type="text" id="rc-desc" placeholder="поиск…"></div>
     </div>
@@ -474,15 +474,8 @@
     var urlMuseum = new URLSearchParams(location.search).get('museum');
     if (urlMuseum) _museumSel.set(urlMuseum, urlMuseum, '');
 
-    ['rc-title','rc-ttx','rc-desc','rc-sort'].forEach(function(id){
+    ['rc-title','rc-object-q','rc-ttx','rc-desc','rc-sort'].forEach(function(id){
       document.getElementById(id).addEventListener('input', render);
-    });
-    document.getElementById('rc-object-q').addEventListener('input', function(){
-      if (gval('rc-object-q')) {
-        _quickType = '';
-        document.querySelectorAll('.rc-quick-btn').forEach(function(b){ b.classList.remove('active'); });
-      }
-      render();
     });
 
     _buildQuickFilters();
@@ -520,6 +513,14 @@
         +'</div>';
     }).join('');
   }
+
+  window.rcObjectFilter = function(val){
+    if (val) {
+      _quickType = '';
+      document.querySelectorAll('.rc-quick-btn').forEach(function(b){ b.classList.remove('active'); });
+    }
+    render();
+  };
 
   window.rcQuickFilter = function(btn){
     var t = btn.getAttribute('data-type');
