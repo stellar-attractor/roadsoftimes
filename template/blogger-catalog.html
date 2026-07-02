@@ -588,25 +588,24 @@
 
     if (filtered.length === 1) {
       var sr = filtered[0];
+      // ensure container is visible (stats view hides it)
+      c.style.display = '';
       var sdiv = document.createElement('div');
       sdiv.className = 'rc-single-result';
       sdiv.onclick = function(){ rcOpenPreview(sr.id); };
-      var videoSrc = glowSrc(sr) || previewSrc(sr);
-      var imgSrc   = pngSrc(sr);
+      var imgSrc = pngSrc(sr);
       var media;
-      if (videoSrc) {
+      if (imgSrc) {
+        media = document.createElement('img');
+        media.className = 'rc-single-media';
+        media.src = imgSrc;
+      } else {
+        var videoSrc = glowSrc(sr) || previewSrc(sr);
         media = document.createElement('video');
         media.className = 'rc-single-media';
         media.src = videoSrc;
         media.muted = true; media.autoplay = true; media.loop = true;
         media.setAttribute('playsinline', '');
-      } else if (imgSrc) {
-        media = document.createElement('img');
-        media.className = 'rc-single-media';
-        media.src = imgSrc;
-      } else {
-        media = document.createElement('div');
-        media.className = 'rc-single-media';
       }
       var lbl = document.createElement('div');
       lbl.className = 'rc-single-label';
