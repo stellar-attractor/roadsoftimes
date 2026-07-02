@@ -624,14 +624,15 @@
       document.getElementById('rc-pagination').innerHTML = '';
       var qs = document.querySelector('.rc-quick-section');
       if (qs) qs.style.display = 'none';
-      var st = document.getElementById('rc-stats');
-      if (st) st.classList.remove('show');
       return;
     }
     var qs2 = document.querySelector('.rc-quick-section');
     if (qs2) qs2.style.display = '';
 
-    if (currentView === 'stats') { renderStats(); return; }
+    if (currentView === 'stats') {
+      document.getElementById('rc-stats').classList.add('show');
+      renderStats(); return;
+    }
 
     if (currentView === 'table') { renderTable(page, totalPages); return; }
 
