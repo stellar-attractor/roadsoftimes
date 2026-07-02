@@ -3,28 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Museums Editor — Дороги Времён</title>
+<title>Museums Editor — Roads of Times</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: "IBM Plex Sans", Arial, sans-serif;
-  background: #0d0d0d;
-  color: #d4d4c8;
+  font-family: 'PT Sans', Arial, sans-serif;
+  background: #080806;
+  color: #c8c0a8;
   font-size: 14px;
   min-height: 100vh;
 }
 
-header {
-  background: #111;
-  border-bottom: 1px solid #2a2a1e;
+.rot-site-header {
   padding: 14px 24px;
+  border-bottom: 1px solid #1a1a0e;
   display: flex;
   align-items: center;
   gap: 16px;
 }
-header h1 { font-size: 16px; font-weight: 600; color: #e8e8d8; letter-spacing: 0.04em; }
-header .subtitle { font-size: 12px; color: #666; }
+.rot-site-header a { text-decoration: none; }
+.rot-site-title { font-size: 18px; font-weight: 700; color: #c9a84c; letter-spacing: 2px; text-transform: uppercase; }
+.rot-site-sub { font-size: 11px; letter-spacing: 1.5px; color: #6a5f40; text-transform: uppercase; }
+.rot-site-nav { margin-left: auto; display: flex; gap: 16px; }
+.rot-site-nav a {
+  font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+  color: #9a8c70; text-decoration: none; padding: 4px 10px;
+  border: 1px solid transparent; border-radius: 3px; transition: color .15s, border-color .15s;
+}
+.rot-site-nav a:hover { color: #c9a84c; border-color: #4a3f20; }
 
 .toolbar {
   padding: 12px 24px;
@@ -32,27 +42,30 @@ header .subtitle { font-size: 12px; color: #666; }
   gap: 8px;
   align-items: center;
   border-bottom: 1px solid #1a1a12;
+  flex-wrap: wrap;
 }
 
 .btn {
   padding: 6px 14px;
-  border: 1px solid #333;
+  border: 1px solid #2a2510;
   border-radius: 4px;
-  background: #1a1a14;
-  color: #c8c8b8;
+  background: #12120c;
+  color: #c8c0a8;
   cursor: pointer;
   font-size: 13px;
+  font-family: 'PT Sans', sans-serif;
   transition: background 0.15s, border-color 0.15s;
 }
-.btn:hover { background: #252518; border-color: #555; }
-.btn.primary { background: #1e3a1e; border-color: #2e6e2e; color: #8fda8f; }
-.btn.primary:hover { background: #254a25; }
-.btn.danger { background: #3a1e1e; border-color: #6e2e2e; color: #da8f8f; }
-.btn.danger:hover { background: #4a2525; }
+.btn:hover { background: #1a1a10; border-color: #4a3f20; }
+.btn.primary { background: #1a2e12; border-color: #2e6e2e; color: #8fda8f; }
+.btn.primary:hover { background: #203a18; }
+.btn.danger { background: #2e1212; border-color: #6e2e2e; color: #da8f8f; }
+.btn.danger:hover { background: #3a1818; }
+.btn.sync-active { background: #203a18; border-color: #4a9e4a; color: #8fda8f; }
 
-.count { font-size: 12px; color: #555; margin-left: 8px; }
-.hint { font-size: 11px; color: #444; margin-left: auto; font-style: italic; }
-.hint code { color: #5a8a5a; font-style: normal; }
+.count { font-size: 12px; color: #6a5f40; margin-left: 4px; }
+.sync-hint { font-size: 11px; color: #4a3f20; margin-left: auto; font-style: italic; }
+.sync-hint code { color: #5a8a5a; font-style: normal; }
 
 /* TABLE */
 .table-wrap {
@@ -64,53 +77,52 @@ header .subtitle { font-size: 12px; color: #666; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 
 thead th {
-  background: #161610;
-  color: #888;
+  background: #0d0d08;
+  color: #9a8c70;
   font-weight: 600;
   text-align: left;
   padding: 8px 10px;
-  border-bottom: 1px solid #2a2a1e;
+  border-bottom: 1px solid #2a2510;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
   position: sticky;
   top: 0;
 }
-thead th:hover { color: #bbb; }
+thead th:hover { color: #c8c0a8; }
 thead th.nosort { cursor: default; }
 thead th .sort-icon { margin-left: 4px; opacity: 0.4; font-size: 10px; }
 thead th.sorted .sort-icon { opacity: 1; color: #8fda8f; }
 
-tbody tr { border-bottom: 1px solid #1a1a12; cursor: pointer; transition: background 0.1s; }
-tbody tr:hover { background: #161610; }
-tbody tr.selected { background: #1a2e1a; border-left: 3px solid #4a9e4a; }
+tbody tr { border-bottom: 1px solid #131309; cursor: pointer; transition: background 0.1s; }
+tbody tr:hover { background: #0d0d08; }
+tbody tr.selected { background: #1a2a12; border-left: 3px solid #4a9e4a; }
 
 td { padding: 7px 10px; vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-td.dim { color: #555; }
+td.dim { color: #4a3f20; }
 td.center { text-align: center; }
 
-.thumb-cell { width: 48px; padding: 4px 8px; }
-.thumb-cell img { width: 40px; height: 28px; object-fit: cover; border-radius: 2px; display: block; }
-.thumb-placeholder { width: 40px; height: 28px; background: #1e1e16; border-radius: 2px; display: block; }
+.thumb-cell { width: 52px; padding: 4px 8px; }
+.thumb-cell img { width: 40px; height: 28px; object-fit: cover; border-radius: 2px; display: block; border: 1px solid #2a2510; }
+.thumb-placeholder { width: 40px; height: 28px; background: #0d0d08; border-radius: 2px; display: block; border: 1px solid #1a1a0e; }
 
-.featured-badge { color: #e8c040; font-size: 14px; }
-
-.stars { color: #c8a020; }
-.stars.empty { color: #333; }
+.featured-badge { color: #c9a84c; font-size: 14px; }
+.stars { color: #c9a84c; }
+.stars.empty { color: #2a2510; }
 
 /* FORM */
 .form-section {
   margin: 24px 24px 40px;
-  background: #111;
-  border: 1px solid #2a2a1e;
+  background: #0d0d08;
+  border: 1px solid #2a2510;
   border-radius: 6px;
   padding: 20px 24px;
 }
 .form-section h2 {
-  font-size: 14px; font-weight: 600; color: #888;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: 13px; font-weight: 700; color: #9a8c70;
+  letter-spacing: 0.1em; text-transform: uppercase;
   margin-bottom: 18px; padding-bottom: 10px;
-  border-bottom: 1px solid #1e1e14;
+  border-bottom: 1px solid #1e1e10;
   display: flex; align-items: center; gap: 12px;
 }
 
@@ -123,111 +135,95 @@ td.center { text-align: center; }
 .form-grid .half { grid-column: span 2; }
 
 .field { display: flex; flex-direction: column; gap: 5px; }
-.field label { font-size: 11px; color: #666; letter-spacing: 0.06em; text-transform: uppercase; }
+.field label { font-size: 10px; color: #6a5f40; letter-spacing: 0.08em; text-transform: uppercase; }
 .field input, .field textarea {
-  background: #0d0d0d; border: 1px solid #2a2a1e; border-radius: 3px;
-  color: #d4d4c8; padding: 7px 9px; font-size: 13px; font-family: inherit;
+  background: #080806; border: 1px solid #2a2510; border-radius: 3px;
+  color: #c8c0a8; padding: 7px 9px; font-size: 13px; font-family: 'PT Sans', sans-serif;
   transition: border-color 0.15s; width: 100%;
 }
-.field input:focus, .field textarea:focus { outline: none; border-color: #4a7a4a; }
+.field input:focus, .field textarea:focus { outline: none; border-color: #8a6f2e; }
 .field textarea { resize: vertical; min-height: 80px; }
 
-/* photo field */
 .photo-field { display: flex; flex-direction: column; gap: 5px; }
-.photo-field label { font-size: 11px; color: #666; letter-spacing: 0.06em; text-transform: uppercase; }
+.photo-field label { font-size: 10px; color: #6a5f40; letter-spacing: 0.08em; text-transform: uppercase; }
 .photo-row { display: flex; gap: 8px; align-items: flex-start; }
 .photo-preview {
   width: 80px; height: 56px; object-fit: cover; border-radius: 3px;
-  background: #1e1e16; border: 1px solid #2a2a1e; flex-shrink: 0;
-  display: block;
+  background: #0d0d08; border: 1px solid #2a2510; flex-shrink: 0; display: block;
 }
 .photo-preview.empty { opacity: 0; }
 .photo-row input {
-  flex: 1; background: #0d0d0d; border: 1px solid #2a2a1e; border-radius: 3px;
-  color: #d4d4c8; padding: 7px 9px; font-size: 13px; font-family: inherit;
+  flex: 1; background: #080806; border: 1px solid #2a2510; border-radius: 3px;
+  color: #c8c0a8; padding: 7px 9px; font-size: 13px; font-family: 'PT Sans', sans-serif;
   transition: border-color 0.15s;
 }
-.photo-row input:focus { outline: none; border-color: #4a7a4a; }
+.photo-row input:focus { outline: none; border-color: #8a6f2e; }
 
-/* star picker */
 .rating-field { display: flex; flex-direction: column; gap: 5px; }
-.rating-field label { font-size: 11px; color: #666; letter-spacing: 0.06em; text-transform: uppercase; }
+.rating-field label { font-size: 10px; color: #6a5f40; letter-spacing: 0.08em; text-transform: uppercase; }
 .star-picker { display: flex; gap: 4px; margin-top: 2px; }
-.star-picker .star { font-size: 22px; cursor: pointer; color: #333; transition: color 0.1s, transform 0.1s; line-height: 1; }
+.star-picker .star { font-size: 22px; cursor: pointer; color: #2a2510; transition: color 0.1s, transform 0.1s; line-height: 1; }
 .star-picker .star:hover { transform: scale(1.15); }
-.star-picker .star.on { color: #c8a020; }
+.star-picker .star.on { color: #c9a84c; }
 
-/* featured toggle */
 .featured-field { display: flex; flex-direction: column; gap: 8px; }
-.featured-field label.top { font-size: 11px; color: #666; letter-spacing: 0.06em; text-transform: uppercase; }
+.featured-field label.top { font-size: 10px; color: #6a5f40; letter-spacing: 0.08em; text-transform: uppercase; }
 .featured-toggle {
   display: flex; align-items: center; gap: 10px;
   padding: 8px 12px; border-radius: 4px; cursor: pointer;
-  border: 1px solid #2a2a1e; background: #0d0d0d;
-  transition: background 0.15s, border-color 0.15s;
-  user-select: none;
+  border: 1px solid #2a2510; background: #080806;
+  transition: background 0.15s, border-color 0.15s; user-select: none;
 }
-.featured-toggle:hover { background: #161610; }
-.featured-toggle.on { background: #2a2400; border-color: #6a5800; }
+.featured-toggle:hover { background: #0d0d08; }
+.featured-toggle.on { background: #221c04; border-color: #6a5800; }
 .featured-toggle .icon { font-size: 18px; }
-.featured-toggle .label { font-size: 13px; color: #888; }
-.featured-toggle.on .label { color: #e8c040; }
+.featured-toggle .label { font-size: 13px; color: #6a5f40; }
+.featured-toggle.on .label { color: #c9a84c; }
 
 .form-actions {
   display: flex; gap: 8px; margin-top: 18px;
-  padding-top: 16px; border-top: 1px solid #1e1e14; align-items: center;
+  padding-top: 16px; border-top: 1px solid #1a1a0e; align-items: center;
 }
 .form-actions .spacer { flex: 1; }
-.id-display { font-size: 11px; color: #666; font-family: monospace; margin-left: 4px; }
-.slug-badge { display: inline-block; font-size: 11px; font-family: monospace;
+.id-display { font-size: 11px; color: #4a3f20; font-family: monospace; margin-left: 4px; }
+.slug-badge {
+  display: inline-block; font-size: 11px; font-family: monospace;
   color: #8fda8f; background: #1a2e1a; border: 1px solid #2e4e2e;
   border-radius: 3px; padding: 2px 7px; margin-left: 10px; vertical-align: middle;
-  opacity: 0; transition: opacity .15s; }
+  opacity: 0; transition: opacity .15s;
+}
 .slug-badge.visible { opacity: 1; }
 
-.empty-state { text-align: center; padding: 48px; color: #444; font-size: 13px; }
+.empty-state { text-align: center; padding: 48px; color: #2a2510; font-size: 13px; }
 
 .toast {
   position: fixed; bottom: 24px; right: 24px;
-  background: #1e3a1e; border: 1px solid #2e6e2e; color: #8fda8f;
+  background: #1a2e12; border: 1px solid #2e6e2e; color: #8fda8f;
   padding: 10px 18px; border-radius: 5px; font-size: 13px;
-  opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 9999;
 }
 .toast.show { opacity: 1; }
-
-#load-file-wrap {
-  display: none; align-items: center; gap: 12px;
-  margin: 24px 24px 0; padding: 16px 20px;
-  background: #161610; border: 1px dashed #3a3a28; border-radius: 6px;
-  font-size: 13px; color: #888;
-}
-#load-file-wrap label {
-  cursor: pointer; padding: 6px 14px;
-  border: 1px solid #4a7a4a; border-radius: 4px;
-  background: #1e3a1e; color: #8fda8f; font-size: 13px; transition: background 0.15s;
-}
-#load-file-wrap label:hover { background: #254a25; }
-#load-file-wrap input[type=file] { display: none; }
+.toast.err { background: #2e1212; border-color: #6e2e2e; color: #da8f8f; }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Museums Editor</h1>
-  <span class="subtitle">Дороги Времён — внутренний редактор</span>
+<header class="rot-site-header">
+  <a href="/">
+    <div class="rot-site-title">Roads of Times</div>
+  </a>
+  <div class="rot-site-sub">Museums Editor</div>
+  <nav class="rot-site-nav">
+    <a href="/index.html">⊞ Каталог</a>
+  </nav>
 </header>
 
 <div class="toolbar">
   <button class="btn primary" onclick="newRecord()">+ Добавить музей</button>
-  <button class="btn" onclick="downloadJSON()">Скачать JSON</button>
-  <button class="btn" id="btn-save-site" onclick="saveToSite()">Синк в site/ →</button>
+  <button class="btn" onclick="downloadJSON()">↓ Скачать JSON</button>
+  <button class="btn" id="btn-save-site" onclick="saveToFile()">⟳ Сохранить в museums.json</button>
   <span class="count" id="count"></span>
-  <span class="hint" id="sync-hint">Выбери <code>site/museums.json</code> один раз — далее автосинк при каждом сохранении</span>
-</div>
-
-<div id="load-file-wrap">
-  <span>Открыть через file:// — загрузи JSON вручную:</span>
-  <label>Выбрать museums.json <input type="file" accept=".json" onchange="loadFromFile(this)"></label>
+  <span class="sync-hint" id="sync-hint">Выбери локальный <code>site/museums.json</code> один раз — дальше автосинк при каждом сохранении</span>
 </div>
 
 <div class="table-wrap">
@@ -325,8 +321,8 @@ td.center { text-align: center; }
       <input id="f-map_url" type="url" placeholder="https://maps.app.goo.gl/...">
     </div>
     <div class="field full">
-      <label>Страница на блоге (landing)</label>
-      <input id="f-landing_url" type="url" placeholder="https://roadsoftimes.blogspot.com/...">
+      <label>Страница на сайте (landing)</label>
+      <input id="f-landing_url" type="url" placeholder="https://www.roadsoftimes.com/...">
     </div>
 
   </div>
@@ -349,29 +345,14 @@ var currentFeatured = false;
 var sortCol = 'name';
 var sortAsc = true;
 
-fetch('museums.json?_=' + Date.now())
+fetch('/museums.json?_=' + Date.now())
   .then(function(r){ return r.json(); })
   .then(function(d){ DATA = d; render(); })
   .catch(function(){
     DATA = [];
     render();
-    document.getElementById('load-file-wrap').style.display = 'flex';
+    toast('Не удалось загрузить museums.json', true);
   });
-
-function loadFromFile(input) {
-  var file = input.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      DATA = JSON.parse(e.target.result);
-      document.getElementById('load-file-wrap').style.display = 'none';
-      render();
-      toast('Загружено: ' + DATA.length + ' записей');
-    } catch(err) { toast('Ошибка парсинга JSON'); }
-  };
-  reader.readAsText(file);
-}
 
 function slugify(s) {
   return s.toLowerCase()
@@ -536,18 +517,12 @@ function updateFeaturedUI() {
 function updatePhotoPreview() {
   var url = document.getElementById('f-photo').value.trim();
   var img = document.getElementById('photo-preview');
-  if (url) {
-    img.src = url;
-    img.classList.remove('empty');
-  } else {
-    img.src = '';
-    img.classList.add('empty');
-  }
+  if (url) { img.src = url; img.classList.remove('empty'); }
+  else { img.src = ''; img.classList.add('empty'); }
 }
 
 function getFormData() {
   var name = document.getElementById('f-name').value.trim();
-  var isFeatured = currentFeatured;
   return {
     id: editingId || makeId(name),
     name: name,
@@ -563,15 +538,14 @@ function getFormData() {
     landing_url: document.getElementById('f-landing_url').value.trim(),
     photo: document.getElementById('f-photo').value.trim(),
     rating: currentRating,
-    featured: isFeatured
+    featured: currentFeatured
   };
 }
 
 function saveRecord() {
   var rec = getFormData();
-  if (!rec.name) { toast('Укажите название музея'); return; }
+  if (!rec.name) { toast('Укажите название музея', true); return; }
 
-  // enforce single featured
   if (rec.featured) {
     DATA.forEach(function(r){ if (r.id !== rec.id) r.featured = false; });
   }
@@ -587,11 +561,13 @@ function saveRecord() {
   document.getElementById('btn-delete').style.display = '';
   document.getElementById('form-title').textContent = 'Редактирование';
   render();
+
   if (siteFileHandle) {
-    _writeSiteFile().then(function(){ toast('Сохранено + синк в ' + siteFileHandle.name); })
-                    .catch(function(e){ toast('Сохранено локально, ошибка синка: ' + e.message); });
+    _writeSiteFile()
+      .then(function(){ toast('Сохранено → ' + siteFileHandle.name); })
+      .catch(function(e){ toast('Сохранено локально, ошибка записи: ' + e.message, true); });
   } else {
-    toast('Сохранено. Не забудьте экспортировать JSON.');
+    toast('Сохранено в память. Нажмите «Сохранить в museums.json» для записи на диск.');
   }
 }
 
@@ -605,10 +581,11 @@ function deleteRecord() {
   document.getElementById('form-section').style.display = 'none';
   render();
   if (siteFileHandle) {
-    _writeSiteFile().then(function(){ toast('Удалено + синк в ' + siteFileHandle.name); })
-                    .catch(function(e){ toast('Удалено локально, ошибка синка: ' + e.message); });
+    _writeSiteFile()
+      .then(function(){ toast('Удалено → ' + siteFileHandle.name); })
+      .catch(function(e){ toast('Удалено из памяти, ошибка записи: ' + e.message, true); });
   } else {
-    toast('Запись удалена.');
+    toast('Запись удалена из памяти.');
   }
 }
 
@@ -642,11 +619,12 @@ function _setSiteHandle(handle) {
   siteFileHandle = handle;
   var btn = document.getElementById('btn-save-site');
   btn.textContent = '⟳ Автосинк: ' + handle.name;
-  btn.style.background = '#254a25';
-  document.getElementById('sync-hint').innerHTML = 'Автосинк активен — каждое сохранение пишет в <code>' + handle.name + '</code>';
+  btn.className = 'btn sync-active';
+  document.getElementById('sync-hint').innerHTML =
+    'Автосинк активен → <code>' + handle.name + '</code> · каждое «Сохранить» пишет на диск';
 }
 
-async function saveToSite() {
+async function saveToFile() {
   try {
     if (!siteFileHandle) {
       var handles = await window.showOpenFilePicker({
@@ -661,15 +639,16 @@ async function saveToSite() {
     await _writeSiteFile();
     toast('Записано в ' + siteFileHandle.name);
   } catch(e) {
-    if (e.name !== 'AbortError') toast('Ошибка: ' + e.message);
+    if (e.name !== 'AbortError') toast('Ошибка: ' + e.message, true);
   }
 }
 
-function toast(msg) {
+function toast(msg, isErr) {
   var el = document.getElementById('toast');
   el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(function(){ el.classList.remove('show'); }, 2800);
+  el.className = 'toast show' + (isErr ? ' err' : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.classList.remove('show'); }, 3000);
 }
 </script>
 </body>
