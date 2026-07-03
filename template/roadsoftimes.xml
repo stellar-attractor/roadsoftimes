@@ -234,15 +234,15 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 .rot-card-thumb{position:relative;height:160px;overflow:hidden;flex-shrink:0;background:#232318}
 .rot-card-thumb img,.rot-card-thumb video{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
 .rot-post-card:hover .rot-card-thumb img,.rot-post-card:hover .rot-card-thumb video{transform:scale(1.05)}
-.rot-tag{position:absolute;top:10px;left:10px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;z-index:2;background:#2a0f0f;color:#c28f83;border:1px solid #ae6a5a}
+.rot-tag{position:absolute;top:10px;left:10px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;z-index:2;background:#2a0f0f;color:#d1aba2;border:1px solid #ae6a5a}
 .rot-card-body{padding:14px;flex:1;display:flex;flex-direction:column}
 .rot-card-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;color:#fbfaf6;line-height:1.25;margin-bottom:8px}
 .rot-card-title a{color:inherit;transition:color .2s}
 .rot-card-title a:hover{color:#d7bf7b}
-.rot-card-excerpt{font-size:12px;color:#998f7e;line-height:1.55;margin-bottom:12px;overflow:hidden;max-height:72px}
+.rot-card-excerpt{font-size:12px;color:#ada598;line-height:1.55;margin-bottom:12px;overflow:hidden;max-height:72px}
 .rot-card-excerpt img,.rot-card-excerpt table,.rot-card-excerpt iframe,.rot-card-excerpt figure{display:none!important}
-.rot-card-meta{display:flex;align-items:center;gap:12px;font-family:'PT Mono',monospace;font-size:10px;color:#998f7e;border-top:1px solid #252418;padding-top:10px;flex-wrap:wrap}
-.rot-card-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#b8943d;margin-right:4px}
+.rot-card-meta{display:flex;align-items:center;gap:12px;font-family:'PT Mono',monospace;font-size:10px;color:#ada598;border-top:1px solid #252418;padding-top:10px;flex-wrap:wrap}
+.rot-card-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#c8a85a;margin-right:4px}
 .rot-card-labels a:hover{color:#d7bf7b;border-color:#8a6f2e}
 
 /* ── СТРАНИЦА ПОСТА ──────────────────────────────────────────────── */
@@ -257,7 +257,7 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 .rot-avatar-wrap img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
 .rot-single-meta{font-family:'PT Mono',monospace;font-size:10px;color:#998f7e;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .rot-single-meta .rot-meta-labels{display:flex;flex-wrap:wrap;gap:5px;margin-left:4px}
-.rot-single-meta .rot-meta-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#b8943d;text-decoration:none}
+.rot-single-meta .rot-meta-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#c8a85a;text-decoration:none}
 .rot-single-meta .rot-meta-labels a:hover{color:#d7bf7b;border-color:#8a6f2e}
 .rot-single-body{font-size:15px;color:#e0dbcd;line-height:1.8;max-width:720px}
 .rot-single-body h2,.rot-single-body h3{font-family:'Oswald',sans-serif;color:#fbfaf6;margin:28px 0 10px}
@@ -346,7 +346,7 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 .rot-museum-photo{height:220px;overflow:hidden}
 .rot-museum-photo img{display:block;width:100%;height:100%;object-fit:cover}
 .rot-museum-body{padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between}
-.rot-museum-label{font-family:'PT Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#b8943d;margin-bottom:6px}
+.rot-museum-label{font-family:'PT Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#c8a85a;margin-bottom:6px}
 .rot-museum-title{font-family:'Oswald',sans-serif;font-size:21px;font-weight:600;color:#fbfaf6;margin-bottom:10px;line-height:1.2}
 .rot-museum-desc{font-size:13px;color:#e0dbcd;line-height:1.65;margin-bottom:14px}
 .rot-museum-stats{display:flex;gap:20px;margin-bottom:16px}
@@ -434,13 +434,13 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 /* ── Облако меток ───────────────────────────────────────────────── */
 #rsidebar-wrapper .Label .widget-content{padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px}
 #rsidebar-wrapper .Label .widget-content a,
-#rsidebar-wrapper .Label .widget-content span{display:inline-block;font-family:'PT Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:#998f7e;background:#232318;border:1px solid #2e2d20;padding:3px 8px;transition:color .2s,border-color .2s,background .2s;text-decoration:none;line-height:1.5}
+#rsidebar-wrapper .Label .widget-content span{display:inline-block;font-family:'PT Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:#ada598;background:#232318;border:1px solid #2e2d20;padding:3px 8px;transition:color .2s,border-color .2s,background .2s;text-decoration:none;line-height:1.5}
 #rsidebar-wrapper .Label .widget-content a:hover{color:#d7bf7b;border-color:#8a6f2e;background:#1a1a0e}
 /* label-size-* от Blogger: 1(редко)→5(часто) — меняем размер шрифта */
 .label-size-1{font-size:9px!important}
 .label-size-2{font-size:10px!important}
-.label-size-3{font-size:11px!important;color:#e0dbcd!important}
-.label-size-4{font-size:12px!important;color:#e0dbcd!important;border-color:#3a3520!important}
+.label-size-3{font-size:11px!important;color:#f2efe9!important}
+.label-size-4{font-size:12px!important;color:#f2efe9!important;border-color:#3a3520!important}
 .label-size-5{font-size:13px!important;color:#d7bf7b!important;border-color:#8a6f2e!important;background:#1a1a0e!important}
 .label-count{display:none}
 /* ── Архив — иерархия с тогглами ───────────────────────────────── */
@@ -495,15 +495,15 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 .footer-widget-box{display:none!important}
 #footer-container{background:#1e1d14;border-top:2px solid #3a3520;margin-top:48px;padding:36px 15px 0}
 .rot-footer-top{max-width:1100px;margin:0 auto;padding-bottom:28px;display:grid;grid-template-columns:240px 1fr 1fr 1fr;gap:32px}
-.rot-footer-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#ecd69d;letter-spacing:1px;text-transform:uppercase;display:block}
-.rot-footer-logo-sub{font-size:9px;color:#998f7e;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block;margin-top:2px}
-.rot-footer-desc{font-size:12px;color:#998f7e;line-height:1.65;margin-top:12px}
-.rot-footer-col-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#b8943d;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #252418}
+.rot-footer-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#f3e6c3;letter-spacing:1px;text-transform:uppercase;display:block}
+.rot-footer-logo-sub{font-size:9px;color:#ada598;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block;margin-top:2px}
+.rot-footer-desc{font-size:12px;color:#ada598;line-height:1.65;margin-top:12px}
+.rot-footer-col-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#c8a85a;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #252418}
 .rot-footer-links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px}
-.rot-footer-links a{font-size:12px;color:#998f7e;transition:color .2s}
+.rot-footer-links a{font-size:12px;color:#ada598;transition:color .2s}
 .rot-footer-links a:hover{color:#d7bf7b}
 .rot-footer-bottom-bar{border-top:1px solid #252418;padding:14px 15px}
-.rot-footer-bottom{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-family:'PT Mono',monospace;font-size:10px;color:#998f7e}
+.rot-footer-bottom{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-family:'PT Mono',monospace;font-size:10px;color:#ada598}
 #footer{padding:0;background:none;border:none}
 #copyrights,#credits{display:none}
 
