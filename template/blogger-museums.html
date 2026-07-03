@@ -151,8 +151,8 @@
 <script>
 //<![CDATA[
 (function(){
-  var CDN = 'https://roadsoftimes.pages.dev';
-  var DB  = CDN + '/museums.json';
+  var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
+  var DB  = APP_CDN + '/museums.json';
   var all = [], filtered = [], selectedId = null;
   var currentView = 'grid';
   var tblSort = { col: 'name', asc: true };

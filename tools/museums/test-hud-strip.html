@@ -80,7 +80,8 @@
 
 <script>
 (function(){
-  var CDN     = 'https://roadsoftimes.pages.dev';
+  var APP_CDN   = 'https://cdn.roadsoftimes.com';   // code / html / json manifests
+  var MEDIA_CDN = 'https://media.roadsoftimes.com'; // webm / png / jpg / svg assets
   var CATALOG = 'https://roadsoftimes.blogspot.com/p/catalog.html';
   var STRIP_COUNT = 6;
   var museum = (typeof ROT_MUSEUM !== 'undefined') ? ROT_MUSEUM : null;
@@ -93,10 +94,10 @@
   function previewSrc(e){
     var mobile = window.matchMedia && window.matchMedia('(max-width:768px),(orientation:portrait)').matches;
     var suffix = (mobile && e.mobile && e.mobile.zones) ? '_mobile_pr.webm' : '_pr.webm';
-    return CDN + '/previews/' + e.id + suffix;
+    return MEDIA_CDN + '/previews/' + e.id + suffix;
   }
 
-  fetch(CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
+  fetch(APP_CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
     var items = data.filter(function(e){ return e.Museum === museum; }).slice(-STRIP_COUNT).reverse();
     if (!items.length) { document.getElementById('rot-hs-root').style.display = 'none'; return; }
 
@@ -118,7 +119,7 @@
   function loadPlayer(cb){
     if (playerLoaded){ cb(); return; }
     var s = document.createElement('script');
-    s.src = CDN + '/js/infographic-player.js';
+    s.src = APP_CDN + '/js/infographic-player.js';
     s.onload = function(){ playerLoaded = true; cb(); };
     document.head.appendChild(s);
   }
@@ -161,8 +162,8 @@
     loadPlayer(function(){
       var player = RotExhibit.init({
         container: wrap,
-        db: CDN + '/infographics.json',
-        cdnBase: CDN,
+        db: APP_CDN + '/infographics.json',
+        cdnBase: MEDIA_CDN,
         stripSitePrefix: true,
         id: id,
         single: true

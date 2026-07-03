@@ -54,8 +54,8 @@
 <script>
 //<![CDATA[
 (function(){
-  var CDN = 'https://roadsoftimes.pages.dev';
-  fetch(CDN + '/museums.json').then(function(r){ return r.json(); }).then(function(data){
+  var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
+  fetch(APP_CDN + '/museums.json').then(function(r){ return r.json(); }).then(function(data){
     var r = data.find(function(m){ return m.featured; });
     if (!r) return;
 

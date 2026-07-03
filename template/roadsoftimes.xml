@@ -4,12 +4,59 @@
 <head>
   
 <link href='https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&amp;family=PT+Sans:ital,wght@0,400;0,700;1,400&amp;family=PT+Mono&amp;display=swap' rel='stylesheet' type='text/css'/>
+<link rel="apple-touch-icon"
+      href="https://media.roadsoftimes.com/assets/apple-touch-icon.png"/>
 
 <b:include data='blog' name='all-head-content'/>
 
 <b:if cond='data:blog.url == data:blog.homepageUrl'>
-<meta content='DESCRIPTION HERE' name='description'/>
-<meta content='KEYWORDS HERE' name='keywords'/>
+
+<meta property="og:title"
+      content="Дороги Времён"/>
+
+<meta property="og:description"
+      content="Путешествия, музеи, история, военная техника, архитектура и культура."/>
+
+<meta property="og:image"
+      content="https://media.roadsoftimes.com/assets/venzel.png"/>
+
+<meta property="og:url"
+      content="https://www.roadsoftimes.com/"/>
+
+<meta property="og:type"
+      content="website"/>
+
+<meta property="og:site_name"
+      content="Дороги Времён"/>
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Дороги Времён"/>
+<meta name="twitter:description"
+      content="Путешествия, музеи, история, военная техника, архитектура и культура."/>
+<meta name="twitter:image"
+      content="https://media.roadsoftimes.com/assets/og-cover.jpg"/>
+
+<b:else/>
+
+  <meta property="og:title" expr:content="data:blog.pageTitle"/>
+
+  <b:if cond='data:blog.metaDescription'>
+    <meta property="og:description" expr:content="data:blog.metaDescription"/>
+  <b:else/>
+    <meta property="og:description"
+          content="Путешествия, музеи, история, военная техника, архитектура и культура."/>
+  </b:if>
+
+  <meta property="og:url" expr:content="data:blog.canonicalUrl"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="Дороги Времён"/>
+  <meta property="og:image" content="https://media.roadsoftimes.com/assets/og-cover.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" expr:content="data:blog.pageTitle"/>
+  <meta name="twitter:description" expr:content="data:blog.metaDescription"/>
+  <meta name="twitter:image"
+      content="https://media.roadsoftimes.com/assets/venzel.png"/>
+
 </b:if>
 
 <!-- Start www.bloggertipandtrick.net: Changing the Blogger Title Tag  -->

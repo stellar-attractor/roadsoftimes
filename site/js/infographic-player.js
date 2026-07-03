@@ -14,7 +14,7 @@
 (function (global) {
   "use strict";
 
-  const CDN_BASE = "https://roadsoftimes.pages.dev"; // override via init options
+  const CDN_BASE = "https://media.roadsoftimes.com"; // override via init options (cdnBase)
 
   /* ─── CSS injected once ─────────────────────────────────────────────────── */
   const STYLE = `
@@ -45,13 +45,22 @@
   max-width: none !important;
   height: auto;
 }
+.rot-exhibit-stage video {
+  display: block !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+.rot-exhibit-stage .rot-zone video {
+  width: 100% !important;
+  height: 100% !important;
+}
 .rot-exhibit-stage video,
 .rot-exhibit-stage .rot-zone {
   position: absolute;
 }
 .rot-exhibit-stage .rot-zone {
-  overflow: hidden;
-  box-sizing: border-box;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
   padding: 0 !important;
   margin: 0 !important;
 }
@@ -573,14 +582,53 @@
 
     const fit = z.fit === "stretch" ? "fill" : (z.fit === "contain" ? "contain" : "cover");
     if (z.source_png && IS_SAFARI) {
-      var bgSz = fit === "fill" ? "100% 100%" : fit;
-      wrap.style.backgroundImage    = "url('" + this._cdnUrl(z.source_png) + "')";
-      wrap.style.backgroundSize     = bgSz;
-      wrap.style.backgroundRepeat   = "no-repeat";
-      wrap.style.backgroundPosition = "center";
+      var cv = document.createElement("canvas");
+      cv.width  = z.width;
+      cv.height = z.height;
+      cv.style.cssText = "position:absolute;top:0;left:0;display:block;";
+      cv.style.setProperty("width",  z.width  + "px", "important");
+      cv.style.setProperty("height", z.height + "px", "important");
+      var _src = this._cdnUrl(z.source_png);
+      var _fit = fit;
+      var _w = z.width, _h = z.height;
+      (function(canvas, src, f, dw, dh) {
+        var im = new Image();
+        im.crossOrigin = "anonymous";
+        im.onerror = function() {
+          var im2 = new Image();
+          im2.onload = function() {
+            var ctx2 = canvas.getContext("2d");
+            var s2 = 0.95, ox2 = dw*(1-s2)/2, oy2 = dh*(1-s2)/2;
+            ctx2.drawImage(im2, ox2, oy2, dw*s2, dh*s2);
+          };
+          im2.src = src + '?_=' + Date.now();
+        };
+        im.onload = function() {
+          var ctx = canvas.getContext("2d");
+          var sw = im.naturalWidth, sh = im.naturalHeight;
+          var sx = 0, sy = 0, drawW = dw, drawH = dh;
+          if (f === "contain") {
+            var r = Math.min(dw / sw, dh / sh);
+            drawW = sw * r; drawH = sh * r;
+            sx = (dw - drawW) / 2; sy = (dh - drawH) / 2;
+            ctx.drawImage(im, sx, sy, drawW, drawH);
+          } else if (f === "cover") {
+            var r = Math.max(dw / sw, dh / sh);
+            var cw2 = sw * r, ch2 = sh * r;
+            ctx.drawImage(im, (dw - cw2) / 2, (dh - ch2) / 2, cw2, ch2);
+          } else {
+            var s = 0.95, ox = dw*(1-s)/2, oy = dh*(1-s)/2;
+            ctx.drawImage(im, ox, oy, dw*s, dh*s);
+          }
+        };
+        im.src = src;
+      })(cv, _src, _fit, _w, _h);
+      wrap.appendChild(cv);
     } else {
       const v = this._makeVideo(this._cdnUrl(z.source));
-      v.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:" + fit + ";display:block;background:transparent;";
+      v.style.cssText = "position:absolute;top:0;left:0;background:transparent;object-fit:" + fit + ";";
+      v.style.setProperty("width",  z.width  + "px", "important");
+      v.style.setProperty("height", z.height + "px", "important");
       wrap.appendChild(v);
     }
 
@@ -676,10 +724,10 @@
   };
 
   ExhibitPlayer.prototype._positionEl = function (el, z) {
-    el.style.left   = z.x + "px";
-    el.style.top    = z.y + "px";
-    el.style.width  = z.width  + "px";
-    el.style.height = z.height + "px";
+    el.style.setProperty("left",   z.x      + "px", "important");
+    el.style.setProperty("top",    z.y      + "px", "important");
+    el.style.setProperty("width",  z.width  + "px", "important");
+    el.style.setProperty("height", z.height + "px", "important");
   };
 
   ExhibitPlayer.prototype._makeVideo = function (src) {
@@ -705,6 +753,8 @@
       scale = Math.min(scaleByW, scaleByH);
     } else {
       scale = this._wrap.clientWidth / stageW;
+      var maxScale = Math.min(window.innerWidth * 0.9 / stageW, window.innerHeight * 0.9 / stageH);
+      if (scale > maxScale) scale = maxScale;
     }
     this._stage.style.transform  = "scale(" + scale + ")";
     this._stageWrap.style.height = (stageH * scale) + "px";

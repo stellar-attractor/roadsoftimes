@@ -6,15 +6,15 @@
   <div id="rot-exhibit"></div>
 </div>
 
-<script src="https://roadsoftimes.pages.dev/js/infographic-player.js"></script>
+<script src="https://cdn.roadsoftimes.com/js/infographic-player.js"></script>
 <script>
 (function(){
   var id = new URLSearchParams(location.search).get("id");
   if (!id) { document.getElementById("rot-exhibit").textContent = "Экспонат не указан."; return; }
   RotExhibit.init({
     container: "#rot-exhibit",
-    db: "https://roadsoftimes.pages.dev/infographics.json",
-    cdnBase: "https://roadsoftimes.pages.dev",
+    db: "https://cdn.roadsoftimes.com/infographics.json",
+    cdnBase: "https://media.roadsoftimes.com",
     stripSitePrefix: true,
     id: id,
     single: true

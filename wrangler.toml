@@ -1,2 +1,6 @@
 name = "roadsoftimes"
 pages_build_output_dir = "site"
+
+# media-roadsoftimes (media.roadsoftimes.com) is a separate Pages project,
+# deployed by hand via deploy.sh — it has no wrangler.toml of its own since
+# every deploy explicitly passes --project-name media-roadsoftimes.

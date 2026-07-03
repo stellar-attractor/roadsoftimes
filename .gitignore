@@ -12,6 +12,8 @@ images/
 assets/*
 !assets/logo-200.png
 !assets/favicon.ico
+!assets/apple-touch-icon.png
+!assets/og-cover.jpg
 
 # Мокап (2.4MB, уже не нужен для разработки)
 mockup.png
@@ -38,15 +40,9 @@ Roads Of Times Site
 __pycache__/
 *.pyc
 *.pyo
-site/collages/
-site/exhibits/
-site/flags/
-site/huds/
-site/images/
-site/previews/
-site/assets/*
-!site/assets/og-cover.jpg
-site/infographics.json
-site/museums.json
 /assets/
 preview/
+
+# media.roadsoftimes.com deploy source — local filesystem + wrangler direct
+# upload only, never through GitHub/cdn.roadsoftimes.com.
+site/media-site/

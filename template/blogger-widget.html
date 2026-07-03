@@ -3,9 +3,9 @@
 <!-- more --> 
 
 <!-- Вариант 1 — превью-видео (site/previews/EXHIBIT_ID_pr.webm, ~30KB): -->
-<video class="rot-preview-src" src="https://roadsoftimes.pages.dev/previews/Tank_HUD0601_pr.webm" style="display:none" muted playsinline loop></video>
+<video class="rot-preview-src" src="https://media.roadsoftimes.com/previews/Tank_HUD0601_pr.webm" style="display:none" muted playsinline loop></video>
 <!-- Вариант 2 — статичное фото:
-<img src="https://roadsoftimes.pages.dev/images/FILENAME.jpg" style="display:none" alt="">
+<img src="https://media.roadsoftimes.com/images/FILENAME.jpg" style="display:none" alt="">
 -->
 
 <!-- Всё что ВЫШЕ видит карточка на главной. Всё что НИЖЕ — только страница поста. -->
@@ -13,12 +13,12 @@
 
 <!-- ─── Один экспонат без навигации (заменить id на нужный) ─── -->
 <div id="rot-exhibit"></div>
-<script src="https://roadsoftimes.pages.dev/js/infographic-player.js"></script>
+<script src="https://cdn.roadsoftimes.com/js/infographic-player.js"></script>
 <script>
 RotExhibit.init({
   container: '#rot-exhibit',
-  db: 'https://roadsoftimes.pages.dev/infographics.json',
-  cdnBase: 'https://roadsoftimes.pages.dev',
+  db: 'https://cdn.roadsoftimes.com/infographics.json',
+  cdnBase: 'https://media.roadsoftimes.com',
   stripSitePrefix: true,
   id: 'Tank_HUD0601',
   single: true
@@ -27,12 +27,12 @@ RotExhibit.init({
 
 <!-- ─── Галерея всех экспонатов (карусель) — раскомментировать если нужна:
 <div id="rot-exhibit"></div>
-<script src="https://roadsoftimes.pages.dev/js/infographic-player.js"></script>
+<script src="https://cdn.roadsoftimes.com/js/infographic-player.js"></script>
 <script>
 RotExhibit.init({
   container: '#rot-exhibit',
-  db: 'https://roadsoftimes.pages.dev/infographics.json',
-  cdnBase: 'https://roadsoftimes.pages.dev',
+  db: 'https://cdn.roadsoftimes.com/infographics.json',
+  cdnBase: 'https://media.roadsoftimes.com',
   stripSitePrefix: true
 });
 </script>

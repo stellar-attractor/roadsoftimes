@@ -12,6 +12,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "-l", "5510", "tools/museums"],
       "port": 5510
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "5520", "site"],
+      "port": 5520
     }
   ]
 }
