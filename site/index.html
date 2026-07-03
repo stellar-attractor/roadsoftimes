@@ -231,6 +231,9 @@
     /* STATS VIEW */
     .rot-cat .rc-stats { padding: 24px 0; display: none; flex-direction: column; gap: 28px; }
     .rot-cat .rc-stats.show { display: flex; }
+    .rot-cat .stats-media { display: none; justify-content: center; }
+    .rot-cat .stats-media.show { display: flex; }
+    .rot-cat .stats-media .rc-single-media { max-width: 420px; cursor: pointer; border-radius: 4px; }
     .rot-cat .stats-kpi { display: flex; gap: 16px; flex-wrap: wrap; }
     .rot-cat .stats-kpi-card {
       background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px;
@@ -349,6 +352,7 @@
       </div>
     </div>
     <div class="rc-stats" id="rc-stats">
+      <div class="stats-media" id="rc-stats-media"></div>
       <div class="stats-kpi" id="rc-stats-kpi"></div>
       <div class="stats-charts" id="rc-stats-charts"></div>
     </div>
@@ -903,6 +907,21 @@
 
   function renderStats(){
     var data = filtered;
+
+    /* single record: show its glow/preview media above the (all-degenerate) stats */
+    var mediaEl = document.getElementById('rc-stats-media');
+    var mediaHtml = '';
+    if (data.length === 1) {
+      var sr = data[0];
+      var videoSrc = glowSrc(sr) || previewSrc(sr);
+      var imgSrc    = pngSrc(sr);
+      mediaHtml = videoSrc
+        ? '<video class="rc-single-media" src="'+videoSrc+'" muted autoplay loop playsinline></video>'
+        : (imgSrc ? '<img class="rc-single-media" src="'+imgSrc+'">' : '');
+      mediaEl.onclick = function(){ rcOpenPreview(sr.id); };
+    }
+    mediaEl.innerHTML = mediaHtml;
+    mediaEl.classList.toggle('show', !!mediaHtml);
 
     var exhibits = data.filter(function(r){ return r.Category === 'Экспонаты'; }).length;
     var collages = data.filter(function(r){ return r.Category === 'Коллажи'; }).length;
