@@ -83,9 +83,9 @@ body#layout #outer-wrapper{width:auto;background:none}
 
 /* ── Reset ─────────────────────────────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0f0e09;color:#c8c0a8;font-family:'PT Sans',Arial,sans-serif;font-size:14px;line-height:1.6}
-a{color:#c9a84c;text-decoration:none}
-a:hover{color:#e2c06a}
+body{background:#0f0e09;color:#e0dbcd;font-family:'PT Sans',Arial,sans-serif;font-size:14px;line-height:1.6}
+a{color:#d7bf7b;text-decoration:none}
+a:hover{color:#ecd69d}
 a img{border:0}
 img{max-width:100%;height:auto}
 
@@ -103,12 +103,12 @@ img{max-width:100%;height:auto}
 .rot-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
 .rot-logo-emblem{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;display:block}
 .rot-logo-emblem img{width:100%;height:100%;object-fit:cover;display:block}
-.rot-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#e2c06a;letter-spacing:1px;text-transform:uppercase;display:block}
-.rot-logo-sub{font-size:9px;color:#7a7060;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block}
+.rot-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#ecd69d;letter-spacing:1px;text-transform:uppercase;display:block}
+.rot-logo-sub{font-size:9px;color:#998f7e;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block}
 .rot-nav{flex:1}
 .rot-nav > ul{display:flex;list-style:none;gap:2px;margin:0;padding:0}
-.rot-nav > ul > li > a{display:block;padding:8px 13px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#c8c0a8;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
-.rot-nav > ul > li > a:hover,.rot-nav > ul > li.rot-nav-active > a{color:#c9a84c;border-bottom-color:#c9a84c}
+.rot-nav > ul > li > a{display:block;padding:8px 13px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#e0dbcd;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.rot-nav > ul > li > a:hover,.rot-nav > ul > li.rot-nav-active > a{color:#d7bf7b;border-bottom-color:#c9a84c}
 /* ── FLOATING WIDGETS HOLDER (за экраном, JS переставляет содержимое) ── */
 #floating-widgets{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden}
 /* В Layout-редакторе — показываем нормально, чтобы виджеты были видны */
@@ -133,8 +133,8 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 .rot-newsfeed-scroll{animation:rotNFScroll 24s linear infinite}
 .rot-newsfeed-scroll:hover{animation-play-state:paused}
 @keyframes rotNFScroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
-.rot-newsfeed-scroll a{display:block;padding:5px 10px;font-family:'PT Mono',monospace;font-size:12px;color:#c8c0a8;text-decoration:none;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 3px rgba(0,0,0,.8)}
-.rot-newsfeed-scroll a:hover{color:#c9a84c}
+.rot-newsfeed-scroll a{display:block;padding:5px 10px;font-family:'PT Mono',monospace;font-size:12px;color:#e0dbcd;text-decoration:none;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.rot-newsfeed-scroll a:hover{color:#d7bf7b}
 
 /* ── HERO SLIDER ─────────────────────────────────────────────────── */
 .rot-hero{position:relative;width:100%;height:480px;overflow:hidden;background:#000}
@@ -145,21 +145,21 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 .rot-slide::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to right,rgba(10,9,5,.92) 0%,rgba(10,9,5,.62) 38%,rgba(10,9,5,.18) 62%,rgba(10,9,5,0) 100%)}
 .rot-hero-content{position:absolute;top:50%;left:0;transform:translateY(-50%);width:100%;z-index:10}
 .rot-hero-inner{max-width:1100px;margin:0 auto;padding:0 15px 0 75px}
-.rot-hero-eyebrow{font-family:'PT Mono',monospace;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#8a6f2e;margin-bottom:8px}
-.rot-hero-title{font-family:'Oswald',sans-serif;font-size:64px;font-weight:700;line-height:1.0;color:#e8e0cc;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;max-width:580px;text-shadow:0 2px 20px rgba(0,0,0,.8)}
-.rot-hero-desc{font-size:18px;color:#c8c0a8;max-width:460px;line-height:1.65;margin-bottom:28px}
+.rot-hero-eyebrow{font-family:'PT Mono',monospace;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#b8943d;margin-bottom:8px}
+.rot-hero-title{font-family:'Oswald',sans-serif;font-size:64px;font-weight:700;line-height:1.0;color:#fbfaf6;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;max-width:580px;text-shadow:0 2px 20px rgba(0,0,0,.8)}
+.rot-hero-desc{font-size:18px;color:#e0dbcd;max-width:460px;line-height:1.65;margin-bottom:28px}
 .rot-hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
 .rot-btn{display:inline-block;padding:10px 22px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid;cursor:pointer;transition:all .2s;text-decoration:none}
 .rot-btn-primary{background:#c9a84c;border-color:#c9a84c;color:#0f0e09;font-weight:600}
 .rot-btn-primary:hover{background:#e2c06a;border-color:#e2c06a;color:#0f0e09}
-.rot-btn-outline{background:transparent;border-color:#7a7060;color:#c8c0a8}
-.rot-btn-outline:hover{border-color:#8a6f2e;color:#c9a84c}
-.rot-hero-geo{position:absolute;bottom:18px;right:20px;z-index:10;font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1px;color:#7a7060;background:rgba(10,9,5,.7);padding:5px 10px;border:1px solid #252418}
+.rot-btn-outline{background:transparent;border-color:#7a7060;color:#e0dbcd}
+.rot-btn-outline:hover{border-color:#8a6f2e;color:#d7bf7b}
+.rot-hero-geo{position:absolute;bottom:18px;right:20px;z-index:10;font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1px;color:#998f7e;background:rgba(10,9,5,.7);padding:5px 10px;border:1px solid #252418}
 .rot-pager{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:8px}
 .rot-pager span{width:28px;height:3px;background:rgba(201,168,76,.3);cursor:pointer;transition:background .2s;display:inline-block}
 .rot-pager span.active{background:#c9a84c}
-.rot-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(10,9,5,.6);border:1px solid #3a3520;color:#7a7060;width:40px;height:40px;line-height:40px;text-align:center;cursor:pointer;font-size:20px;transition:all .2s;user-select:none}
-.rot-arrow:hover{background:rgba(201,168,76,.15);border-color:#8a6f2e;color:#c9a84c}
+.rot-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(10,9,5,.6);border:1px solid #3a3520;color:#998f7e;width:40px;height:40px;line-height:40px;text-align:center;cursor:pointer;font-size:20px;transition:all .2s;user-select:none}
+.rot-arrow:hover{background:rgba(201,168,76,.15);border-color:#8a6f2e;color:#d7bf7b}
 .rot-arrow-prev{left:20px}
 .rot-arrow-next{right:20px}
 
@@ -179,17 +179,17 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 
 /* ── VIEW SWITCHER ──────────────────────────────────────────────── */
 .rot-view-switcher{display:flex;gap:4px;align-items:center}
-.rot-view-btn{background:none;border:1px solid #252418;padding:5px 10px;cursor:pointer;color:#7a7060;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;transition:color .2s,border-color .2s;line-height:1}
+.rot-view-btn{background:none;border:1px solid #252418;padding:5px 10px;cursor:pointer;color:#998f7e;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;transition:color .2s,border-color .2s;line-height:1}
 .rot-view-btn svg{display:block}
-.rot-view-btn:hover{color:#c9a84c;border-color:#8a6f2e}
-.rot-view-btn.active{color:#c9a84c;border-color:#8a6f2e;background:#1a1a0e}
+.rot-view-btn:hover{color:#d7bf7b;border-color:#8a6f2e}
+.rot-view-btn.active{color:#d7bf7b;border-color:#8a6f2e;background:#1a1a0e}
 
 /* ── POST CARDS ─────────────────────────────────────────────────── */
 .rot-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #3a3520}
-.rot-section-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#e8e0cc;display:flex;align-items:center;gap:8px}
+.rot-section-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#fbfaf6;display:flex;align-items:center;gap:8px}
 .rot-section-title::before{content:'';display:inline-block;width:3px;height:16px;background:#c9a84c}
-.rot-section-link{font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#7a7060;border:1px solid #252418;padding:4px 10px;transition:color .2s,border-color .2s}
-.rot-section-link:hover{color:#c9a84c;border-color:#8a6f2e}
+.rot-section-link{font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#998f7e;border:1px solid #252418;padding:4px 10px;transition:color .2s,border-color .2s}
+.rot-section-link:hover{color:#d7bf7b;border-color:#8a6f2e}
 /* ── Сетка карточек постов ──────────────────────────────────────── */
 /* Грид вешаем на .blog-posts.hfeed — это ближайший надёжный контейнер
    до date-outer/date-posts/post-outer. Промежуточные #main и .widget.Blog
@@ -223,8 +223,8 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 .rot-posts-grid.view-feed .blog-pager{margin-top:10px;border-top:1px solid #3a3520}
 /* Blogger label-filter banner — скрываем дефолтный, показываем наш */
 .status-msg-wrap,.status-msg-body,.status-msg-border{display:none!important}
-.rot-label-banner{display:none;grid-column:1/-1;padding:10px 16px;background:#1a1a0e;border:1px solid #3a3520;border-left:3px solid #c9a84c;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#7a7060;margin-bottom:4px;align-self:start}
-.rot-label-banner span{color:#c9a84c}
+.rot-label-banner{display:none;grid-column:1/-1;padding:10px 16px;background:#1a1a0e;border:1px solid #3a3520;border-left:3px solid #c9a84c;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#998f7e;margin-bottom:4px;align-self:start}
+.rot-label-banner span{color:#d7bf7b}
 .rot-post-card{background:#1a1a0e;border:1px solid #252418;overflow:hidden;transition:border-color .2s;display:flex;flex-direction:column;position:relative}
 .rot-post-card:hover{border-color:#8a6f2e}
 /* Вся карточка кликабельна через ::after на ссылке заголовка */
@@ -234,57 +234,57 @@ body#layout #newsfeed1{position:static!important;width:auto!important;display:bl
 .rot-card-thumb{position:relative;height:160px;overflow:hidden;flex-shrink:0;background:#232318}
 .rot-card-thumb img,.rot-card-thumb video{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
 .rot-post-card:hover .rot-card-thumb img,.rot-post-card:hover .rot-card-thumb video{transform:scale(1.05)}
-.rot-tag{position:absolute;top:10px;left:10px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;z-index:2;background:#2a0f0f;color:#ae6a5a;border:1px solid #ae6a5a}
+.rot-tag{position:absolute;top:10px;left:10px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;z-index:2;background:#2a0f0f;color:#c28f83;border:1px solid #ae6a5a}
 .rot-card-body{padding:14px;flex:1;display:flex;flex-direction:column}
-.rot-card-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;color:#e8e0cc;line-height:1.25;margin-bottom:8px}
+.rot-card-title{font-family:'Oswald',sans-serif;font-size:16px;font-weight:500;color:#fbfaf6;line-height:1.25;margin-bottom:8px}
 .rot-card-title a{color:inherit;transition:color .2s}
-.rot-card-title a:hover{color:#c9a84c}
-.rot-card-excerpt{font-size:12px;color:#7a7060;line-height:1.55;margin-bottom:12px;overflow:hidden;max-height:72px}
+.rot-card-title a:hover{color:#d7bf7b}
+.rot-card-excerpt{font-size:12px;color:#998f7e;line-height:1.55;margin-bottom:12px;overflow:hidden;max-height:72px}
 .rot-card-excerpt img,.rot-card-excerpt table,.rot-card-excerpt iframe,.rot-card-excerpt figure{display:none!important}
-.rot-card-meta{display:flex;align-items:center;gap:12px;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;border-top:1px solid #252418;padding-top:10px;flex-wrap:wrap}
-.rot-card-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#8a6f2e;margin-right:4px}
-.rot-card-labels a:hover{color:#c9a84c;border-color:#8a6f2e}
+.rot-card-meta{display:flex;align-items:center;gap:12px;font-family:'PT Mono',monospace;font-size:10px;color:#998f7e;border-top:1px solid #252418;padding-top:10px;flex-wrap:wrap}
+.rot-card-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#b8943d;margin-right:4px}
+.rot-card-labels a:hover{color:#d7bf7b;border-color:#8a6f2e}
 
 /* ── СТРАНИЦА ПОСТА ──────────────────────────────────────────────── */
 /* Пост занимает всю ширину грида (3 колонки → одна на всю ширину) */
 .rot-single-post{padding:28px 0 0;min-width:0;grid-column:1/-1!important}
 .rot-single-labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .rot-single-header{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #252418}
-.rot-single-title{font-family:'Oswald',sans-serif;font-size:32px;font-weight:600;color:#e8e0cc;line-height:1.15;margin-bottom:12px}
+.rot-single-title{font-family:'Oswald',sans-serif;font-size:32px;font-weight:600;color:#fbfaf6;line-height:1.15;margin-bottom:12px}
 /* Круглый аватар — добавить класс rot-avatar на <img> в посте */
 .rot-avatar{border-radius:50%!important;object-fit:cover!important;width:260px!important;height:260px!important;float:left!important;margin:0 24px 16px 0!important;shape-outside:circle()}
 .rot-avatar-wrap{display:block!important;float:left!important;margin:0 24px 16px 0!important;border-radius:50%;overflow:hidden;width:260px;height:260px;flex-shrink:0}
 .rot-avatar-wrap img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
-.rot-single-meta{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.rot-single-meta{font-family:'PT Mono',monospace;font-size:10px;color:#998f7e;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .rot-single-meta .rot-meta-labels{display:flex;flex-wrap:wrap;gap:5px;margin-left:4px}
-.rot-single-meta .rot-meta-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#8a6f2e;text-decoration:none}
-.rot-single-meta .rot-meta-labels a:hover{color:#c9a84c;border-color:#8a6f2e}
-.rot-single-body{font-size:15px;color:#c8c0a8;line-height:1.8;max-width:720px}
-.rot-single-body h2,.rot-single-body h3{font-family:'Oswald',sans-serif;color:#e8e0cc;margin:28px 0 10px}
+.rot-single-meta .rot-meta-labels a{font-family:'PT Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border:1px solid #3a3520;color:#b8943d;text-decoration:none}
+.rot-single-meta .rot-meta-labels a:hover{color:#d7bf7b;border-color:#8a6f2e}
+.rot-single-body{font-size:15px;color:#e0dbcd;line-height:1.8;max-width:720px}
+.rot-single-body h2,.rot-single-body h3{font-family:'Oswald',sans-serif;color:#fbfaf6;margin:28px 0 10px}
 .rot-single-body h2{font-size:22px}.rot-single-body h3{font-size:18px}
 .rot-single-body p{margin-bottom:16px}
 .rot-single-body img{max-width:100%;height:auto;display:block;margin:20px 0;border:1px solid #252418}
-.rot-single-body a{color:#c9a84c;border-bottom:1px solid rgba(201,168,76,.3);transition:border-color .2s}
+.rot-single-body a{color:#d7bf7b;border-bottom:1px solid rgba(201,168,76,.3);transition:border-color .2s}
 .rot-single-body a:hover{border-color:#c9a84c}
-.rot-single-body blockquote{border-left:3px solid #8a6f2e;margin:20px 0;padding:8px 0 8px 18px;color:#a09880;font-style:italic}
+.rot-single-body blockquote{border-left:3px solid #8a6f2e;margin:20px 0;padding:8px 0 8px 18px;color:#bab4a3;font-style:italic}
 .rot-single-footer{margin-top:36px;padding-top:20px;border-top:1px solid #252418}
 
 /* ── КОММЕНТАРИИ ─────────────────────────────────────────────────── */
-#comments{margin-top:36px;padding-top:24px;border-top:2px solid #3a3520;color:#c8c0a8}
+#comments{margin-top:36px;padding-top:24px;border-top:2px solid #3a3520;color:#e0dbcd}
 /* Заголовки "N comments:" и "Post a Comment" */
-#comments>h4,#comments h4{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#c9a84c;margin-bottom:20px;background:none;border:none;padding:0}
-#comment-post-message{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#c9a84c;margin:24px 0 12px}
+#comments>h4,#comments h4{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#d7bf7b;margin-bottom:20px;background:none;border:none;padding:0}
+#comment-post-message{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#d7bf7b;margin:24px 0 12px}
 /* Список — Blogger использует dl/dt/dd */
 #comments-block{margin:0;padding:0}
-.comment-author{font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8a6f2e;margin-bottom:4px}
-.comment-author a{color:#8a6f2e}
+.comment-author{font-family:'PT Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b8943d;margin-bottom:4px}
+.comment-author a{color:#b8943d}
 .comment-body{margin:0 0 4px;padding:0}
-.comment-body p{font-size:13px;color:#c8c0a8;line-height:1.7;margin:0 0 6px}
-.comment-footer{font-family:'PT Mono',monospace;font-size:9px;color:#7a7060;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #252418}
-.comment-footer a{color:#7a7060}.comment-footer a:hover{color:#c9a84c}
+.comment-body p{font-size:13px;color:#e0dbcd;line-height:1.7;margin:0 0 6px}
+.comment-footer{font-family:'PT Mono',monospace;font-size:9px;color:#998f7e;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #252418}
+.comment-footer a{color:#998f7e}.comment-footer a:hover{color:#d7bf7b}
 .avatar-image-container img{width:32px;height:32px;border:1px solid #3a3520;vertical-align:middle;margin-right:8px}
 /* Подписка на комментарии */
-.comment-footer>a[href*="atom"]{font-size:9px;color:#3a3520!important}
+.comment-footer>a[href*="atom"]{font-size:9px;color:#615936!important}
 /* Контейнер iframe-формы — инвертируем цвета чтобы вписать в тёмную тему */
 #comment-form,#comment-editor-container{width:100%!important;max-width:none!important;box-sizing:border-box!important}
 #comment-editor-container{background:#0e0e08;border:1px solid #3a3520;margin-top:8px;overflow:hidden}
@@ -330,8 +330,8 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 
 /* Blog pager */
 .blog-pager{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid #3a3520;margin-top:10px;background:none}
-.blog-pager a,.blog-pager-newer-link,.blog-pager-older-link{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#7a7060;border:1px solid #252418;padding:6px 14px;transition:color .2s,border-color .2s}
-.blog-pager a:hover{color:#c9a84c;border-color:#8a6f2e}
+.blog-pager a,.blog-pager-newer-link,.blog-pager-older-link{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#998f7e;border:1px solid #252418;padding:6px 14px;transition:color .2s,border-color .2s}
+.blog-pager a:hover{color:#d7bf7b;border-color:#8a6f2e}
 .blog-posts.hfeed{padding:0}
 
 /* ── Контейнер под grid (Featured Museum + Choose Path) ─────────── */
@@ -346,14 +346,14 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 .rot-museum-photo{height:220px;overflow:hidden}
 .rot-museum-photo img{display:block;width:100%;height:100%;object-fit:cover}
 .rot-museum-body{padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between}
-.rot-museum-label{font-family:'PT Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8a6f2e;margin-bottom:6px}
-.rot-museum-title{font-family:'Oswald',sans-serif;font-size:21px;font-weight:600;color:#e8e0cc;margin-bottom:10px;line-height:1.2}
-.rot-museum-desc{font-size:13px;color:#c8c0a8;line-height:1.65;margin-bottom:14px}
+.rot-museum-label{font-family:'PT Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#b8943d;margin-bottom:6px}
+.rot-museum-title{font-family:'Oswald',sans-serif;font-size:21px;font-weight:600;color:#fbfaf6;margin-bottom:10px;line-height:1.2}
+.rot-museum-desc{font-size:13px;color:#e0dbcd;line-height:1.65;margin-bottom:14px}
 .rot-museum-stats{display:flex;gap:20px;margin-bottom:16px}
 .rot-stat{display:flex;flex-direction:column;align-items:center;gap:3px}
 .rot-stat-icon{font-size:17px;opacity:.7}
-.rot-stat-val{font-family:'Oswald',sans-serif;font-size:12px;color:#c9a84c}
-.rot-stat-label{font-size:9px;color:#7a7060;letter-spacing:1px;text-transform:uppercase;font-family:'PT Mono',monospace}
+.rot-stat-val{font-family:'Oswald',sans-serif;font-size:12px;color:#d7bf7b}
+.rot-stat-label{font-size:9px;color:#998f7e;letter-spacing:1px;text-transform:uppercase;font-family:'PT Mono',monospace}
 
 /* ── MUSEUM WIDGET — внутри main-wrapper ────────────────────────── */
 /* Обнуляем обёртку Blogger-виджета, чтобы не ломать дизайн блока */
@@ -367,8 +367,8 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 .rot-path-card{background:#1a1a0e;border:1px solid #252418;padding:20px 14px;text-align:center;transition:border-color .2s,background .2s;text-decoration:none;display:block}
 .rot-path-card:hover{border-color:#8a6f2e;background:#232318}
 .rot-path-icon{font-size:26px;margin-bottom:10px;display:block}
-.rot-path-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:#e8e0cc;margin-bottom:5px}
-.rot-path-desc{font-size:11px;color:#7a7060;line-height:1.4}
+.rot-path-title{font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:#fbfaf6;margin-bottom:5px}
+.rot-path-desc{font-size:11px;color:#998f7e;line-height:1.4}
 
 /* ── GameTown tab-блок: скрываем nav и tab1, tabviewsection открыт ── */
 #rsidebar-wrapper .tabs-widget,
@@ -376,7 +376,7 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 /* Search box — растянуть на всю ширину сайдбара */
 #search{overflow:hidden;margin-bottom:16px}
 #searchform{display:flex;width:100%}
-#s{flex:1;width:100%!important;background:#232318;border:1px solid #3a3520;border-right:none;color:#c8c0a8;padding:7px 10px;font-family:'PT Mono',monospace;font-size:12px;outline:none;box-sizing:border-box}
+#s{flex:1;width:100%!important;background:#232318;border:1px solid #3a3520;border-right:none;color:#e0dbcd;padding:7px 10px;font-family:'PT Mono',monospace;font-size:12px;outline:none;box-sizing:border-box}
 #s:focus{border-color:#8a6f2e}
 /* tabviewsection и widget-container — убираем отступы GameTown */
 #rsidebar-wrapper .tabviewsection,
@@ -386,62 +386,62 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 #rsidebar-wrapper .section{display:flex;flex-direction:column}
 #rsidebar-wrapper .widget{background:#1a1a0e;border:1px solid #252418;overflow:hidden;margin-bottom:16px;min-width:0;max-width:100%}
 #rsidebar-wrapper .widget:last-child{margin-bottom:0}
-#rsidebar-wrapper h2{background:#232318;border-bottom:1px solid #3a3520;padding:10px 14px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#c9a84c;margin:0}
-#rsidebar-wrapper .widget-content{padding:12px 14px;font-size:12px;color:#c8c0a8}
-#rsidebar-wrapper .widget-content a{color:#c8c0a8;transition:color .2s}
-#rsidebar-wrapper .widget-content a:hover{color:#c9a84c}
+#rsidebar-wrapper h2{background:#232318;border-bottom:1px solid #3a3520;padding:10px 14px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#d7bf7b;margin:0}
+#rsidebar-wrapper .widget-content{padding:12px 14px;font-size:12px;color:#e0dbcd}
+#rsidebar-wrapper .widget-content a{color:#e0dbcd;transition:color .2s}
+#rsidebar-wrapper .widget-content a:hover{color:#d7bf7b}
 #rsidebar-wrapper .widget-content ul{list-style:none;padding:0;margin:0}
 #rsidebar-wrapper .widget-content li{padding:5px 0;border-bottom:1px solid #252418;display:flex;justify-content:space-between;align-items:center;font-size:12px}
 #rsidebar-wrapper .widget-content li:last-child{border-bottom:none}
-#rsidebar-wrapper .widget-content li span{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;background:#232318;padding:1px 7px;border-radius:2px}
+#rsidebar-wrapper .widget-content li span{font-family:'PT Mono',monospace;font-size:10px;color:#998f7e;background:#232318;padding:1px 7px;border-radius:2px}
 /* Archive */
 #BlogArchive1 .widget-content{padding:0}
 /* Search */
 #BlogSearch1 .widget-content{padding:10px 14px}
-#BlogSearch1 input{width:100%;background:#232318;border:1px solid #3a3520;color:#c8c0a8;padding:7px 10px;font-family:'PT Sans',sans-serif;font-size:12px;outline:none}
+#BlogSearch1 input{width:100%;background:#232318;border:1px solid #3a3520;color:#e0dbcd;padding:7px 10px;font-family:'PT Sans',sans-serif;font-size:12px;outline:none}
 #BlogSearch1 input:focus{border-color:#8a6f2e}
 
 /* ── САЙДБАР — статичные виджеты ─────────────────────────────── */
 .rot-sw{background:#1a1a0e;border:1px solid #252418;overflow:hidden;margin-bottom:16px}
-.rot-sw-head{background:#232318;border-bottom:1px solid #3a3520;padding:10px 14px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2.5px;color:#c9a84c;margin:0;display:flex;align-items:center;gap:8px}
+.rot-sw-head{background:#232318;border-bottom:1px solid #3a3520;padding:10px 14px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2.5px;color:#d7bf7b;margin:0;display:flex;align-items:center;gap:8px}
 .rot-sw-head-icon{font-size:13px;opacity:.85}
 .rot-sw-body{padding:14px}
 
 /* В пути */
-.rot-onroad-status{display:inline-flex;align-items:center;gap:6px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#5a8a5a;margin-bottom:12px}
+.rot-onroad-status{display:inline-flex;align-items:center;gap:6px;font-family:'PT Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#79a879;margin-bottom:12px}
 .rot-onroad-dot{width:7px;height:7px;border-radius:50%;background:#5a8a5a;box-shadow:0 0 6px #5a8a5a;animation:rot-pulse 2s ease-in-out infinite}
 @keyframes rot-pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.rot-onroad-dest{font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;color:#e8e0cc;line-height:1.1;margin-bottom:4px}
-.rot-onroad-country{font-family:'PT Mono',monospace;font-size:10px;color:#8a6f2e;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
-.rot-onroad-route{font-size:12px;color:#c8c0a8;line-height:1.6;border-left:2px solid #3a3520;padding-left:10px;margin-bottom:10px}
-.rot-onroad-dates{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;display:flex;align-items:center;gap:6px}
+.rot-onroad-dest{font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;color:#fbfaf6;line-height:1.1;margin-bottom:4px}
+.rot-onroad-country{font-family:'PT Mono',monospace;font-size:10px;color:#b8943d;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.rot-onroad-route{font-size:12px;color:#e0dbcd;line-height:1.6;border-left:2px solid #3a3520;padding-left:10px;margin-bottom:10px}
+.rot-onroad-dates{font-family:'PT Mono',monospace;font-size:10px;color:#998f7e;display:flex;align-items:center;gap:6px}
 .rot-onroad-dates::before{content:'';display:inline-block;width:12px;height:1px;background:#3a3520}
 
 /* Цитата */
 .rot-quote-body{position:relative;padding:4px 0 4px 18px;border-left:3px solid #8a6f2e}
-.rot-quote-mark{font-family:Georgia,serif;font-size:42px;line-height:.6;color:#8a6f2e;opacity:.5;position:absolute;left:-2px;top:6px}
-.rot-quote-text{font-size:13px;color:#c8c0a8;line-height:1.7;font-style:italic;margin:0 0 10px}
-.rot-quote-author{font-family:'PT Mono',monospace;font-size:10px;color:#7a7060;letter-spacing:1px}
+.rot-quote-mark{font-family:Georgia,serif;font-size:42px;line-height:.6;color:#b8943d;opacity:.5;position:absolute;left:-2px;top:6px}
+.rot-quote-text{font-size:13px;color:#e0dbcd;line-height:1.7;font-style:italic;margin:0 0 10px}
+.rot-quote-author{font-family:'PT Mono',monospace;font-size:10px;color:#998f7e;letter-spacing:1px}
 
 /* ── Наш таб-виджет Метки/Архив ────────────────────────────────── */
 .rot-tabs-widget{background:#1a1a0e;border:1px solid #252418;overflow:hidden;margin-bottom:16px}
 .rot-tabs-nav{display:flex;border-bottom:1px solid #3a3520}
-.rot-tabs-nav button{flex:1;background:none;border:none;border-bottom:2px solid transparent;padding:10px 8px;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#7a7060;cursor:pointer;transition:color .2s,border-color .2s;margin-bottom:-1px}
-.rot-tabs-nav button:hover{color:#c9a84c}
-.rot-tabs-nav button.rot-tab-active{color:#c9a84c;border-bottom-color:#c9a84c;background:#232318}
+.rot-tabs-nav button{flex:1;background:none;border:none;border-bottom:2px solid transparent;padding:10px 8px;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#998f7e;cursor:pointer;transition:color .2s,border-color .2s;margin-bottom:-1px}
+.rot-tabs-nav button:hover{color:#d7bf7b}
+.rot-tabs-nav button.rot-tab-active{color:#d7bf7b;border-bottom-color:#c9a84c;background:#232318}
 .rot-tab-panel{display:none}
 .rot-tab-panel.rot-tab-active{display:block}
 /* ── Облако меток ───────────────────────────────────────────────── */
 #rsidebar-wrapper .Label .widget-content{padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px}
 #rsidebar-wrapper .Label .widget-content a,
-#rsidebar-wrapper .Label .widget-content span{display:inline-block;font-family:'PT Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:#7a7060;background:#232318;border:1px solid #2e2d20;padding:3px 8px;transition:color .2s,border-color .2s,background .2s;text-decoration:none;line-height:1.5}
-#rsidebar-wrapper .Label .widget-content a:hover{color:#c9a84c;border-color:#8a6f2e;background:#1a1a0e}
+#rsidebar-wrapper .Label .widget-content span{display:inline-block;font-family:'PT Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:#998f7e;background:#232318;border:1px solid #2e2d20;padding:3px 8px;transition:color .2s,border-color .2s,background .2s;text-decoration:none;line-height:1.5}
+#rsidebar-wrapper .Label .widget-content a:hover{color:#d7bf7b;border-color:#8a6f2e;background:#1a1a0e}
 /* label-size-* от Blogger: 1(редко)→5(часто) — меняем размер шрифта */
 .label-size-1{font-size:9px!important}
 .label-size-2{font-size:10px!important}
-.label-size-3{font-size:11px!important;color:#c8c0a8!important}
-.label-size-4{font-size:12px!important;color:#c8c0a8!important;border-color:#3a3520!important}
-.label-size-5{font-size:13px!important;color:#c9a84c!important;border-color:#8a6f2e!important;background:#1a1a0e!important}
+.label-size-3{font-size:11px!important;color:#e0dbcd!important}
+.label-size-4{font-size:12px!important;color:#e0dbcd!important;border-color:#3a3520!important}
+.label-size-5{font-size:13px!important;color:#d7bf7b!important;border-color:#8a6f2e!important;background:#1a1a0e!important}
 .label-count{display:none}
 /* ── Архив — иерархия с тогглами ───────────────────────────────── */
 #rsidebar-wrapper .BlogArchive .widget-content{padding:0}
@@ -467,27 +467,27 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 /* Скрываем счётчики */
 #rsidebar-wrapper .BlogArchive span.post-count{display:none!important}
 /* Тоггл-стрелка */
-#rsidebar-wrapper .BlogArchive a.toggle{display:inline!important;font-size:10px;color:#8a6f2e;text-decoration:none;padding-right:4px!important}
+#rsidebar-wrapper .BlogArchive a.toggle{display:inline!important;font-size:10px;color:#b8943d;text-decoration:none;padding-right:4px!important}
 #rsidebar-wrapper .BlogArchive a.toggle .zippy{font-style:normal;display:inline!important}
 /* Год — строка заголовка */
 #rsidebar-wrapper .BlogArchive ul > li.archivedate > a.post-count-link{
   display:inline!important;font-family:'Oswald',sans-serif;font-size:12px;
-  letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;text-decoration:none}
+  letter-spacing:1.5px;text-transform:uppercase;color:#d7bf7b;text-decoration:none}
 #rsidebar-wrapper .BlogArchive ul > li.archivedate{
   padding:7px 18px!important;background:#232318;border-bottom:1px solid #3a3520}
 /* Месяц — строка */
 #rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link{
-  display:inline!important;font-size:11px;color:#c8c0a8;text-decoration:none;
+  display:inline!important;font-size:11px;color:#e0dbcd;text-decoration:none;
   letter-spacing:.5px;text-transform:none;transition:color .2s}
 #rsidebar-wrapper .BlogArchive ul.items > li.archivedate{
   padding:5px 14px 5px 20px!important;border-bottom:1px solid #252418}
-#rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link:hover{color:#c9a84c}
+#rsidebar-wrapper .BlogArchive ul.items > li.archivedate > a.post-count-link:hover{color:#d7bf7b}
 /* Посты */
 #rsidebar-wrapper .BlogArchive .items .items li{
   padding:4px 14px 4px 32px!important;border-bottom:1px solid #1a1a0e}
 #rsidebar-wrapper .BlogArchive .items .items li a{
-  display:inline!important;font-size:11px;color:#7a7060;text-decoration:none;transition:color .2s}
-#rsidebar-wrapper .BlogArchive .items .items li a:hover{color:#c9a84c}
+  display:inline!important;font-size:11px;color:#998f7e;text-decoration:none;transition:color .2s}
+#rsidebar-wrapper .BlogArchive .items .items li a:hover{color:#d7bf7b}
 #rsidebar-wrapper .BlogArchive .items .items li:last-child{border-bottom:none}
 
 /* ── FOOTER ──────────────────────────────────────────────────────── */
@@ -495,21 +495,21 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 .footer-widget-box{display:none!important}
 #footer-container{background:#1e1d14;border-top:2px solid #3a3520;margin-top:48px;padding:36px 15px 0}
 .rot-footer-top{max-width:1100px;margin:0 auto;padding-bottom:28px;display:grid;grid-template-columns:240px 1fr 1fr 1fr;gap:32px}
-.rot-footer-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#e2c06a;letter-spacing:1px;text-transform:uppercase;display:block}
-.rot-footer-logo-sub{font-size:9px;color:#7a7060;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block;margin-top:2px}
-.rot-footer-desc{font-size:12px;color:#7a7060;line-height:1.65;margin-top:12px}
-.rot-footer-col-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#8a6f2e;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #252418}
+.rot-footer-logo-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#ecd69d;letter-spacing:1px;text-transform:uppercase;display:block}
+.rot-footer-logo-sub{font-size:9px;color:#998f7e;letter-spacing:2px;text-transform:uppercase;font-family:'PT Mono',monospace;display:block;margin-top:2px}
+.rot-footer-desc{font-size:12px;color:#998f7e;line-height:1.65;margin-top:12px}
+.rot-footer-col-title{font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:#b8943d;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #252418}
 .rot-footer-links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px}
-.rot-footer-links a{font-size:12px;color:#7a7060;transition:color .2s}
-.rot-footer-links a:hover{color:#c9a84c}
+.rot-footer-links a{font-size:12px;color:#998f7e;transition:color .2s}
+.rot-footer-links a:hover{color:#d7bf7b}
 .rot-footer-bottom-bar{border-top:1px solid #252418;padding:14px 15px}
-.rot-footer-bottom{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-family:'PT Mono',monospace;font-size:10px;color:#7a7060}
+.rot-footer-bottom{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-family:'PT Mono',monospace;font-size:10px;color:#998f7e}
 #footer{padding:0;background:none;border:none}
 #copyrights,#credits{display:none}
 
 /* ── HAMBURGER BUTTON ───────────────────────────────────────────── */
-#rot-menu-toggle{background:none;border:1px solid #3a3520;color:#c8c0a8;font-size:18px;line-height:1;padding:5px 9px;cursor:pointer;transition:color .2s,border-color .2s;font-family:inherit}
-#rot-menu-toggle:hover,#rot-menu-toggle.rot-menu-open{color:#c9a84c;border-color:#8a6f2e}
+#rot-menu-toggle{background:none;border:1px solid #3a3520;color:#e0dbcd;font-size:18px;line-height:1;padding:5px 9px;cursor:pointer;transition:color .2s,border-color .2s;font-family:inherit}
+#rot-menu-toggle:hover,#rot-menu-toggle.rot-menu-open{color:#d7bf7b;border-color:#8a6f2e}
 
 /* ── VERTICAL DROPDOWN MENU ─────────────────────────────────────── */
 .rot-dropmenu{display:none!important;position:absolute!important;top:100%!important;left:0!important;z-index:999!important;min-width:185px;background:#1a1a0e;border:1px solid #3a3520;border-top:2px solid #c9a84c;box-shadow:6px 6px 24px rgba(0,0,0,.8)}
@@ -517,8 +517,8 @@ body.rot-page-error_page .rot-single-body{display:block!important}
 /* Reset any nav inheritance inside the dropdown — only top-level list */
 .rot-dm-list{display:block!important;flex-direction:unset!important;list-style:none!important;margin:0!important;padding:4px 0!important;gap:0!important;background:none!important;border:none!important}
 .rot-dropmenu li{display:block!important;position:relative!important;float:none!important}
-.rot-dropmenu a{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:10px 16px!important;font-family:'Oswald',sans-serif!important;font-size:13px!important;letter-spacing:1px!important;text-transform:uppercase!important;color:#c8c0a8!important;white-space:nowrap!important;border-bottom:none!important;transition:color .2s,background .2s!important;text-decoration:none!important;width:100%!important;box-sizing:border-box!important}
-.rot-dropmenu a:hover{color:#c9a84c!important;background:#252418!important}
+.rot-dropmenu a{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:10px 16px!important;font-family:'Oswald',sans-serif!important;font-size:13px!important;letter-spacing:1px!important;text-transform:uppercase!important;color:#e0dbcd!important;white-space:nowrap!important;border-bottom:none!important;transition:color .2s,background .2s!important;text-decoration:none!important;width:100%!important;box-sizing:border-box!important}
+.rot-dropmenu a:hover{color:#d7bf7b!important;background:#252418!important}
 .rot-dm-has-sub > a::after{content:'\203A';margin-left:auto;padding-left:12px;opacity:.5;font-size:18px;line-height:1}
 .rot-dm-divider{height:1px!important;background:#3a3520!important;margin:4px 0!important;padding:0!important}
 /* Submenu — flies out to the right */
@@ -1112,7 +1112,7 @@ ol{list-style-type:decimal}
 dl{margin:0 0 20px 0}
 dl dt{font-weight:bold}
 dd{margin-left:20px}
-blockquote{margin:20px;color:#666;}
+blockquote{margin:20px;color:#858585;}
 pre{margin:20px 0;white-space:pre}
 pre,code,tt{font:13px &#39;andale mono&#39;,&#39;lucida console&#39;,monospace;line-height:18px}
 #search {overflow:hidden;}
@@ -1286,34 +1286,6 @@ embed, img, object, video {max-width: 100%;}
         <li id='rot-nav-goroda'><a expr:href='data:blog.homepageUrl + &quot;search/label/%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0&quot;'>&#1043;&#1086;&#1088;&#1086;&#1076;&#1072;</a></li>
         <li id='rot-nav-muzei'><a href='https://roadsoftimes.blogspot.com/p/museums.html'>&#1052;&#1091;&#1079;&#1077;&#1080;</a></li>
         <li id='rot-nav-catalog'><a href='https://roadsoftimes.blogspot.com/p/catalog.html'>&#1050;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;</a></li>
-        <li style='position:relative'>
-          <button id='rot-menu-toggle' title='&#1052;&#1077;&#1085;&#1102;'>&#9776;</button>
-          <nav class='rot-dropmenu' id='rot-dropmenu'>
-            <ul class='rot-dm-list'>
-  <li class='rot-dm-has-sub'><a href='#'>🌍 Страны</a>
-    <ul class='rot-dm-sub'>
-      <li><a href='/search/label/%D0%93%D0%B5%D1%80%D0%BC%D0%B0%D0%BD%D0%B8%D1%8F'>🇩🇪 Германия</a></li>
-      <li><a href='/search/label/%D0%9F%D0%BE%D0%BB%D1%8C%D1%88%D0%B0'>🇵🇱 Польша</a></li>
-    </ul>
-  </li>
-  <li class='rot-dm-has-sub'><a href='#'>⏳ Эпохи</a>
-    <ul class='rot-dm-sub'>
-      <li><a href='/search/label/%D0%A5%D0%BE%D0%BB%D0%BE%D0%B4%D0%BD%D0%B0%D1%8F%20%D0%B2%D0%BE%D0%B9%D0%BD%D0%B0'>❄️ Холодная война</a></li>
-      <li><a href='/search/label/%D0%A1%D1%80%D0%B5%D0%B4%D0%BD%D0%B5%D0%B2%D0%B5%D0%BA%D0%BE%D0%B2%D1%8C%D0%B5'>🏰 Средневековье</a></li>
-    </ul>
-  </li>
-  <li class='rot-dm-has-sub'><a href='#'>⚙️ Экспозиция</a>
-    <ul class='rot-dm-sub'>
-      <li><a href='/search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B'>⚙️ Экспонаты</a></li>
-      <li class='rot-dm-divider'></li>
-      <li><a href='/search/label/%D0%A2%D0%B0%D0%BD%D0%BA%D0%B8'>🛡️ Танки</a></li>
-      <li><a href='/search/label/%D0%90%D0%B2%D0%B8%D0%B0%D1%86%D0%B8%D1%8F'>✈️ Авиация</a></li>
-      <li><a href='/search/label/%D0%A4%D0%BB%D0%BE%D1%82'>⚓ Флот</a></li>
-    </ul>
-  </li>
-</ul>
-          </nav>
-        </li>
       </ul>
     </nav>
     <div class='rot-header-icons' id='rot-toolbar-target'></div>
@@ -2781,9 +2753,9 @@ embed, img, object, video {max-width: 100%;}
       <div class='rot-path-title'>&#1052;&#1091;&#1079;&#1077;&#1080;</div>
       <p class='rot-path-desc'>&#1050;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1080; &#1080; &#1074;&#1099;&#1089;&#1090;&#1072;&#1074;&#1082;&#1080;</p>
     </a>
-    <a class='rot-path-card' expr:href='data:blog.homepageUrl + &quot;search/label/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D0%BD%D0%B0%D1%82%D1%8B&quot;'>
+    <a class='rot-path-card' href='https://roadsoftimes.blogspot.com/p/catalog.html'>
       <span class='rot-path-icon'>&#9881;&#65039;</span>
-      <div class='rot-path-title'>&#1069;&#1082;&#1089;&#1087;&#1086;&#1085;&#1072;&#1090;&#1099;</div>
+      <div class='rot-path-title'>&#1050;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;</div>
       <p class='rot-path-desc'>&#1058;&#1077;&#1093;&#1085;&#1080;&#1082;&#1072; &#1080; &#1072;&#1088;&#1090;&#1077;&#1092;&#1072;&#1082;&#1090;&#1099;</p>
     </a>
   </div>
@@ -2946,7 +2918,7 @@ embed, img, object, video {max-width: 100%;}
 <div class='rot-footer-bottom-bar'>
   <div class='rot-footer-bottom'>
     <span>&#169; 2026 &#1044;&#1086;&#1088;&#1086;&#1075;&#1080; &#1042;&#1088;&#1077;&#1084;&#1105;&#1085;</span>
-    <div><a href='https://vk.com/roadsoftimes' target='_blank' style='color:#7a7060;margin-right:10px'>VK</a><a href='https://t.me/roadsoftimes' target='_blank' style='color:#7a7060;margin-right:10px'>TG</a><a href='#' style='color:#7a7060'>YT</a></div>
+    <div><a href='https://vk.com/roadsoftimes' target='_blank' style='color:#998f7e;margin-right:10px'>VK</a><a href='https://t.me/roadsoftimes' target='_blank' style='color:#998f7e;margin-right:10px'>TG</a><a href='#' style='color:#998f7e'>YT</a></div>
   </div>
 </div>
 <div id='footer'><div id='copyrights'>&#160;</div></div><!-- #footer -->
