@@ -15,8 +15,10 @@ cd "$ROOT"
 # it only ever receives files via this direct upload. Each `wrangler pages
 # deploy` is a full snapshot, not additive, so the whole media-site/ tree
 # must be uploaded in a single run.
-FILES="$(find "$ROOT/site/media-site" -type f | wc -l | tr -d ' ')"
-echo "→ deploying $FILES files from site/media-site to media-roadsoftimes"
+FILE_LIST="$(find "$ROOT/site/media-site" -type f -not -name '.DS_Store' | sed "s|^$ROOT/site/media-site/||" | sort)"
+FILE_COUNT="$(printf '%s\n' "$FILE_LIST" | grep -c .)"
+echo "→ deploying $FILE_COUNT files from site/media-site to media-roadsoftimes:"
+printf '%s\n' "$FILE_LIST" | sed 's/^/    /'
 
 wrangler pages deploy "$ROOT/site/media-site" \
   --project-name media-roadsoftimes \
