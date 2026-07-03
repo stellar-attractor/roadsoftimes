@@ -227,9 +227,16 @@
 /* degenerate (single-group) stat — replaces a chart when its dimension has no spread */
 .stats-degenerate { font-size: 13px; color: #c8c0a8; }
 .stats-degenerate .sd-cnt { color: #9a8c70; }
+/* chart segments double as filters — clicking a slice/bar/legend row/degenerate
+   line applies (or, if already active, clears) that dimension's filter */
+[data-rc-field] { cursor: pointer; }
+.rc-donut-wrap svg path[data-rc-field] { transition: opacity .12s; }
+.rc-donut-wrap svg path[data-rc-field]:hover { opacity: .8; }
+.rc-legend-item[data-rc-field]:hover, .stats-degenerate[data-rc-field]:hover { color: #e0d8c0; }
 /* bar chart */
 .rc-bars { display: flex; flex-direction: column; gap: 3px; }
 .rc-bar-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #c8c0a8; height: 68px; }
+.rc-bar-row[data-rc-field]:hover .rc-bar-fill { background: #e0be5e; }
 .rc-bar-lbl { width: 80px; text-align: right; color: #9a8c70; flex-shrink: 0; font-size: 26px; white-space: nowrap; }
 .rc-bar-track { flex: 1; height: 64px; background: #12120c; border-radius: 4px; overflow: visible; position: relative; max-width: calc(100% - 120px); }
 .rc-bar-fill { height: 100%; background: #c9a84c; border-radius: 2px; transition: width .3s; }
@@ -501,6 +508,31 @@
   }
 
   var _quickType = '';
+  var _yearFilter = '';
+
+  /* Clicking a chart slice/bar/legend row/degenerate line applies that
+     dimension's value as a filter — or, if it's already the active filter,
+     clears it. Object reuses the quick-filter buttons' exact-match state;
+     Country/Museum drive the existing dropdowns; Year has no other UI, so
+     it's tracked here directly. */
+  window.rcChartFilter = function(field, value){
+    if (field === 'Object') {
+      _quickType = (_quickType === value) ? '' : value;
+      document.querySelectorAll('.rc-quick-btn').forEach(function(b){
+        b.classList.toggle('active', b.getAttribute('data-type') === _quickType);
+      });
+      render();
+    } else if (field === 'Country') {
+      if (_countrySel.get() === value) { _countrySel.set('', '', ''); }
+      else { var flagMap = _buildFlagMap(); _countrySel.set(value, value, flagMap[value] || ''); }
+    } else if (field === 'Museum') {
+      if (_museumSel.get() === value) { _museumSel.set('', '', ''); }
+      else { _museumSel.set(value, value, ''); }
+    } else if (field === 'Year') {
+      _yearFilter = (_yearFilter === value) ? '' : value;
+      render();
+    }
+  };
 
   function _buildQuickFilters(){
     var counts = {};
@@ -561,6 +593,7 @@
       if (museum  && (r.Museum||'')   !== museum)  return false;
       if (country && (r.Country||'')  !== country) return false;
       if (cat     && (r.Category||'') !== cat)     return false;
+      if (_yearFilter && String(r.Year||'') !== _yearFilter) return false;
       return true;
     });
 
@@ -783,7 +816,7 @@
       .sort(function(a,b){ return b.count - a.count; });
   }
 
-  function renderDonut(groups, size, imgSz, maxThumbs, flagMap){
+  function renderDonut(groups, size, imgSz, maxThumbs, flagMap, field){
     size = size || 280;
     imgSz = imgSz || 0;
     maxThumbs = maxThumbs || 0;
@@ -806,7 +839,8 @@
       var col = DONUT_COLORS[i % DONUT_COLORS.length];
       paths += '<path d="M'+x1+','+y1+' A'+r+','+r+' 0 '+large+',1 '+x2+','+y2+
                ' L'+xi2+','+yi2+' A'+ir+','+ir+' 0 '+large+',0 '+xi1+','+yi1+' Z"'+
-               ' fill="'+col+'" stroke="#0d0d08" stroke-width="1.5"/>';
+               ' fill="'+col+'" stroke="#0d0d08" stroke-width="1.5"'+
+               ' data-rc-field="'+field+'" data-rc-value="'+esc(g.label)+'"/>';
 
       if (maxThumbs && i < maxThumbs && imgSz) {
         var ix = cx + imgR * Math.cos(midAngle);
@@ -842,7 +876,7 @@
 
     var legend = groups.map(function(g, i){
       var col = DONUT_COLORS[i % DONUT_COLORS.length];
-      return '<div class="rc-legend-item">'+
+      return '<div class="rc-legend-item" data-rc-field="'+field+'" data-rc-value="'+esc(g.label)+'">'+
         '<div class="rc-legend-dot" style="background:'+col+'"></div>'+
         '<span>'+esc(g.label)+'</span>'+
         '<span class="rc-legend-cnt">'+g.count+'</span>'+
@@ -852,7 +886,7 @@
     return svg + '<div class="rc-donut-legend" style="align-self:stretch;justify-content:space-evenly;">' + legend + '</div>';
   }
 
-  function renderBars(groups){
+  function renderBars(groups, field){
     var maxVal = groups.reduce(function(m,g){ return Math.max(m,g.count); }, 1);
     return groups.map(function(g){
       var pct = Math.round(g.count/maxVal*92);
@@ -860,13 +894,13 @@
       var thumbInner = '';
       if (pick) {
         var src = pngSrc(pick);
-        thumbInner = '<a onclick="rcOpenPreview(\''+pick.id+'\')" title="'+esc(g.label+' — '+(pick.title||pick.id))+'"'+
+        thumbInner = '<a onclick="event.stopPropagation();rcOpenPreview(\''+pick.id+'\')" title="'+esc(g.label+' — '+(pick.title||pick.id))+'"'+
           ' style="position:absolute;left:'+pct+'%;top:0;transform:translateX(-50%);z-index:2;display:block;cursor:pointer;'+
           'height:64px;width:96px;'+
           'background-image:url(\''+src+'\');background-size:contain;background-repeat:no-repeat;background-position:center center;'+
           'text-decoration:none;"></a>';
       }
-      return '<div class="rc-bar-row">'+
+      return '<div class="rc-bar-row" data-rc-field="'+field+'" data-rc-value="'+esc(String(g.label))+'">'+
         '<div class="rc-bar-lbl">'+esc(String(g.label))+'</div>'+
         '<div class="rc-bar-track"><div class="rc-bar-fill" style="width:'+pct+'%"></div>'+thumbInner+'</div>'+
         '<div class="rc-bar-cnt">'+g.count+'</div>'+
@@ -917,9 +951,9 @@
     var flagMap = _buildFlagMap();
     var donutSlots = '';
 
-    donutSlots += dimensionSlot('По типу объекта', byObj, 280, 64, 3, null, H3, data.length);
-    donutSlots += dimensionSlot('По стране производителя', byCountry, 280, 32, 4, flagMap, H3, data.length);
-    donutSlots += dimensionSlot('По музею', byMuseum, 280, 0, 0, null, H3, data.length);
+    donutSlots += dimensionSlot('По типу объекта', byObj, 280, 64, 3, null, H3, data.length, 'Object');
+    donutSlots += dimensionSlot('По стране производителя', byCountry, 280, 32, 4, flagMap, H3, data.length, 'Country');
+    donutSlots += dimensionSlot('По музею', byMuseum, 280, 0, 0, null, H3, data.length, 'Museum');
 
     if (donutSlots) {
       charts += '<div class="stats-chart-card wide"><div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">'+donutSlots+'</div></div>';
@@ -936,22 +970,28 @@
       .map(function(e){ return { label: e[0], count: e[1].length, records: e[1] }; })
       .sort(function(a,b){ return b.label - a.label; });
     if (yearGroups.length > 1) {
-      charts += chartCard('Хронология объектов', '<div class="rc-bars">'+renderBars(yearGroups)+'</div>', true);
+      charts += chartCard('Хронология объектов', '<div class="rc-bars">'+renderBars(yearGroups, 'Year')+'</div>', true);
     } else if (yearGroups.length === 1) {
-      charts += chartCard('Хронология объектов', degenerateStat(yearGroups[0], data.length), true);
+      charts += chartCard('Хронология объектов', '<div class="stats-degenerate" data-rc-field="Year" data-rc-value="'+esc(String(yearGroups[0].label))+'">'+degenerateStat(yearGroups[0], data.length)+'</div>', true);
     }
 
     document.getElementById('rc-stats-charts').innerHTML = charts;
+
+    /* every chart segment / legend row / bar / degenerate line is also a filter toggle */
+    document.querySelectorAll('#rc-stats-charts [data-rc-field]').forEach(function(el){
+      el.addEventListener('click', function(){ rcChartFilter(el.dataset.rcField, el.dataset.rcValue); });
+    });
   }
 
   /* One dimension of the stats view: a donut when there's real spread across
      groups, or a flat stat line when the current filter has left only one
-     group (a pie/point chart there would be 100% noise, 0% signal). */
-  function dimensionSlot(title, groups, size, imgSz, maxThumbs, flagMap, H3, total){
+     group (a pie/point chart there would be 100% noise, 0% signal). Either
+     way the group is clickable — it doubles as a filter toggle. */
+  function dimensionSlot(title, groups, size, imgSz, maxThumbs, flagMap, H3, total, field){
     if (!groups.length) return '';
     var body = groups.length === 1
-      ? '<div class="stats-degenerate">'+degenerateStat(groups[0], total)+'</div>'
-      : '<div class="rc-donut-wrap">'+renderDonut(groups, size, imgSz, maxThumbs, flagMap)+'</div>';
+      ? '<div class="stats-degenerate" data-rc-field="'+field+'" data-rc-value="'+esc(String(groups[0].label))+'">'+degenerateStat(groups[0], total)+'</div>'
+      : '<div class="rc-donut-wrap">'+renderDonut(groups, size, imgSz, maxThumbs, flagMap, field)+'</div>';
     return '<div><h3 style="'+H3+'">'+title+'</h3>'+body+'</div>';
   }
 
