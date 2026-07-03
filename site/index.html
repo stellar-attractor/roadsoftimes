@@ -241,7 +241,14 @@
     .rot-cat .rc-stats.show { display: flex; }
     .rot-cat .stats-media { display: none; gap: 20px; align-items: stretch; }
     .rot-cat .stats-media.show { display: flex; }
-    .rot-cat .stats-media .rc-single-media { max-width: 360px; flex: 0 0 auto; cursor: pointer; border-radius: 4px; }
+    .rot-cat .stats-media .stats-single-wrap { position: relative; max-width: 360px; flex: 0 0 auto; cursor: pointer; }
+    .rot-cat .stats-media .stats-single-wrap .rc-single-media { max-width: none; width: 100%; border-radius: 4px; }
+    .rot-cat .stats-media-title {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 12px 14px 10px; border-radius: 0 0 4px 4px; pointer-events: none;
+      background: linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,0));
+      color: #e0d8c0; font-size: 17px; font-weight: 700; letter-spacing: .3px;
+    }
     .rot-cat .stats-ttx {
       flex: 1; min-width: 0; background: #0d0d08; border: 1px solid #2a2510; border-radius: 10px;
       padding: 16px 20px; font-family: Menlo, Consolas, monospace; font-size: 12px; line-height: 1.6;
@@ -1005,9 +1012,12 @@
       var sr = data[0];
       var videoSrc = glowSrc(sr) || previewSrc(sr);
       var imgSrc    = pngSrc(sr);
-      var thumbHtml = videoSrc
+      var mediaInner = videoSrc
         ? '<video class="rc-single-media" src="'+videoSrc+'" muted autoplay loop playsinline></video>'
         : (imgSrc ? '<img class="rc-single-media" src="'+imgSrc+'">' : '');
+      var thumbHtml = mediaInner
+        ? '<div class="stats-single-wrap">'+mediaInner+'<div class="stats-media-title">'+esc(sr.title || sr.id)+'</div></div>'
+        : '';
       var ttxText = sr.ttx_text || (sr.zones && sr.zones.ttx_text && sr.zones.ttx_text.text) || '';
       var ttxHtml = ttxText ? '<div class="stats-ttx">'+esc(ttxText)+'</div>' : '';
       mediaHtml = thumbHtml + ttxHtml;
@@ -1017,8 +1027,8 @@
     mediaEl.innerHTML = mediaHtml;
     mediaEl.classList.toggle('show', !!mediaHtml);
     if (data.length === 1) {
-      var thumbEl = mediaEl.querySelector('.rc-single-media');
-      if (thumbEl) thumbEl.onclick = function(){ rcOpenPreview(data[0].id); };
+      var thumbWrap = mediaEl.querySelector('.stats-single-wrap');
+      if (thumbWrap) thumbWrap.onclick = function(){ rcOpenPreview(data[0].id); };
     }
 
     if (isTerminal) {
