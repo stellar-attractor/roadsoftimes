@@ -699,7 +699,7 @@
       inner.style.whiteSpace = "normal";
       var paras = (z.text || "").split(/\n[ \t]*\n/);
       inner.innerHTML = paras.map(function(p) {
-        return "<p style='margin:0 0 1em 0'>" + esc(p.replace(/\n/g, " ")) + "</p>";
+        return "<p style='padding:0 0 1em 0'>" + esc(p.replace(/\n/g, " ")) + "</p>";
       }).join("");
     } else {
       inner.style.whiteSpace = "pre-wrap";
