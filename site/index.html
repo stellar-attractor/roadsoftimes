@@ -247,6 +247,17 @@
       padding: 16px 20px; font-family: Menlo, Consolas, monospace; font-size: 12px; line-height: 1.6;
       color: #c8c0a8; white-space: pre-wrap; overflow-y: auto;
     }
+    /* terminal ribbon: 2+ records left with no dimension to split further */
+    .rot-cat .stats-final-ribbon { display: flex; flex-wrap: wrap; gap: 14px; width: 100%; }
+    .rot-cat .stats-final-item { width: 160px; cursor: pointer; text-align: center; }
+    .rot-cat .stats-final-thumb {
+      width: 160px; height: 110px; background: #0d0d08; border: 1px solid #2a2510; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 8px;
+      transition: border-color .15s;
+    }
+    .rot-cat .stats-final-item:hover .stats-final-thumb { border-color: #8a6f2e; }
+    .rot-cat .stats-final-thumb video, .rot-cat .stats-final-thumb img { width: 92%; height: 92%; object-fit: contain; display: block; }
+    .rot-cat .stats-final-title { font-size: 12px; color: #e0d8c0; line-height: 1.3; }
     .rot-cat .stats-kpi { display: flex; gap: 16px; flex-wrap: wrap; }
     .rot-cat .stats-kpi-card {
       background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px;
@@ -969,7 +980,25 @@
   function renderStats(){
     var data = filtered;
 
-    /* single record: show its glow/preview media + ttx fact sheet above the (all-degenerate) stats */
+    var byObj     = groupBy(data, 'Object');
+    var byCountry = groupBy(data, 'Country');
+    var byMuseum  = groupBy(data, 'Museum');
+    var yearMap = {};
+    data.forEach(function(r){
+      var y = r.Year || ''; if (!y) return;
+      if (!yearMap[y]) yearMap[y] = [];
+      yearMap[y].push(r);
+    });
+    var yearGroups = Object.entries(yearMap)
+      .map(function(e){ return { label: e[0], count: e[1].length, records: e[1] }; })
+      .sort(function(a,b){ return b.label - a.label; });
+
+    /* Dig-in is over once every dimension has collapsed to a single value —
+       no further chart click could narrow the set. Show the terminal view
+       instead: the one exhibit's card, or a click-through thumbnail ribbon
+       for the handful left, and skip the (now pointless) KPI/chart panels. */
+    var isTerminal = byObj.length <= 1 && byCountry.length <= 1 && byMuseum.length <= 1 && yearGroups.length <= 1;
+
     var mediaEl = document.getElementById('rc-stats-media');
     var mediaHtml = '';
     if (data.length === 1) {
@@ -982,12 +1011,20 @@
       var ttxText = sr.ttx_text || (sr.zones && sr.zones.ttx_text && sr.zones.ttx_text.text) || '';
       var ttxHtml = ttxText ? '<div class="stats-ttx">'+esc(ttxText)+'</div>' : '';
       mediaHtml = thumbHtml + ttxHtml;
+    } else if (isTerminal) {
+      mediaHtml = '<div class="stats-final-ribbon">'+renderFinalRibbon(data)+'</div>';
     }
     mediaEl.innerHTML = mediaHtml;
     mediaEl.classList.toggle('show', !!mediaHtml);
     if (data.length === 1) {
       var thumbEl = mediaEl.querySelector('.rc-single-media');
       if (thumbEl) thumbEl.onclick = function(){ rcOpenPreview(data[0].id); };
+    }
+
+    if (isTerminal) {
+      document.getElementById('rc-stats-kpi').innerHTML = '';
+      document.getElementById('rc-stats-charts').innerHTML = '';
+      return;
     }
 
     var exhibits = data.filter(function(r){ return r.Category === 'Экспонаты'; }).length;
@@ -998,10 +1035,6 @@
       kpiCard(collages, 'Коллажей');
 
     var charts = '';
-    var byObj     = groupBy(data, 'Object');
-    var byCountry = groupBy(data, 'Country');
-    var byMuseum  = groupBy(data, 'Museum');
-
     var H3 = 'font-size:14px;letter-spacing:1px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;';
     var flagMap = _buildFlagMap();
     var donutSlots = '';
@@ -1014,15 +1047,6 @@
       charts += '<div class="stats-chart-card wide"><div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">'+donutSlots+'</div></div>';
     }
 
-    var yearMap = {};
-    data.forEach(function(r){
-      var y = r.Year || ''; if (!y) return;
-      if (!yearMap[y]) yearMap[y] = [];
-      yearMap[y].push(r);
-    });
-    var yearGroups = Object.entries(yearMap)
-      .map(function(e){ return { label: e[0], count: e[1].length, records: e[1] }; })
-      .sort(function(a,b){ return b.label - a.label; });
     if (yearGroups.length > 1) {
       charts += chartCard('Хронология объектов', '<div class="rc-bars">'+renderBars(yearGroups, 'Year')+'</div>', true);
     } else if (yearGroups.length === 1) {
@@ -1035,6 +1059,22 @@
     document.querySelectorAll('#rc-stats-charts [data-rc-field]').forEach(function(el){
       el.addEventListener('click', function(){ rcChartFilter(el.dataset.rcField, el.dataset.rcValue); });
     });
+  }
+
+  /* Terminal view for 2+ records where no dimension has spread left: a row
+     of clickable thumbnails, each opening the exhibit's HUD frame directly. */
+  function renderFinalRibbon(records){
+    return records.map(function(r){
+      var thumbSrc = glowSrc(r) || previewSrc(r);
+      var imgSrc   = pngSrc(r);
+      var media = thumbSrc
+        ? '<video src="'+thumbSrc+'" muted autoplay loop playsinline></video>'
+        : (imgSrc ? '<img src="'+imgSrc+'">' : '');
+      return '<div class="stats-final-item" onclick="rcOpenPreview(\''+r.id+'\')">'+
+        '<div class="stats-final-thumb">'+media+'</div>'+
+        '<div class="stats-final-title">'+esc(r.title || r.id)+'</div>'+
+        '</div>';
+    }).join('');
   }
 
   /* One dimension of the stats view: a donut when there's real spread across
