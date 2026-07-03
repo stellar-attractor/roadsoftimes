@@ -40,7 +40,15 @@
 
     /* FILTERS */
     .rot-cat .filters { padding: 20px; margin-bottom: 16px; border: 1px solid #2a2a1a; border-radius: 10px; display: flex; flex-direction: column; gap: 10px; }
+    .rot-cat .filters-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
     .rot-cat .filters-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #9a8c70; margin-bottom: 4px; }
+    .rot-cat .filters-title-row .filters-title { margin-bottom: 0; }
+    .rot-cat .rc-reset-btn {
+      background: none; border: 1px solid #3a3520; color: #9a8c70; cursor: pointer;
+      padding: 3px 10px; border-radius: 3px; font-size: 10px; letter-spacing: 1px;
+      text-transform: uppercase; font-family: 'PT Sans', sans-serif; transition: color .15s, border-color .15s;
+    }
+    .rot-cat .rc-reset-btn:hover { color: #c9a84c; border-color: #8a6f2e; }
     .rot-cat .filter-row { display: flex; flex-wrap: wrap; gap: 12px; }
     .rot-cat .filter-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
     .rot-cat .filter-group label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #9a8c70; }
@@ -307,7 +315,10 @@
       <div class="rc-quick-btns" id="rc-quick-btns"></div>
     </div>
     <div class="filters">
-      <div class="filters-title">Фильтры</div>
+      <div class="filters-title-row">
+        <div class="filters-title">Фильтры</div>
+        <button class="rc-reset-btn" onclick="rcResetFilters()">✕ Сбросить все фильтры</button>
+      </div>
       <div class="filter-row">
         <div class="filter-group"><label>Музей</label>
           <div class="rc-flag-sel" id="rc-museum-wrap">
@@ -585,6 +596,17 @@
       _yearFilter = (_yearFilter === value) ? '' : value;
       render();
     }
+  };
+
+  window.rcResetFilters = function(){
+    ['rc-title','rc-object-q','rc-ttx','rc-desc'].forEach(function(id){ document.getElementById(id).value = ''; });
+    document.getElementById('rc-sort').value = 'desc';
+    _quickType = '';
+    _yearFilter = '';
+    document.querySelectorAll('.rc-quick-btn').forEach(function(b){ b.classList.remove('active'); });
+    _museumSel.set('', '', '');
+    _countrySel.set('', '', '');
+    _categorySel.set('', '', ''); // last — its own render() call is the one that sticks
   };
 
   function _buildQuickFilters(){
