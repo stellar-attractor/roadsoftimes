@@ -216,6 +216,9 @@
 .rc-legend-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #c8c0a8; white-space: nowrap; }
 .rc-legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .rc-legend-cnt { margin-left: auto; color: #9a8c70; padding-left: 8px; }
+/* degenerate (single-group) stat — replaces a chart when its dimension has no spread */
+.stats-degenerate { font-size: 13px; color: #c8c0a8; }
+.stats-degenerate .sd-cnt { color: #9a8c70; }
 /* bar chart */
 .rc-bars { display: flex; flex-direction: column; gap: 3px; }
 .rc-bar-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #c8c0a8; height: 68px; }
@@ -882,26 +885,15 @@
 
     var H3 = 'font-size:14px;letter-spacing:1px;text-transform:uppercase;color:#9a8c70;margin-bottom:14px;font-weight:normal;';
     var flagMap = _buildFlagMap();
-    var donutsHtml = '<div class="stats-chart-card wide"><div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">';
+    var donutSlots = '';
 
-    if (byObj.length) {
-      var d1 = renderDonut(byObj, 280, 64, 3, null);
-      donutsHtml += '<div><h3 style="'+H3+'">По типу объекта</h3>'+
-        '<div class="rc-donut-wrap">'+d1+'</div></div>';
-    }
-    if (byCountry.length) {
-      var d2 = renderDonut(byCountry, 280, 32, 4, flagMap);
-      donutsHtml += '<div><h3 style="'+H3+'">По стране производителя</h3>'+
-        '<div class="rc-donut-wrap">'+d2+'</div></div>';
-    }
-    if (byMuseum.length > 1) {
-      var d3 = renderDonut(byMuseum, 280, 0, 0, null);
-      donutsHtml += '<div><h3 style="'+H3+'">По музею</h3>'+
-        '<div class="rc-donut-wrap">'+d3+'</div></div>';
-    }
+    donutSlots += dimensionSlot('По типу объекта', byObj, 280, 64, 3, null, H3, data.length);
+    donutSlots += dimensionSlot('По стране производителя', byCountry, 280, 32, 4, flagMap, H3, data.length);
+    donutSlots += dimensionSlot('По музею', byMuseum, 280, 0, 0, null, H3, data.length);
 
-    donutsHtml += '</div></div>';
-    charts += donutsHtml;
+    if (donutSlots) {
+      charts += '<div class="stats-chart-card wide"><div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">'+donutSlots+'</div></div>';
+    }
 
     /* bar: хронология по году */
     var yearMap = {};
@@ -913,11 +905,29 @@
     var yearGroups = Object.entries(yearMap)
       .map(function(e){ return { label: e[0], count: e[1].length, records: e[1] }; })
       .sort(function(a,b){ return b.label - a.label; });
-    if (yearGroups.length) {
+    if (yearGroups.length > 1) {
       charts += chartCard('Хронология объектов', '<div class="rc-bars">'+renderBars(yearGroups)+'</div>', true);
+    } else if (yearGroups.length === 1) {
+      charts += chartCard('Хронология объектов', degenerateStat(yearGroups[0], data.length), true);
     }
 
     document.getElementById('rc-stats-charts').innerHTML = charts;
+  }
+
+  /* One dimension of the stats view: a donut when there's real spread across
+     groups, or a flat stat line when the current filter has left only one
+     group (a pie/point chart there would be 100% noise, 0% signal). */
+  function dimensionSlot(title, groups, size, imgSz, maxThumbs, flagMap, H3, total){
+    if (!groups.length) return '';
+    var body = groups.length === 1
+      ? '<div class="stats-degenerate">'+degenerateStat(groups[0], total)+'</div>'
+      : '<div class="rc-donut-wrap">'+renderDonut(groups, size, imgSz, maxThumbs, flagMap)+'</div>';
+    return '<div><h3 style="'+H3+'">'+title+'</h3>'+body+'</div>';
+  }
+
+  function degenerateStat(g, total){
+    var pct = total ? Math.round(g.count/total*100) : 100;
+    return esc(String(g.label))+' <span class="sd-cnt">— '+g.count+' из '+total+' ('+pct+'%)</span>';
   }
 
   function kpiCard(val, lbl){
