@@ -203,13 +203,11 @@
 .rot-cat .rc-stats.show { display: flex; }
 .rot-cat .stats-media { display: none; gap: 20px; align-items: stretch; }
 .rot-cat .stats-media.show { display: flex; }
-.rot-cat .stats-media .stats-single-wrap { position: relative; max-width: 360px; flex: 0 0 auto; cursor: pointer; }
-.rot-cat .stats-media .stats-single-wrap .rc-single-media { max-width: none; width: 100%; border-radius: 4px; }
+.rot-cat .stats-media .stats-single-wrap { max-width: 360px; flex: 0 0 auto; cursor: pointer; }
+.rot-cat .stats-media .stats-single-wrap .rc-single-media { max-width: none; width: 100%; border-radius: 4px; display: block; }
 .rot-cat .stats-media-title {
-  position: absolute; left: 0; right: 0; top: 0;
-  padding: 10px 14px 16px; border-radius: 4px 4px 0 0; pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0,0,0,.82), rgba(0,0,0,0));
-  color: #e0d8c0; font-size: 19px; font-weight: 700; letter-spacing: .3px;
+  padding: 0 2px 10px;
+  color: #e0d8c0; font-size: 15px; font-weight: 700; letter-spacing: .3px; line-height: 1.3;
 }
 .rot-cat .stats-ttx {
   flex: 1; min-width: 0; background: #0d0d08; border: 1px solid #2a2510; border-radius: 10px;
@@ -980,7 +978,7 @@
         ? '<video class="rc-single-media" src="'+videoSrc+'" muted autoplay loop playsinline></video>'
         : (imgSrc ? '<img class="rc-single-media" src="'+imgSrc+'">' : '');
       var thumbHtml = mediaInner
-        ? '<div class="stats-single-wrap">'+mediaInner+'<div class="stats-media-title">'+esc(sr.title || sr.id)+'</div></div>'
+        ? '<div class="stats-single-wrap"><div class="stats-media-title">'+esc(sr.title || sr.id)+'</div>'+mediaInner+'</div>'
         : '';
       var ttxText = sr.ttx_text || (sr.zones && sr.zones.ttx_text && sr.zones.ttx_text.text) || '';
       var ttxHtml = ttxText ? '<div class="stats-ttx">'+esc(ttxText)+'</div>' : '';
