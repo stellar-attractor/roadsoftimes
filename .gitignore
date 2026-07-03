@@ -46,3 +46,9 @@ preview/
 # media.roadsoftimes.com deploy source — local filesystem + wrangler direct
 # upload only, never through GitHub/cdn.roadsoftimes.com.
 site/media-site/
+
+# No binary assets and no ad-hoc JSON backups belong in site/ — assets live
+# under site/media-site/assets/, and museums.json/infographics.json are the
+# only source of truth (no snapshot copies).
+site/assets/
+site/db_backups/
