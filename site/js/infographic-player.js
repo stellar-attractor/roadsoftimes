@@ -688,8 +688,18 @@
     inner.style.width      = "100%";
     inner.style.margin     = "0";
     inner.style.padding    = "0";
+    // Host pages (e.g. Blogger's own base styles) can impose word-break/
+    // overflow-wrap rules that force mid-word splits ("Goliat" + "h" on
+    // its own line). Zone boxes are pre-fit to the text at author time —
+    // wrapping should only ever happen at whitespace, never inside a word.
+    inner.style.overflowWrap = "normal";
+    inner.style.wordBreak    = "normal";
 
-    var hPad = Math.max(6, Math.round((z.width || 0) * 0.04));
+    // Zone widths are calibrated against whatever monospace/label font the
+    // author's browser actually had installed; a viewer without that exact
+    // font gets a metrically-different fallback, so trim the reserved
+    // padding a bit to give borderline-fit text some extra room.
+    var hPad = Math.max(4, Math.round((z.width || 0) * 0.025));
     var textAlign = z.text_align || "left";
     inner.style.textAlign    = textAlign;
     inner.style.paddingLeft  = hPad + "px";

@@ -12,14 +12,12 @@ cd "$ROOT"
 # script does not touch it.
 #
 # media.roadsoftimes.com (project "media-roadsoftimes") has no Git provider;
-# it only ever receives files via this direct upload. Each `wrangler pages
-# deploy` is a full snapshot, not additive, so the whole media-site/ tree
-# must be uploaded in a single run.
-FILE_LIST="$(find "$ROOT/site/media-site" -type f -not -name '.DS_Store' | sed "s|^$ROOT/site/media-site/||" | sort)"
-FILE_COUNT="$(printf '%s\n' "$FILE_LIST" | grep -c .)"
-echo "→ deploying $FILE_COUNT files from site/media-site to media-roadsoftimes:"
-printf '%s\n' "$FILE_LIST" | sed 's/^/    /'
-
+# it only ever receives files via this direct upload. `wrangler pages deploy`
+# walks the whole media-site/ tree to build its manifest, but it
+# content-hashes each file first and only transfers bytes for hashes not
+# already stored on Cloudflare — so an unchanged file is skipped, and a
+# single changed file results in a single real upload. Wrangler's own output
+# below (lines prefixed "+") lists exactly what got uploaded, not the tree.
 wrangler pages deploy "$ROOT/site/media-site" \
   --project-name media-roadsoftimes \
   --commit-dirty=true

@@ -63919,9 +63919,9 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
+        "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
         "media_type": "video",
-        "source_png": "exhibits/marinemuseum-wilhelmshaven/800/Großer_Kurfürst_800.png"
+        "source_png": "exhibits/marinemuseum-wilhelmshaven/800/Großer_Kurfürst_800.png"
       },
       "header": {
         "id": "zone_mqdoz6s5_6up9j",
@@ -64059,10 +64059,10 @@
     "Museum": "Deutsches Marinemuseum",
     "City": "Wilhelmshaven",
     "Country": "",
-    "Year": 0,
+    "Year": 1875,
     "Object": "Парусное судно",
     "Category": "Экспонаты",
-    "video": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
+    "video": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
     "image": "flags/prussia.svg",
     "images": [
       {
@@ -64093,8 +64093,8 @@
     "ttx_text": "Дата спуска на воду: 17.09.1875\nПериод службы: 06.05.1878 — 31.05.1878\nВерфь: Императорская верфь (Kaiserliche Werft)\nВильгельмсхафен\nВодоизмещение: 7718 т\n\nГлавный калибр:\nчетыре 260-мм \nдва 170-мм казнозарядных нарезных орудия\nСиловая установка: паровые машины\nМаксимальная скорость: 14 узлов\nЭкипаж: 500 человек\nДлина: 96 м",
     "preview": "exhibits/marinemuseum-wilhelmshaven/previews/SMS Großer Kurfürst_pr.webm",
     "created": "2026-07-11T13:55:38.839Z",
-    "updated": "2026-07-12T02:29:59.495Z",
-    "date": "",
+    "updated": "2026-07-12T03:52:24.605Z",
+    "date": "2026-06-04",
     "mobile": {
       "canvas_width": 941,
       "canvas_height": 1672,
@@ -64254,9 +64254,9 @@
             "width": 0,
             "shape": "rect"
           },
-          "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
+          "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
           "media_type": "video",
-          "source_png": "exhibits/marinemuseum-wilhelmshaven/800/Großer_Kurfürst_800.png"
+          "source_png": "exhibits/marinemuseum-wilhelmshaven/800/Großer_Kurfürst_800.png"
         },
         "header": {
           "id": "zone_mqdoz6s5_6up9j",
@@ -64393,6 +64393,7 @@
       },
       "subtitle": "Фрегат относился к числу первых боевых кораблей, построенных на немецких верфях. Его спуск на воду состоялся 17 сентября 1875 года.\n\nДо начала строительства проект корабля несколько раз кардинально перерабатывался. Императорская верфь в Вильгельмсхафене практически не имела опыта строительства крупных железных броненосных кораблей.\n\nВ декабре 1877 года начались ходовые испытания, а в строй корабль был введён 6 мая 1878 года. Практически сразу после этого, с экипажем, ещё не успевшим полностью освоить корабль, 29 мая 1878 года Großer Kurfürstвышел в поход в составе соединения, направлявшегося к Гибралтару.\n\nПосле неудачного манёвра уклонения в Ла Манше у Фолкстона 31 мая 1878 года корабль был протаранен броненосцем König Wilhelm и затонул.",
       "preview": "exhibits/marinemuseum-wilhelmshaven/previews/SMS Großer Kurfürst_mobile_pr.webm"
-    }
+    },
+    "flag": "flags/prussia.svg"
   }
 ]
