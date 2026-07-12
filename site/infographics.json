@@ -12217,7 +12217,7 @@
           },
           "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/Sailship_Pferde_800_glow.webm",
           "media_type": "video",
-          "source_png": "exhibits/800/Sailship_Pferde_800.png"
+          "source_png": "exhibits/marinemuseum-wilhelmshaven/800/Sailship_Pferde_800.png"
         },
         "header": {
           "id": "zone_mqdoz6s5_6up9j",
@@ -63919,9 +63919,9 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/SMS Großer Kurfürst_800_glow.webm",
+        "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
         "media_type": "video",
-        "source_png": "exhibits/800/SMS Großer Kurfürst_800.png"
+        "source_png": "exhibits/marinemuseum-wilhelmshaven/800/Großer_Kurfürst_800.png"
       },
       "header": {
         "id": "zone_mqdoz6s5_6up9j",
@@ -64062,7 +64062,7 @@
     "Year": 0,
     "Object": "Парусное судно",
     "Category": "Экспонаты",
-    "video": "exhibits/marinemuseum-wilhelmshaven/800_glow/SMS Großer Kurfürst_800_glow.webm",
+    "video": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
     "image": "flags/prussia.svg",
     "images": [
       {
@@ -64254,9 +64254,9 @@
             "width": 0,
             "shape": "rect"
           },
-          "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/SMS Großer Kurfürst_800_glow.webm",
+          "source": "exhibits/marinemuseum-wilhelmshaven/800_glow/Großer_Kurfürst_800_glow.webm",
           "media_type": "video",
-          "source_png": "exhibits/800/SMS Großer Kurfürst_800.png"
+          "source_png": "exhibits/marinemuseum-wilhelmshaven/800/Großer_Kurfürst_800.png"
         },
         "header": {
           "id": "zone_mqdoz6s5_6up9j",
