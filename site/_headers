@@ -1,6 +1,9 @@
 /js/*
   Cache-Control: no-cache, must-revalidate
 
+/js/infographic-player.js
+  Cache-Control: no-cache, must-revalidate
+
 /infographics.json
   Cache-Control: no-cache, must-revalidate
 
