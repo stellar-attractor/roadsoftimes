@@ -138,7 +138,7 @@
   function loadPlayer(cb){
     if (playerLoaded){ cb(); return; }
     var s = document.createElement('script');
-    s.src = APP_CDN + '/js/infographic-player.js';
+    s.src = APP_CDN + '/js/infographic-player.js?v=player-restore-20260712';
     s.onload = function(){ playerLoaded = true; cb(); };
     document.head.appendChild(s);
   }
