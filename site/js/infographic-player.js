@@ -629,17 +629,6 @@
       v.style.cssText = "position:absolute;top:0;left:0;background:transparent;object-fit:" + fit + ";";
       v.style.setProperty("width",  z.width  + "px", "important");
       v.style.setProperty("height", z.height + "px", "important");
-      if (z.source_png) {
-        var fallbackSrc = this._cdnUrl(z.source_png);
-        v.addEventListener("error", function () {
-          var img = document.createElement("img");
-          img.src = fallbackSrc;
-          img.style.cssText = "position:absolute;top:0;left:0;object-fit:" + fit + ";";
-          img.style.setProperty("width",  z.width  + "px", "important");
-          img.style.setProperty("height", z.height + "px", "important");
-          v.replaceWith(img);
-        }, { once: true });
-      }
       wrap.appendChild(v);
     }
 
