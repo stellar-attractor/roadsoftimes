@@ -532,9 +532,7 @@
   };
 
   ExhibitPlayer.prototype._appendFrameLayer = function (frameInfo) {
-    // Keep HUD inside the stage stacking context. Negative z-index can push the
-    // frame behind the host page/container background, making a loaded HUD invisible.
-    var z = 0;
+    var z = -1; // always background — content zones render on top
     var style = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
     var src = frameInfo.source;
     var primary = this._cdnUrl(src);
