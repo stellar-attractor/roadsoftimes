@@ -164,7 +164,7 @@
   }).catch(function(){}).then(function(){
     if (window.RotMediaRuntime) { _fetchAndRender(); return; }
     var runtime = document.createElement('script');
-    runtime.src = APP_CDN + '/js/media-runtime.js?v=fe3';
+    runtime.src = APP_CDN + '/js/media-runtime.js?v=fe4';
     runtime.onload = _fetchAndRender;
     runtime.onerror = function(){ document.getElementById('rot-hs-root').style.display = 'none'; };
     document.head.appendChild(runtime);
@@ -176,7 +176,7 @@
   function loadPlayer(cb){
     if (playerLoaded){ cb(); return; }
     var s = document.createElement('script');
-    s.src = APP_CDN + '/js/infographic-player.js?v=player-restore-20260712';
+    s.src = APP_CDN + '/js/infographic-player.js?v=fe4';
     s.onload = function(){ playerLoaded = true; cb(); };
     document.head.appendChild(s);
   }

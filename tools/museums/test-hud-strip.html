@@ -52,6 +52,11 @@
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   object-fit: fill; display: block; pointer-events: none;
 }
+.rot-hs .hs-thumb-missing::after {
+  content: 'Preview unavailable'; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #6f6855; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+}
 .rot-hs-modal {
   position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.92);
   display: flex; align-items: center; justify-content: center;
@@ -82,6 +87,7 @@
 (function(){
   var APP_CDN   = 'https://cdn.roadsoftimes.com';   // code / html / json manifests
   var MEDIA_CDN = 'https://media.roadsoftimes.com'; // webm / png / jpg / svg assets
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
   var CATALOG = 'https://roadsoftimes.blogspot.com/p/catalog.html';
   var STRIP_COUNT = 6;
   var museum = (typeof ROT_MUSEUM !== 'undefined') ? ROT_MUSEUM : null;
@@ -91,26 +97,67 @@
 
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  function previewSrc(e){
+  var _museumSlug = '';
+
+  function previewUrls(e){
     var mobile = window.matchMedia && window.matchMedia('(max-width:768px),(orientation:portrait)').matches;
-    var suffix = (mobile && e.mobile && e.mobile.zones) ? '_mobile_pr.webm' : '_pr.webm';
-    return MEDIA_CDN + '/previews/' + e.id + suffix;
+    var filename = mobile && e.mobile && e.mobile.preview ? e.mobile.preview : e.preview;
+    if (!filename || !_museumSlug || !window.RotMediaRuntime) return '';
+    try {
+      return window.RotMediaRuntime.exhibitUrls(
+        _museumSlug,
+        mobile ? 'preview_mobile' : 'preview',
+        filename,
+        { primaryOrigin: MEDIA_CDN, fallbackOrigin: MEDIA_CDN_FALLBACK }
+      );
+    } catch (error) {
+      console.warn('[museum strip preview] ' + error.message);
+      return '';
+    }
   }
 
-  fetch(APP_CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
-    var items = data.filter(function(e){ return e.Museum === museum; }).slice(-STRIP_COUNT).reverse();
-    if (!items.length) { document.getElementById('rot-hs-root').style.display = 'none'; return; }
+  function fetchAndRender(){
+    fetch(APP_CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
+      var items = data.filter(function(e){ return e.Museum === museum; }).slice(-STRIP_COUNT).reverse();
+      if (!items.length) { document.getElementById('rot-hs-root').style.display = 'none'; return; }
 
-    var strip = document.getElementById('hs-strip');
-    strip.innerHTML = items.map(function(e){
-      return '<div class="hs-card" onclick="hsOpen(\'' + e.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' +
-        '<div class="hs-thumb"><video src="' + esc(previewSrc(e)) + '" autoplay muted loop playsinline></video></div>' +
-      '</div>';
-    }).join('');
+      var strip = document.getElementById('hs-strip');
+      strip.innerHTML = items.map(function(e){
+        var preview = previewUrls(e);
+        var thumb = preview
+          ? '<div class="hs-thumb"><video src="' + esc(preview.primary) + '" data-fallback="' + esc(preview.fallback) + '" autoplay muted loop playsinline></video></div>'
+          : '<div class="hs-thumb hs-thumb-missing"></div>';
+        return '<div class="hs-card" onclick="hsOpen(\'' + e.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' +
+          thumb +
+        '</div>';
+      }).join('');
+      strip.querySelectorAll('video[data-fallback]').forEach(function(video){
+        video.addEventListener('error', function(){
+          if (!video.dataset.fallbackUsed) {
+            video.dataset.fallbackUsed = '1';
+            video.src = video.dataset.fallback;
+            return;
+          }
+          video.parentNode.classList.add('hs-thumb-missing');
+          video.remove();
+        });
+      });
 
-    var SCROLL = 272;
-    document.getElementById('hs-arr-l').addEventListener('click', function(){ strip.scrollBy({left: -SCROLL}); });
-    document.getElementById('hs-arr-r').addEventListener('click', function(){ strip.scrollBy({left:  SCROLL}); });
+      var SCROLL = 272;
+      document.getElementById('hs-arr-l').addEventListener('click', function(){ strip.scrollBy({left: -SCROLL}); });
+      document.getElementById('hs-arr-r').addEventListener('click', function(){ strip.scrollBy({left:  SCROLL}); });
+    });
+  }
+
+  fetch(APP_CDN + '/museums.json').then(function(r){ return r.json(); }).then(function(list){
+    list.forEach(function(m){ if (m.name === museum && m.id) _museumSlug = m.id; });
+  }).catch(function(){}).then(function(){
+    if (window.RotMediaRuntime) { fetchAndRender(); return; }
+    var runtime = document.createElement('script');
+    runtime.src = APP_CDN + '/js/media-runtime.js?v=fe4';
+    runtime.onload = fetchAndRender;
+    runtime.onerror = function(){ document.getElementById('rot-hs-root').style.display = 'none'; };
+    document.head.appendChild(runtime);
   });
 
   var playerLoaded = false;
@@ -119,7 +166,7 @@
   function loadPlayer(cb){
     if (playerLoaded){ cb(); return; }
     var s = document.createElement('script');
-    s.src = APP_CDN + '/js/infographic-player.js?v=player-restore-20260712';
+    s.src = APP_CDN + '/js/infographic-player.js?v=fe4';
     s.onload = function(){ playerLoaded = true; cb(); };
     document.head.appendChild(s);
   }

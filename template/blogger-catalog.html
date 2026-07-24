@@ -351,6 +351,7 @@
   </div>
 </div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe4"></script>
 <script>
 //<![CDATA[
 (function(){
@@ -363,6 +364,20 @@
   var all = [], filtered = [], currentPage = 1;
   var currentView = 'grid';
   var colSort = { key: null, dir: 1 };
+
+  function catalogMediaPrimary(r, role, filename){
+    var slug = _MUSEUM_SLUGS[r.Museum] || '';
+    if (!filename || !slug || !window.RotMediaRuntime) return null;
+    try {
+      return window.RotMediaRuntime.exhibitUrls(slug, role, filename, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      }).primary;
+    } catch (error) {
+      console.warn('[catalog media] ' + error.message);
+      return null;
+    }
+  }
   document.addEventListener('error', function(event){
     var el = event.target;
     if (!el || !/^(IMG|VIDEO|SOURCE)$/.test(el.tagName || '')) return;
@@ -491,7 +506,7 @@
     } else if (!_playerScriptLoaded) {
       _playerScriptLoaded = true;
       var s = document.createElement('script');
-      s.src = APP_CDN + '/js/infographic-player.js?v=player-restore-20260712';
+      s.src = APP_CDN + '/js/infographic-player.js?v=fe4';
       s.onload = _initPlayer;
       document.head.appendChild(s);
     }
@@ -848,8 +863,7 @@
 
   function pngSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source_png;
-    var slug = _MUSEUM_SLUGS[r.Museum] || '';
-    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/800/' + src : null;
+    return catalogMediaPrimary(r, 'image_800', src);
   }
 
   function pickRandom(arr, n){
@@ -1131,8 +1145,7 @@
 
   function glowSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source;
-    var slug = _MUSEUM_SLUGS[r.Museum] || '';
-    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/800_glow/' + src : null;
+    return catalogMediaPrimary(r, 'exhibit_video', src);
   }
 
   var _MUSEUM_SLUGS = {};
@@ -1147,11 +1160,10 @@
   }
 
   function previewSrc(r, suffix) {
-    var slug = _MUSEUM_SLUGS[r.Museum] || '';
     var src = suffix
       ? (r.mobile && r.mobile.preview)
       : r.preview;
-    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/previews/' + src : null;
+    return catalogMediaPrimary(r, suffix ? 'preview_mobile' : 'preview', src);
   }
 
   function esc(s){

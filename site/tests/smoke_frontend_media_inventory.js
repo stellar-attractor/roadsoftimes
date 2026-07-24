@@ -35,7 +35,11 @@ const consumers = Object.freeze({
     "RotExhibit.init",
   ],
   "template/blogger-exhibit.html": ["RotExhibit.init"],
-  "tools/museums/test-hud-strip.html": ["function previewSrc("],
+  "tools/museums/test-hud-strip.html": [
+    "function previewUrls(",
+    "RotMediaRuntime.exhibitUrls",
+    "data-fallback=",
+  ],
 });
 
 for (const [relative, markers] of Object.entries(consumers)) {
@@ -55,10 +59,8 @@ assert.ok(!strip.includes("function mediaUrl("), "museum strip removed arbitrary
 assert.ok(!strip.includes("MEDIA_CDN + '/previews/'"), "museum strip removed flat preview fallback");
 assert.ok(strip.includes("hs-thumb-missing"), "museum strip has an explicit missing-preview state");
 
-const oldStripCopy = read("tools/museums/test-hud-strip.html");
-assert.ok(
-  oldStripCopy.includes("MEDIA_CDN + '/previews/' + e.id + suffix"),
-  "FE-0 freezes stale test-copy preview path until FE-4"
-);
+const testStrip = read("tools/museums/test-hud-strip.html");
+assert.ok(!testStrip.includes("MEDIA_CDN + '/previews/'"), "test strip removed flat preview fallback");
+assert.ok(!testStrip.includes("+ e.id + suffix"), "test strip does not infer preview filenames");
 
 console.log("Frontend media consumer inventory baseline passed");
