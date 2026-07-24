@@ -37790,7 +37790,7 @@
             "width": 0,
             "shape": "rect"
           },
-          "source": "assets/images/ussr.svg",
+          "source": "flags/ussr.svg",
           "media_type": "image"
         },
         "txt_year": {
