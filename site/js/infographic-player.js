@@ -42,6 +42,9 @@
   }
 
   function buildExhibitMediaUrls(museumSlug, role, basename, options) {
+    if (global.RotMediaRuntime && typeof global.RotMediaRuntime.exhibitUrls === "function") {
+      return global.RotMediaRuntime.exhibitUrls(museumSlug, role, basename, options);
+    }
     var slug = String(museumSlug || "").trim();
     var directory = EXHIBIT_MEDIA_ROLE_DIRS[role];
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new TypeError("Invalid museum slug");
@@ -292,6 +295,13 @@
     var explicit = mobile ? (rec.mobile && rec.mobile.video) : rec.video;
     if (explicit && /\/videos\//.test(explicit)) return explicit;
     var slug = _museumSlugForRec(rec) || "roadsoftimes";
+    if (global.RotMediaRuntime && typeof global.RotMediaRuntime.collageUrls === "function") {
+      return global.RotMediaRuntime.collageUrls(
+        slug,
+        rec.id,
+        mobile ? "mobile" : "desktop"
+      ).relative;
+    }
     var suffix = mobile ? "_mobile.webm" : ".webm";
     return "exhibits/" + slug + "/videos/" + rec.id + suffix;
   }
@@ -920,6 +930,7 @@
     previewUrl: previewUrl,
     buildExhibitMediaUrls: buildExhibitMediaUrls,
     bindMediaFallback: bindMediaFallback,
+    mediaRuntime: global.RotMediaRuntime || null,
     isMobileViewport: _isMobileViewport,
     layoutQueryOverride: _layoutQueryOverride
   };

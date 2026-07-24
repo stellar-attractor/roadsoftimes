@@ -39,8 +39,18 @@ const context = {
 context.window = context;
 vm.createContext(context);
 vm.runInContext(
+  fs.readFileSync(path.join(__dirname, "../js/media-runtime.js"), "utf8"),
+  context
+);
+vm.runInContext(
   fs.readFileSync(path.join(__dirname, "../js/infographic-player.js"), "utf8"),
   context
+);
+
+assert.equal(
+  context.RotExhibit.mediaRuntime,
+  context.RotMediaRuntime,
+  "player delegates public URL construction to the shared runtime"
 );
 
 const urls = context.RotExhibit.buildExhibitMediaUrls(
@@ -84,5 +94,11 @@ assert.throws(
   () => context.RotExhibit.buildExhibitMediaUrls("museum", "exhibit_video", "folder/item.webm"),
   /basename/
 );
+
+const staticCatalog = fs.readFileSync(path.join(__dirname, "../index.html"), "utf8");
+const runtimeLoaderAt = staticCatalog.indexOf("/js/media-runtime.js?v=fe2");
+const playerLoaderAt = staticCatalog.indexOf("/js/infographic-player.js?v=fe2");
+assert.ok(runtimeLoaderAt >= 0, "static catalog loads the shared media runtime");
+assert.ok(playerLoaderAt > runtimeLoaderAt, "static catalog declares runtime before player");
 
 console.log("Site exhibit media URL/fallback smoke checks passed");

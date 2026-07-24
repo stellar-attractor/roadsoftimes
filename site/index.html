@@ -545,10 +545,15 @@
       _initPlayer();
     } else if (!_playerScriptLoaded) {
       _playerScriptLoaded = true;
-      var s = document.createElement('script');
-      s.src = APP_CDN + '/js/infographic-player.js?v=' + Date.now();
-      s.onload = _initPlayer;
-      document.head.appendChild(s);
+      var runtime = document.createElement('script');
+      runtime.src = APP_CDN + '/js/media-runtime.js?v=fe2';
+      runtime.onload = function(){
+        var s = document.createElement('script');
+        s.src = APP_CDN + '/js/infographic-player.js?v=fe2';
+        s.onload = _initPlayer;
+        document.head.appendChild(s);
+      };
+      document.head.appendChild(runtime);
     }
   };
 
