@@ -530,6 +530,18 @@
     );
   };
 
+  ExhibitPlayer.prototype._sharedMediaUrls = function (role, source) {
+    if (!global.RotMediaRuntime || typeof global.RotMediaRuntime.sharedUrls !== "function") {
+      var legacy = this._cdnUrl(source);
+      return { relative: source, primary: legacy, fallback: legacy };
+    }
+    var filename = String(source || "").replace(/\\/g, "/").split("/").pop();
+    return global.RotMediaRuntime.sharedUrls(role, filename, {
+      primaryOrigin: this.cdnBase,
+      fallbackOrigin: this.fallbackCdnBase
+    });
+  };
+
   ExhibitPlayer.prototype._render = function () {
     const base = this.records[this.index];
     if (!base) return;
@@ -598,7 +610,7 @@
 
     // frame overlay
     if (zones.frame_overlay) {
-      const v = this._makeVideo(this._cdnUrl(zones.frame_overlay.source));
+      const v = this._makeVideo(this._sharedMediaUrls("hud", zones.frame_overlay.source));
       v.style.cssText = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
       v.style.zIndex  = zones.frame_overlay.z_index != null ? zones.frame_overlay.z_index : 10;
       this._stage.appendChild(v);
@@ -630,39 +642,42 @@
     var z = -1; // always background — content zones render on top
     var style = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
     var src = frameInfo.source;
-    var primary = this._cdnUrl(src);
+    var frameUrls = this._sharedMediaUrls("hud", src);
+    var primary = frameUrls.primary;
     var webmPath = this._hudFrameWebmCandidate(src);
-    var webmUrl = webmPath ? this._cdnUrl(webmPath) : "";
+    var webmUrls = webmPath ? this._sharedMediaUrls("hud", webmPath) : null;
+    var webmUrl = webmUrls ? webmUrls.primary : "";
 
     if (webmUrl && webmUrl !== primary && /\.png$/i.test(src)) {
-      var v = this._makeVideo(webmUrl);
+      var v = document.createElement("video");
+      bindMediaFallback(v, webmUrls, function (detail) {
+        if (detail.status !== "failed") return;
+        var img = document.createElement("img");
+        bindMediaFallback(img, frameUrls);
+        img.style.cssText = style;
+        img.style.zIndex = z;
+        v.replaceWith(img);
+      });
+      v.autoplay = true;
+      v.loop = true;
+      v.muted = true;
+      v.setAttribute("playsinline", "");
       v.style.cssText = style;
       v.style.zIndex = z;
-      v.addEventListener("error", function () {
-        if (/\.png$/i.test(src)) {
-          var img = document.createElement("img");
-          img.src = primary;
-          img.style.cssText = style;
-          img.style.zIndex = z;
-          v.replaceWith(img);
-        } else {
-          v.src = primary;
-        }
-      }, { once: true });
       this._stage.appendChild(v);
       return;
     }
 
     if (/\.png$/i.test(src)) {
       var img = document.createElement("img");
-      img.src = primary;
+      bindMediaFallback(img, frameUrls);
       img.style.cssText = style;
       img.style.zIndex = z;
       this._stage.appendChild(img);
       return;
     }
 
-    var video = this._makeVideo(primary);
+    var video = this._makeVideo(frameUrls);
     video.style.cssText = style;
     video.style.zIndex = z;
     this._stage.appendChild(video);
@@ -735,15 +750,30 @@
     if (!z || !z.source) return;
     var fit = z.fit || "stretch";
     var bgSize = fit === "stretch" ? "100% 100%" : (fit === "contain" ? "contain" : "cover");
+    var urls = null;
+    if (z.role === "image") {
+      urls = this._exhibitMediaUrls("source_image", z.source);
+    } else if (z.role === "image_flag" || /^flags\//i.test(z.source)) {
+      urls = this._sharedMediaUrls("flag", z.source);
+    }
+    var backgroundUrl = urls ? urls.primary : this._cdnUrl(z.source);
     var el = document.createElement("div");
     el.style.cssText = "position:absolute;"
       + "left:" + z.x + "px;top:" + z.y + "px;"
       + "width:" + z.width + "px;height:" + z.height + "px;"
-      + "background-image:url('" + this._cdnUrl(z.source) + "');"
+      + "background-image:url('" + backgroundUrl + "');"
       + "background-size:" + bgSize + ";"
       + "background-repeat:no-repeat;background-position:center;"
       + "z-index:" + (z.z_index != null ? z.z_index : 5) + ";"
       + "opacity:" + (z.opacity != null ? z.opacity : 1) + ";";
+    if (urls) {
+      var probe = new Image();
+      bindMediaFallback(probe, urls, function (detail) {
+        if (detail.status === "fallback") {
+          el.style.backgroundImage = "url('" + urls.fallback + "')";
+        }
+      });
+    }
     this._stage.appendChild(el);
   };
 

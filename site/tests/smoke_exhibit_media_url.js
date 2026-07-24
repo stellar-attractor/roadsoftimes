@@ -42,10 +42,8 @@ vm.runInContext(
   fs.readFileSync(path.join(__dirname, "../js/media-runtime.js"), "utf8"),
   context
 );
-vm.runInContext(
-  fs.readFileSync(path.join(__dirname, "../js/infographic-player.js"), "utf8"),
-  context
-);
+const playerSource = fs.readFileSync(path.join(__dirname, "../js/infographic-player.js"), "utf8");
+vm.runInContext(playerSource, context);
 
 assert.equal(
   context.RotExhibit.mediaRuntime,
@@ -67,6 +65,24 @@ assert.equal(
   "https://media-roadsoftimes.pages.dev/exhibits/marinemuseum-wilhelmshaven/800_glow/SMS_Grosser_Kurfuerst_800_glow.webm"
 );
 assert.equal(new URL(urls.primary).pathname, new URL(urls.fallback).pathname);
+
+const brummbar = context.RotExhibit.buildExhibitMediaUrls(
+  "panzermuseum-munster",
+  "exhibit_video",
+  "Brummbar_800_glow.webm"
+);
+assert.equal(
+  brummbar.relative,
+  "exhibits/panzermuseum-munster/800_glow/Brummbar_800_glow.webm"
+);
+assert.equal(
+  context.RotExhibit.buildExhibitMediaUrls(
+    "panzermuseum-munster",
+    "image_800",
+    "Brummbar_800.png"
+  ).relative,
+  "exhibits/panzermuseum-munster/800/Brummbar_800.png"
+);
 
 const primarySuccess = new FakeMedia();
 context.RotExhibit.bindMediaFallback(primarySuccess, urls);
@@ -100,5 +116,17 @@ const runtimeLoaderAt = staticCatalog.indexOf("/js/media-runtime.js?v=fe2");
 const playerLoaderAt = staticCatalog.indexOf("/js/infographic-player.js?v=fe2");
 assert.ok(runtimeLoaderAt >= 0, "static catalog loads the shared media runtime");
 assert.ok(playerLoaderAt > runtimeLoaderAt, "static catalog declares runtime before player");
+assert.ok(
+  playerSource.includes('_sharedMediaUrls("hud", zones.frame_overlay.source)'),
+  "HUD overlay uses the typed shared runtime"
+);
+assert.ok(
+  playerSource.includes('this._exhibitMediaUrls("source_image", z.source)'),
+  "source image zones use the typed exhibit runtime"
+);
+assert.ok(
+  playerSource.includes('this._sharedMediaUrls("flag", z.source)'),
+  "flag zones use the typed shared runtime"
+);
 
 console.log("Site exhibit media URL/fallback smoke checks passed");
