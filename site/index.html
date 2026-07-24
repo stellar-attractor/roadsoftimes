@@ -402,6 +402,7 @@
   </div>
 </div>
 
+<script src="/js/media-runtime.js?v=fe3"></script>
 <script>
 (function(){
   var APP_CDN   = window.location.origin;                  // code / html / json manifests
@@ -413,6 +414,20 @@
   var all = [], filtered = [], currentPage = 1;
   var currentView = 'grid';
   var colSort = { key: null, dir: 1 };
+
+  function catalogMediaPrimary(record, role, filename) {
+    var slug = _MUSEUM_SLUGS[record && record.Museum] || '';
+    if (!slug || !filename || !window.RotMediaRuntime) return null;
+    try {
+      return window.RotMediaRuntime.exhibitUrls(slug, role, filename, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      }).primary;
+    } catch (error) {
+      console.warn('[catalog media] ' + role + ': ' + error.message);
+      return null;
+    }
+  }
   document.addEventListener('error', function(event){
     var el = event.target;
     if (!el || !/^(IMG|VIDEO|SOURCE)$/.test(el.tagName || '')) return;
@@ -891,8 +906,7 @@
 
   function pngSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source_png;
-    var slug = _MUSEUM_SLUGS[r.Museum] || '';
-    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/800/' + src : null;
+    return catalogMediaPrimary(r, 'image_800', src);
   }
 
   function pickRandom(arr, n){
@@ -1171,8 +1185,7 @@
 
   function glowSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source;
-    var slug = _MUSEUM_SLUGS[r.Museum] || '';
-    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/800_glow/' + src : null;
+    return catalogMediaPrimary(r, 'exhibit_video', src);
   }
 
   var _MUSEUM_SLUGS = {};
@@ -1187,11 +1200,10 @@
   }
 
   function previewSrc(r, suffix) {
-    var slug = _MUSEUM_SLUGS[r.Museum] || '';
     var src = suffix
       ? (r.mobile && r.mobile.preview)
       : r.preview;
-    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/previews/' + src : null;
+    return catalogMediaPrimary(r, suffix ? 'preview_mobile' : 'preview', src);
   }
 
   function esc(s){

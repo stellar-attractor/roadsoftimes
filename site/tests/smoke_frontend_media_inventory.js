@@ -30,8 +30,8 @@ const consumers = Object.freeze({
     "MEDIA_CDN_FALLBACK",
   ],
   "template/blogger-hud-strip.html": [
-    "function mediaUrl(",
-    "function previewSrc(",
+    "function previewUrls(",
+    "RotMediaRuntime.exhibitUrls",
     "RotExhibit.init",
   ],
   "template/blogger-exhibit.html": ["RotExhibit.init"],
@@ -51,14 +51,9 @@ for (const role of ["exhibit_video", "image_800", "source_image", "preview", "pr
 }
 
 const strip = read("template/blogger-hud-strip.html");
-assert.ok(
-  strip.includes("if (/^https?:\\/\\//i.test(path)) return path;"),
-  "FE-0 freezes arbitrary URL acceptance in museum strip until FE-3/FE-4"
-);
-assert.ok(
-  strip.includes("return MEDIA_CDN + '/previews/' + e.id + suffix; // legacy fallback"),
-  "FE-0 freezes flat preview fallback until FE-3/FE-4"
-);
+assert.ok(!strip.includes("function mediaUrl("), "museum strip removed arbitrary path resolver");
+assert.ok(!strip.includes("MEDIA_CDN + '/previews/'"), "museum strip removed flat preview fallback");
+assert.ok(strip.includes("hs-thumb-missing"), "museum strip has an explicit missing-preview state");
 
 const oldStripCopy = read("tools/museums/test-hud-strip.html");
 assert.ok(
