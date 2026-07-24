@@ -14,7 +14,81 @@
 (function (global) {
   "use strict";
 
-  const CDN_BASE = "https://media.roadsoftimes.com"; // override via init options (cdnBase)
+  const CDN_BASE = "https://media.roadsoftimes.com";
+  const CDN_FALLBACK_BASE = "https://media-roadsoftimes.pages.dev";
+  const EXHIBIT_MEDIA_ROLE_DIRS = Object.freeze({
+    exhibit_video: "800_glow",
+    image_800: "800",
+    source_image: "png",
+    preview: "previews",
+    preview_mobile: "previews"
+  });
+
+  function _cleanOrigin(value, fallback) {
+    var origin = String(value || fallback || "").replace(/\/+$/, "");
+    if (!/^https:\/\/[^/]+$/.test(origin)) throw new TypeError("Media origin must be an HTTPS origin");
+    return origin;
+  }
+
+  function _asciiBasename(value) {
+    var basename = String(value || "").trim();
+    if (!basename || basename === "." || basename === ".." || /[\/\\]/.test(basename)) {
+      throw new TypeError("Exhibit media filename must be a basename");
+    }
+    if (!/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(basename)) {
+      throw new TypeError("Exhibit media filename must contain ASCII letters, digits, dot, underscore, or hyphen only");
+    }
+    return basename;
+  }
+
+  function buildExhibitMediaUrls(museumSlug, role, basename, options) {
+    var slug = String(museumSlug || "").trim();
+    var directory = EXHIBIT_MEDIA_ROLE_DIRS[role];
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new TypeError("Invalid museum slug");
+    if (!directory) throw new TypeError("Unknown exhibit media role: " + String(role || ""));
+    var filename = _asciiBasename(basename);
+    var relative = "exhibits/" + slug + "/" + directory + "/" + filename;
+    var opts = options || {};
+    var primaryOrigin = _cleanOrigin(opts.primaryOrigin, CDN_BASE);
+    var fallbackOrigin = _cleanOrigin(opts.fallbackOrigin, CDN_FALLBACK_BASE);
+    return Object.freeze({
+      relative: relative,
+      primary: primaryOrigin + "/" + relative,
+      fallback: fallbackOrigin + "/" + relative
+    });
+  }
+
+  function bindMediaFallback(element, urls, onTransition) {
+    if (!element || !element.addEventListener || !urls || !urls.primary || !urls.fallback) {
+      throw new TypeError("A media element and primary/fallback URLs are required");
+    }
+    var attemptedFallback = false;
+    var terminalFailureReported = false;
+    function report(status) {
+      var detail = { status: status, primary: urls.primary, fallback: urls.fallback, relative: urls.relative };
+      if (typeof onTransition === "function") onTransition(detail);
+      if (global.dispatchEvent && typeof global.CustomEvent === "function") {
+        global.dispatchEvent(new global.CustomEvent("rot-media-fallback", { detail: detail }));
+      }
+      if (global.console && typeof global.console.warn === "function") {
+        global.console.warn("[RotExhibit] media " + status + ": " + urls.relative);
+      }
+    }
+    element.addEventListener("error", function () {
+      if (!attemptedFallback) {
+        attemptedFallback = true;
+        report("fallback");
+        element.src = urls.fallback;
+        return;
+      }
+      if (!terminalFailureReported) {
+        terminalFailureReported = true;
+        report("failed");
+      }
+    });
+    element.src = urls.primary;
+    return element;
+  }
 
   /* ─── CSS injected once ─────────────────────────────────────────────────── */
   const STYLE = `
@@ -294,7 +368,8 @@
       ? document.querySelector(opts.container)
       : opts.container;
     this.dbUrl  = opts.db   || "site/infographics.json";
-    this.cdnBase = (opts.cdnBase || "").replace(/\/$/, "");
+    this.cdnBase = (opts.cdnBase || CDN_BASE).replace(/\/$/, "");
+    this.fallbackCdnBase = (opts.fallbackCdnBase || CDN_FALLBACK_BASE).replace(/\/$/, "");
     this.stripSitePrefix = opts.stripSitePrefix || false;
     this.startId = opts.id  || null;
     this.single  = opts.single || false;
@@ -436,10 +511,20 @@
     return this.cdnBase ? this.cdnBase + "/" + s : "/" + s;
   };
 
+  ExhibitPlayer.prototype._exhibitMediaUrls = function (role, basename) {
+    return buildExhibitMediaUrls(
+      _museumSlugForRec(this._activeRecord),
+      role,
+      basename,
+      { primaryOrigin: this.cdnBase, fallbackOrigin: this.fallbackCdnBase }
+    );
+  };
+
   ExhibitPlayer.prototype._render = function () {
     const base = this.records[this.index];
     if (!base) return;
     const rec = pickLayout(base);
+    this._activeRecord = rec;
 
     const W = rec.canvas_width  || 1456;
     const H = rec.canvas_height || 1080;
@@ -588,7 +673,8 @@
       cv.style.cssText = "position:absolute;top:0;left:0;display:block;";
       cv.style.setProperty("width",  z.width  + "px", "important");
       cv.style.setProperty("height", z.height + "px", "important");
-      var _src = this._cdnUrl(z.source_png);
+      var _urls = this._exhibitMediaUrls("image_800", z.source_png);
+      var _src = _urls.primary;
       var _fit = fit;
       var _w = z.width, _h = z.height;
       (function(canvas, src, f, dw, dh) {
@@ -601,7 +687,7 @@
             var s2 = 0.95, ox2 = dw*(1-s2)/2, oy2 = dh*(1-s2)/2;
             ctx2.drawImage(im2, ox2, oy2, dw*s2, dh*s2);
           };
-          im2.src = src + '?_=' + Date.now();
+          im2.src = _urls.fallback;
         };
         im.onload = function() {
           var ctx = canvas.getContext("2d");
@@ -625,7 +711,7 @@
       })(cv, _src, _fit, _w, _h);
       wrap.appendChild(cv);
     } else {
-      const v = this._makeVideo(this._cdnUrl(z.source));
+      const v = this._makeVideo(this._exhibitMediaUrls("exhibit_video", z.source));
       v.style.cssText = "position:absolute;top:0;left:0;background:transparent;object-fit:" + fit + ";";
       v.style.setProperty("width",  z.width  + "px", "important");
       v.style.setProperty("height", z.height + "px", "important");
@@ -742,7 +828,11 @@
 
   ExhibitPlayer.prototype._makeVideo = function (src) {
     const v = document.createElement("video");
-    v.src      = src;
+    if (src && typeof src === "object" && src.primary && src.fallback) {
+      bindMediaFallback(v, src);
+    } else {
+      v.src = src;
+    }
     v.autoplay = true;
     v.loop     = true;
     v.muted    = true;
@@ -828,6 +918,8 @@
     resolveText: resolveText,
     pickPreviewPath: pickPreviewPath,
     previewUrl: previewUrl,
+    buildExhibitMediaUrls: buildExhibitMediaUrls,
+    bindMediaFallback: bindMediaFallback,
     isMobileViewport: _isMobileViewport,
     layoutQueryOverride: _layoutQueryOverride
   };

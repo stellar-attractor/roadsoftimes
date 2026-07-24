@@ -406,12 +406,25 @@
 (function(){
   var APP_CDN   = window.location.origin;                  // code / html / json manifests
   var MEDIA_CDN = 'https://media.roadsoftimes.com';         // webm / png / jpg / svg assets
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
   var EXHIBIT = 'https://www.roadsoftimes.com/p/exhibit.html';
   var DB      = APP_CDN + '/infographics.json';
   var PER_PAGE = 12;
   var all = [], filtered = [], currentPage = 1;
   var currentView = 'grid';
   var colSort = { key: null, dir: 1 };
+  document.addEventListener('error', function(event){
+    var el = event.target;
+    if (!el || !/^(IMG|VIDEO|SOURCE)$/.test(el.tagName || '')) return;
+    var src = el.currentSrc || el.src || '';
+    if (el.dataset.rotCdnFallback || src.indexOf(MEDIA_CDN + '/') !== 0) return;
+    el.dataset.rotCdnFallback = '1';
+    el.dataset.rotCdnFallbackTransition = '1';
+    el.src = MEDIA_CDN_FALLBACK + src.slice(MEDIA_CDN.length);
+    window.dispatchEvent(new CustomEvent('rot-media-fallback', {
+      detail: { status: 'fallback', primary: src, fallback: el.src }
+    }));
+  }, true);
   try { currentView = localStorage.getItem('rot-catalog-view') || 'grid'; } catch(e){}
 
   // load museum slugs first so previewSrc paths are correct when render() runs
@@ -768,6 +781,10 @@
       v.src = thumbSrc; v.muted = true; v.autoplay = true; v.loop = true; v.setAttribute('playsinline','');
       (function(vid, rec){
         vid.onerror = function(){
+          if (vid.dataset.rotCdnFallbackTransition) {
+            delete vid.dataset.rotCdnFallbackTransition;
+            return;
+          }
           var fallback = glowSrc(rec);
           if (fallback && vid.src !== fallback) { vid.src = fallback; }
         };
@@ -869,7 +886,8 @@
 
   function pngSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source_png;
-    return src ? MEDIA_CDN + '/' + src : null;
+    var slug = _MUSEUM_SLUGS[r.Museum] || '';
+    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/800/' + src : null;
   }
 
   function pickRandom(arr, n){
@@ -1148,7 +1166,8 @@
 
   function glowSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source;
-    return src ? MEDIA_CDN + '/' + src : null;
+    var slug = _MUSEUM_SLUGS[r.Museum] || '';
+    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/800_glow/' + src : null;
   }
 
   var _MUSEUM_SLUGS = {};
@@ -1164,9 +1183,10 @@
 
   function previewSrc(r, suffix) {
     var slug = _MUSEUM_SLUGS[r.Museum] || '';
-    var sfx  = suffix || '';
-    if (slug) return MEDIA_CDN + '/exhibits/' + slug + '/previews/' + r.id + sfx + '_pr.webm';
-    return MEDIA_CDN + '/previews/' + r.id + sfx + '_pr.webm';
+    var src = suffix
+      ? (r.mobile && r.mobile.preview)
+      : r.preview;
+    return src && slug ? MEDIA_CDN + '/exhibits/' + slug + '/previews/' + src : null;
   }
 
   function esc(s){

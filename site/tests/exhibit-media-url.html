@@ -1,0 +1,31 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Exhibit media URL browser smoke test</title>
+<script src="../js/infographic-player.js"></script>
+<body>
+<output id="result">running</output>
+<script>
+  (function () {
+    var transitions = [];
+    var video = document.createElement("video");
+    var urls = RotExhibit.buildExhibitMediaUrls(
+      "marinemuseum-wilhelmshaven",
+      "exhibit_video",
+      "SMS_Grosser_Kurfuerst_800_glow.webm"
+    );
+    RotExhibit.bindMediaFallback(video, urls, function (detail) {
+      transitions.push(detail.status);
+    });
+    video.dispatchEvent(new Event("error"));
+    video.dispatchEvent(new Event("error"));
+    video.dispatchEvent(new Event("error"));
+    var passed = video.src === urls.fallback
+      && transitions.join(",") === "fallback,failed"
+      && new URL(urls.primary).pathname === new URL(urls.fallback).pathname;
+    var result = document.getElementById("result");
+    result.textContent = passed ? "PASS" : "FAIL";
+    result.dataset.primary = urls.primary;
+    result.dataset.fallback = urls.fallback;
+    result.dataset.transitions = transitions.join(",");
+  }());
+</script>
