@@ -51,10 +51,13 @@
 
 <div class="rot-mw" id="rot-mw-root"></div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=mp1"></script>
 <script>
 //<![CDATA[
 (function(){
   var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
+  var MEDIA_CDN = 'https://media.roadsoftimes.com';
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
   fetch(APP_CDN + '/museums.json').then(function(r){ return r.json(); }).then(function(data){
     var r = data.find(function(m){ return m.featured; });
     if (!r) return;
@@ -81,10 +84,19 @@
     var metaHtml = meta.length
       ? '<div class="mw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
       : '';
+    var photoUrls = null;
+    try {
+      if (r.photo && window.RotMediaRuntime) photoUrls = window.RotMediaRuntime.exhibitUrls(r.id, 'museum_photo', r.photo, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      });
+    } catch (error) {
+      console.warn('[museum widget photo] ' + error.message);
+    }
 
     document.getElementById('rot-mw-root').innerHTML =
       '<div class="mw-card">' +
-        '<div class="mw-photo"><img src="' + esc(r.photo||'') + '" alt=""' + (r.photo ? '' : ' style="display:none"') + '></div>' +
+        '<div class="mw-photo"><img src="' + esc(photoUrls ? photoUrls.primary : '') + '" data-museum-photo-fallback="' + esc(photoUrls ? photoUrls.fallback : '') + '" alt=""' + (photoUrls ? '' : ' style="display:none"') + '></div>' +
         '<div class="mw-body">' +
           '<div class="mw-label">★ Рекомендую</div>' +
           (r.landing_url ? '<a class="mw-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>' : '<div class="mw-name">' + esc(r.name||'') + '</div>') +
@@ -92,6 +104,13 @@
           (r.description ? '<div class="mw-desc">' + esc(r.description) + '</div>' : '') +
         '</div>' +
       '</div>';
+    var photo = document.querySelector('#rot-mw-root .mw-photo img');
+    if (photo) photo.addEventListener('error', function(){
+      var fallback = photo.getAttribute('data-museum-photo-fallback');
+      photo.removeAttribute('data-museum-photo-fallback');
+      if (fallback) photo.src = fallback;
+      else photo.style.display = 'none';
+    });
   });
 })();
 //]]>

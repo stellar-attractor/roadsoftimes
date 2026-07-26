@@ -12,7 +12,7 @@
     "website": "https://zamekbolkow.eu",
     "map_url": "https://maps.app.goo.gl/FUBH9smS2RHVTpHC7",
     "landing_url": "https://roadsoftimes.blogspot.com/2026/06/blog-post_756.html",
-    "photo": "https://media.roadsoftimes.com/exhibits/bolkow/IMG_20260418_120527756.jpg",
+    "photo": "IMG_20260418_120527756.jpg",
     "rating": 4,
     "featured": false
   },
@@ -29,7 +29,7 @@
     "website": "https://daspanzermuseum.de/en/plan-a-visit/",
     "map_url": "https://maps.app.goo.gl/g8E26iVG9Nqxu5hc7",
     "landing_url": "https://roadsoftimes.blogspot.com/2026/06/panzermuseum.html",
-    "photo": "https://media.roadsoftimes.com/exhibits/panzermuseum-munster/IMG_20260601_103639709_HDR.jpg",
+    "photo": "IMG_20260601_103639709_HDR.jpg",
     "rating": 5,
     "featured": false
   },
@@ -46,7 +46,7 @@
     "website": "https://www.marinemuseum.de",
     "map_url": "https://maps.app.goo.gl/6wbveYQP9eExHDjH6",
     "landing_url": "https://roadsoftimes.blogspot.com/2026/06/deutsches-marinemuseum.html",
-    "photo": "https://media.roadsoftimes.com/exhibits/marinemuseum-wilhelmshaven/IMG_20260604_110416067.jpg",
+    "photo": "IMG_20260604_110416067.jpg",
     "rating": 5,
     "featured": false
   },
@@ -63,7 +63,7 @@
     "website": "https://muzeum.kostrzyn.pl/",
     "map_url": "https://maps.app.goo.gl/ru15h46fywyCBZ2p9",
     "landing_url": "https://roadsoftimes.blogspot.com/2026/06/blog-post_421.html",
-    "photo": "https://media.roadsoftimes.com/exhibits/fortress-kostrzyn/IMG_20260620_141609141.jpg",
+    "photo": "IMG_20260620_141609141.jpg",
     "rating": 4,
     "featured": true
   },
@@ -80,7 +80,7 @@
     "website": "",
     "map_url": "",
     "landing_url": "",
-    "photo": "https://media.roadsoftimes.com/exhibits/roadsoftimes/logo5.jpg",
+    "photo": "logo5.jpg",
     "rating": 5,
     "featured": false
   },
@@ -97,7 +97,24 @@
     "website": "",
     "map_url": "",
     "landing_url": "",
-    "photo": "https://media.roadsoftimes.com/exhibits/peenemunde/IMG_20260515_144924320.jpg",
+    "photo": "IMG_20260515_144924320.jpg",
+    "rating": 5,
+    "featured": false
+  },
+  {
+    "id": "galowice",
+    "name": "Музей карет в Галовице",
+    "city": "Галовице",
+    "country": "Польша",
+    "year_visited": 2026,
+    "description": "Камерный и очень милый музей в селе Галовице - 3 этажа погружают вас в эпоху, когда коляски, кареты, фаэтоны и дрожки были основными средствами перемещения, а лошади - лучшими друзьями человека!",
+    "ticket_price": "40 zl",
+    "working_hours": "10-18",
+    "year_founded": 1977,
+    "website": "www.muzeumgalowice.pl",
+    "map_url": "https://maps.app.goo.gl/a3165nrFfarcpuPE9",
+    "landing_url": "",
+    "photo": "IMG_20260725_123020498.jpg",
     "rating": 5,
     "featured": false
   }

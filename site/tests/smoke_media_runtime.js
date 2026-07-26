@@ -16,6 +16,15 @@ vm.runInContext(
 const runtime = context.RotMediaRuntime;
 const slug = "marinemuseum-wilhelmshaven";
 
+assert.deepEqual(
+  JSON.parse(JSON.stringify(runtime.exhibitUrls("galowice", "museum_photo", "IMG_20260725_123020498.jpg"))),
+  {
+    relative: "exhibits/galowice/IMG_20260725_123020498.jpg",
+    primary: "https://media.roadsoftimes.com/exhibits/galowice/IMG_20260725_123020498.jpg",
+    fallback: "https://media-roadsoftimes.pages.dev/exhibits/galowice/IMG_20260725_123020498.jpg"
+  }
+);
+
 const roleCases = [
   ["exhibit_video", "Item_800_glow.webm", "800_glow"],
   ["image_800", "Item_800.png", "800"],

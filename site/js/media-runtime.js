@@ -17,7 +17,8 @@
     image_800: Object.freeze({ folder: "800", extensions: ["png"] }),
     source_image: Object.freeze({ folder: "png", extensions: ["png", "jpg", "jpeg", "webp"] }),
     preview: Object.freeze({ folder: "previews", extensions: ["webm", "mp4", "mov"] }),
-    preview_mobile: Object.freeze({ folder: "previews", extensions: ["webm", "mp4", "mov"] })
+    preview_mobile: Object.freeze({ folder: "previews", extensions: ["webm", "mp4", "mov"] }),
+    museum_photo: Object.freeze({ folder: "", extensions: ["jpg", "jpeg", "png", "webp", "gif", "avif"] })
   });
 
   var SHARED_ROLES = Object.freeze({
@@ -78,7 +79,10 @@
     if (!definition) throw new TypeError("Unknown exhibit media role: " + String(role || ""));
     var slug = assertMuseumSlug(museumSlug);
     var basename = assertAsciiFilename(filename, definition.extensions);
-    return urlPair("exhibits/" + slug + "/" + definition.folder + "/" + basename, options);
+    return urlPair(
+      ["exhibits", slug, definition.folder, basename].filter(Boolean).join("/"),
+      options
+    );
   }
 
   function sharedUrls(role, filename, options) {
