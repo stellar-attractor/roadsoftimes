@@ -31,5 +31,15 @@ assert.ok(
   !source.includes("MEDIA_CDN + '/exhibits/'"),
   "static catalog contains no manual exhibit URL concatenation"
 );
+assert.ok(
+  source.includes("RotMediaRuntime.sharedUrls('hud', r.hud_key + '_Frame.webm'"),
+  "grid HUD frames use the typed shared runtime"
+);
+assert.ok(source.includes("card-hud-layer"), "grid cards render a HUD layer");
+assert.ok(source.includes("card-preview-layer"), "grid cards render preview above the HUD");
+assert.ok(
+  source.includes("r.Category === 'Коллажи'"),
+  "standalone collage cards do not receive an exhibit HUD"
+);
 
 console.log("Static catalog media runtime smoke checks passed");
