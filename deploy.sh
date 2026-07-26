@@ -20,4 +20,5 @@ cd "$ROOT"
 # below (lines prefixed "+") lists exactly what got uploaded, not the tree.
 wrangler pages deploy "$ROOT/site/media-site" \
   --project-name media-roadsoftimes \
+  --branch main \
   --commit-dirty=true

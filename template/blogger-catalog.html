@@ -1203,7 +1203,10 @@
     var src = suffix
       ? (r.mobile && r.mobile.preview)
       : r.preview;
-    return catalogMediaPrimary(r, suffix ? 'preview_mobile' : 'preview', src);
+    var url = catalogMediaPrimary(r, suffix ? 'preview_mobile' : 'preview', src);
+    return url && r.updated
+      ? url + '?v=' + encodeURIComponent(r.updated)
+      : url;
   }
 
   function esc(s){
