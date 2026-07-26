@@ -19,6 +19,12 @@ assert.ok(
   "Blogger catalog uses typed preview roles"
 );
 assert.ok(!catalog.includes("MEDIA_CDN + '/exhibits/'"), "Blogger catalog has no manual exhibit paths");
+assert.ok(
+  catalog.includes("RotMediaRuntime.sharedUrls('hud', r.hud_key + '_Frame.webm'"),
+  "Blogger grid HUD frames use the typed shared runtime"
+);
+assert.ok(catalog.includes("card-hud-layer"), "Blogger grid renders a HUD layer");
+assert.ok(catalog.includes("card-preview-layer"), "Blogger grid renders preview above the HUD");
 
 for (const relative of ["template/blogger-exhibit.html", "template/blogger-widget.html"]) {
   const source = read(relative);
