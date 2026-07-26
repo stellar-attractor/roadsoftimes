@@ -37,6 +37,9 @@ assert.ok(
 );
 assert.ok(source.includes("card-hud-layer"), "grid cards render a HUD layer");
 assert.ok(source.includes("card-preview-layer"), "grid cards render preview above the HUD");
+assert.ok(source.includes("card-thumb-missing"), "missing previews have an explicit terminal state");
+assert.ok(!source.includes("var fallback = glowSrc(rec)"), "preview errors never cross-fallback to 800_glow");
+assert.ok(source.includes("if (thumbSrc) {"), "catalog does not create a video element without a source");
 assert.ok(
   source.includes("r.Category === 'Коллажи'"),
   "standalone collage cards do not receive an exhibit HUD"
