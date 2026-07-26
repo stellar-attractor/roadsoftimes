@@ -351,17 +351,45 @@
   </div>
 </div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe5"></script>
 <script>
 //<![CDATA[
 (function(){
   var APP_CDN   = 'https://cdn.roadsoftimes.com';   // code / html / json manifests
   var MEDIA_CDN = 'https://media.roadsoftimes.com'; // webm / png / jpg / svg assets
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
   var EXHIBIT  = 'https://roadsoftimes.blogspot.com/p/exhibit.html';
   var DB       = APP_CDN + '/infographics.json';
   var PER_PAGE = 12;
   var all = [], filtered = [], currentPage = 1;
   var currentView = 'grid';
   var colSort = { key: null, dir: 1 };
+
+  function catalogMediaPrimary(r, role, filename){
+    var slug = _MUSEUM_SLUGS[r.Museum] || '';
+    if (!filename || !slug || !window.RotMediaRuntime) return null;
+    try {
+      return window.RotMediaRuntime.exhibitUrls(slug, role, filename, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      }).primary;
+    } catch (error) {
+      console.warn('[catalog media] ' + error.message);
+      return null;
+    }
+  }
+  document.addEventListener('error', function(event){
+    var el = event.target;
+    if (!el || !/^(IMG|VIDEO|SOURCE)$/.test(el.tagName || '')) return;
+    var src = el.currentSrc || el.src || '';
+    if (el.dataset.rotCdnFallback || src.indexOf(MEDIA_CDN + '/') !== 0) return;
+    el.dataset.rotCdnFallback = '1';
+    el.dataset.rotCdnFallbackTransition = '1';
+    el.src = MEDIA_CDN_FALLBACK + src.slice(MEDIA_CDN.length);
+    window.dispatchEvent(new CustomEvent('rot-media-fallback', {
+      detail: { status: 'fallback', primary: src, fallback: el.src }
+    }));
+  }, true);
   try { currentView = localStorage.getItem('rot-catalog-view') || 'grid'; } catch(e){}
 
   _loadMuseumSlugs().then(function(){
@@ -478,7 +506,7 @@
     } else if (!_playerScriptLoaded) {
       _playerScriptLoaded = true;
       var s = document.createElement('script');
-      s.src = APP_CDN + '/js/infographic-player.js?v=player-restore-20260712';
+      s.src = APP_CDN + '/js/infographic-player.js?v=fe5';
       s.onload = _initPlayer;
       document.head.appendChild(s);
     }
@@ -693,6 +721,10 @@
       v.src = thumbSrc; v.muted = true; v.autoplay = true; v.loop = true; v.setAttribute('playsinline','');
       (function(vid, rec){
         vid.onerror = function(){
+          if (vid.dataset.rotCdnFallbackTransition) {
+            delete vid.dataset.rotCdnFallbackTransition;
+            return;
+          }
           var fallback = glowSrc(rec);
           if (fallback && vid.src !== fallback) { vid.src = fallback; }
         };
@@ -831,7 +863,7 @@
 
   function pngSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source_png;
-    return src ? MEDIA_CDN + '/' + src : null;
+    return catalogMediaPrimary(r, 'image_800', src);
   }
 
   function pickRandom(arr, n){
@@ -1113,7 +1145,7 @@
 
   function glowSrc(r){
     var src = r.zones && r.zones.exhibit_video && r.zones.exhibit_video.source;
-    return src ? MEDIA_CDN + '/' + src : null;
+    return catalogMediaPrimary(r, 'exhibit_video', src);
   }
 
   var _MUSEUM_SLUGS = {};
@@ -1128,10 +1160,10 @@
   }
 
   function previewSrc(r, suffix) {
-    var slug = _MUSEUM_SLUGS[r.Museum] || '';
-    var sfx  = suffix || '';
-    if (slug) return MEDIA_CDN + '/exhibits/' + slug + '/previews/' + r.id + sfx + '_pr.webm';
-    return MEDIA_CDN + '/previews/' + r.id + sfx + '_pr.webm'; // legacy fallback
+    var src = suffix
+      ? (r.mobile && r.mobile.preview)
+      : r.preview;
+    return catalogMediaPrimary(r, suffix ? 'preview_mobile' : 'preview', src);
   }
 
   function esc(s){

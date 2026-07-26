@@ -14,7 +14,47 @@
 (function (global) {
   "use strict";
 
-  const CDN_BASE = "https://media.roadsoftimes.com"; // override via init options (cdnBase)
+  const CDN_BASE = "https://media.roadsoftimes.com";
+  const CDN_FALLBACK_BASE = "https://media-roadsoftimes.pages.dev";
+
+  function buildExhibitMediaUrls(museumSlug, role, basename, options) {
+    if (!global.RotMediaRuntime || typeof global.RotMediaRuntime.exhibitUrls !== "function") {
+      throw new Error("RotMediaRuntime must load before infographic-player.js");
+    }
+    return global.RotMediaRuntime.exhibitUrls(museumSlug, role, basename, options);
+  }
+
+  function bindMediaFallback(element, urls, onTransition) {
+    if (!element || !element.addEventListener || !urls || !urls.primary || !urls.fallback) {
+      throw new TypeError("A media element and primary/fallback URLs are required");
+    }
+    var attemptedFallback = false;
+    var terminalFailureReported = false;
+    function report(status) {
+      var detail = { status: status, primary: urls.primary, fallback: urls.fallback, relative: urls.relative };
+      if (typeof onTransition === "function") onTransition(detail);
+      if (global.dispatchEvent && typeof global.CustomEvent === "function") {
+        global.dispatchEvent(new global.CustomEvent("rot-media-fallback", { detail: detail }));
+      }
+      if (global.console && typeof global.console.warn === "function") {
+        global.console.warn("[RotExhibit] media " + status + ": " + urls.relative);
+      }
+    }
+    element.addEventListener("error", function () {
+      if (!attemptedFallback) {
+        attemptedFallback = true;
+        report("fallback");
+        element.src = urls.fallback;
+        return;
+      }
+      if (!terminalFailureReported) {
+        terminalFailureReported = true;
+        report("failed");
+      }
+    });
+    element.src = urls.primary;
+    return element;
+  }
 
   /* ─── CSS injected once ─────────────────────────────────────────────────── */
   const STYLE = `
@@ -170,7 +210,7 @@
 
   const MOBILE_TEXT_OVERRIDES = ["subtitle", "header", "ttx_text"];
 
-  var _museumSlugs = { "Болкув": "bolkow" };
+  var _museumSlugs = {};
 
   function _loadMuseumSlugMap(dbUrl) {
     var museumsUrl = String(dbUrl || "").replace(/[^/]+$/, "museums.json");
@@ -197,29 +237,23 @@
     return "";
   }
 
-  function _defaultPreviewPath(rec, mobile) {
-    if (!rec || !rec.id) return null;
-    var slug = _museumSlugForRec(rec);
-    if (!slug) return null;
-    var suffix = mobile ? "_mobile_pr.webm" : "_pr.webm";
-    return "exhibits/" + slug + "/previews/" + rec.id + suffix;
-  }
-
   function _isCollage(rec) {
     return !!rec && String(rec.Category || "").trim() === "Коллажи";
   }
 
   // Collage = standalone pre-rendered video at exhibits/<museum>/videos/<id>.webm
   // (museum of the record, else the virtual museum "Дороги Времён" → roadsoftimes).
-  function _collageVideoPath(rec, mobile) {
+  function _collageVideoUrls(rec, mobile) {
     if (!rec || !rec.id) return null;
-    // Honor an explicit path only if it's already a proper exhibits/<museum>/videos/
-    // entry — older records may carry a stale flat exhibits/<id>_800_glow.webm.
-    var explicit = mobile ? (rec.mobile && rec.mobile.video) : rec.video;
-    if (explicit && /\/videos\//.test(explicit)) return explicit;
     var slug = _museumSlugForRec(rec) || "roadsoftimes";
-    var suffix = mobile ? "_mobile.webm" : ".webm";
-    return "exhibits/" + slug + "/videos/" + rec.id + suffix;
+    if (!global.RotMediaRuntime || typeof global.RotMediaRuntime.collageUrls !== "function") {
+      throw new Error("RotMediaRuntime must load before infographic-player.js");
+    }
+    return global.RotMediaRuntime.collageUrls(
+      slug,
+      rec.id,
+      mobile ? "mobile" : "desktop"
+    );
   }
 
   function _layoutQueryOverride() {
@@ -264,29 +298,6 @@
     return rec[field];
   }
 
-  /** Site-relative preview path for catalog thumbs (layout-aware). */
-  function pickPreviewPath(rec) {
-    if (!rec || typeof rec !== "object") return null;
-    var override = _layoutQueryOverride();
-    var wantMobile = override === "mobile" ||
-      (override !== "desktop" && _isMobileViewport());
-    if (wantMobile && rec.mobile && (rec.mobile.preview || rec.mobile.zones)) {
-      if (rec.mobile.preview) return rec.mobile.preview;
-      return _defaultPreviewPath(rec, true);
-    }
-    if (rec.preview) return rec.preview;
-    return _defaultPreviewPath(rec, false);
-  }
-
-  function previewUrl(rec, cdnBase, stripSitePrefix) {
-    var path = pickPreviewPath(rec);
-    if (!path) return "";
-    if (/^https?:\/\//.test(path)) return path;
-    var s = stripSitePrefix ? path.replace(/^site\//, "") : path;
-    var base = (cdnBase || "").replace(/\/$/, "");
-    return base ? base + "/" + s : "/" + s;
-  }
-
   /* ─── Main class ─────────────────────────────────────────────────────────── */
 
   function ExhibitPlayer(opts) {
@@ -294,8 +305,8 @@
       ? document.querySelector(opts.container)
       : opts.container;
     this.dbUrl  = opts.db   || "site/infographics.json";
-    this.cdnBase = (opts.cdnBase || "").replace(/\/$/, "");
-    this.stripSitePrefix = opts.stripSitePrefix || false;
+    this.cdnBase = (opts.cdnBase || CDN_BASE).replace(/\/$/, "");
+    this.fallbackCdnBase = (opts.fallbackCdnBase || CDN_FALLBACK_BASE).replace(/\/$/, "");
     this.startId = opts.id  || null;
     this.single  = opts.single || false;
     this.records = [];
@@ -426,20 +437,37 @@
     this._render();
   };
 
-  ExhibitPlayer.prototype._cdnUrl = function (src) {
+  ExhibitPlayer.prototype._legacyNonExhibitUrl = function (src) {
     if (!src) return "";
-    // Already absolute
     if (/^https?:\/\//.test(src)) return src;
-    // stripSitePrefix: true → production CDN where site/ folder is the root
-    // stripSitePrefix: false (default) → local server serving repo root
-    var s = this.stripSitePrefix ? src.replace(/^site\//, "") : src;
-    return this.cdnBase ? this.cdnBase + "/" + s : "/" + s;
+    return this.cdnBase ? this.cdnBase + "/" + src : "/" + src;
+  };
+
+  ExhibitPlayer.prototype._exhibitMediaUrls = function (role, basename) {
+    return buildExhibitMediaUrls(
+      _museumSlugForRec(this._activeRecord),
+      role,
+      basename,
+      { primaryOrigin: this.cdnBase, fallbackOrigin: this.fallbackCdnBase }
+    );
+  };
+
+  ExhibitPlayer.prototype._sharedMediaUrls = function (role, source) {
+    if (!global.RotMediaRuntime || typeof global.RotMediaRuntime.sharedUrls !== "function") {
+      throw new Error("RotMediaRuntime must load before infographic-player.js");
+    }
+    var filename = String(source || "").replace(/\\/g, "/").split("/").pop();
+    return global.RotMediaRuntime.sharedUrls(role, filename, {
+      primaryOrigin: this.cdnBase,
+      fallbackOrigin: this.fallbackCdnBase
+    });
   };
 
   ExhibitPlayer.prototype._render = function () {
     const base = this.records[this.index];
     if (!base) return;
     const rec = pickLayout(base);
+    this._activeRecord = rec;
 
     const W = rec.canvas_width  || 1456;
     const H = rec.canvas_height || 1080;
@@ -452,9 +480,9 @@
     // ── Collage: a standalone pre-rendered video. Play it full-stage and skip the
     //    zone/frame compositing and the 800/800_glow source media exhibits require.
     if (_isCollage(rec)) {
-      var collageSrc = _collageVideoPath(rec, !!rec._isMobile);
-      if (collageSrc) {
-        var cv = this._makeVideo(this._cdnUrl(collageSrc));
+      var collageUrls = _collageVideoUrls(rec, !!rec._isMobile);
+      if (collageUrls) {
+        var cv = this._makeVideo(collageUrls);
         cv.style.cssText = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
         cv.style.zIndex = 0;
         this._stage.appendChild(cv);
@@ -503,7 +531,7 @@
 
     // frame overlay
     if (zones.frame_overlay) {
-      const v = this._makeVideo(this._cdnUrl(zones.frame_overlay.source));
+      const v = this._makeVideo(this._sharedMediaUrls("hud", zones.frame_overlay.source));
       v.style.cssText = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
       v.style.zIndex  = zones.frame_overlay.z_index != null ? zones.frame_overlay.z_index : 10;
       this._stage.appendChild(v);
@@ -535,39 +563,42 @@
     var z = -1; // always background — content zones render on top
     var style = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
     var src = frameInfo.source;
-    var primary = this._cdnUrl(src);
+    var frameUrls = this._sharedMediaUrls("hud", src);
+    var primary = frameUrls.primary;
     var webmPath = this._hudFrameWebmCandidate(src);
-    var webmUrl = webmPath ? this._cdnUrl(webmPath) : "";
+    var webmUrls = webmPath ? this._sharedMediaUrls("hud", webmPath) : null;
+    var webmUrl = webmUrls ? webmUrls.primary : "";
 
     if (webmUrl && webmUrl !== primary && /\.png$/i.test(src)) {
-      var v = this._makeVideo(webmUrl);
+      var v = document.createElement("video");
+      bindMediaFallback(v, webmUrls, function (detail) {
+        if (detail.status !== "failed") return;
+        var img = document.createElement("img");
+        bindMediaFallback(img, frameUrls);
+        img.style.cssText = style;
+        img.style.zIndex = z;
+        v.replaceWith(img);
+      });
+      v.autoplay = true;
+      v.loop = true;
+      v.muted = true;
+      v.setAttribute("playsinline", "");
       v.style.cssText = style;
       v.style.zIndex = z;
-      v.addEventListener("error", function () {
-        if (/\.png$/i.test(src)) {
-          var img = document.createElement("img");
-          img.src = primary;
-          img.style.cssText = style;
-          img.style.zIndex = z;
-          v.replaceWith(img);
-        } else {
-          v.src = primary;
-        }
-      }, { once: true });
       this._stage.appendChild(v);
       return;
     }
 
     if (/\.png$/i.test(src)) {
       var img = document.createElement("img");
-      img.src = primary;
+      bindMediaFallback(img, frameUrls);
       img.style.cssText = style;
       img.style.zIndex = z;
       this._stage.appendChild(img);
       return;
     }
 
-    var video = this._makeVideo(primary);
+    var video = this._makeVideo(frameUrls);
     video.style.cssText = style;
     video.style.zIndex = z;
     this._stage.appendChild(video);
@@ -588,7 +619,8 @@
       cv.style.cssText = "position:absolute;top:0;left:0;display:block;";
       cv.style.setProperty("width",  z.width  + "px", "important");
       cv.style.setProperty("height", z.height + "px", "important");
-      var _src = this._cdnUrl(z.source_png);
+      var _urls = this._exhibitMediaUrls("image_800", z.source_png);
+      var _src = _urls.primary;
       var _fit = fit;
       var _w = z.width, _h = z.height;
       (function(canvas, src, f, dw, dh) {
@@ -601,7 +633,7 @@
             var s2 = 0.95, ox2 = dw*(1-s2)/2, oy2 = dh*(1-s2)/2;
             ctx2.drawImage(im2, ox2, oy2, dw*s2, dh*s2);
           };
-          im2.src = src + '?_=' + Date.now();
+          im2.src = _urls.fallback;
         };
         im.onload = function() {
           var ctx = canvas.getContext("2d");
@@ -625,7 +657,7 @@
       })(cv, _src, _fit, _w, _h);
       wrap.appendChild(cv);
     } else {
-      const v = this._makeVideo(this._cdnUrl(z.source));
+      const v = this._makeVideo(this._exhibitMediaUrls("exhibit_video", z.source));
       v.style.cssText = "position:absolute;top:0;left:0;background:transparent;object-fit:" + fit + ";";
       v.style.setProperty("width",  z.width  + "px", "important");
       v.style.setProperty("height", z.height + "px", "important");
@@ -639,15 +671,30 @@
     if (!z || !z.source) return;
     var fit = z.fit || "stretch";
     var bgSize = fit === "stretch" ? "100% 100%" : (fit === "contain" ? "contain" : "cover");
+    var urls = null;
+    if (z.role === "image_flag" || /^flags\//i.test(z.source)) {
+      urls = this._sharedMediaUrls("flag", z.source);
+    } else {
+      urls = this._exhibitMediaUrls("source_image", z.source);
+    }
+    var backgroundUrl = urls.primary;
     var el = document.createElement("div");
     el.style.cssText = "position:absolute;"
       + "left:" + z.x + "px;top:" + z.y + "px;"
       + "width:" + z.width + "px;height:" + z.height + "px;"
-      + "background-image:url('" + this._cdnUrl(z.source) + "');"
+      + "background-image:url('" + backgroundUrl + "');"
       + "background-size:" + bgSize + ";"
       + "background-repeat:no-repeat;background-position:center;"
       + "z-index:" + (z.z_index != null ? z.z_index : 5) + ";"
       + "opacity:" + (z.opacity != null ? z.opacity : 1) + ";";
+    if (urls) {
+      var probe = new Image();
+      bindMediaFallback(probe, urls, function (detail) {
+        if (detail.status === "fallback") {
+          el.style.backgroundImage = "url('" + urls.fallback + "')";
+        }
+      });
+    }
     this._stage.appendChild(el);
   };
 
@@ -722,7 +769,7 @@
 
   ExhibitPlayer.prototype._loadFontFile = function (fontFile) {
     if (!fontFile) return;
-    var url = this._cdnUrl(fontFile);
+    var url = this._legacyNonExhibitUrl(fontFile);
     var id = "rot-ff-" + fontFile.replace(/[^a-z0-9]/gi, "_");
     if (!document.getElementById(id)) {
       var lnk = document.createElement("link");
@@ -742,7 +789,11 @@
 
   ExhibitPlayer.prototype._makeVideo = function (src) {
     const v = document.createElement("video");
-    v.src      = src;
+    if (src && typeof src === "object" && src.primary && src.fallback) {
+      bindMediaFallback(v, src);
+    } else {
+      v.src = src;
+    }
     v.autoplay = true;
     v.loop     = true;
     v.muted    = true;
@@ -826,8 +877,9 @@
     },
     pickLayout: pickLayout,
     resolveText: resolveText,
-    pickPreviewPath: pickPreviewPath,
-    previewUrl: previewUrl,
+    buildExhibitMediaUrls: buildExhibitMediaUrls,
+    bindMediaFallback: bindMediaFallback,
+    mediaRuntime: global.RotMediaRuntime || null,
     isMobileViewport: _isMobileViewport,
     layoutQueryOverride: _layoutQueryOverride
   };
