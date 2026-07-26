@@ -113,13 +113,22 @@ assert.throws(
 
 const staticCatalog = fs.readFileSync(path.join(__dirname, "../index.html"), "utf8");
 const runtimeLoaderAt = staticCatalog.indexOf("/js/media-runtime.js?v=fe5");
-const playerLoaderAt = staticCatalog.indexOf("/js/infographic-player.js?v=fe5");
+const playerLoaderAt = staticCatalog.indexOf("/js/infographic-player.js?v=fe6");
 assert.ok(runtimeLoaderAt >= 0, "static catalog loads the shared media runtime");
 assert.ok(playerLoaderAt > runtimeLoaderAt, "static catalog declares runtime before player");
 assert.ok(
   playerSource.includes('_sharedMediaUrls("hud", zones.frame_overlay.source)'),
   "HUD overlay uses the typed shared runtime"
 );
+assert.ok(
+  playerSource.includes('hudKey + "_Frame" + (rec._isMobile ? "_mobile" : "") + ".webm"'),
+  "hud_key resolves to the typed desktop/mobile HUD frame"
+);
+assert.ok(
+  playerSource.includes("const frameInfo = _frameInfoForRecord(rec)"),
+  "records without an explicit frame still render their hud_key"
+);
+assert.ok(!playerSource.includes('"_800.webm"'), "player never invents a non-contract _800.webm asset");
 assert.ok(
   playerSource.includes('this._exhibitMediaUrls("source_image", z.source)'),
   "source image zones use the typed exhibit runtime"

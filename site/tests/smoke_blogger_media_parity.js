@@ -23,7 +23,7 @@ assert.ok(!catalog.includes("MEDIA_CDN + '/exhibits/'"), "Blogger catalog has no
 for (const relative of ["template/blogger-exhibit.html", "template/blogger-widget.html"]) {
   const source = read(relative);
   const runtime = source.indexOf("js/media-runtime.js?v=fe5");
-  const player = source.indexOf("js/infographic-player.js?v=fe5");
+  const player = source.indexOf("js/infographic-player.js?v=fe6");
   assert.ok(runtime >= 0 && player > runtime, `${relative} loads runtime before player`);
 }
 
