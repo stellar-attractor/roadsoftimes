@@ -117,5 +117,22 @@
     "photo": "IMG_20260725_123020498.jpg",
     "rating": 5,
     "featured": false
+  },
+  {
+    "id": "sroda-slanska",
+    "name": "Краеведческий музей Срёды Шлонской",
+    "city": "Sroda Slanska",
+    "country": "Польша",
+    "year_visited": 2026,
+    "description": "Небольшой краеведческий музей об истории края. Ехали увидеть сокровища, оказалось, что они уехали на выставку в Прагу.\nБез них довольно аскетичный и компактный музей об истории края.",
+    "ticket_price": "20 zl",
+    "working_hours": "9:30-15:00",
+    "year_founded": null,
+    "website": "http://www.mr.powiat-sredzki.pl/",
+    "map_url": "https://maps.app.goo.gl/JAW39Hzc6xTQJsaeA",
+    "landing_url": "",
+    "photo": "",
+    "rating": 3,
+    "featured": false
   }
 ]
