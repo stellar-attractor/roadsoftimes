@@ -15,7 +15,7 @@
   var EXHIBIT_ROLES = Object.freeze({
     exhibit_video: Object.freeze({ folder: "800_glow", extensions: ["webm", "mp4", "mov"] }),
     image_800: Object.freeze({ folder: "800", extensions: ["png"] }),
-    source_image: Object.freeze({ folder: "png", extensions: ["png"] }),
+    source_image: Object.freeze({ folder: "png", extensions: ["png", "jpg", "jpeg", "webp"] }),
     preview: Object.freeze({ folder: "previews", extensions: ["webm", "mp4", "mov"] }),
     preview_mobile: Object.freeze({ folder: "previews", extensions: ["webm", "mp4", "mov"] })
   });

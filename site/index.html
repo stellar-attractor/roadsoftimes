@@ -402,7 +402,7 @@
   </div>
 </div>
 
-<script src="/js/media-runtime.js?v=fe3"></script>
+<script src="/js/media-runtime.js?v=fe5"></script>
 <script>
 (function(){
   var APP_CDN   = window.location.origin;                  // code / html / json manifests
@@ -561,10 +561,10 @@
     } else if (!_playerScriptLoaded) {
       _playerScriptLoaded = true;
       var runtime = document.createElement('script');
-      runtime.src = APP_CDN + '/js/media-runtime.js?v=fe2';
+      runtime.src = APP_CDN + '/js/media-runtime.js?v=fe5';
       runtime.onload = function(){
         var s = document.createElement('script');
-        s.src = APP_CDN + '/js/infographic-player.js?v=fe2';
+        s.src = APP_CDN + '/js/infographic-player.js?v=fe5';
         s.onload = _initPlayer;
         document.head.appendChild(s);
       };

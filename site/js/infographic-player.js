@@ -16,49 +16,12 @@
 
   const CDN_BASE = "https://media.roadsoftimes.com";
   const CDN_FALLBACK_BASE = "https://media-roadsoftimes.pages.dev";
-  const EXHIBIT_MEDIA_ROLE_DIRS = Object.freeze({
-    exhibit_video: "800_glow",
-    image_800: "800",
-    source_image: "png",
-    preview: "previews",
-    preview_mobile: "previews"
-  });
-
-  function _cleanOrigin(value, fallback) {
-    var origin = String(value || fallback || "").replace(/\/+$/, "");
-    if (!/^https:\/\/[^/]+$/.test(origin)) throw new TypeError("Media origin must be an HTTPS origin");
-    return origin;
-  }
-
-  function _asciiBasename(value) {
-    var basename = String(value || "").trim();
-    if (!basename || basename === "." || basename === ".." || /[\/\\]/.test(basename)) {
-      throw new TypeError("Exhibit media filename must be a basename");
-    }
-    if (!/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(basename)) {
-      throw new TypeError("Exhibit media filename must contain ASCII letters, digits, dot, underscore, or hyphen only");
-    }
-    return basename;
-  }
 
   function buildExhibitMediaUrls(museumSlug, role, basename, options) {
-    if (global.RotMediaRuntime && typeof global.RotMediaRuntime.exhibitUrls === "function") {
-      return global.RotMediaRuntime.exhibitUrls(museumSlug, role, basename, options);
+    if (!global.RotMediaRuntime || typeof global.RotMediaRuntime.exhibitUrls !== "function") {
+      throw new Error("RotMediaRuntime must load before infographic-player.js");
     }
-    var slug = String(museumSlug || "").trim();
-    var directory = EXHIBIT_MEDIA_ROLE_DIRS[role];
-    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new TypeError("Invalid museum slug");
-    if (!directory) throw new TypeError("Unknown exhibit media role: " + String(role || ""));
-    var filename = _asciiBasename(basename);
-    var relative = "exhibits/" + slug + "/" + directory + "/" + filename;
-    var opts = options || {};
-    var primaryOrigin = _cleanOrigin(opts.primaryOrigin, CDN_BASE);
-    var fallbackOrigin = _cleanOrigin(opts.fallbackOrigin, CDN_FALLBACK_BASE);
-    return Object.freeze({
-      relative: relative,
-      primary: primaryOrigin + "/" + relative,
-      fallback: fallbackOrigin + "/" + relative
-    });
+    return global.RotMediaRuntime.exhibitUrls(museumSlug, role, basename, options);
   }
 
   function bindMediaFallback(element, urls, onTransition) {
@@ -247,7 +210,7 @@
 
   const MOBILE_TEXT_OVERRIDES = ["subtitle", "header", "ttx_text"];
 
-  var _museumSlugs = { "Болкув": "bolkow" };
+  var _museumSlugs = {};
 
   function _loadMuseumSlugMap(dbUrl) {
     var museumsUrl = String(dbUrl || "").replace(/[^/]+$/, "museums.json");
@@ -274,36 +237,23 @@
     return "";
   }
 
-  function _defaultPreviewPath(rec, mobile) {
-    if (!rec || !rec.id) return null;
-    var slug = _museumSlugForRec(rec);
-    if (!slug) return null;
-    var suffix = mobile ? "_mobile_pr.webm" : "_pr.webm";
-    return "exhibits/" + slug + "/previews/" + rec.id + suffix;
-  }
-
   function _isCollage(rec) {
     return !!rec && String(rec.Category || "").trim() === "Коллажи";
   }
 
   // Collage = standalone pre-rendered video at exhibits/<museum>/videos/<id>.webm
   // (museum of the record, else the virtual museum "Дороги Времён" → roadsoftimes).
-  function _collageVideoPath(rec, mobile) {
+  function _collageVideoUrls(rec, mobile) {
     if (!rec || !rec.id) return null;
-    // Honor an explicit path only if it's already a proper exhibits/<museum>/videos/
-    // entry — older records may carry a stale flat exhibits/<id>_800_glow.webm.
-    var explicit = mobile ? (rec.mobile && rec.mobile.video) : rec.video;
-    if (explicit && /\/videos\//.test(explicit)) return explicit;
     var slug = _museumSlugForRec(rec) || "roadsoftimes";
-    if (global.RotMediaRuntime && typeof global.RotMediaRuntime.collageUrls === "function") {
-      return global.RotMediaRuntime.collageUrls(
-        slug,
-        rec.id,
-        mobile ? "mobile" : "desktop"
-      ).relative;
+    if (!global.RotMediaRuntime || typeof global.RotMediaRuntime.collageUrls !== "function") {
+      throw new Error("RotMediaRuntime must load before infographic-player.js");
     }
-    var suffix = mobile ? "_mobile.webm" : ".webm";
-    return "exhibits/" + slug + "/videos/" + rec.id + suffix;
+    return global.RotMediaRuntime.collageUrls(
+      slug,
+      rec.id,
+      mobile ? "mobile" : "desktop"
+    );
   }
 
   function _layoutQueryOverride() {
@@ -348,29 +298,6 @@
     return rec[field];
   }
 
-  /** Site-relative preview path for catalog thumbs (layout-aware). */
-  function pickPreviewPath(rec) {
-    if (!rec || typeof rec !== "object") return null;
-    var override = _layoutQueryOverride();
-    var wantMobile = override === "mobile" ||
-      (override !== "desktop" && _isMobileViewport());
-    if (wantMobile && rec.mobile && (rec.mobile.preview || rec.mobile.zones)) {
-      if (rec.mobile.preview) return rec.mobile.preview;
-      return _defaultPreviewPath(rec, true);
-    }
-    if (rec.preview) return rec.preview;
-    return _defaultPreviewPath(rec, false);
-  }
-
-  function previewUrl(rec, cdnBase, stripSitePrefix) {
-    var path = pickPreviewPath(rec);
-    if (!path) return "";
-    if (/^https?:\/\//.test(path)) return path;
-    var s = stripSitePrefix ? path.replace(/^site\//, "") : path;
-    var base = (cdnBase || "").replace(/\/$/, "");
-    return base ? base + "/" + s : "/" + s;
-  }
-
   /* ─── Main class ─────────────────────────────────────────────────────────── */
 
   function ExhibitPlayer(opts) {
@@ -380,7 +307,6 @@
     this.dbUrl  = opts.db   || "site/infographics.json";
     this.cdnBase = (opts.cdnBase || CDN_BASE).replace(/\/$/, "");
     this.fallbackCdnBase = (opts.fallbackCdnBase || CDN_FALLBACK_BASE).replace(/\/$/, "");
-    this.stripSitePrefix = opts.stripSitePrefix || false;
     this.startId = opts.id  || null;
     this.single  = opts.single || false;
     this.records = [];
@@ -511,14 +437,10 @@
     this._render();
   };
 
-  ExhibitPlayer.prototype._cdnUrl = function (src) {
+  ExhibitPlayer.prototype._legacyNonExhibitUrl = function (src) {
     if (!src) return "";
-    // Already absolute
     if (/^https?:\/\//.test(src)) return src;
-    // stripSitePrefix: true → production CDN where site/ folder is the root
-    // stripSitePrefix: false (default) → local server serving repo root
-    var s = this.stripSitePrefix ? src.replace(/^site\//, "") : src;
-    return this.cdnBase ? this.cdnBase + "/" + s : "/" + s;
+    return this.cdnBase ? this.cdnBase + "/" + src : "/" + src;
   };
 
   ExhibitPlayer.prototype._exhibitMediaUrls = function (role, basename) {
@@ -532,8 +454,7 @@
 
   ExhibitPlayer.prototype._sharedMediaUrls = function (role, source) {
     if (!global.RotMediaRuntime || typeof global.RotMediaRuntime.sharedUrls !== "function") {
-      var legacy = this._cdnUrl(source);
-      return { relative: source, primary: legacy, fallback: legacy };
+      throw new Error("RotMediaRuntime must load before infographic-player.js");
     }
     var filename = String(source || "").replace(/\\/g, "/").split("/").pop();
     return global.RotMediaRuntime.sharedUrls(role, filename, {
@@ -559,9 +480,9 @@
     // ── Collage: a standalone pre-rendered video. Play it full-stage and skip the
     //    zone/frame compositing and the 800/800_glow source media exhibits require.
     if (_isCollage(rec)) {
-      var collageSrc = _collageVideoPath(rec, !!rec._isMobile);
-      if (collageSrc) {
-        var cv = this._makeVideo(this._cdnUrl(collageSrc));
+      var collageUrls = _collageVideoUrls(rec, !!rec._isMobile);
+      if (collageUrls) {
+        var cv = this._makeVideo(collageUrls);
         cv.style.cssText = "left:0;top:0;width:100%;height:100%;object-fit:fill;";
         cv.style.zIndex = 0;
         this._stage.appendChild(cv);
@@ -751,12 +672,12 @@
     var fit = z.fit || "stretch";
     var bgSize = fit === "stretch" ? "100% 100%" : (fit === "contain" ? "contain" : "cover");
     var urls = null;
-    if (z.role === "image") {
-      urls = this._exhibitMediaUrls("source_image", z.source);
-    } else if (z.role === "image_flag" || /^flags\//i.test(z.source)) {
+    if (z.role === "image_flag" || /^flags\//i.test(z.source)) {
       urls = this._sharedMediaUrls("flag", z.source);
+    } else {
+      urls = this._exhibitMediaUrls("source_image", z.source);
     }
-    var backgroundUrl = urls ? urls.primary : this._cdnUrl(z.source);
+    var backgroundUrl = urls.primary;
     var el = document.createElement("div");
     el.style.cssText = "position:absolute;"
       + "left:" + z.x + "px;top:" + z.y + "px;"
@@ -848,7 +769,7 @@
 
   ExhibitPlayer.prototype._loadFontFile = function (fontFile) {
     if (!fontFile) return;
-    var url = this._cdnUrl(fontFile);
+    var url = this._legacyNonExhibitUrl(fontFile);
     var id = "rot-ff-" + fontFile.replace(/[^a-z0-9]/gi, "_");
     if (!document.getElementById(id)) {
       var lnk = document.createElement("link");
@@ -956,8 +877,6 @@
     },
     pickLayout: pickLayout,
     resolveText: resolveText,
-    pickPreviewPath: pickPreviewPath,
-    previewUrl: previewUrl,
     buildExhibitMediaUrls: buildExhibitMediaUrls,
     bindMediaFallback: bindMediaFallback,
     mediaRuntime: global.RotMediaRuntime || null,

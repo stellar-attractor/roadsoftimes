@@ -1,7 +1,7 @@
 [
   {
     "id": "Castle_Bolkow_HUD27",
-    "Museum": "Болкув",
+    "Museum": "Замок Болкув",
     "City": "Болкув",
     "Country": "Польша",
     "Year": 1358,
@@ -10,8 +10,8 @@
     "canvas_width": 1448,
     "canvas_height": 1086,
     "frame_overlay": null,
-    "video": "exhibits/bolkow/videos/Bolkow_castle.webm",
-    "image": "exhibits/bolkow/png/IMG_20260418_120527756.jpg",
+    "video": "Bolkow_castle.webm",
+    "image": "IMG_20260418_120527756.jpg",
     "images": [
       {
         "id": "zone_mqdrotaf_cqaza",
@@ -30,7 +30,7 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "images/IMG_20260418_120527756.jpg",
+        "source": "IMG_20260418_120527756.jpg",
         "media_type": "image"
       },
       {
@@ -50,7 +50,7 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "images/IMG_20260418_125328431.jpg",
+        "source": "IMG_20260418_125328431.jpg",
         "media_type": "image"
       },
       {
@@ -70,7 +70,7 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "images/IMG_20260418_125436694.jpg",
+        "source": "IMG_20260418_125436694.jpg",
         "media_type": "image"
       },
       {
@@ -90,7 +90,7 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "assets/venzel.png",
+        "source": "venzel.png",
         "media_type": "image"
       }
     ],
@@ -159,7 +159,7 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "images/IMG_20260418_120527756.jpg",
+        "source": "IMG_20260418_120527756.jpg",
         "media_type": "image"
       },
       "subtitle": {
@@ -212,7 +212,7 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "images/IMG_20260418_125328431.jpg",
+        "source": "IMG_20260418_125328431.jpg",
         "media_type": "image"
       },
       "image_3": {
@@ -232,7 +232,7 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "images/IMG_20260418_125436694.jpg",
+        "source": "IMG_20260418_125436694.jpg",
         "media_type": "image"
       },
       "image_4": {
@@ -252,7 +252,7 @@
           "width": 0,
           "shape": "rect"
         },
-        "source": "assets/venzel.png",
+        "source": "venzel.png",
         "media_type": "image"
       }
     },
@@ -324,7 +324,7 @@
             "width": 0,
             "shape": "rect"
           },
-          "source": "images/IMG_20260418_120527756.jpg",
+          "source": "IMG_20260418_120527756.jpg",
           "media_type": "image"
         },
         "subtitle": {
@@ -377,7 +377,7 @@
             "width": 0,
             "shape": "rect"
           },
-          "source": "images/IMG_20260418_125328431.jpg",
+          "source": "IMG_20260418_125328431.jpg",
           "media_type": "image"
         },
         "image_3": {
@@ -397,7 +397,7 @@
             "width": 0,
             "shape": "rect"
           },
-          "source": "images/IMG_20260418_125436694.jpg",
+          "source": "IMG_20260418_125436694.jpg",
           "media_type": "image"
         },
         "image_4": {
@@ -417,14 +417,14 @@
             "width": 0,
             "shape": "rect"
           },
-          "source": "assets/venzel.png",
+          "source": "venzel.png",
           "media_type": "image"
         }
       },
       "subtitle": "Замок Болкув (Zamek Bolków) возвышается на скалистом холме над долиной реки Ныса-Шалёна \nв Нижней Силезии. Его строительство началось в конце XIII века по приказу князя \nБолеслава II Рогатки из династии силезских Пястов. Крепость должна была защищать важный \nторговый путь, проходивший через Судеты между Силезией и Чехией.\n\nНаибольшего расцвета замок достиг при князе Болеславе I Суровом в XIV веке, от имени \nкоторого и произошло современное название города и крепости.\n \nВ этот период были возведены мощные оборонительные стены и характерная башня необычной \nкаплевидной формы. Такая конструкция затрудняла применение осадных машин и делала \nкрепость одной из самых современных в регионе.\n\nВ XV веке замок неоднократно оказывался в центре военных конфликтов. \n\nНесмотря на бурные времена гуситских войн, Болкув сумел сохранить своё стратегическое \nзначение. В XVI веке владельцы расширили жилые помещения и приспособили крепость \nк новым условиям ведения войны, связанным с распространением огнестрельного оружия.\n\nВо время Тридцатилетней войны замок использовался как убежище для местного населения \nи хранения ценностей. Однако после перехода Силезии под власть Пруссии его военное \nзначение постепенно уменьшилось. Владельцы покинули крепость, и к XVIII веку она \nначала приходить в упадок.\n\nСегодня замок Болкув является одной из наиболее хорошо сохранившихся средневековых \nкрепостей Нижней Силезии. Посетители могут подняться на башню, пройти по крепостным \nстенам и увидеть экспозиции, посвящённые истории региона. С его стен открываются \nвпечатляющие виды на Судетские предгорья и старинный город Болкув, выросший \nу подножия крепости.",
-      "preview": "exhibits/bolkow/previews/Bolkow_castle_pr.webm"
+      "preview": "Bolkow_castle_pr.webm"
     },
-    "preview": "exhibits/bolkow/previews/Bolkow_castle_pr.webm",
+    "preview": "Bolkow_castle_pr.webm",
     "hud_key": "HUD27"
   },
   {
@@ -443,7 +443,7 @@
       "z_index": 0
     },
     "frame_overlay": null,
-    "video": "exhibits/roadsoftimes/videos/PzII_vs_BT_Collage_1.webm",
+    "video": "PzII_vs_BT_Collage_1.webm",
     "image": "",
     "images": [],
     "title": "Сравнение PzII и БТ-5",
@@ -704,7 +704,7 @@
         "exportPath": "assets/images/bt5_3.png"
       }
     ],
-    "preview": "exhibits/roadsoftimes/previews/PzII_vs_BT_Collage_1_pr.webm"
+    "preview": "PzII_vs_BT_Collage_1_pr.webm"
   },
   {
     "id": "A7V",
@@ -13304,7 +13304,7 @@
     "Year": 1758,
     "Object": "Сражение",
     "Category": "Коллажи",
-    "video": "exhibits/roadsoftimes/videos/Zorndorf.webm",
+    "video": "Zorndorf.webm",
     "image": "",
     "images": [],
     "date": "2026-06-21",
@@ -13621,7 +13621,7 @@
         "locked": false
       }
     ],
-    "preview": "exhibits/roadsoftimes/previews/Zorndorf_pr.webm",
+    "preview": "Zorndorf_pr.webm",
     "hud_key": "HUD25"
   },
   {
@@ -42540,7 +42540,7 @@
     "Object": "Штурмовое орудие",
     "Category": "Экспонаты",
     "video": "Brummbar_800_glow.webm",
-    "image": "",
+    "image": "Brummbar_800.png",
     "images": [
       {
         "id": "zone_Raketenjagdpanzer 2_image_flag",
@@ -42569,7 +42569,7 @@
     "ttx_label": "Технические характеристики",
     "ttx_text": "Разработка: 1943\nПроизводство: 1943–1945\nВыпущено: 306\nЭкипаж: 5 человек\nМасса: 28,2 т\nДвигатель: бензиновый\nМощность: 300 л.с.\nСкорость по шоссе: 40 км/ч\nСкорость по пересечённой местности: 16 км/ч\nЗапас хода по шоссе: 180 км\nЗапас хода по пересечённой местности: 120 км\n\nВооружение: \n150-мм штурмовая гаубица StuH 43 L/12\nпулемёт MG 34 калибра 7,92 мм\n\nБоекомплект: 38 выстрелов и около 600 патронов",
     "created": "2026-06-27T12:24:07.363Z",
-    "updated": "2026-07-15T13:53:01.446Z",
+    "updated": "2026-07-24T12:20:06.908Z",
     "date": "2026-06-01",
     "mobile": {
       "canvas_width": 941,
@@ -55501,7 +55501,7 @@
     "Year": 0,
     "Object": "Коллажи",
     "Category": "Коллажи",
-    "video": "exhibits/bolkow/videos/Bolkow_castle.webm",
+    "video": "Bolkow_castle.webm",
     "image": "",
     "images": [],
     "decor_zones": [
@@ -55754,7 +55754,7 @@
         "exportPath": "assets/videos/three_candles_flame.webm"
       }
     ],
-    "preview": "exhibits/bolkow/previews/Bolkow_castle_pr.webm",
+    "preview": "Bolkow_castle_pr.webm",
     "created": "2026-06-30T07:42:42.177Z",
     "updated": "2026-06-30T08:46:42.047Z",
     "date": "",

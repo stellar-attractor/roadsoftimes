@@ -6,7 +6,7 @@ const path = require("node:path");
 
 const source = fs.readFileSync(path.join(__dirname, "../index.html"), "utf8");
 
-const runtimeAt = source.indexOf('<script src="/js/media-runtime.js?v=fe3"></script>');
+const runtimeAt = source.indexOf('<script src="/js/media-runtime.js?v=fe5"></script>');
 const catalogAt = source.indexOf("function catalogMediaPrimary(");
 assert.ok(runtimeAt >= 0, "static catalog loads media runtime");
 assert.ok(catalogAt > runtimeAt, "media runtime loads before catalog resolver calls");

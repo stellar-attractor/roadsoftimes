@@ -112,8 +112,8 @@ assert.throws(
 );
 
 const staticCatalog = fs.readFileSync(path.join(__dirname, "../index.html"), "utf8");
-const runtimeLoaderAt = staticCatalog.indexOf("/js/media-runtime.js?v=fe2");
-const playerLoaderAt = staticCatalog.indexOf("/js/infographic-player.js?v=fe2");
+const runtimeLoaderAt = staticCatalog.indexOf("/js/media-runtime.js?v=fe5");
+const playerLoaderAt = staticCatalog.indexOf("/js/infographic-player.js?v=fe5");
 assert.ok(runtimeLoaderAt >= 0, "static catalog loads the shared media runtime");
 assert.ok(playerLoaderAt > runtimeLoaderAt, "static catalog declares runtime before player");
 assert.ok(

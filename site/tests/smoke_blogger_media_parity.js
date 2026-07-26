@@ -8,7 +8,7 @@ const repoRoot = path.resolve(__dirname, "../..");
 const read = (relative) => fs.readFileSync(path.join(repoRoot, relative), "utf8");
 
 const catalog = read("template/blogger-catalog.html");
-const runtimeAt = catalog.indexOf("js/media-runtime.js?v=fe4");
+const runtimeAt = catalog.indexOf("js/media-runtime.js?v=fe5");
 const resolverAt = catalog.indexOf("function catalogMediaPrimary(");
 assert.ok(runtimeAt >= 0 && resolverAt > runtimeAt, "Blogger catalog loads runtime before resolving media");
 assert.ok(catalog.includes("RotMediaRuntime.exhibitUrls(slug, role, filename"), "Blogger catalog uses shared runtime");
@@ -22,8 +22,8 @@ assert.ok(!catalog.includes("MEDIA_CDN + '/exhibits/'"), "Blogger catalog has no
 
 for (const relative of ["template/blogger-exhibit.html", "template/blogger-widget.html"]) {
   const source = read(relative);
-  const runtime = source.indexOf("js/media-runtime.js?v=fe4");
-  const player = source.indexOf("js/infographic-player.js?v=fe4");
+  const runtime = source.indexOf("js/media-runtime.js?v=fe5");
+  const player = source.indexOf("js/infographic-player.js?v=fe5");
   assert.ok(runtime >= 0 && player > runtime, `${relative} loads runtime before player`);
 }
 

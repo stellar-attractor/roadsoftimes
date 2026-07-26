@@ -15,7 +15,7 @@ const consumers = Object.freeze({
   "site/js/infographic-player.js": [
     "buildExhibitMediaUrls",
     "bindMediaFallback",
-    "_collageVideoPath",
+    "_collageVideoUrls",
   ],
   "site/index.html": [
     "function pngSrc(",
@@ -50,9 +50,11 @@ for (const [relative, markers] of Object.entries(consumers)) {
 }
 
 const player = read("site/js/infographic-player.js");
+const runtime = read("site/js/media-runtime.js");
 for (const role of ["exhibit_video", "image_800", "source_image", "preview", "preview_mobile"]) {
-  assert.ok(player.includes(`${role}:`), `player role registry must include ${role}`);
+  assert.ok(runtime.includes(`${role}:`), `shared runtime role registry must include ${role}`);
 }
+assert.ok(!player.includes("EXHIBIT_MEDIA_ROLE_DIRS"), "player has no duplicate role registry");
 
 const strip = read("template/blogger-hud-strip.html");
 assert.ok(!strip.includes("function mediaUrl("), "museum strip removed arbitrary path resolver");

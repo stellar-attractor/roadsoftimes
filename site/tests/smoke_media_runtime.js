@@ -20,6 +20,7 @@ const roleCases = [
   ["exhibit_video", "Item_800_glow.webm", "800_glow"],
   ["image_800", "Item_800.png", "800"],
   ["source_image", "Item.png", "png"],
+  ["source_image", "Item.jpg", "png"],
   ["preview", "Item_pr.webm", "previews"],
   ["preview_mobile", "Item_mobile_pr.webm", "previews"],
 ];

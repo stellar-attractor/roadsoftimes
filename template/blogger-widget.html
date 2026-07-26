@@ -2,8 +2,8 @@
 
 <!-- more --> 
 
-<!-- Вариант 1 — превью-видео (site/previews/EXHIBIT_ID_pr.webm, ~30KB): -->
-<video class="rot-preview-src" src="https://media.roadsoftimes.com/previews/Tank_HUD0601_pr.webm" style="display:none" muted playsinline loop></video>
+<!-- Вариант 1 — каноническое превью-видео: -->
+<video class="rot-preview-src" src="https://media.roadsoftimes.com/exhibits/MUSEUM_SLUG/previews/EXHIBIT_PREVIEW.webm" style="display:none" muted playsinline loop></video>
 <!-- Вариант 2 — статичное фото:
 <img src="https://media.roadsoftimes.com/images/FILENAME.jpg" style="display:none" alt="">
 -->
@@ -13,14 +13,13 @@
 
 <!-- ─── Один экспонат без навигации (заменить id на нужный) ─── -->
 <div id="rot-exhibit"></div>
-<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe4"></script>
-<script src="https://cdn.roadsoftimes.com/js/infographic-player.js?v=fe4"></script>
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe5"></script>
+<script src="https://cdn.roadsoftimes.com/js/infographic-player.js?v=fe5"></script>
 <script>
 RotExhibit.init({
   container: '#rot-exhibit',
   db: 'https://cdn.roadsoftimes.com/infographics.json',
   cdnBase: 'https://media.roadsoftimes.com',
-  stripSitePrefix: true,
   id: 'Tank_HUD0601',
   single: true
 });
@@ -28,14 +27,13 @@ RotExhibit.init({
 
 <!-- ─── Галерея всех экспонатов (карусель) — раскомментировать если нужна:
 <div id="rot-exhibit"></div>
-<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe4"></script>
-<script src="https://cdn.roadsoftimes.com/js/infographic-player.js?v=fe4"></script>
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe5"></script>
+<script src="https://cdn.roadsoftimes.com/js/infographic-player.js?v=fe5"></script>
 <script>
 RotExhibit.init({
   container: '#rot-exhibit',
   db: 'https://cdn.roadsoftimes.com/infographics.json',
   cdnBase: 'https://media.roadsoftimes.com',
-  stripSitePrefix: true
 });
 </script>
 -->
