@@ -25,6 +25,9 @@ assert.ok(
 );
 assert.ok(catalog.includes("card-hud-layer"), "Blogger grid renders a HUD layer");
 assert.ok(catalog.includes("card-preview-layer"), "Blogger grid renders preview above the HUD");
+assert.ok(catalog.includes("card-thumb-missing"), "Blogger exposes a terminal missing-preview state");
+assert.ok(!catalog.includes("var fallback = glowSrc(rec)"), "Blogger never cross-fallbacks preview to 800_glow");
+assert.ok(catalog.includes("if (thumbSrc) {"), "Blogger does not create a video element without a source");
 
 for (const relative of ["template/blogger-exhibit.html", "template/blogger-widget.html"]) {
   const source = read(relative);

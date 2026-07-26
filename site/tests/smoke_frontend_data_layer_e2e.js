@@ -95,6 +95,16 @@ for (const [recordId, expectedHud] of [
   assert.equal(new URL(mobileHud.primary).pathname, new URL(mobileHud.fallback).pathname);
 }
 
+for (const [recordId, expectedPreview] of [
+  ["Aircraft01", "Aircraft01_pr.webm"],
+  ["DZVR21", "DZVR21_pr.webm"],
+  ["SMS Großer Kurfürst", "SMS_Grosser_Kurfuerst_pr.webm"],
+]) {
+  const record = records.find(item => item.id === recordId);
+  assert.ok(record, `${recordId} preview fixture exists`);
+  assert.equal(record.preview, expectedPreview, `${recordId} has an explicit desktop preview binding`);
+}
+
 const fixture = records.find(record =>
   record.zones
   && record.zones.exhibit_video
