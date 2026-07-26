@@ -82,6 +82,19 @@ for (const forbidden of [
 assert.ok(player.includes("RotMediaRuntime must load before"), "player fails closed without the shared runtime");
 assert.ok(player.includes("global.RotMediaRuntime.collageUrls("), "collages use the typed runtime");
 
+for (const [recordId, expectedHud] of [
+  ["Aircraft01", "HUD08"],
+  ["SMS Großer Kurfürst", "HUD05"],
+]) {
+  const record = records.find(item => item.id === recordId);
+  assert.ok(record, `${recordId} fixture exists`);
+  assert.equal(record.hud_key, expectedHud, `${recordId} retains its explicit HUD key`);
+  const desktopHud = runtime.sharedUrls("hud", `${expectedHud}_Frame.webm`);
+  const mobileHud = runtime.sharedUrls("hud", `${expectedHud}_Frame_mobile.webm`);
+  assert.equal(new URL(desktopHud.primary).pathname, new URL(desktopHud.fallback).pathname);
+  assert.equal(new URL(mobileHud.primary).pathname, new URL(mobileHud.fallback).pathname);
+}
+
 const fixture = records.find(record =>
   record.zones
   && record.zones.exhibit_video

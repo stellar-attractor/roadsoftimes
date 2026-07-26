@@ -241,6 +241,18 @@
     return !!rec && String(rec.Category || "").trim() === "Коллажи";
   }
 
+  function _frameInfoForRecord(rec) {
+    if (!rec || typeof rec !== "object") return null;
+    var explicit = rec.frame || (rec.zones && rec.zones.frame);
+    if (explicit && explicit.source) return explicit;
+    var hudKey = String(rec.hud_key || "").trim();
+    if (!/^HUD[0-9]{2,4}$/.test(hudKey)) return null;
+    return {
+      source: hudKey + "_Frame" + (rec._isMobile ? "_mobile" : "") + ".webm",
+      role: "hud"
+    };
+  }
+
   // Collage = standalone pre-rendered video at exhibits/<museum>/videos/<id>.webm
   // (museum of the record, else the virtual museum "Дороги Времён" → roadsoftimes).
   function _collageVideoUrls(rec, mobile) {
@@ -493,7 +505,7 @@
     }
 
     // ── Frame (HUD background video) ──────────────────────────────────────
-    const frameInfo = rec.frame || (rec.zones && rec.zones.frame);
+    const frameInfo = _frameInfoForRecord(rec);
     if (frameInfo && frameInfo.source) {
       this._appendFrameLayer(frameInfo);
     }
