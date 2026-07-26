@@ -245,7 +245,7 @@
       var loc = [r.city, r.country].filter(Boolean).join(', ');
       var yr  = r.year_visited ? ' · ' + r.year_visited : '';
       var desc = r.description ? r.description.split(/[.!?]/)[0].trim() : '';
-      var cardClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rmSelect(\'' + esc(r.id) + '\')';
+      var cardClick = 'rmSelect(\'' + esc(r.id) + '\')';
       return '<div class="rm-card" onclick="' + cardClick + '">' +
         '<div class="rm-photo">' + photo(r) + '</div>' +
         '<div class="rm-body">' +
@@ -287,7 +287,7 @@
 
     var tbody = '<tbody>' + rows.map(function(r){
       var sel = r.id === selectedId ? ' rm-selected' : '';
-      var rowClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rmSelect(\'' + esc(r.id) + '\')';
+      var rowClick = 'rmSelect(\'' + esc(r.id) + '\')';
       return '<tr class="rm-row' + sel + '" onclick="' + rowClick + '">' +
         '<td class="rm-t-name">' + esc(r.name||'') + '</td>' +
         '<td class="rm-t-loc">' + esc(r.city||'') + '</td>' +

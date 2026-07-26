@@ -33,5 +33,13 @@ assert.ok(full.includes("data-museum-photo-fallback"), "museums page exposes bou
 assert.ok(widget.includes("data-museum-photo-fallback"), "featured widget exposes bounded fallback state");
 assert.ok(!full.includes("src=\"' + esc(r.photo)"), "museums page never treats photo as a URL");
 assert.ok(!widget.includes("src=\"' + esc(r.photo"), "widget never treats photo as a URL");
+assert.ok(
+  !full.includes("r.landing_url ? 'window.location.href="),
+  "museum cards and table rows always open the detail card"
+);
+assert.ok(
+  full.includes("meta.push('<a class=\"landing\""),
+  "detail card exposes a separate landing-page link"
+);
 
 console.log(`Museum photo runtime checks passed (${museums.length} records)`);
