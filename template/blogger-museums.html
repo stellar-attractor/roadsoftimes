@@ -148,10 +148,13 @@
   <div class="rm-empty" id="rm-empty" style="display:none">Ничего не найдено.</div>
 </div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=mp1"></script>
 <script>
 //<![CDATA[
 (function(){
   var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
+  var MEDIA_CDN = 'https://media.roadsoftimes.com';
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
   var DB  = APP_CDN + '/museums.json';
   var all = [], filtered = [], selectedId = null;
   var currentView = 'grid';
@@ -208,9 +211,32 @@
   }
 
   function photo(r, cls){
-    if (r.photo) return '<img src="' + esc(r.photo) + '" alt="" loading="lazy">';
+    var urls = museumPhotoUrls(r);
+    if (urls) return '<img src="' + esc(urls.primary) + '" data-museum-photo="1" data-museum-photo-fallback="' + esc(urls.fallback) + '" alt="" loading="lazy">';
     return '<span class="rm-no-photo">NO PHOTO</span>';
   }
+
+  function museumPhotoUrls(r){
+    if (!r || !r.photo || !window.RotMediaRuntime) return null;
+    try {
+      return window.RotMediaRuntime.exhibitUrls(r.id, 'museum_photo', r.photo, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      });
+    } catch (error) {
+      console.warn('[museum photo] ' + error.message);
+      return null;
+    }
+  }
+
+  document.addEventListener('error', function(event){
+    var image = event.target;
+    if (!image || image.tagName !== 'IMG' || !image.hasAttribute('data-museum-photo')) return;
+    var fallback = image.getAttribute('data-museum-photo-fallback');
+    image.removeAttribute('data-museum-photo-fallback');
+    if (fallback) image.src = fallback;
+    else if (image.parentNode) image.parentNode.innerHTML = '<span class="rm-no-photo">NO PHOTO</span>';
+  }, true);
 
   function renderCards(){
     var c = document.getElementById('rm-container');
@@ -321,7 +347,7 @@
     var d = document.getElementById('rm-detail');
     d.innerHTML =
       '<div class="rm-detail-card">' +
-        '<div class="rm-detail-photo">' + (r.photo ? '<img src="' + esc(r.photo) + '" alt="">' : '<span class="rm-no-photo">NO PHOTO</span>') + '</div>' +
+        '<div class="rm-detail-photo">' + photo(r) + '</div>' +
         '<div class="rm-detail-body">' +
           nameHtml +
           metaHtml +

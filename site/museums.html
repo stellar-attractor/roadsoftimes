@@ -300,10 +300,10 @@ td.center { text-align: center; }
     </div>
 
     <div class="photo-field full">
-      <label>Фото (URL)</label>
+      <label>Фото (имя файла)</label>
       <div class="photo-row">
         <img id="photo-preview" class="photo-preview empty" src="" alt="">
-        <input id="f-photo" type="url" placeholder="https://..." oninput="updatePhotoPreview()">
+        <input id="f-photo" type="text" placeholder="Museum_photo.jpg" oninput="updatePhotoPreview()">
       </div>
     </div>
 
@@ -337,6 +337,7 @@ td.center { text-align: center; }
 
 <div class="toast" id="toast"></div>
 
+<script src="/js/media-runtime.js?v=mp1"></script>
 <script>
 var DATA = [];
 var editingId = null;
@@ -359,8 +360,8 @@ function slugify(s) {
     .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e')
     .replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o')
     .replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n')
-    .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'')
-    .replace(/_+/g,'_').replace(/^_|_$/g,'');
+    .replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')
+    .replace(/-+/g,'-').replace(/^-|-$/g,'');
 }
 
 function makeId(name) {
@@ -368,8 +369,14 @@ function makeId(name) {
   var existing = DATA.filter(function(r){ return r.id !== editingId; }).map(function(r){ return r.id; });
   if (!existing.includes(base)) return base;
   var i = 2;
-  while (existing.includes(base + '_' + i)) i++;
-  return base + '_' + i;
+  while (existing.includes(base + '-' + i)) i++;
+  return base + '-' + i;
+}
+
+function museumPhotoUrls(museumId, filename) {
+  if (!museumId || !filename || !window.RotMediaRuntime) return null;
+  try { return window.RotMediaRuntime.exhibitUrls(museumId, 'museum_photo', filename); }
+  catch (error) { return null; }
 }
 
 function render() {
@@ -394,8 +401,9 @@ function render() {
     if (r.id === editingId) tr.className = 'selected';
     tr.onclick = function() { openEdit(r.id); };
 
-    var thumbHtml = r.photo
-      ? '<img src="' + esc(r.photo) + '" alt="" loading="lazy">'
+    var photoUrls = museumPhotoUrls(r.id, r.photo);
+    var thumbHtml = photoUrls
+      ? '<img src="' + esc(photoUrls.primary) + '" data-fallback="' + esc(photoUrls.fallback) + '" alt="" loading="lazy" onerror="museumPhotoError(this)">'
       : '<span class="thumb-placeholder"></span>';
 
     tr.innerHTML =
@@ -515,10 +523,23 @@ function updateFeaturedUI() {
 }
 
 function updatePhotoPreview() {
-  var url = document.getElementById('f-photo').value.trim();
+  var filename = document.getElementById('f-photo').value.trim();
+  var museumId = editingId || makeId(document.getElementById('f-name').value.trim());
+  var urls = museumPhotoUrls(museumId, filename);
   var img = document.getElementById('photo-preview');
-  if (url) { img.src = url; img.classList.remove('empty'); }
+  if (urls) {
+    img.dataset.fallback = urls.fallback;
+    img.src = urls.primary;
+    img.classList.remove('empty');
+  }
   else { img.src = ''; img.classList.add('empty'); }
+}
+
+function museumPhotoError(img) {
+  var fallback = img.dataset.fallback || '';
+  delete img.dataset.fallback;
+  if (fallback) img.src = fallback;
+  else img.classList.add('empty');
 }
 
 function getFormData() {
@@ -545,6 +566,8 @@ function getFormData() {
 function saveRecord() {
   var rec = getFormData();
   if (!rec.name) { toast('Укажите название музея', true); return; }
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(rec.id)) { toast('ID должен быть lowercase ASCII slug', true); return; }
+  if (rec.photo && !/^[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9]+$/.test(rec.photo)) { toast('Фото должно содержать только ASCII-имя файла', true); return; }
 
   if (rec.featured) {
     DATA.forEach(function(r){ if (r.id !== rec.id) r.featured = false; });
