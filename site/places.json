@@ -1,0 +1,24 @@
+[
+  {
+    "id": "bolkow",
+    "name": "Болкув",
+    "country": "Польша",
+    "year": 2026,
+    "photo": "",
+    "map_url": "https://maps.app.goo.gl/FUBH9smS2RHVTpHC7",
+    "website": "",
+    "landing_url": "",
+    "featured": false
+  },
+  {
+    "id": "nysa",
+    "name": "Ныса",
+    "country": "Польша",
+    "year": 2026,
+    "photo": "",
+    "map_url": "",
+    "website": "",
+    "landing_url": "",
+    "featured": false
+  }
+]
