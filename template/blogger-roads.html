@@ -1,0 +1,295 @@
+<style>
+.rot-roads *, .rot-roads *::before, .rot-roads *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.rot-roads { font-family: 'PT Sans', sans-serif; color: #c8c0a8; }
+
+/* TOOLBAR */
+.rot-roads .toolbar {
+  padding: 10px 0; font-size: 11px; color: #9a8c70; letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #1a1a0e; margin-bottom: 16px;
+}
+.rot-roads .toolbar-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rot-roads .toolbar-right { display: flex; align-items: center; gap: 10px; }
+.rot-roads .view-toggle { display: flex; gap: 6px; }
+.rot-roads .view-btn {
+  background: none; border: 1px solid #2a2510; color: #9a8c70; cursor: pointer;
+  padding: 4px 10px; border-radius: 3px; font-size: 13px; line-height: 1.4;
+  transition: color .15s, border-color .15s; font-family: 'PT Sans', sans-serif;
+}
+.rot-roads .view-btn.active, .rot-roads .view-btn:hover { color: #c9a84c; border-color: #8a6f2e; }
+.rot-roads .search-box {
+  background: #12120c; border: 1px solid #2a2510; color: #c8c0a8;
+  font-family: 'PT Sans', sans-serif; font-size: 13px; padding: 4px 10px;
+  border-radius: 3px; outline: none; transition: border-color .15s; width: 200px;
+}
+.rot-roads .search-box:focus { border-color: #c9a84c; }
+
+/* ── GRID VIEW ── */
+.rot-roads .rr-container.view-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.rot-roads .view-grid .rr-card {
+  background: #1a1a0e; border: 1px solid #252418; overflow: hidden;
+  cursor: pointer; transition: border-color 0.2s; display: flex; flex-direction: column; position: relative;
+}
+.rot-roads .view-grid .rr-card:hover { border-color: #8a6f2e; }
+.rot-roads .view-grid .rr-photo {
+  height: 160px; background: #232318; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.rot-roads .view-grid .rr-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.rot-roads .view-grid .rr-card:hover .rr-photo img { transform: scale(1.05); }
+.rot-roads .view-grid .rr-photo .rr-no-photo {
+  font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px;
+}
+.rot-roads .view-grid .rr-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.rot-roads .view-grid .rr-name { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; color: #e8e0cc; line-height: 1.25; margin-bottom: 2px; }
+.rot-roads .view-grid .rr-loc { font-size: 11px; color: #7a7060; }
+
+/* ── LIST VIEW ── */
+.rot-roads .rr-container.view-list { display: flex; flex-direction: column; }
+.rot-roads .view-list .rr-card {
+  display: flex; flex-direction: row; align-items: stretch;
+  border-bottom: 1px solid #1a1a0e; padding: 14px 0; gap: 16px;
+  transition: background .15s; cursor: pointer;
+}
+.rot-roads .view-list .rr-card:hover { background: #0d0d08; }
+.rot-roads .view-list .rr-photo {
+  width: 130px; min-width: 130px; height: 86px; background: #080806;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; border-radius: 2px;
+}
+.rot-roads .view-list .rr-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rot-roads .view-list .rr-photo .rr-no-photo { font-family: 'Orbitron', sans-serif; font-size: 8px; color: #2a2510; letter-spacing: 2px; }
+.rot-roads .view-list .rr-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 3px; }
+.rot-roads .view-list .rr-name { font-size: 15px; font-weight: 700; color: #e0d8c0; line-height: 1.3; }
+.rot-roads .view-list .rr-loc { font-size: 12px; color: #7ab0b0; }
+
+/* ── TABLE VIEW ── */
+.rot-roads .rr-container.view-table { width: 100%; }
+.rot-roads .rr-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rot-roads .rr-table th {
+  text-align: left; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: #9a8c70; padding: 8px 12px; border-bottom: 1px solid #2a2510;
+  background: #0d0d08; font-weight: normal; white-space: nowrap; cursor: pointer; user-select: none;
+}
+.rot-roads .rr-table th:hover { color: #c9a84c; }
+.rot-roads .rr-table th.sorted { color: #c9a84c; }
+.rot-roads .rr-table td { padding: 9px 12px; border-bottom: 1px solid #161610; color: #c8c0a8; vertical-align: middle; }
+.rot-roads .rr-table tr.rr-row { cursor: pointer; transition: background .12s; }
+.rot-roads .rr-table tr.rr-row:hover { background: #131309; }
+.rot-roads .rr-table tr.rr-row.rr-selected { background: #1a1a0a; border-left: 2px solid #c9a84c; }
+.rot-roads .rr-table td.rr-t-name { font-weight: 700; color: #e0d8c0; }
+.rot-roads .rr-table td.rr-t-loc { color: #7ab0b0; }
+
+/* ── DETAIL PANEL ── */
+.rot-roads .rr-detail { display: none; padding: 12px 0 2px; }
+.rot-roads .rr-detail.open { display: block; }
+.rot-roads .rr-detail-card {
+  background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px;
+  overflow: hidden; display: flex; flex-direction: row;
+}
+.rot-roads .rr-detail-photo {
+  width: 200px; min-width: 200px; background: #080806;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden; align-self: stretch;
+}
+.rot-roads .rr-detail-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rot-roads .rr-detail-photo .rr-no-photo { font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px; }
+.rot-roads .rr-detail-body { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 16px 20px; min-width: 0; }
+.rot-roads .rr-detail-name { font-size: 17px; font-weight: 700; color: #e0d8c0; line-height: 1.3; text-decoration: none; display: block; }
+.rot-roads a.rr-detail-name:hover { color: #f0e8d0; text-decoration: underline; }
+.rot-roads .rr-detail-meta {
+  display: flex; align-items: baseline; gap: 0; flex-wrap: wrap;
+  font-size: 12px; color: #9a8c70;
+}
+.rot-roads .rr-detail-meta .sep { color: #3a3020; }
+.rot-roads .rr-detail-meta b { color: #c8c0a8; font-weight: normal; }
+.rot-roads .rr-detail-meta a { color: #c9a84c; text-decoration: none; }
+.rot-roads .rr-detail-meta a:hover { text-decoration: underline; }
+.rot-roads .rr-detail-meta a.landing { color: #a0c080; }
+
+.rot-roads .rr-empty { padding: 60px; text-align: center; color: #3a3020; font-size: 13px; letter-spacing: 1px; }
+</style>
+
+<div class="rot-roads">
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span id="rr-count"></span>
+      <input class="search-box" id="rr-search" type="text" placeholder="Поиск дороги…" oninput="rrRender()">
+    </div>
+    <div class="toolbar-right">
+      <div class="view-toggle">
+        <button class="view-btn active" id="rr-btn-grid"  onclick="rrSetView('grid')">⊞ Сетка</button>
+        <button class="view-btn"        id="rr-btn-list"  onclick="rrSetView('list')">☰ Список</button>
+        <button class="view-btn"        id="rr-btn-table" onclick="rrSetView('table')">⊟ Таблица</button>
+      </div>
+    </div>
+  </div>
+  <div class="rr-container view-grid" id="rr-container"></div>
+  <div class="rr-detail" id="rr-detail"></div>
+  <div class="rr-empty" id="rr-empty" style="display:none">Ничего не найдено.</div>
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+  var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
+  var DB  = APP_CDN + '/roads.json';
+  var all = [], filtered = [], selectedId = null;
+  var currentView = 'grid';
+  var tblSort = { col: 'name', asc: true };
+  try { currentView = localStorage.getItem('rot-roads-view') || 'grid'; } catch(e){}
+
+  fetch(DB).then(function(r){ return r.json(); }).then(function(data){
+    all = data;
+    applyView(currentView);
+    rrRender();
+  }).catch(function(){ document.getElementById('rr-empty').style.display = 'block'; });
+
+  window.rrSetView = function(v){
+    currentView = v;
+    try { localStorage.setItem('rot-roads-view', v); } catch(e){}
+    selectedId = null;
+    applyView(v);
+    rrRender();
+  };
+
+  function applyView(v){
+    document.getElementById('rr-container').className = 'rr-container view-' + v;
+    ['grid','list','table'].forEach(function(x){
+      document.getElementById('rr-btn-' + x).classList.toggle('active', x === v);
+    });
+    document.getElementById('rr-detail').className = 'rr-detail';
+  }
+
+  window.rrRender = function(){
+    var q = (document.getElementById('rr-search').value || '').trim().toLowerCase();
+    filtered = all.filter(function(r){
+      if (!q) return true;
+      return (r.name||'').toLowerCase().includes(q) ||
+             (r.country||'').toLowerCase().includes(q);
+    });
+
+    document.getElementById('rr-count').textContent = filtered.length + ' дорог';
+    document.getElementById('rr-empty').style.display = filtered.length ? 'none' : 'block';
+
+    if (currentView === 'table') renderTable();
+    else renderCards();
+
+    if (selectedId) showDetail(selectedId, false);
+    else document.getElementById('rr-detail').className = 'rr-detail';
+  };
+
+  function photo(r){
+    if (r.photo) return '<img src="' + esc(r.photo) + '" alt="" loading="lazy">';
+    return '<span class="rr-no-photo">NO PHOTO</span>';
+  }
+
+  function renderCards(){
+    var c = document.getElementById('rr-container');
+    if (!filtered.length){ c.innerHTML = ''; return; }
+    c.innerHTML = filtered.map(function(r){
+      var loc = [r.country, r.year].filter(Boolean).join(' · ');
+      var cardClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rrSelect(\'' + esc(r.id) + '\')';
+      return '<div class="rr-card" onclick="' + cardClick + '">' +
+        '<div class="rr-photo">' + photo(r) + '</div>' +
+        '<div class="rr-body">' +
+          '<div class="rr-name">' + esc(r.name||'') + '</div>' +
+          '<div class="rr-loc">' + esc(loc) + '</div>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  function renderTable(){
+    var c = document.getElementById('rr-container');
+    if (!filtered.length){ c.innerHTML = ''; return; }
+
+    var cols = [
+      { key:'name',    label:'Название' },
+      { key:'country', label:'Страна' },
+      { key:'year',    label:'Год' },
+    ];
+
+    var rows = filtered.slice().sort(function(a,b){
+      var va = a[tblSort.col], vb = b[tblSort.col];
+      if (va == null && vb == null) return 0;
+      if (va == null) return 1; if (vb == null) return -1;
+      if (typeof va === 'number') return tblSort.asc ? va-vb : vb-va;
+      return tblSort.asc ? String(va).localeCompare(String(vb),'ru') : String(vb).localeCompare(String(va),'ru');
+    });
+
+    var thead = '<thead><tr>' + cols.map(function(col){
+      var active = tblSort.col === col.key;
+      var arrow  = active ? (tblSort.asc ? ' ▲' : ' ▼') : '';
+      return '<th class="' + (active?'sorted':'') + '" onclick="rrTblSort(\'' + col.key + '\')">' + col.label + arrow + '</th>';
+    }).join('') + '</tr></thead>';
+
+    var tbody = '<tbody>' + rows.map(function(r){
+      var sel = r.id === selectedId ? ' rr-selected' : '';
+      var rowClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rrSelect(\'' + esc(r.id) + '\')';
+      return '<tr class="rr-row' + sel + '" onclick="' + rowClick + '">' +
+        '<td class="rr-t-name">' + esc(r.name||'') + '</td>' +
+        '<td class="rr-t-loc">' + esc(r.country||'') + '</td>' +
+        '<td>' + (r.year||'') + '</td>' +
+      '</tr>';
+    }).join('') + '</tbody>';
+
+    c.innerHTML = '<table class="rr-table">' + thead + tbody + '</table>';
+  }
+
+  window.rrTblSort = function(col){
+    if (tblSort.col === col) tblSort.asc = !tblSort.asc;
+    else { tblSort.col = col; tblSort.asc = true; }
+    renderTable();
+    if (selectedId) showDetail(selectedId, false);
+  };
+
+  window.rrSelect = function(id){
+    if (selectedId === id) {
+      selectedId = null;
+      document.getElementById('rr-detail').className = 'rr-detail';
+      if (currentView === 'table') renderTable();
+      return;
+    }
+    selectedId = id;
+    if (currentView === 'table') renderTable();
+    showDetail(id, true);
+  };
+
+  function showDetail(id, scroll){
+    var r = all.find(function(x){ return x.id === id; });
+    if (!r) return;
+    var meta = [];
+    if (r.country)     meta.push(esc(r.country));
+    if (r.year)        meta.push('📅 <b>' + r.year + '</b>');
+    if (r.website)     meta.push('<a href="' + esc(r.website) + '" target="_blank" rel="noopener">🌐 Сайт</a>');
+    if (r.landing_url) meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
+
+    var metaHtml = meta.length
+      ? '<div class="rr-detail-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      : '';
+
+    var nameHtml = r.landing_url
+      ? '<a class="rr-detail-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>'
+      : '<div class="rr-detail-name">' + esc(r.name||'') + '</div>';
+
+    var d = document.getElementById('rr-detail');
+    d.innerHTML =
+      '<div class="rr-detail-card">' +
+        '<div class="rr-detail-photo">' + (r.photo ? '<img src="' + esc(r.photo) + '" alt="">' : '<span class="rr-no-photo">NO PHOTO</span>') + '</div>' +
+        '<div class="rr-detail-body">' +
+          nameHtml +
+          metaHtml +
+        '</div>' +
+      '</div>';
+    d.className = 'rr-detail open';
+    if (scroll) d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function esc(s){
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+//]]>
+</script>
