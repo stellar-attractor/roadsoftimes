@@ -47,6 +47,13 @@ preview/
 # upload only, never through GitHub/cdn.roadsoftimes.com.
 site/media-site/
 
+# assets.roadsoftimes.com deploy source — shared photo CDN for Places/Times/
+# Roads (small tables, tens-hundreds of rows; kept separate from the exhibit
+# media tree above). Same rule: local filesystem + wrangler direct upload
+# only, never through GitHub/cdn.roadsoftimes.com. Museums stays on
+# media-site/exhibits/ for now — not migrated here.
+site/assets-site/
+
 # No binary assets and no ad-hoc JSON backups belong in site/ — assets live
 # under site/media-site/assets/, and museums.json/infographics.json are the
 # only source of truth (no snapshot copies).

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "seven-years-war",
+    "name": "Семилетняя война",
+    "country": "Пруссия",
+    "year_start": 1756,
+    "year_end": 1763,
+    "photo": "",
+    "website": "",
+    "landing_url": "",
+    "featured": false
+  },
+  {
+    "id": "middle-ages",
+    "name": "Средние века",
+    "country": "Европа",
+    "year_start": 500,
+    "year_end": 1500,
+    "photo": "",
+    "website": "",
+    "landing_url": "",
+    "featured": false
+  }
+]
