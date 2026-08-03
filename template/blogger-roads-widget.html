@@ -44,10 +44,13 @@
 
 <div class="rot-rw" id="rot-rw-root"></div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe5"></script>
 <script>
 //<![CDATA[
 (function(){
-  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  var MEDIA_CDN = 'https://media.roadsoftimes.com';
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47)
   fetch(DB_CDN + '/roads.json').then(function(r){ return r.json(); }).then(function(data){
     var r = data.find(function(x){ return x.featured; });
     if (!r) return;
@@ -65,16 +68,32 @@
     var metaHtml = meta.length
       ? '<div class="rw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
       : '';
+    var photoUrls = null;
+    try {
+      if (r.photo && window.RotMediaRuntime) photoUrls = window.RotMediaRuntime.catalogAssetUrls('roads', r.id, r.photo, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      });
+    } catch (error) {
+      console.warn('[road widget photo] ' + error.message);
+    }
 
     document.getElementById('rot-rw-root').innerHTML =
       '<div class="rw-card">' +
-        '<div class="rw-photo"><img src="' + esc(r.photo||'') + '" alt=""' + (r.photo ? '' : ' style="display:none"') + '></div>' +
+        '<div class="rw-photo"><img src="' + esc(photoUrls ? photoUrls.primary : '') + '" data-road-photo-fallback="' + esc(photoUrls ? photoUrls.fallback : '') + '" alt=""' + (photoUrls ? '' : ' style="display:none"') + '></div>' +
         '<div class="rw-body">' +
           '<div class="rw-label">★ Рекомендую</div>' +
           (r.landing_url ? '<a class="rw-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>' : '<div class="rw-name">' + esc(r.name||'') + '</div>') +
           metaHtml +
         '</div>' +
       '</div>';
+    var photo = document.querySelector('#rot-rw-root .rw-photo img');
+    if (photo) photo.addEventListener('error', function(){
+      var fallback = photo.getAttribute('data-road-photo-fallback');
+      photo.removeAttribute('data-road-photo-fallback');
+      if (fallback) photo.src = fallback;
+      else photo.style.display = 'none';
+    });
   });
 })();
 //]]>

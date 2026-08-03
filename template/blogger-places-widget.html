@@ -45,10 +45,13 @@
 
 <div class="rot-pw" id="rot-pw-root"></div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe5"></script>
 <script>
 //<![CDATA[
 (function(){
-  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  var MEDIA_CDN = 'https://media.roadsoftimes.com';
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47)
   fetch(DB_CDN + '/places.json').then(function(r){ return r.json(); }).then(function(data){
     var r = data.find(function(p){ return p.featured; });
     if (!r) return;
@@ -67,16 +70,32 @@
     var metaHtml = meta.length
       ? '<div class="pw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
       : '';
+    var photoUrls = null;
+    try {
+      if (r.photo && window.RotMediaRuntime) photoUrls = window.RotMediaRuntime.catalogAssetUrls('places', r.id, r.photo, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      });
+    } catch (error) {
+      console.warn('[place widget photo] ' + error.message);
+    }
 
     document.getElementById('rot-pw-root').innerHTML =
       '<div class="pw-card">' +
-        '<div class="pw-photo"><img src="' + esc(r.photo||'') + '" alt=""' + (r.photo ? '' : ' style="display:none"') + '></div>' +
+        '<div class="pw-photo"><img src="' + esc(photoUrls ? photoUrls.primary : '') + '" data-place-photo-fallback="' + esc(photoUrls ? photoUrls.fallback : '') + '" alt=""' + (photoUrls ? '' : ' style="display:none"') + '></div>' +
         '<div class="pw-body">' +
           '<div class="pw-label">★ Рекомендую</div>' +
           (r.landing_url ? '<a class="pw-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>' : '<div class="pw-name">' + esc(r.name||'') + '</div>') +
           metaHtml +
         '</div>' +
       '</div>';
+    var photo = document.querySelector('#rot-pw-root .pw-photo img');
+    if (photo) photo.addEventListener('error', function(){
+      var fallback = photo.getAttribute('data-place-photo-fallback');
+      photo.removeAttribute('data-place-photo-fallback');
+      if (fallback) photo.src = fallback;
+      else photo.style.display = 'none';
+    });
   });
 })();
 //]]>

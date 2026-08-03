@@ -132,10 +132,13 @@
   <div class="rp-empty" id="rp-empty" style="display:none">Ничего не найдено.</div>
 </div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe5"></script>
 <script>
 //<![CDATA[
 (function(){
-  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  var MEDIA_CDN = 'https://media.roadsoftimes.com';
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47)
   var DB  = DB_CDN + '/places.json';
   var all = [], filtered = [], selectedId = null;
   var currentView = 'grid';
@@ -182,8 +185,31 @@
     else document.getElementById('rp-detail').className = 'rp-detail';
   };
 
+  function placePhotoUrls(r){
+    if (!r || !r.photo || !window.RotMediaRuntime) return null;
+    try {
+      return window.RotMediaRuntime.catalogAssetUrls('places', r.id, r.photo, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      });
+    } catch (error) {
+      console.warn('[place photo] ' + error.message);
+      return null;
+    }
+  }
+
+  document.addEventListener('error', function(event){
+    var image = event.target;
+    if (!image || image.tagName !== 'IMG' || !image.hasAttribute('data-place-photo')) return;
+    var fallback = image.getAttribute('data-place-photo-fallback');
+    image.removeAttribute('data-place-photo-fallback');
+    if (fallback) image.src = fallback;
+    else if (image.parentNode) image.parentNode.innerHTML = '<span class="rp-no-photo">NO PHOTO</span>';
+  }, true);
+
   function photo(r){
-    if (r.photo) return '<img src="' + esc(r.photo) + '" alt="" loading="lazy">';
+    var urls = placePhotoUrls(r);
+    if (urls) return '<img src="' + esc(urls.primary) + '" data-place-photo="1" data-place-photo-fallback="' + esc(urls.fallback) + '" alt="" loading="lazy">';
     return '<span class="rp-no-photo">NO PHOTO</span>';
   }
 
@@ -279,7 +305,7 @@
     var d = document.getElementById('rp-detail');
     d.innerHTML =
       '<div class="rp-detail-card">' +
-        '<div class="rp-detail-photo">' + (r.photo ? '<img src="' + esc(r.photo) + '" alt="">' : '<span class="rp-no-photo">NO PHOTO</span>') + '</div>' +
+        '<div class="rp-detail-photo">' + photo(r) + '</div>' +
         '<div class="rp-detail-body">' +
           nameHtml +
           metaHtml +

@@ -26,6 +26,15 @@
     hud: Object.freeze({ folder: "huds", extensions: ["webm", "mp4", "mov", "png", "jpg", "jpeg", "webp"] })
   });
 
+  // Places/Times/Roads catalog photos: site/media-site/assets/{type}/{id}/{filename}
+  // (Epic #47's sibling catalogs — same upload convention as museum_photo, just
+  // filed under assets/ instead of exhibits/ since there's no per-exhibit role set).
+  var CATALOG_ASSET_TYPES = Object.freeze({
+    places: Object.freeze({ extensions: ["jpg", "jpeg", "png", "webp", "gif", "avif"] }),
+    times: Object.freeze({ extensions: ["jpg", "jpeg", "png", "webp", "gif", "avif"] }),
+    roads: Object.freeze({ extensions: ["jpg", "jpeg", "png", "webp", "gif", "avif"] })
+  });
+
   function assertOrigin(value, fallback) {
     var origin = String(value || fallback || "").replace(/\/+$/, "");
     if (!/^https:\/\/[^/]+$/.test(origin)) {
@@ -34,12 +43,16 @@
     return origin;
   }
 
-  function assertMuseumSlug(value) {
+  function assertSlug(value, label) {
     var slug = String(value || "").trim();
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
-      throw new TypeError("Invalid museum slug");
+      throw new TypeError("Invalid " + (label || "slug") + ": " + JSON.stringify(value));
     }
     return slug;
+  }
+
+  function assertMuseumSlug(value) {
+    return assertSlug(value, "museum slug");
   }
 
   function assertAsciiFilename(value, extensions) {
@@ -102,15 +115,25 @@
     return urlPair("exhibits/" + slug + "/videos/" + id + suffix, options);
   }
 
+  function catalogAssetUrls(catalogType, recordId, filename, options) {
+    var definition = CATALOG_ASSET_TYPES[String(catalogType || "")];
+    if (!definition) throw new TypeError("Unknown catalog asset type: " + String(catalogType || ""));
+    var id = assertSlug(recordId, catalogType + " id");
+    var basename = assertAsciiFilename(filename, definition.extensions);
+    return urlPair(["assets", catalogType, id, basename].join("/"), options);
+  }
+
   global.RotMediaRuntime = Object.freeze({
     DEFAULT_PRIMARY_ORIGIN: DEFAULT_PRIMARY_ORIGIN,
     DEFAULT_FALLBACK_ORIGIN: DEFAULT_FALLBACK_ORIGIN,
     EXHIBIT_ROLES: EXHIBIT_ROLES,
     SHARED_ROLES: SHARED_ROLES,
+    CATALOG_ASSET_TYPES: CATALOG_ASSET_TYPES,
     assertMuseumSlug: assertMuseumSlug,
     assertAsciiFilename: assertAsciiFilename,
     exhibitUrls: exhibitUrls,
     sharedUrls: sharedUrls,
-    collageUrls: collageUrls
+    collageUrls: collageUrls,
+    catalogAssetUrls: catalogAssetUrls
   });
 })(typeof window !== "undefined" ? window : globalThis);
