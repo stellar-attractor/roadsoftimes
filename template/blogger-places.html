@@ -217,7 +217,7 @@
     var c = document.getElementById('rp-container');
     if (!filtered.length){ c.innerHTML = ''; return; }
     c.innerHTML = filtered.map(function(r){
-      var loc = [r.country, r.year].filter(Boolean).join(' · ');
+      var loc = [r.country, r.year].filter(Boolean).join(' \u00B7 ');
       var cardClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rpSelect(\'' + esc(r.id) + '\')';
       return '<div class="rp-card" onclick="' + cardClick + '">' +
         '<div class="rp-photo">' + photo(r) + '</div>' +
@@ -295,7 +295,7 @@
     if (r.landing_url) meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
 
     var metaHtml = meta.length
-      ? '<div class="rp-detail-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      ? '<div class="rp-detail-meta">' + meta.join('<span class="sep"> \u00B7 </span>') + '</div>'
       : '';
 
     var nameHtml = r.landing_url

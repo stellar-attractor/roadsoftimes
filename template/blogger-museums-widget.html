@@ -45,7 +45,7 @@
 .rot-mw .mw-meta a.landing { color: #a0c080; }
 .rot-mw .mw-desc {
   font-size: 13px; color: #a09880; line-height: 1.6;
-  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 4; line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
 }
 </style>
 
@@ -82,7 +82,7 @@
     if (r.landing_url)  meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
 
     var metaHtml = meta.length
-      ? '<div class="mw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      ? '<div class="mw-meta">' + meta.join('<span class="sep"> \u00B7 </span>') + '</div>'
       : '';
     var photoUrls = null;
     try {

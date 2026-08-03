@@ -68,7 +68,7 @@
     if (r.landing_url) meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
 
     var metaHtml = meta.length
-      ? '<div class="pw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      ? '<div class="pw-meta">' + meta.join('<span class="sep"> \u00B7 </span>') + '</div>'
       : '';
     var photoUrls = null;
     try {
