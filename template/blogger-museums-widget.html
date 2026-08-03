@@ -55,10 +55,10 @@
 <script>
 //<![CDATA[
 (function(){
-  var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
   var MEDIA_CDN = 'https://media.roadsoftimes.com';
   var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
-  fetch(APP_CDN + '/museums.json').then(function(r){ return r.json(); }).then(function(data){
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47)
+  fetch(DB_CDN + '/museums.json').then(function(r){ return r.json(); }).then(function(data){
     var r = data.find(function(m){ return m.featured; });
     if (!r) return;
 
