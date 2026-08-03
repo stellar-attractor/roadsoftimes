@@ -131,10 +131,13 @@
   <div class="rr-empty" id="rr-empty" style="display:none">Ничего не найдено.</div>
 </div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe5"></script>
 <script>
 //<![CDATA[
 (function(){
-  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  var MEDIA_CDN = 'https://media.roadsoftimes.com';
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47)
   var DB  = DB_CDN + '/roads.json';
   var all = [], filtered = [], selectedId = null;
   var currentView = 'grid';
@@ -181,8 +184,31 @@
     else document.getElementById('rr-detail').className = 'rr-detail';
   };
 
+  function roadPhotoUrls(r){
+    if (!r || !r.photo || !window.RotMediaRuntime) return null;
+    try {
+      return window.RotMediaRuntime.catalogAssetUrls('roads', r.id, r.photo, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      });
+    } catch (error) {
+      console.warn('[road photo] ' + error.message);
+      return null;
+    }
+  }
+
+  document.addEventListener('error', function(event){
+    var image = event.target;
+    if (!image || image.tagName !== 'IMG' || !image.hasAttribute('data-road-photo')) return;
+    var fallback = image.getAttribute('data-road-photo-fallback');
+    image.removeAttribute('data-road-photo-fallback');
+    if (fallback) image.src = fallback;
+    else if (image.parentNode) image.parentNode.innerHTML = '<span class="rr-no-photo">NO PHOTO</span>';
+  }, true);
+
   function photo(r){
-    if (r.photo) return '<img src="' + esc(r.photo) + '" alt="" loading="lazy">';
+    var urls = roadPhotoUrls(r);
+    if (urls) return '<img src="' + esc(urls.primary) + '" data-road-photo="1" data-road-photo-fallback="' + esc(urls.fallback) + '" alt="" loading="lazy">';
     return '<span class="rr-no-photo">NO PHOTO</span>';
   }
 
@@ -277,7 +303,7 @@
     var d = document.getElementById('rr-detail');
     d.innerHTML =
       '<div class="rr-detail-card">' +
-        '<div class="rr-detail-photo">' + (r.photo ? '<img src="' + esc(r.photo) + '" alt="">' : '<span class="rr-no-photo">NO PHOTO</span>') + '</div>' +
+        '<div class="rr-detail-photo">' + photo(r) + '</div>' +
         '<div class="rr-detail-body">' +
           nameHtml +
           metaHtml +

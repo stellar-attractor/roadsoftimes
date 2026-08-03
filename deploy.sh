@@ -19,7 +19,7 @@ cd "$ROOT"
 # already stored on Cloudflare — so an unchanged file is skipped, and a
 # single changed file results in a single real upload. Wrangler's own output
 # below (lines prefixed "+") lists exactly what got uploaded, not the tree.
-# This is now also where museums/places/times/roads.json live
+# This is now also where museums/places/times/roads/infographics.json live
 # (media-site/db/, Epic #47) — one wrangler push ships data edits without
 # touching GitHub/cdn.roadsoftimes.com at all.
 wrangler pages deploy "$ROOT/site/media-site" \

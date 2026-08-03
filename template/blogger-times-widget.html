@@ -44,10 +44,13 @@
 
 <div class="rot-tw" id="rot-tw-root"></div>
 
+<script src="https://cdn.roadsoftimes.com/js/media-runtime.js?v=fe5"></script>
 <script>
 //<![CDATA[
 (function(){
-  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  var MEDIA_CDN = 'https://media.roadsoftimes.com';
+  var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47)
   fetch(DB_CDN + '/times.json').then(function(r){ return r.json(); }).then(function(data){
     var r = data.find(function(t){ return t.featured; });
     if (!r) return;
@@ -72,16 +75,32 @@
     var metaHtml = meta.length
       ? '<div class="tw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
       : '';
+    var photoUrls = null;
+    try {
+      if (r.photo && window.RotMediaRuntime) photoUrls = window.RotMediaRuntime.catalogAssetUrls('times', r.id, r.photo, {
+        primaryOrigin: MEDIA_CDN,
+        fallbackOrigin: MEDIA_CDN_FALLBACK
+      });
+    } catch (error) {
+      console.warn('[time widget photo] ' + error.message);
+    }
 
     document.getElementById('rot-tw-root').innerHTML =
       '<div class="tw-card">' +
-        '<div class="tw-photo"><img src="' + esc(r.photo||'') + '" alt=""' + (r.photo ? '' : ' style="display:none"') + '></div>' +
+        '<div class="tw-photo"><img src="' + esc(photoUrls ? photoUrls.primary : '') + '" data-time-photo-fallback="' + esc(photoUrls ? photoUrls.fallback : '') + '" alt=""' + (photoUrls ? '' : ' style="display:none"') + '></div>' +
         '<div class="tw-body">' +
           '<div class="tw-label">★ Рекомендую</div>' +
           (r.landing_url ? '<a class="tw-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>' : '<div class="tw-name">' + esc(r.name||'') + '</div>') +
           metaHtml +
         '</div>' +
       '</div>';
+    var photo = document.querySelector('#rot-tw-root .tw-photo img');
+    if (photo) photo.addEventListener('error', function(){
+      var fallback = photo.getAttribute('data-time-photo-fallback');
+      photo.removeAttribute('data-time-photo-fallback');
+      if (fallback) photo.src = fallback;
+      else photo.style.display = 'none';
+    });
   });
 })();
 //]]>
