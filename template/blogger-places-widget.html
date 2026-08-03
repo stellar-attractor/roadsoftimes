@@ -48,8 +48,8 @@
 <script>
 //<![CDATA[
 (function(){
-  var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
-  fetch(APP_CDN + '/places.json').then(function(r){ return r.json(); }).then(function(data){
+  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  fetch(DB_CDN + '/places.json').then(function(r){ return r.json(); }).then(function(data){
     var r = data.find(function(p){ return p.featured; });
     if (!r) return;
 

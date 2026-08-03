@@ -135,8 +135,8 @@
 <script>
 //<![CDATA[
 (function(){
-  var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
-  var DB  = APP_CDN + '/places.json';
+  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  var DB  = DB_CDN + '/places.json';
   var all = [], filtered = [], selectedId = null;
   var currentView = 'grid';
   var tblSort = { col: 'name', asc: true };
