@@ -5,7 +5,7 @@
  * Usage in Blogger HTML widget:
  *   <div id="rot-exhibit"></div>
  *   <script src="https://your-cdn/site/js/infographic-player.js"></script>
- *   <script>RotExhibit.init({ container: '#rot-exhibit', db: 'site/infographics.json' });</script>
+ *   <script>RotExhibit.init({ container: '#rot-exhibit', db: 'https://media.roadsoftimes.com/db/infographics.json' });</script>
  *
  * Or to start on a specific exhibit:
  *   RotExhibit.init({ container: '#rot-exhibit', db: '...', id: 'Tank_HUD0601' });
@@ -316,7 +316,7 @@
     this.container = typeof opts.container === "string"
       ? document.querySelector(opts.container)
       : opts.container;
-    this.dbUrl  = opts.db   || "site/infographics.json";
+    this.dbUrl  = opts.db   || "media-site/db/infographics.json";
     this.cdnBase = (opts.cdnBase || CDN_BASE).replace(/\/$/, "");
     this.fallbackCdnBase = (opts.fallbackCdnBase || CDN_FALLBACK_BASE).replace(/\/$/, "");
     this.startId = opts.id  || null;

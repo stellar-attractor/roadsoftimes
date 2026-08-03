@@ -47,16 +47,18 @@ preview/
 # upload only, never through GitHub/cdn.roadsoftimes.com. Places/Times/Roads
 # photos live under site/media-site/assets/{type}/{id}/ — same tree, same
 # CDN as exhibits/museums; no separate assets CDN. museums/places/times/
-# roads.json live under site/media-site/db/ (Epic #47) — deployed by
-# wrangler, not committed, same as the binary assets in this tree.
+# roads/infographics.json all live under site/media-site/db/ (Epic #47,
+# infographics.json joined in Story #53) — deployed by wrangler, not
+# committed, same as the binary assets in this tree.
 # _headers is the one file in this tree that IS tracked (Cloudflare Pages
 # config, not data) — the `*` + negation form is required for git to look
 # inside an otherwise-ignored directory for it.
 site/media-site/*
 !site/media-site/_headers
 
-# No binary assets and no ad-hoc JSON backups belong in site/ — assets live
-# under site/media-site/assets/, and museums.json/infographics.json are the
-# only source of truth (no snapshot copies).
+# No binary assets and no ad-hoc JSON backups belong in site/ — assets and
+# all JSON catalogs (museums/places/times/roads/infographics.json) live
+# under site/media-site/, which is the only source of truth (no snapshot
+# copies in site/ itself).
 site/assets/
 site/db_backups/

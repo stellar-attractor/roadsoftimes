@@ -372,9 +372,9 @@
   var APP_CDN   = 'https://cdn.roadsoftimes.com';   // code / html manifests
   var MEDIA_CDN = 'https://media.roadsoftimes.com'; // webm / png / jpg / svg assets
   var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
-  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47) — museums.json only here; infographics.json stays on APP_CDN (not migrated, see Epic #47 scope)
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47) — museums.json + infographics.json
   var EXHIBIT  = 'https://roadsoftimes.blogspot.com/p/exhibit.html';
-  var DB       = APP_CDN + '/infographics.json';
+  var DB       = DB_CDN + '/infographics.json';
   var PER_PAGE = 12;
   var all = [], filtered = [], currentPage = 1;
   var currentView = 'grid';

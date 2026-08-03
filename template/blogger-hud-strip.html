@@ -94,7 +94,7 @@
   var APP_CDN   = 'https://cdn.roadsoftimes.com';   // code / html manifests
   var MEDIA_CDN = 'https://media.roadsoftimes.com'; // webm / png / jpg / svg assets
   var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
-  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47) — museums.json only here; infographics.json stays on APP_CDN (not migrated, see Epic #47 scope)
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47) — museums.json + infographics.json
   var CATALOG = 'https://roadsoftimes.blogspot.com/p/catalog.html';
   var STRIP_COUNT = 6;
   var _nameEl = document.getElementById('rot-museum-name');
@@ -126,7 +126,7 @@
   }
 
   function _fetchAndRender(){
-    fetch(APP_CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
+    fetch(DB_CDN + '/infographics.json').then(function(r){ return r.json(); }).then(function(data){
       var items = data.filter(function(e){ return e.Museum === museum; }).slice(-STRIP_COUNT).reverse();
       if (!items.length) { document.getElementById('rot-hs-root').style.display = 'none'; return; }
 
@@ -222,7 +222,7 @@
     loadPlayer(function(){
       var player = RotExhibit.init({
         container: wrap,
-        db: APP_CDN + '/infographics.json',
+        db: DB_CDN + '/infographics.json',
         cdnBase: MEDIA_CDN,
         id: id,
         single: true
