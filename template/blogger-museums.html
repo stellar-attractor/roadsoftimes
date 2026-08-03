@@ -152,10 +152,10 @@
 <script>
 //<![CDATA[
 (function(){
-  var APP_CDN = 'https://cdn.roadsoftimes.com'; // code / html / json manifests
   var MEDIA_CDN = 'https://media.roadsoftimes.com';
   var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
-  var DB  = APP_CDN + '/museums.json';
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47)
+  var DB  = DB_CDN + '/museums.json';
   var all = [], filtered = [], selectedId = null;
   var currentView = 'grid';
   var tblSort = { col: 'name', asc: true };

@@ -1,0 +1,88 @@
+<style>
+.rot-tw *, .rot-tw *::before, .rot-tw *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.rot-tw { font-family: 'PT Sans', sans-serif; color: #c8c0a8; }
+
+.rot-tw .tw-card {
+  background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px;
+  overflow: hidden; display: flex; flex-direction: row;
+}
+
+.rot-tw .tw-photo {
+  width: 200px; min-width: 200px; background: #080806; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  align-self: stretch;
+}
+.rot-tw .tw-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rot-tw .tw-photo .tw-no-photo {
+  font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px;
+}
+
+.rot-tw .tw-body {
+  padding: 16px 20px; display: flex; flex-direction: column; gap: 8px;
+  flex: 1; min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .rot-tw .tw-card { flex-direction: column; }
+  .rot-tw .tw-photo { width: 100%; min-width: 0; height: 160px; }
+}
+
+.rot-tw .tw-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #8a6f2e; }
+.rot-tw .tw-name { font-size: 17px; font-weight: 700; color: #e0d8c0; line-height: 1.3; text-decoration: none; display: block; }
+.rot-tw a.tw-name:hover { color: #f0e8d0; text-decoration: underline; }
+.rot-tw .tw-meta {
+  display: flex; flex-wrap: nowrap; align-items: baseline; gap: 0;
+  font-size: 12px; color: #9a8c70;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.rot-tw .tw-meta .sep { color: #3a3020; }
+.rot-tw .tw-meta b { color: #c8c0a8; font-weight: normal; }
+.rot-tw .tw-meta a { color: #c9a84c; text-decoration: none; }
+.rot-tw .tw-meta a:hover { text-decoration: underline; }
+.rot-tw .tw-meta a.landing { color: #a0c080; }
+</style>
+
+<div class="rot-tw" id="rot-tw-root"></div>
+
+<script>
+//<![CDATA[
+(function(){
+  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  fetch(DB_CDN + '/times.json').then(function(r){ return r.json(); }).then(function(data){
+    var r = data.find(function(t){ return t.featured; });
+    if (!r) return;
+
+    function esc(s){
+      return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function span(r){
+      if (r.year_start && r.year_end) return r.year_start + '–' + r.year_end;
+      if (r.year_start) return String(r.year_start);
+      if (r.year_end) return String(r.year_end);
+      return '';
+    }
+
+    var meta = [];
+    if (r.country)     meta.push('<b>' + esc(r.country) + '</b>');
+    var yr = span(r);
+    if (yr)             meta.push('📅 <b>' + yr + '</b>');
+    if (r.website)     meta.push('<a href="' + esc(r.website) + '" target="_blank" rel="noopener">🌐 Сайт</a>');
+    if (r.landing_url) meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
+
+    var metaHtml = meta.length
+      ? '<div class="tw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      : '';
+
+    document.getElementById('rot-tw-root').innerHTML =
+      '<div class="tw-card">' +
+        '<div class="tw-photo"><img src="' + esc(r.photo||'') + '" alt=""' + (r.photo ? '' : ' style="display:none"') + '></div>' +
+        '<div class="tw-body">' +
+          '<div class="tw-label">★ Рекомендую</div>' +
+          (r.landing_url ? '<a class="tw-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>' : '<div class="tw-name">' + esc(r.name||'') + '</div>') +
+          metaHtml +
+        '</div>' +
+      '</div>';
+  });
+})();
+//]]>
+</script>

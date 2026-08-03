@@ -1,0 +1,305 @@
+<style>
+.rot-times *, .rot-times *::before, .rot-times *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.rot-times { font-family: 'PT Sans', sans-serif; color: #c8c0a8; }
+
+/* TOOLBAR */
+.rot-times .toolbar {
+  padding: 10px 0; font-size: 11px; color: #9a8c70; letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; border-bottom: 1px solid #1a1a0e; margin-bottom: 16px;
+}
+.rot-times .toolbar-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rot-times .toolbar-right { display: flex; align-items: center; gap: 10px; }
+.rot-times .view-toggle { display: flex; gap: 6px; }
+.rot-times .view-btn {
+  background: none; border: 1px solid #2a2510; color: #9a8c70; cursor: pointer;
+  padding: 4px 10px; border-radius: 3px; font-size: 13px; line-height: 1.4;
+  transition: color .15s, border-color .15s; font-family: 'PT Sans', sans-serif;
+}
+.rot-times .view-btn.active, .rot-times .view-btn:hover { color: #c9a84c; border-color: #8a6f2e; }
+.rot-times .search-box {
+  background: #12120c; border: 1px solid #2a2510; color: #c8c0a8;
+  font-family: 'PT Sans', sans-serif; font-size: 13px; padding: 4px 10px;
+  border-radius: 3px; outline: none; transition: border-color .15s; width: 200px;
+}
+.rot-times .search-box:focus { border-color: #c9a84c; }
+
+/* ── GRID VIEW ── */
+.rot-times .rt-container.view-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.rot-times .view-grid .rt-card {
+  background: #1a1a0e; border: 1px solid #252418; overflow: hidden;
+  cursor: pointer; transition: border-color 0.2s; display: flex; flex-direction: column; position: relative;
+}
+.rot-times .view-grid .rt-card:hover { border-color: #8a6f2e; }
+.rot-times .view-grid .rt-photo {
+  height: 160px; background: #232318; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.rot-times .view-grid .rt-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.rot-times .view-grid .rt-card:hover .rt-photo img { transform: scale(1.05); }
+.rot-times .view-grid .rt-photo .rt-no-photo {
+  font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px;
+}
+.rot-times .view-grid .rt-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.rot-times .view-grid .rt-name { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; color: #e8e0cc; line-height: 1.25; margin-bottom: 2px; }
+.rot-times .view-grid .rt-loc { font-size: 11px; color: #7a7060; }
+
+/* ── LIST VIEW ── */
+.rot-times .rt-container.view-list { display: flex; flex-direction: column; }
+.rot-times .view-list .rt-card {
+  display: flex; flex-direction: row; align-items: stretch;
+  border-bottom: 1px solid #1a1a0e; padding: 14px 0; gap: 16px;
+  transition: background .15s; cursor: pointer;
+}
+.rot-times .view-list .rt-card:hover { background: #0d0d08; }
+.rot-times .view-list .rt-photo {
+  width: 130px; min-width: 130px; height: 86px; background: #080806;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; border-radius: 2px;
+}
+.rot-times .view-list .rt-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rot-times .view-list .rt-photo .rt-no-photo { font-family: 'Orbitron', sans-serif; font-size: 8px; color: #2a2510; letter-spacing: 2px; }
+.rot-times .view-list .rt-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 3px; }
+.rot-times .view-list .rt-name { font-size: 15px; font-weight: 700; color: #e0d8c0; line-height: 1.3; }
+.rot-times .view-list .rt-loc { font-size: 12px; color: #7ab0b0; }
+
+/* ── TABLE VIEW ── */
+.rot-times .rt-container.view-table { width: 100%; }
+.rot-times .rt-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rot-times .rt-table th {
+  text-align: left; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: #9a8c70; padding: 8px 12px; border-bottom: 1px solid #2a2510;
+  background: #0d0d08; font-weight: normal; white-space: nowrap; cursor: pointer; user-select: none;
+}
+.rot-times .rt-table th:hover { color: #c9a84c; }
+.rot-times .rt-table th.sorted { color: #c9a84c; }
+.rot-times .rt-table td { padding: 9px 12px; border-bottom: 1px solid #161610; color: #c8c0a8; vertical-align: middle; }
+.rot-times .rt-table tr.rt-row { cursor: pointer; transition: background .12s; }
+.rot-times .rt-table tr.rt-row:hover { background: #131309; }
+.rot-times .rt-table tr.rt-row.rt-selected { background: #1a1a0a; border-left: 2px solid #c9a84c; }
+.rot-times .rt-table td.rt-t-name { font-weight: 700; color: #e0d8c0; }
+.rot-times .rt-table td.rt-t-loc { color: #7ab0b0; }
+
+/* ── DETAIL PANEL ── */
+.rot-times .rt-detail { display: none; padding: 12px 0 2px; }
+.rot-times .rt-detail.open { display: block; }
+.rot-times .rt-detail-card {
+  background: #0d0d08; border: 1px solid #2a2510; border-radius: 4px;
+  overflow: hidden; display: flex; flex-direction: row;
+}
+.rot-times .rt-detail-photo {
+  width: 200px; min-width: 200px; background: #080806;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden; align-self: stretch;
+}
+.rot-times .rt-detail-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rot-times .rt-detail-photo .rt-no-photo { font-family: 'Orbitron', sans-serif; font-size: 9px; color: #2a2510; letter-spacing: 2px; }
+.rot-times .rt-detail-body { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 16px 20px; min-width: 0; }
+.rot-times .rt-detail-name { font-size: 17px; font-weight: 700; color: #e0d8c0; line-height: 1.3; text-decoration: none; display: block; }
+.rot-times a.rt-detail-name:hover { color: #f0e8d0; text-decoration: underline; }
+.rot-times .rt-detail-meta {
+  display: flex; align-items: baseline; gap: 0; flex-wrap: wrap;
+  font-size: 12px; color: #9a8c70;
+}
+.rot-times .rt-detail-meta .sep { color: #3a3020; }
+.rot-times .rt-detail-meta b { color: #c8c0a8; font-weight: normal; }
+.rot-times .rt-detail-meta a { color: #c9a84c; text-decoration: none; }
+.rot-times .rt-detail-meta a:hover { text-decoration: underline; }
+.rot-times .rt-detail-meta a.landing { color: #a0c080; }
+
+.rot-times .rt-empty { padding: 60px; text-align: center; color: #3a3020; font-size: 13px; letter-spacing: 1px; }
+</style>
+
+<div class="rot-times">
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span id="rt-count"></span>
+      <input class="search-box" id="rt-search" type="text" placeholder="Поиск эпохи…" oninput="rtRender()">
+    </div>
+    <div class="toolbar-right">
+      <div class="view-toggle">
+        <button class="view-btn active" id="rt-btn-grid"  onclick="rtSetView('grid')">⊞ Сетка</button>
+        <button class="view-btn"        id="rt-btn-list"  onclick="rtSetView('list')">☰ Список</button>
+        <button class="view-btn"        id="rt-btn-table" onclick="rtSetView('table')">⊟ Таблица</button>
+      </div>
+    </div>
+  </div>
+  <div class="rt-container view-grid" id="rt-container"></div>
+  <div class="rt-detail" id="rt-detail"></div>
+  <div class="rt-empty" id="rt-empty" style="display:none">Ничего не найдено.</div>
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+  var DB_CDN = 'https://media.roadsoftimes.com/db'; // JSON catalogs (Epic #47)
+  var DB  = DB_CDN + '/times.json';
+  var all = [], filtered = [], selectedId = null;
+  var currentView = 'grid';
+  var tblSort = { col: 'name', asc: true };
+  try { currentView = localStorage.getItem('rot-times-view') || 'grid'; } catch(e){}
+
+  fetch(DB).then(function(r){ return r.json(); }).then(function(data){
+    all = data;
+    applyView(currentView);
+    rtRender();
+  }).catch(function(){ document.getElementById('rt-empty').style.display = 'block'; });
+
+  window.rtSetView = function(v){
+    currentView = v;
+    try { localStorage.setItem('rot-times-view', v); } catch(e){}
+    selectedId = null;
+    applyView(v);
+    rtRender();
+  };
+
+  function applyView(v){
+    document.getElementById('rt-container').className = 'rt-container view-' + v;
+    ['grid','list','table'].forEach(function(x){
+      document.getElementById('rt-btn-' + x).classList.toggle('active', x === v);
+    });
+    document.getElementById('rt-detail').className = 'rt-detail';
+  }
+
+  function span(r){
+    if (r.year_start && r.year_end) return r.year_start + '–' + r.year_end;
+    if (r.year_start) return String(r.year_start);
+    if (r.year_end) return String(r.year_end);
+    return '';
+  }
+
+  window.rtRender = function(){
+    var q = (document.getElementById('rt-search').value || '').trim().toLowerCase();
+    filtered = all.filter(function(r){
+      if (!q) return true;
+      return (r.name||'').toLowerCase().includes(q) ||
+             (r.country||'').toLowerCase().includes(q);
+    });
+
+    document.getElementById('rt-count').textContent = filtered.length + ' периодов';
+    document.getElementById('rt-empty').style.display = filtered.length ? 'none' : 'block';
+
+    if (currentView === 'table') renderTable();
+    else renderCards();
+
+    if (selectedId) showDetail(selectedId, false);
+    else document.getElementById('rt-detail').className = 'rt-detail';
+  };
+
+  function photo(r){
+    if (r.photo) return '<img src="' + esc(r.photo) + '" alt="" loading="lazy">';
+    return '<span class="rt-no-photo">NO PHOTO</span>';
+  }
+
+  function renderCards(){
+    var c = document.getElementById('rt-container');
+    if (!filtered.length){ c.innerHTML = ''; return; }
+    c.innerHTML = filtered.map(function(r){
+      var loc = [r.country, span(r)].filter(Boolean).join(' · ');
+      var cardClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rtSelect(\'' + esc(r.id) + '\')';
+      return '<div class="rt-card" onclick="' + cardClick + '">' +
+        '<div class="rt-photo">' + photo(r) + '</div>' +
+        '<div class="rt-body">' +
+          '<div class="rt-name">' + esc(r.name||'') + '</div>' +
+          '<div class="rt-loc">' + esc(loc) + '</div>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  function renderTable(){
+    var c = document.getElementById('rt-container');
+    if (!filtered.length){ c.innerHTML = ''; return; }
+
+    var cols = [
+      { key:'name',       label:'Название' },
+      { key:'country',    label:'Страна' },
+      { key:'year_start', label:'Начало' },
+      { key:'year_end',   label:'Конец' },
+    ];
+
+    var rows = filtered.slice().sort(function(a,b){
+      var va = a[tblSort.col], vb = b[tblSort.col];
+      if (va == null && vb == null) return 0;
+      if (va == null) return 1; if (vb == null) return -1;
+      if (typeof va === 'number') return tblSort.asc ? va-vb : vb-va;
+      return tblSort.asc ? String(va).localeCompare(String(vb),'ru') : String(vb).localeCompare(String(va),'ru');
+    });
+
+    var thead = '<thead><tr>' + cols.map(function(col){
+      var active = tblSort.col === col.key;
+      var arrow  = active ? (tblSort.asc ? ' ▲' : ' ▼') : '';
+      return '<th class="' + (active?'sorted':'') + '" onclick="rtTblSort(\'' + col.key + '\')">' + col.label + arrow + '</th>';
+    }).join('') + '</tr></thead>';
+
+    var tbody = '<tbody>' + rows.map(function(r){
+      var sel = r.id === selectedId ? ' rt-selected' : '';
+      var rowClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rtSelect(\'' + esc(r.id) + '\')';
+      return '<tr class="rt-row' + sel + '" onclick="' + rowClick + '">' +
+        '<td class="rt-t-name">' + esc(r.name||'') + '</td>' +
+        '<td class="rt-t-loc">' + esc(r.country||'') + '</td>' +
+        '<td>' + (r.year_start||'') + '</td>' +
+        '<td>' + (r.year_end||'') + '</td>' +
+      '</tr>';
+    }).join('') + '</tbody>';
+
+    c.innerHTML = '<table class="rt-table">' + thead + tbody + '</table>';
+  }
+
+  window.rtTblSort = function(col){
+    if (tblSort.col === col) tblSort.asc = !tblSort.asc;
+    else { tblSort.col = col; tblSort.asc = true; }
+    renderTable();
+    if (selectedId) showDetail(selectedId, false);
+  };
+
+  window.rtSelect = function(id){
+    if (selectedId === id) {
+      selectedId = null;
+      document.getElementById('rt-detail').className = 'rt-detail';
+      if (currentView === 'table') renderTable();
+      return;
+    }
+    selectedId = id;
+    if (currentView === 'table') renderTable();
+    showDetail(id, true);
+  };
+
+  function showDetail(id, scroll){
+    var r = all.find(function(x){ return x.id === id; });
+    if (!r) return;
+    var meta = [];
+    if (r.country)     meta.push(esc(r.country));
+    var yr = span(r);
+    if (yr)             meta.push('📅 <b>' + yr + '</b>');
+    if (r.website)     meta.push('<a href="' + esc(r.website) + '" target="_blank" rel="noopener">🌐 Сайт</a>');
+    if (r.landing_url) meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
+
+    var metaHtml = meta.length
+      ? '<div class="rt-detail-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      : '';
+
+    var nameHtml = r.landing_url
+      ? '<a class="rt-detail-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>'
+      : '<div class="rt-detail-name">' + esc(r.name||'') + '</div>';
+
+    var d = document.getElementById('rt-detail');
+    d.innerHTML =
+      '<div class="rt-detail-card">' +
+        '<div class="rt-detail-photo">' + (r.photo ? '<img src="' + esc(r.photo) + '" alt="">' : '<span class="rt-no-photo">NO PHOTO</span>') + '</div>' +
+        '<div class="rt-detail-body">' +
+          nameHtml +
+          metaHtml +
+        '</div>' +
+      '</div>';
+    d.className = 'rt-detail open';
+    if (scroll) d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function esc(s){
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+//]]>
+</script>

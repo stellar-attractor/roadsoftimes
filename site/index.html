@@ -419,11 +419,12 @@
 <script src="/js/media-runtime.js?v=fe5"></script>
 <script>
 (function(){
-  var APP_CDN   = window.location.origin;                  // code / html / json manifests
+  var APP_CDN   = window.location.origin;                  // code / html manifests
   var MEDIA_CDN = 'https://media.roadsoftimes.com';         // webm / png / jpg / svg assets
   var MEDIA_CDN_FALLBACK = 'https://media-roadsoftimes.pages.dev';
+  var DB_CDN = MEDIA_CDN + '/db'; // JSON catalogs (Epic #47) — museums.json + infographics.json
   var EXHIBIT = 'https://www.roadsoftimes.com/p/exhibit.html';
-  var DB      = APP_CDN + '/infographics.json';
+  var DB      = DB_CDN + '/infographics.json';
   var PER_PAGE = 12;
   var all = [], filtered = [], currentPage = 1;
   var currentView = 'grid';
@@ -457,7 +458,7 @@
   try { currentView = localStorage.getItem('rot-catalog-view') || 'grid'; } catch(e){}
 
   // load museum slugs first so previewSrc paths are correct when render() runs
-  fetch(APP_CDN + '/museums.json?_=' + Date.now())
+  fetch(DB_CDN + '/museums.json?_=' + Date.now())
     .then(function(r){ return r.ok ? r.json() : []; })
     .then(function(list){
       list.forEach(function(m){ if (m.name && m.id) _MUSEUM_SLUGS[m.name] = m.id; });
@@ -1231,7 +1232,7 @@
   var _MUSEUM_SLUGS = {};
 
   function _loadMuseumSlugs() {
-    fetch(APP_CDN + '/museums.json?_=' + Date.now())
+    fetch(DB_CDN + '/museums.json?_=' + Date.now())
       .then(function(r){ return r.ok ? r.json() : []; })
       .then(function(list){
         list.forEach(function(m){ if (m.name && m.id) _MUSEUM_SLUGS[m.name] = m.id; });

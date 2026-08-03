@@ -7,8 +7,8 @@ const vm = require("node:vm");
 
 const siteRoot = path.resolve(__dirname, "..");
 const read = relative => fs.readFileSync(path.join(siteRoot, relative), "utf8");
-const records = JSON.parse(read("infographics.json"));
-const museums = JSON.parse(read("museums.json"));
+const records = JSON.parse(read("media-site/db/infographics.json"));
+const museums = JSON.parse(read("media-site/db/museums.json"));
 const museumSlugs = new Map(museums.map(museum => [museum.name, museum.id]));
 
 const context = { window: null };

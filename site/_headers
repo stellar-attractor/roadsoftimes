@@ -3,9 +3,3 @@
 
 /js/infographic-player.js
   Cache-Control: no-cache, must-revalidate
-
-/infographics.json
-  Cache-Control: no-cache, must-revalidate
-
-/museums.json
-  Cache-Control: no-cache, must-revalidate
