@@ -41,6 +41,10 @@
 .rot-pw .pw-meta a:hover { text-decoration: underline; }
 .rot-pw .pw-meta a.map { color: #70b0a8; }
 .rot-pw .pw-meta a.landing { color: #a0c080; }
+.rot-pw .pw-desc {
+  font-size: 13px; color: #a09880; line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
 </style>
 
 <div class="rot-pw" id="rot-pw-root"></div>
@@ -68,7 +72,7 @@
     if (r.landing_url) meta.push('<a class="landing" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">📖 Читать</a>');
 
     var metaHtml = meta.length
-      ? '<div class="pw-meta">' + meta.join('<span class="sep"> · </span>') + '</div>'
+      ? '<div class="pw-meta">' + meta.join('<span class="sep"> \u00B7 </span>') + '</div>'
       : '';
     var photoUrls = null;
     try {
@@ -87,6 +91,7 @@
           '<div class="pw-label">★ Рекомендую</div>' +
           (r.landing_url ? '<a class="pw-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>' : '<div class="pw-name">' + esc(r.name||'') + '</div>') +
           metaHtml +
+          (r.description ? '<div class="pw-desc">' + esc(r.description) + '</div>' : '') +
         '</div>' +
       '</div>';
     var photo = document.querySelector('#rot-pw-root .pw-photo img');
