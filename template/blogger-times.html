@@ -45,6 +45,7 @@
 .rot-times .view-grid .rt-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
 .rot-times .view-grid .rt-name { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; color: #e8e0cc; line-height: 1.25; margin-bottom: 2px; }
 .rot-times .view-grid .rt-loc { font-size: 11px; color: #7a7060; }
+.rot-times .view-grid .rt-desc { font-size: 12px; color: #7a7060; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* ── LIST VIEW ── */
 .rot-times .rt-container.view-list { display: flex; flex-direction: column; }
@@ -64,6 +65,8 @@
 .rot-times .view-list .rt-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 3px; }
 .rot-times .view-list .rt-name { font-size: 15px; font-weight: 700; color: #e0d8c0; line-height: 1.3; }
 .rot-times .view-list .rt-loc { font-size: 12px; color: #7ab0b0; }
+.rot-times .view-list .rt-desc { font-size: 12px; color: #a09880; line-height: 1.5; margin-top: 2px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* ── TABLE VIEW ── */
 .rot-times .rt-container.view-table { width: 100%; }
@@ -108,6 +111,10 @@
 .rot-times .rt-detail-meta a { color: #c9a84c; text-decoration: none; }
 .rot-times .rt-detail-meta a:hover { text-decoration: underline; }
 .rot-times .rt-detail-meta a.landing { color: #a0c080; }
+.rot-times .rt-detail-desc {
+  font-size: 13px; color: #a09880; line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
 
 .rot-times .rt-empty { padding: 60px; text-align: center; color: #3a3020; font-size: 13px; letter-spacing: 1px; }
 </style>
@@ -178,7 +185,8 @@
     filtered = all.filter(function(r){
       if (!q) return true;
       return (r.name||'').toLowerCase().includes(q) ||
-             (r.country||'').toLowerCase().includes(q);
+             (r.country||'').toLowerCase().includes(q) ||
+             (r.description||'').toLowerCase().includes(q);
     });
 
     document.getElementById('rt-count').textContent = filtered.length + ' периодов';
@@ -224,12 +232,14 @@
     if (!filtered.length){ c.innerHTML = ''; return; }
     c.innerHTML = filtered.map(function(r){
       var loc = [r.country, span(r)].filter(Boolean).join(' \u00B7 ');
+      var desc = r.description ? r.description.split(/[.!?]/)[0].trim() : '';
       var cardClick = r.landing_url ? 'window.location.href=\'' + esc(r.landing_url) + '\'' : 'rtSelect(\'' + esc(r.id) + '\')';
       return '<div class="rt-card" onclick="' + cardClick + '">' +
         '<div class="rt-photo">' + photo(r) + '</div>' +
         '<div class="rt-body">' +
           '<div class="rt-name">' + esc(r.name||'') + '</div>' +
           '<div class="rt-loc">' + esc(loc) + '</div>' +
+          (desc ? '<div class="rt-desc">' + esc(desc) + '</div>' : '') +
         '</div></div>';
     }).join('');
   }
@@ -317,6 +327,7 @@
         '<div class="rt-detail-body">' +
           nameHtml +
           metaHtml +
+          (r.description ? '<div class="rt-detail-desc">' + esc(r.description) + '</div>' : '') +
         '</div>' +
       '</div>';
     d.className = 'rt-detail open';

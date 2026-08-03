@@ -40,6 +40,10 @@
 .rot-tw .tw-meta a { color: #c9a84c; text-decoration: none; }
 .rot-tw .tw-meta a:hover { text-decoration: underline; }
 .rot-tw .tw-meta a.landing { color: #a0c080; }
+.rot-tw .tw-desc {
+  font-size: 13px; color: #a09880; line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
 </style>
 
 <div class="rot-tw" id="rot-tw-root"></div>
@@ -92,6 +96,7 @@
           '<div class="tw-label">★ Рекомендую</div>' +
           (r.landing_url ? '<a class="tw-name" href="' + esc(r.landing_url) + '" target="_blank" rel="noopener">' + esc(r.name||'') + '</a>' : '<div class="tw-name">' + esc(r.name||'') + '</div>') +
           metaHtml +
+          (r.description ? '<div class="tw-desc">' + esc(r.description) + '</div>' : '') +
         '</div>' +
       '</div>';
     var photo = document.querySelector('#rot-tw-root .tw-photo img');
